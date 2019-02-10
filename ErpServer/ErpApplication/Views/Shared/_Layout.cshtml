@@ -1,0 +1,26 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dutch Treat : @ViewBag.Title</title>
+    <link href="~/css/site.css" rel="stylesheet" />
+</head>
+<body>
+    
+    <header><h1>Welcome To Phyzia's Party</h1></header>
+    <section>
+        <h2>@ViewBag.Title</h2>
+        <menu>
+            <ul>
+                <li><a asp-controller = "App" asp-action="Index">Home</a> </li>
+                <li><a  asp-controller = "Account" asp-action="Login">Account</a> </li>
+                <li><a  asp-controller = "App" asp-action="About">About</a> </li>
+            </ul>
+        </menu>
+        @RenderBody()
+    </section>
+    @*<footer>Copyright 2017 Dutch Treat llc</footer>*@
+    <script src="~/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/index.js"></script>
+</body>
+</html>
