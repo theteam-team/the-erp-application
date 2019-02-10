@@ -3,6 +3,12 @@
 @{
     ViewBag.Title = "Register Page";
 }
+@section Scripts
+{
+
+    <script src="~/node_modules/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+}
 <div>
     <div>
         <label id="loginToggle">Sign In</label>
@@ -10,13 +16,16 @@
     </div>
     <div>
         <form class="popup-form" id="signIn-form" asp-controller="Account" asp-action="Login" method="post">
+            <div asp-validation-summary="ModelOnly"></div>
             <div>
                 <label>Username</label>
                 <input type="email" asp-for="SignInModel.Email" />
+                <span asp-validation-for="SignInModel.Email"></span>
             </div>
             <div>
                 <label>Password</label>
                 <input type="password" asp-for="SignInModel.Password" />
+                <span asp-validation-for="SignInModel.Password"></span>
             </div>
             <div>
                 <label>Remember Me?</label>
@@ -29,21 +38,26 @@
     </div>
     <div>
         <form class="popup-form" id="register-form" asp-controller="Account" asp-action="Register" method="post">
+            <div asp-validation-summary="ModelOnly"></div>
             <label>Your First Name:</label>
             <br />
             <input asp-for="Register.FisrtName" />
+            <span asp-validation-for="Register.FisrtName"></span>
             <br />
             <label>Your Last Name:</label>
             <br />
             <input asp-for="Register.LastName" />
+            <span asp-validation-for="Register.LastName"></span>
             <br />
             <label>Email:</label>
             <br />
             <input type="email" asp-for="Register.Email" />
+            <span asp-validation-for="Register.Email"></span>
             <br />
             <label>Password</label>
             <br />
             <input type="password" asp-for="Register.Password" />
+            <span asp-validation-for="Register.Password"></span>
             <br />
             <input type="submit" value="SignUp" />
         </form>

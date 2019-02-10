@@ -20,4 +20,8 @@
     <None Include="Views\App\System.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\Entities\" />
+  </ItemGroup>
+
 </Project>

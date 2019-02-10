@@ -9,37 +9,39 @@ namespace ErpApplication.Controllers
 {
     public class AccountController : Controller
     {
-        [HttpGet("/Account/SignIn")]
+        [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
-        [HttpGet("/Account/SignUp")]
-        public IActionResult Register()
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult Login(IndexViewModel model)
         {
-            return View();
+            SignInModel signInModel = new SignInModel();
+            signInModel = model.SignInModel;
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("System", "App");
+            }
+            else
+            {
+                return View();
+            }
         }
-        [HttpPost("/Account/SignIn"),ValidateAntiForgeryToken]
-        public IActionResult Login(SignInModel model)
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult Register(IndexViewModel model)
         {
-           
-               return RedirectToAction("System", "App");
-            
-            
-
-                //return View();
-            
-            
-        }
-        [HttpPost("/Account/SignUp"), ValidateAntiForgeryToken]
-        public IActionResult Register(Register model)
-        {
-            
-              return  RedirectToAction("System", "App");
-            
-
-            //return View();
-
+            Register register = new Register();
+            register = model.Register;
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("System", "App");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
 
     }

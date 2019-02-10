@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ErpApplication.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+
 namespace ErpApplication.Controllers
 {
     public class AppController : Controller
@@ -14,6 +16,7 @@ namespace ErpApplication.Controllers
             
             return View();
         }
+        [Authorize]
         public IActionResult System()
         {
             ViewBag.Title = "System";

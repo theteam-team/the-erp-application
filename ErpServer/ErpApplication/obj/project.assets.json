@@ -12673,23 +12673,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\abdel\\.nuget\\packages\\": {},
+    "C:\\Users\\MohamedKamal\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\ErpServer\\ErpApplication\\ErpApplication.csproj",
+      "projectUniqueName": "C:\\Users\\MohamedKamal\\Documents\\GitHub\\the-erp-application\\ErpServer\\ErpApplication\\ErpApplication.csproj",
       "projectName": "ErpApplication",
-      "projectPath": "E:\\ErpServer\\ErpApplication\\ErpApplication.csproj",
-      "packagesPath": "C:\\Users\\abdel\\.nuget\\packages\\",
-      "outputPath": "E:\\ErpServer\\ErpApplication\\obj\\",
+      "projectPath": "C:\\Users\\MohamedKamal\\Documents\\GitHub\\the-erp-application\\ErpServer\\ErpApplication\\ErpApplication.csproj",
+      "packagesPath": "C:\\Users\\MohamedKamal\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\MohamedKamal\\Documents\\GitHub\\the-erp-application\\ErpServer\\ErpApplication\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\abdel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\MohamedKamal\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
