@@ -16,10 +16,15 @@ namespace ErpApplication.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Login(IndexViewModel model)
+        public IActionResult Login(IndexViewModel mod)
         {
             SignInModel signInModel = new SignInModel();
-            signInModel = model.SignInModel;
+            signInModel = mod.SignInModel;
+            if (signInModel == null)
+            {
+               Register registerModel = new Register();
+               registerModel = mod.Register;
+            }
             if (ModelState.IsValid)
             {
                 return RedirectToAction("System", "App");
@@ -29,20 +34,7 @@ namespace ErpApplication.Controllers
                 return View();
             }
         }
-        [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Register(IndexViewModel model)
-        {
-            Register register = new Register();
-            register = model.Register;
-            if (ModelState.IsValid)
-            {
-                return RedirectToAction("System", "App");
-            }
-            else
-            {
-                return RedirectToAction("Login", "Account");
-            }
-        }
+        
 
     }
 }

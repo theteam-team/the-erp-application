@@ -29,11 +29,11 @@
         $SignInForm.hide();
 
         $loginToggle.on("click", function () {
-            $SignInForm.toggle(1000);
+            $SignInForm.toggle(400);
             $SignUpForm.hide()
         });
         $signInToggle.on("click", function () {
-            $SignUpForm.toggle(1000);
+            $SignUpForm.toggle(400);
             $SignInForm.hide();
         });
     }

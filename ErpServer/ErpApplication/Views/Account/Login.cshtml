@@ -18,12 +18,12 @@
         <form class="popup-form" id="signIn-form" asp-controller="Account" asp-action="Login" method="post">
             <div asp-validation-summary="ModelOnly"></div>
             <div>
-                <label>Username</label>
+                <label asp-for="SignInModel.Email">Username</label>
                 <input type="email" asp-for="SignInModel.Email" />
                 <span asp-validation-for="SignInModel.Email"></span>
             </div>
             <div>
-                <label>Password</label>
+                <label asp-for="SignInModel.Password">Password</label>
                 <input type="password" asp-for="SignInModel.Password" />
                 <span asp-validation-for="SignInModel.Password"></span>
             </div>
@@ -37,24 +37,24 @@
         </form>
     </div>
     <div>
-        <form class="popup-form" id="register-form" asp-controller="Account" asp-action="Register" method="post">
+        <form class="popup-form" id="register-form" asp-controller="Account" asp-action="Login" method="post">
             <div asp-validation-summary="ModelOnly"></div>
-            <label>Your First Name:</label>
+            <label asp-for="Register.FisrtName">Your First Name:</label>
             <br />
             <input asp-for="Register.FisrtName" />
             <span asp-validation-for="Register.FisrtName"></span>
             <br />
-            <label>Your Last Name:</label>
+            <label asp-for="Register.LastName">Your Last Name:</label>
             <br />
             <input asp-for="Register.LastName" />
             <span asp-validation-for="Register.LastName"></span>
             <br />
-            <label>Email:</label>
+            <label asp-for="Register.Email">Email:</label>
             <br />
             <input type="email" asp-for="Register.Email" />
             <span asp-validation-for="Register.Email"></span>
             <br />
-            <label>Password</label>
+            <label asp-for="Register.Password">Password</label>
             <br />
             <input type="password" asp-for="Register.Password" />
             <span asp-validation-for="Register.Password"></span>
