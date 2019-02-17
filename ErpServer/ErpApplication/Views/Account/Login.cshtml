@@ -1,5 +1,4 @@
 ﻿@model IndexViewModel
-
 @{
     ViewBag.Title = "Login Page";
 }
@@ -8,28 +7,39 @@
 
     <script src="~/node_modules/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
-}
+    }
 <div>
-    <div>
-        <ul>
-            <li><a asp-controller="Account" asp-action="Register">Manage the database</a> </li>
-        </ul>
-    </div>
-    <div>
+   
         <label id="loginToggle">Log in</label>
     </div>
     <div>
         <form class="popup-form" id="signIn-form" asp-controller="Account" asp-action="Login" method="post">
             <div asp-validation-summary="ModelOnly"></div>
             <div>
-                <label asp-for="SignInModel.Email">Username</label>
-                <input type="email" asp-for="SignInModel.Email" />
-                <span asp-validation-for="SignInModel.Email"></span>
+                <label asp-for="LoginModel.UserName">Username</label>
+                <input type="text" asp-for="LoginModel.UserName" />
+                <span asp-validation-for="LoginModel.UserName"></span>
             </div>
             <div>
-                <label asp-for="SignInModel.Password">Password</label>
-                <input type="password" asp-for="SignInModel.Password" />
-                <span asp-validation-for="SignInModel.Password"></span>
+                <label asp-for="LoginModel.Password">Password</label>
+                <input type="password" asp-for="LoginModel.Password" />
+                <span asp-validation-for="LoginModel.Password"></span>
+            </div>
+           @* Adds The Database Names to the Login Form *@
+            @{ 
+                List<string> list = new List<string>();
+
+                @foreach (var el in mcontext.Admins)
+                {
+                    list.Add(el.DatabaseName);
+                }
+            }
+            <div>
+                <label asp-for="LoginModel.DatabaseName">Database</label>
+                <select asp-for="LoginModel.DatabaseName" asp-items="@(new SelectList(list))">
+                    <option value="">Please choose a value</option>
+                </select>
+                <span asp-validation-for="LoginModel.DatabaseName"></span>
             </div>
             <div>
                 <label>Remember Me?</label>

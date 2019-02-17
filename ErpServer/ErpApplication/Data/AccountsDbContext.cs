@@ -10,6 +10,10 @@ namespace ErpApplication.Data
         public AccountsDbContext(DbContextOptions<AccountsDbContext> optionsBuilder) : base(optionsBuilder) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<AdminsTable>(Builder =>
+            {
+                Builder.HasIndex(e => e.DatabaseName).IsUnique();
+            });
             base.OnModelCreating(modelBuilder);
         }
     }

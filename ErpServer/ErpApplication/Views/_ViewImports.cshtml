@@ -2,5 +2,8 @@
 @addTagHelper  "*, Microsoft.AspNetCore.Mvc.TagHelpers"
 @using ErpApplication.ViewModels
 @using ErpApplication.Data
+@using Microsoft.AspNetCore.Identity
+@using System.Linq
 @inject AccountsDbContext mcontext
-@using System.Linq;
+@inject UserManager<AdminsTable> userManager
+@inject SignInManager<AdminsTable> signInManage

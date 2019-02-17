@@ -10,16 +10,18 @@ namespace ErpApplication.Controllers
 {
     public class AccountController : Controller
     {
+        private DataDbContext mdataDbContext;
         protected AccountsDbContext mContext;
         private UserManager<AdminsTable> mUserManager;
         private SignInManager<AdminsTable> mSignInManager;
 
         public IConfiguration Configuration { get; }
 
-        public AccountController(AccountsDbContext context, IConfiguration configuration ,
+        public AccountController(AccountsDbContext context, DataDbContext dataDbContext,IConfiguration configuration ,
             UserManager<AdminsTable> userManager,
             SignInManager<AdminsTable> signInManager)
         {
+            mdataDbContext = dataDbContext;
             mContext = context;
             mUserManager = userManager;
             mSignInManager = signInManager;
@@ -30,6 +32,7 @@ namespace ErpApplication.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            ViewBag.CurrentView = "login";
             //mContext.Database.EnsureCreated();
             if (this.User.Identity.IsAuthenticated)
             {
@@ -40,15 +43,23 @@ namespace ErpApplication.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(IndexViewModel mod)
         {
-            SignInModel signInModel = mod.SignInModel;
 
-            var user = await mUserManager.FindByEmailAsync(signInModel.Email);
-            var result = await mSignInManager.PasswordSignInAsync(user.UserName, signInModel.Password,
-                    true, false);
-            if (result.Succeeded)
-                return RedirectToAction("System", "App");
+            LoginModel signInModel = mod.LoginModel;
 
-            ModelState.AddModelError("","Wrong Password Or Email");
+            var user = mContext.Admins.Where(dt => dt.DatabaseName == signInModel.DatabaseName).First();
+
+            mdataDbContext.ConnectionString = "Server=(localdb)\\ProjectsV13;Database=" + signInModel.DatabaseName + ";Trusted_Connection=True;MultipleActiveResultSets=true";
+
+            mdataDbContext.Database.EnsureCreated();
+
+            if (signInModel.UserName == user.UserName)
+            {
+                var result = await mSignInManager.PasswordSignInAsync(user.UserName, signInModel.Password,
+                        true, false);
+                if (result.Succeeded)
+                    return RedirectToAction("System", "App");
+            }
+            ModelState.AddModelError("","Wrong Password Or UserName");
 
             return View();
             
@@ -56,6 +67,7 @@ namespace ErpApplication.Controllers
         [HttpGet]
         public IActionResult Register()
         {
+            ViewBag.CurrentView = "register";
             return View();
         }
 
@@ -79,8 +91,12 @@ namespace ErpApplication.Controllers
 
             }, registerModel.Password);
 
+           
             if (result.Succeeded)
             {
+                mdataDbContext.ConnectionString = "Server=(localdb)\\ProjectsV13;Database=" + registerModel.DataBasaName + ";Trusted_Connection=True;MultipleActiveResultSets=true";
+                mdataDbContext.Database.EnsureCreated();
+
                 var user = await mUserManager.FindByEmailAsync(registerModel.Email);
                 var res = await mSignInManager.PasswordSignInAsync(user.UserName, registerModel.Password,
                     true, false);

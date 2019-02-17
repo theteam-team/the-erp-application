@@ -16,7 +16,7 @@ namespace ErpApplication.Controllers
             mcontext = context;
         }
         [HttpGet("/")]
-        public IActionResult Index()
+        public IActionResult Home()
         {
             if (mcontext.Users.Any())
                 return RedirectToAction("Login", "Account");
@@ -30,12 +30,7 @@ namespace ErpApplication.Controllers
             ViewBag.Title = "System";
             return View();
         }
-        [HttpGet("/about")]
-        public IActionResult About()
-        {
-            ViewBag.Title = "About";          
-            return View();
-        }
+       
 
     }
 }

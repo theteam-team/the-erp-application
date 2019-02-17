@@ -6,23 +6,25 @@
     <link href="~/css/site.css" rel="stylesheet" />
 </head>
 <body>
-    
+
     <header><h1>Welcome To Phyzia's Party</h1></header>
     <section>
         <h2>@ViewBag.Title</h2>
         <menu>
             <ul>
-                @*<li><a asp-controller = "App" asp-action="Index">Home</a> </li>*@
-                <li><a asp-controller="App" asp-action="About">About</a></li>
+                @if (ViewBag.CurrentView == "login")
+                {
+                    <li><a asp-controller="Account" asp-action="Register">Manage the database</a> </li>
+                }
+                @if (ViewBag.CurrentView == "register")
+                {
+                    <li><a asp-controller="Account" asp-action="Login">Login</a> </li>
+                }
+
                 @if (User.Identity.IsAuthenticated)
                 {
                     <li><a asp-controller="Account" asp-action="Logout">Log Out</a> </li>
                 }
-                
-                
-
-
-
             </ul>
         </menu>
         @RenderBody()

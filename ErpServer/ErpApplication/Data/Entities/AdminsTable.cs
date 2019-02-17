@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ErpApplication.Data
 {
@@ -10,7 +11,7 @@ namespace ErpApplication.Data
         /// The primary key
         /// </summary>        
         [Required]
-        [MaxLength(250)]
+        [MaxLength(250)]        
         public String DatabaseName { get; set; }        
         [Required]
         public String Country { get; set; }

@@ -23,7 +23,8 @@ namespace ErpApplication
 
             services.AddDbContext<AccountsDbContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            
+            services.AddDbContext<DataDbContext>();
+
             services.AddIdentity<AdminsTable, IdentityRole>(options =>
             {
                 options.Password.RequiredLength = 5;
@@ -34,11 +35,7 @@ namespace ErpApplication
             })
                     .AddEntityFrameworkStores<AccountsDbContext>()
                     .AddDefaultTokenProviders();
-            //services.ConfigureApplicationCookie(options => 
-            //{
-            //    options.LoginPath = 
-            //} 
-            //)
+           
             
             services.AddMvc();
    
@@ -47,6 +44,7 @@ namespace ErpApplication
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, AccountsDbContext mcontext)
         {
+            app.UseStaticFiles();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -57,7 +55,6 @@ namespace ErpApplication
             }
             mcontext.Database.EnsureCreated();
             app.UseAuthentication();
-            app.UseStaticFiles();
             app.UseNodeModules(env);
             app.UseMvc(cfg =>
             {
