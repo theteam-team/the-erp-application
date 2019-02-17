@@ -10,12 +10,17 @@ namespace ErpApplication.ViewModels
     public class Register
     {
         [Required]
-        public string FisrtName { get; set; }
+        public string DataBasaName { get; set; }
         [Required]
-        public string LastName { get; set; }
-        [Required]
+        [EmailAddress]
         public string Email { get; set; }
         [Required]
+        public string UserName { get; set; }
+        [Required]
         public string Password { get; set; }
+        [Required]
+        public string Language { get; set; }
+        [Required]
+        public string Country { get; set; }
     }
 }

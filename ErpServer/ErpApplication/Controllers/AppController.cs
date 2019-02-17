@@ -1,19 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using ErpApplication.ViewModels;
+﻿using ErpApplication.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
 
 namespace ErpApplication.Controllers
 {
     public class AppController : Controller
-    {   
+    {
+        private AccountsDbContext mcontext;
+
+        public AppController(AccountsDbContext context)
+        {
+            mcontext = context;
+        }
         [HttpGet("/")]
         public IActionResult Index()
         {
-            return View();
+            if (mcontext.Users.Any())
+                return RedirectToAction("Login", "Account");
+            else
+                return RedirectToAction("Register", "Account");
+            
         }
         [Authorize]
         public IActionResult System()
@@ -24,7 +33,7 @@ namespace ErpApplication.Controllers
         [HttpGet("/about")]
         public IActionResult About()
         {
-            ViewBag.Title = "About";
+            ViewBag.Title = "About";          
             return View();
         }
 

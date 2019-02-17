@@ -84,3 +84,5 @@ C:\Users\MohamedKamal\Documents\GitHub\the-erp-application\ErpServer\ErpApplicat
 C:\Users\MohamedKamal\Documents\GitHub\the-erp-application\ErpServer\ErpApplication\obj\Debug\netcoreapp2.1\ErpApplication.dll
 C:\Users\MohamedKamal\Documents\GitHub\the-erp-application\ErpServer\ErpApplication\obj\Debug\netcoreapp2.1\ErpApplication.pdb
 C:\Users\MohamedKamal\Documents\GitHub\the-erp-application\ErpServer\ErpApplication\obj\Debug\netcoreapp2.1\ErpApplication.csproj.CopyComplete
+C:\Users\MohamedKamal\Documents\GitHub\the-erp-application\ErpServer\ErpApplication\obj\Debug\netcoreapp2.1\Razor\Pages\Error.g.cshtml.cs
+C:\Users\MohamedKamal\Documents\GitHub\the-erp-application\ErpServer\ErpApplication\obj\Debug\netcoreapp2.1\Razor\Views\Account\Register.g.cshtml.cs

@@ -1,18 +1,22 @@
 ﻿@model IndexViewModel
 
 @{
-    ViewBag.Title = "Register Page";
+    ViewBag.Title = "Login Page";
 }
 @section Scripts
-{
+    {
 
     <script src="~/node_modules/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
 }
 <div>
     <div>
-        <label id="loginToggle">Sign In</label>
-        <label id="registerToggle">Register</label>
+        <ul>
+            <li><a asp-controller="Account" asp-action="Register">Manage the database</a> </li>
+        </ul>
+    </div>
+    <div>
+        <label id="loginToggle">Log in</label>
     </div>
     <div>
         <form class="popup-form" id="signIn-form" asp-controller="Account" asp-action="Login" method="post">
@@ -36,32 +40,5 @@
             </div>
         </form>
     </div>
-    <div>
-        <form class="popup-form" id="register-form" asp-controller="Account" asp-action="Login" method="post">
-            <div asp-validation-summary="ModelOnly"></div>
-            <label asp-for="Register.FisrtName">Your First Name:</label>
-            <br />
-            <input asp-for="Register.FisrtName" />
-            <span asp-validation-for="Register.FisrtName"></span>
-            <br />
-            <label asp-for="Register.LastName">Your Last Name:</label>
-            <br />
-            <input asp-for="Register.LastName" />
-            <span asp-validation-for="Register.LastName"></span>
-            <br />
-            <label asp-for="Register.Email">Email:</label>
-            <br />
-            <input type="email" asp-for="Register.Email" />
-            <span asp-validation-for="Register.Email"></span>
-            <br />
-            <label asp-for="Register.Password">Password</label>
-            <br />
-            <input type="password" asp-for="Register.Password" />
-            <span asp-validation-for="Register.Password"></span>
-            <br />
-            <input type="submit" value="SignUp" />
-        </form>
-    </div>
-
 </div>
 
