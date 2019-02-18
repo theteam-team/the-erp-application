@@ -13169,11 +13169,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "E:\\G_P\\industrial\\ERP\\03_ERP\\04_POC\\Server\\ErpServer\\ErpApplication\\ErpApplication.csproj",
+      "projectUniqueName": "E:\\G_P\\New folder\\the-erp-application\\ErpServer\\ErpApplication\\ErpApplication.csproj",
       "projectName": "ErpApplication",
-      "projectPath": "E:\\G_P\\industrial\\ERP\\03_ERP\\04_POC\\Server\\ErpServer\\ErpApplication\\ErpApplication.csproj",
+      "projectPath": "E:\\G_P\\New folder\\the-erp-application\\ErpServer\\ErpApplication\\ErpApplication.csproj",
       "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
-      "outputPath": "E:\\G_P\\industrial\\ERP\\03_ERP\\04_POC\\Server\\ErpServer\\ErpApplication\\obj\\",
+      "outputPath": "E:\\G_P\\New folder\\the-erp-application\\ErpServer\\ErpApplication\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
