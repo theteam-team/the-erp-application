@@ -3,34 +3,58 @@
 <html>
 <head>
     <title>Erp Application : @ViewBag.Title</title>
+    <link href="~/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <link href="~/css/site.css" rel="stylesheet" />
 </head>
 <body>
+    <header class="container">
+        <nav class="navbar navbar-dark bg-dark navbar-expand-md">
+            <h2 class="navbar-brand"><i class="fa fa-graduation-cap"></i> The team team Graduation Project</h2>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#theMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div id="theMenu" class="navbar-collapse collapse">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="App" asp-action="Index"><i class="fa fa-home"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Account" asp-action="Login"><i class="fa fa-user-circle"></i> Account</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="App" asp-action="About"><i class="fa fa-info-circle"></i> About us</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
 
-    <header><h1>Welcome To Phyzia's Party</h1></header>
-    <section>
-        <h2>@ViewBag.Title</h2>
+    <section class="container">
+            <h2 class="text-left">@ViewBag.Title</h2>
         <menu>
             <ul>
                 @if (ViewBag.CurrentView == "login")
                 {
-                    <li><a asp-controller="Account" asp-action="Register">Manage the database</a> </li>
+                    <li><a asp-controller="Account" asp-action="Register" class="fa fa-gear">Manage the database</a> </li>
                 }
                 @if (ViewBag.CurrentView == "register")
                 {
-                    <li><a asp-controller="Account" asp-action="Login">Login</a> </li>
+                    <li><a asp-controller="Account" asp-action="Login" class="fa fa-sign-in"> Login</a> </li>
                 }
-
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <li><a asp-controller="Account" asp-action="Logout">Log Out</a> </li>
+                    <li><a asp-controller="Account" asp-action="Logout" class="fa fa-sign-out"> Log Out</a> </li>
                 }
             </ul>
         </menu>
         @RenderBody()
     </section>
-    @*<footer>Copyright 2017 Dutch Treat llc</footer>*@
+    <footer class="container">
+        <div class="text-center">Copyright 2019 Phyzia llc </div>
+    </footer>
     <script src="~/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="~/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/index.js"></script>
     @RenderSection("scripts", false)
 </body>
