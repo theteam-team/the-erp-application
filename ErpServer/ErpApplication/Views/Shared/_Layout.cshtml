@@ -25,6 +25,18 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="App" asp-action="About"><i class="fa fa-info-circle"></i> About us</a>
                     </li>
+                    @if (ViewBag.CurrentView == "login")
+                    {
+                        <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Register" ><i class="fa fa-sign-in"></i>Manage the database</a> </li>
+                    }
+                    @if (ViewBag.CurrentView == "register")
+                    {
+                        <li class="nav-item"><a  class="nav-link" asp-controller="Account" asp-action="Login" > <i class="fa fa-sign-in"></i>Login</a> </li>
+                    }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item"><a  class="nav-link" asp-controller="Account" asp-action="Logout" > <i class="fa fa-sign-out"></i>Log Out</a> </li>
+                    }
                 </ul>
             </div>
         </nav>
@@ -34,18 +46,6 @@
             <h2 class="text-left">@ViewBag.Title</h2>
         <menu>
             <ul>
-                @if (ViewBag.CurrentView == "login")
-                {
-                    <li><a asp-controller="Account" asp-action="Register" class="fa fa-gear">Manage the database</a> </li>
-                }
-                @if (ViewBag.CurrentView == "register")
-                {
-                    <li><a asp-controller="Account" asp-action="Login" class="fa fa-sign-in"> Login</a> </li>
-                }
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <li><a asp-controller="Account" asp-action="Logout" class="fa fa-sign-out"> Log Out</a> </li>
-                }
             </ul>
         </menu>
         @RenderBody()
