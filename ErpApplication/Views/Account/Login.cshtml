@@ -30,17 +30,17 @@
                     <br>
                     @* Adds The Database Names to the Login Form *@
                     @{
-                    List<string> list = new List<string>();
+                        List<string> list = new List<string>();
 
-                    @foreach (var el in mcontext.Admins)
-                {
-                    list.Add(el.DatabaseName);
-                }
+                        @foreach (var el in mcontext.Admins)
+                        {
+                             list.Add(el.DatabaseName);
+                        }
                     }
                     <div>
                         <label asp-for="LoginModel.DatabaseName" class="fa fa-database"> Database</label>
                         <select asp-for="LoginModel.DatabaseName" asp-items="@(new SelectList(list))" class="form-control">
-                            <option value="">Please choose a value</option>
+                            <option value="">Please choose a Database</option>
                         </select>
                         <span asp-validation-for="LoginModel.DatabaseName"></span>
                     </div>

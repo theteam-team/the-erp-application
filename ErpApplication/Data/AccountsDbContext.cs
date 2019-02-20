@@ -3,14 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using System;
 namespace ErpApplication.Data
 {
-    public class AccountsDbContext : IdentityDbContext<AdminsTable>
+    public class AccountsDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<AdminsTable> Admins { get; set; }
+        public DbSet<ApplicationUser> Admins { get; set; }
 
         public AccountsDbContext(DbContextOptions<AccountsDbContext> optionsBuilder) : base(optionsBuilder) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AdminsTable>(Builder =>
+            modelBuilder.Entity<ApplicationUser>(Builder =>
             {
                 Builder.HasIndex(e => e.DatabaseName).IsUnique();
             });

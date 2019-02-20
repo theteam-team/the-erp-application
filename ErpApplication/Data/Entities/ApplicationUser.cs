@@ -5,11 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ErpApplication.Data
 {
-    public class AdminsTable : IdentityUser
+    public class ApplicationUser : IdentityUser
     {
-        /// <summary>
-        /// The primary key
-        /// </summary>        
+              
         [Required]
         [MaxLength(250)]        
         public String DatabaseName { get; set; }        

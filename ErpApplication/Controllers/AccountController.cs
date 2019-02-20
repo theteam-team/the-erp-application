@@ -12,14 +12,14 @@ namespace ErpApplication.Controllers
     {
         private DataDbContext mdataDbContext;
         protected AccountsDbContext mContext;
-        private UserManager<AdminsTable> mUserManager;
-        private SignInManager<AdminsTable> mSignInManager;
+        private UserManager<ApplicationUser> mUserManager;
+        private SignInManager<ApplicationUser> mSignInManager;
 
         public IConfiguration Configuration { get; }
 
         public AccountController(AccountsDbContext context, DataDbContext dataDbContext,IConfiguration configuration ,
-            UserManager<AdminsTable> userManager,
-            SignInManager<AdminsTable> signInManager)
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
         {
             mdataDbContext = dataDbContext;
             mContext = context;
@@ -81,7 +81,7 @@ namespace ErpApplication.Controllers
           
             
             //mContext.Database.EnsureCreated();
-            var result = await mUserManager.CreateAsync(new AdminsTable
+            var result = await mUserManager.CreateAsync(new ApplicationUser
             {
                 Email = registerModel.Email,
                 DatabaseName = registerModel.DataBasaName,
