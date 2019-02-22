@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ErpApplication.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,8 +10,9 @@ namespace ErpApplication.ViewModels
 {
     public class Register
     {
+
         [Required]
-        public string DataBasaName { get; set; }
+        public string DataBaseName { get; set; }
         [Required]
         [EmailAddress]
         public string Email { get; set; }
@@ -22,5 +24,9 @@ namespace ErpApplication.ViewModels
         public string Language { get; set; }
         [Required]
         public string Country { get; set; }
+        [Required]
+        public string Role { get; set; }
+
+       
     }
 }

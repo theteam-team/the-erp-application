@@ -14,6 +14,6 @@ namespace ErpApplication.Data
         [Required]
         public String Country { get; set; }
         [Required]
-        public String Language { get; set; }
+        public String Language { get; set; }       
     }
 }

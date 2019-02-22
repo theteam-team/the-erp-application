@@ -4,6 +4,9 @@
 @using ErpApplication.Data
 @using Microsoft.AspNetCore.Identity
 @using System.Linq
+@using System.ComponentModel.DataAnnotations;
 @inject AccountsDbContext mcontext
-@inject UserManager<AdminsTable> userManager
-@inject SignInManager<AdminsTable> signInManage
+@inject UserManager<ApplicationUser> userManager
+@inject SignInManager<ApplicationUser> signInManage
+@inject RoleManager<ApplicationRole> roleManager
+@using Microsoft.AspNetCore.Authorization;

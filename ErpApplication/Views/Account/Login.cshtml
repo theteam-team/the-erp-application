@@ -28,13 +28,15 @@
                         <span asp-validation-for="LoginModel.Password" class="text-danger"></span>
                     </div>
                     <br>
-                    @* Adds The Database Names to the Login Form *@
+                    @* Adds The Database Names to the Login Form (Subject To change) *@
                     @{
                         List<string> list = new List<string>();
 
-                        @foreach (var el in mcontext.Admins)
+                        var Admins = await userManager.GetUsersInRoleAsync("Adminstrator");
+
+                        @foreach (var el in Admins)
                         {
-                             list.Add(el.DatabaseName);
+                            list.Add(el.DatabaseName);
                         }
                     }
                     <div>

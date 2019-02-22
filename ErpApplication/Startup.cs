@@ -25,7 +25,7 @@ namespace ErpApplication
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<DataDbContext>();
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
                 options.Password.RequiredLength = 5;
                 options.Password.RequireLowercase = false;
