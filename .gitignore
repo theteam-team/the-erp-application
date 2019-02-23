@@ -1,7 +1,7 @@
 ErpApplication/obj/*
 ErpApplication/bin/*
 ErpApplication/node_modules/*
-
+*[Dd]ebug.*
 .vs/*
 *.suo
 *.tmp
@@ -11,3 +11,5 @@ ErpApplication/node_modules/*
 *.booproj
 *.svd
 *.pdb
+npm-debug.log
+package-lock.json
