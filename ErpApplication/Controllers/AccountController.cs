@@ -68,7 +68,12 @@ namespace ErpApplication.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            ViewBag.CurrentView = "register";
+            ViewBag.CurrentView = "Register";
+            return View();
+        }
+        public IActionResult z3eem()
+        {
+            ViewBag.CurrentView = "z3eem";
             return View();
         }
 

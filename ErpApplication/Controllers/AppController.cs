@@ -30,7 +30,7 @@ namespace ErpApplication.Controllers
             ViewBag.Title = "System";
             return View();
         }
-       
+        
 
     }
 }
