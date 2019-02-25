@@ -1,7 +1,9 @@
 ErpApplication/obj/*
 ErpApplication/bin/*
 ErpApplication/node_modules/*
+ErpApplication/wwwroot/clientapp*
 *[Dd]ebug.*
+
 .vs/*
 *.suo
 *.tmp
