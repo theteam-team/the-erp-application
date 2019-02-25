@@ -63,7 +63,7 @@ var AppRoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n    <div class=\"col-md-9\">\r\n        <h3> {{ title }} </h3>\r\n    </div>        \r\n    <div class=\"col-md-3\">\r\n        <h3>Cart</h3>\r\n    </div>\r\n</div>"
+module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n\n  <h1>\n    Welcome to aaaaaaaasadawwdfaaaaaaaaa {{ title }}!\n  </h1>\n \n\n"
 
 /***/ }),
 
@@ -83,12 +83,12 @@ __webpack_require__.r(__webpack_exports__);
 
 var AppComponent = /** @class */ (function () {
     function AppComponent() {
-        this.title = 'our Erp App';
+        this.title = 'erp-app';
     }
     AppComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
-            selector: "erp--app",
-            template: __webpack_require__(/*! ./app.component.html */ "./app/app.component.html")
+            selector: 'app-root',
+            template: __webpack_require__(/*! ./app.component.html */ "./app/app.component.html"),
         })
     ], AppComponent);
     return AppComponent;
@@ -202,7 +202,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! E:\G_P\ERP_POC\the-erp-application\ErpApplication\ClientApp\main.ts */"./main.ts");
+module.exports = __webpack_require__(/*! C:\Users\MohamedKamal\Documents\GitHub\the-erp-application\ErpApplication\ClientApp\main.ts */"./main.ts");
 
 
 /***/ })

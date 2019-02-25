@@ -50,7 +50,7 @@ namespace ErpApplication.Controllers
 
             var user = mContext.Admins.Where(dt => dt.UserName == signInModel.UserName).First();
 
-            if (signInModel.DatabaseName == user.DatabaseName)
+            if (user != null && signInModel.DatabaseName == user.DatabaseName)
             {
                 var result = await mSignInManager.PasswordSignInAsync(signInModel.UserName, signInModel.Password,
                         true, false);

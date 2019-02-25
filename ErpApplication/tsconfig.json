@@ -1,5 +1,5 @@
 {
-  "exclude": ["./node_modules/"],
+  "execlude":["./node_modules"],
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
