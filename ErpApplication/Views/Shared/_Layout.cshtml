@@ -26,14 +26,11 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Account" asp-action="Login"><i class="fa fa-user-circle"></i> Account</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="App" asp-action="About"><i class="fa fa-info-circle"></i> About us</a>
-                    </li>
                     @if (ViewBag.CurrentView == "login")
                     {
                         <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Register"><i class="fa fa-gear"></i> Manage the database</a> </li>
                     }
-                    else if (ViewBag.CurrentView == "register" && mcontext.Admins.Any())
+                    else if (ViewBag.CurrentView == "register" && mcontext.Users.Any())
                     {
                         <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Login"> <i class="fa fa-sign-in"></i> Login</a> </li>
                     }
@@ -41,12 +38,7 @@
                     {
                         <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Logout"> <i class="fa fa-sign-out"></i>Log Out</a> </li>
                     }
-                    else
-                    {
-                        <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Register"><i class="fa fa-gear"></i> Manage the database</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Login"> <i class="fa fa-sign-in"></i> Login</a> </li>
-
-                    }
+                   
                 </ul>
             </div>
         </nav>

@@ -27,6 +27,8 @@ namespace ErpApplication.Controllers
         [Authorize]
         public IActionResult System()
         {
+            CommonNeeds.CurrentPath = HttpContext.Request.Path;
+            
             ViewBag.Title = "System";
             return View();
         }
