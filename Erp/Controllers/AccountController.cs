@@ -1,5 +1,5 @@
-﻿using ErpApplication.Data;
-using ErpApplication.ViewModels;
+﻿using Erp.Data;
+using Erp.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -9,11 +9,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ErpApplication.Controllers
+namespace Erp.Controllers
 {
     public class AccountController : Controller
     {
-        
+
         private ILogger<AccountsDbContext> muserLogger;
         private RoleManager<ApplicationRole> mroleManager;
         private DataDbContext mdataDbContext;
@@ -25,7 +25,7 @@ namespace ErpApplication.Controllers
 
         public AccountController(AccountsDbContext context, DataDbContext dataDbContext, IConfiguration configuration,
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager, RoleManager<ApplicationRole> roleManager ,
+            SignInManager<ApplicationUser> signInManager, RoleManager<ApplicationRole> roleManager,
             ILogger<AccountsDbContext> userlogger)
         {
             muserLogger = userlogger;
@@ -39,13 +39,23 @@ namespace ErpApplication.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            CommonNeeds.CurrentPath = HttpContext.Request.Path;
-            ViewBag.CurrentView = "login";
-            
+           
+         
+
             if (this.User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("System", "App");
+                return Redirect(CommonNeeds.CurrentPath[User]);
             }
+
+            ViewBag.CurrentView = "login";
+
+            if (CommonNeeds.CurrentPath.Keys.Contains(User))
+            {
+                CommonNeeds.CurrentPath[User] = HttpContext.Request.Path;
+            }
+            else
+                CommonNeeds.CurrentPath.Add(User, HttpContext.Request.Path);
+
             return View();
         }
         [HttpPost]
@@ -62,7 +72,7 @@ namespace ErpApplication.Controllers
                         true, false);
                 if (result.Succeeded)
                 {
-                    checkdtb(signInModel.DatabaseName);
+                    CommonNeeds.checkdtb(mdataDbContext, signInModel.DatabaseName);
                     var roles = await mUserManager.GetRolesAsync(user);
 
                     muserLogger.LogInformation("A user with a specifc roles : ");
@@ -70,7 +80,7 @@ namespace ErpApplication.Controllers
                     {
                         Console.Write(" " + el);
                     }
-                   Console.Write(" has logged int the system");
+                    Console.Write(" has logged int the system");
 
                     return RedirectToAction("System", "App");
                 }
@@ -84,14 +94,18 @@ namespace ErpApplication.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            CommonNeeds. CurrentPath = HttpContext.Request.Path;
+            if (CommonNeeds.CurrentPath.Keys.Contains(User))
+            {
+                CommonNeeds.CurrentPath[User] = HttpContext.Request.Path;
+            }
+            else
+                CommonNeeds.CurrentPath.Add(User, HttpContext.Request.Path);
             ViewBag.CurrentView = "register";
             return View();
         }
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(IndexViewModel mod)
         {
-
             Register registerModel = mod.Register;
 
             var database = mContext.Admins.Where(dt => dt.DatabaseName == registerModel.DataBaseName);
@@ -108,7 +122,7 @@ namespace ErpApplication.Controllers
                     UserName = registerModel.UserName
 
                 };
-                var result = await mUserManager.CreateAsync(user , registerModel.Password);
+                var result = await mUserManager.CreateAsync(user, registerModel.Password);
 
 
                 if (result.Succeeded)
@@ -116,7 +130,8 @@ namespace ErpApplication.Controllers
 
 
                     var roleName = "Adminstrator";
-                    checkdtb(registerModel.DataBaseName);
+
+
 
                     var role = await mroleManager.RoleExistsAsync(roleName);
                     if (!role)
@@ -128,6 +143,7 @@ namespace ErpApplication.Controllers
 
                     muserLogger.LogInformation("A user with a specifc roles : " + roleName + " has Been Created");
 
+                    CommonNeeds.checkdtb(mdataDbContext, registerModel.DataBaseName);
 
                     IndexViewModel viewModel = new IndexViewModel
                     {
@@ -146,7 +162,7 @@ namespace ErpApplication.Controllers
                         true, false);
                     if (res.Succeeded)
                     {
-                                               
+
                         return RedirectToAction("System", "App");
                     }
 
@@ -168,8 +184,12 @@ namespace ErpApplication.Controllers
         [HttpPost]
         public async Task<IActionResult> Register_AUser(IndexViewModel mod)
         {
+
+
             Register registerModel = mod.Register;
+
             var user = await mUserManager.GetUserAsync(User);
+
             var client = (new ApplicationUser
             {
                 Email = registerModel.Email,
@@ -204,7 +224,7 @@ namespace ErpApplication.Controllers
             {
                 ModelState.AddModelError("", el.Code);
             }
-            return Redirect(CommonNeeds.CurrentPath);
+            return Redirect(CommonNeeds.CurrentPath[User]);
         }
 
 
@@ -214,7 +234,7 @@ namespace ErpApplication.Controllers
         {
             await mSignInManager.SignOutAsync();
             muserLogger.LogInformation("A user With specific Roles : ");
-            var user = await mUserManager.GetUserAsync(User);      
+            var user = await mUserManager.GetUserAsync(User);
             var roles = await mUserManager.GetRolesAsync(user);
             foreach (var el in roles)
             {
@@ -230,11 +250,6 @@ namespace ErpApplication.Controllers
             ViewBag.CurrentView = "z3eem";
             return View();
         }
-        private void checkdtb(string Database)
-        {
-            mdataDbContext.ConnectionString = "Server=(localdb)\\ProjectsV13;Database="
-                    + Database + ";Trusted_Connection=True;MultipleActiveResultSets=true";
-            mdataDbContext.Database.EnsureCreated();
-        }
+
     }
 }

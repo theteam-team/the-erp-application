@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
-namespace ErpApplication.Data
+namespace Erp.Data
 {
     public class AccountsDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {

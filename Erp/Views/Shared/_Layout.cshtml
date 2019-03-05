@@ -23,9 +23,7 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="App" asp-action="Index"><i class="fa fa-home"></i> Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Account" asp-action="Login"><i class="fa fa-user-circle"></i> Account</a>
-                    </li>
+                    
                     @if (ViewBag.CurrentView == "login")
                     {
                         <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Register"><i class="fa fa-gear"></i> Manage the database</a> </li>

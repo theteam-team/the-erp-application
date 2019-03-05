@@ -1,11 +1,11 @@
-﻿using ErpApplication.Data;
+﻿using Erp.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 
-namespace ErpApplication.Controllers
+namespace Erp.Controllers
 {
     public class AppController : Controller
     {
@@ -16,6 +16,7 @@ namespace ErpApplication.Controllers
             mcontext = context;
         }
         [HttpGet("/")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult Home()
         {
             if (mcontext.Users.Any())
@@ -27,12 +28,10 @@ namespace ErpApplication.Controllers
         [Authorize]
         public IActionResult System()
         {
-            CommonNeeds.CurrentPath = HttpContext.Request.Path;
-            
+            CommonNeeds.CurrentPath.Add(User, HttpContext.Request.Path);
+
             ViewBag.Title = "System";
             return View();
         }
-        
-
     }
 }

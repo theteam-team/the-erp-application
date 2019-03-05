@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "ErpApplication": {
+    "Erp": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

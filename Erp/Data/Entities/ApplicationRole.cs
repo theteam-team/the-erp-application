@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ErpApplication.Data
+namespace Erp.Data
 {
     public class ApplicationRole : IdentityRole
     {
