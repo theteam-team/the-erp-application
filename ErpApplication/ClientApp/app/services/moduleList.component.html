@@ -1,5 +1,7 @@
 ﻿<div class="row">
+    <div class="module-info col-md-4" *ngFor="let m of modules">
+    </div>
     <ul>
-        <li *ngFor="let m of modules">{{ m.title }}:{{ m.price | currency:"USD" }}</li>
+        <li *ngFor="let m of modules">{{ m.title }}: {{  m.price | currency:"USD" }}</li>
     </ul>
 </div>

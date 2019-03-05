@@ -7,17 +7,9 @@ import { DataService } from '../shared/dataService';
     styleUrls: [],
 })
 
-export class ModuleList implements OnInit {
-
+export class ModuleList{
     constructor(private data: DataService) {
+        this.modules = data.modules;
     }
     public modules = [];
-    ngOnInit(): void {
-        this.data.loadModules()
-            .subscribe(success => {
-                if (success) {
-                    this.modules = this.data.modules;
-                }
-            })
-    }
 }

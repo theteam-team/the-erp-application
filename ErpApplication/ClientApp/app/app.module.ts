@@ -17,6 +17,7 @@ import { HttpClientModule } from '@angular/common/http';
     providers: [
         DataService
     ],
-  bootstrap: [AppComponent, ModuleList]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
+ 
