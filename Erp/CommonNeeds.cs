@@ -6,6 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
+
 namespace Erp
 {
     public static class CommonNeeds
@@ -14,11 +17,11 @@ namespace Erp
         public static Dictionary<System.Security.Claims.ClaimsPrincipal, string> CurrentPath
         = new Dictionary<System.Security.Claims.ClaimsPrincipal, string>();
 
-        public static void checkdtb(DataDbContext dataDbContext ,string Database)
+        public static bool checkdtb(DataDbContext dataDbContext ,string Database)
         {
             dataDbContext.ConnectionString = "Server=(localdb)\\ProjectsV13;Database="
                     + Database + ";Trusted_Connection=True;MultipleActiveResultSets=true";
-            dataDbContext.Database.EnsureCreated();
+            return (dataDbContext.Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists();
         }
 
 

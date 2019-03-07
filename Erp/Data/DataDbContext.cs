@@ -14,7 +14,7 @@ namespace Erp.Data
 
     public class DataDbContext : DbContext 
     {
-        public DbSet<Product> Products  { get; set; }
+        public DbSet<Modules> Modules  { get; set; }
         public string ConnectionString { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

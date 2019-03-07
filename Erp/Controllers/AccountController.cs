@@ -42,11 +42,13 @@ namespace Erp.Controllers
            
          
 
-            if (this.User.Identity.IsAuthenticated)
+            if (this.User.Identity.IsAuthenticated  )
             {
-                return Redirect(CommonNeeds.CurrentPath[User]);
+                if(CommonNeeds.CurrentPath.Keys.Contains(User))
+                    return Redirect(CommonNeeds.CurrentPath[User]);
+                return RedirectToAction("System", "App");
+                
             }
-
             ViewBag.CurrentView = "login";
 
             if (CommonNeeds.CurrentPath.Keys.Contains(User))
@@ -72,7 +74,10 @@ namespace Erp.Controllers
                         true, false);
                 if (result.Succeeded)
                 {
-                    CommonNeeds.checkdtb(mdataDbContext, signInModel.DatabaseName);
+                    if (!CommonNeeds.checkdtb(mdataDbContext, signInModel.DatabaseName))
+                    {
+                        mdataDbContext.Database.EnsureCreated();
+                    }
                     var roles = await mUserManager.GetRolesAsync(user);
 
                     muserLogger.LogInformation("A user with a specifc roles : ");
@@ -143,7 +148,10 @@ namespace Erp.Controllers
 
                     muserLogger.LogInformation("A user with a specifc roles : " + roleName + " has Been Created");
 
-                    CommonNeeds.checkdtb(mdataDbContext, registerModel.DataBaseName);
+                    if (!CommonNeeds.checkdtb(mdataDbContext, registerModel.DataBaseName))
+                    {
+                        mdataDbContext.Database.EnsureCreated();
+                    }
 
                     IndexViewModel viewModel = new IndexViewModel
                     {
