@@ -26,7 +26,7 @@ namespace Erp.Controllers
             if (!CommonNeeds.checkdtb(_dataDbContext, database))
             {
 
-                return BadRequest("No Database is created");
+                return BadRequest("No Database with this specifc name exist is created");
             }
             return _dataDbContext.Modules.ToList();
             
@@ -38,7 +38,7 @@ namespace Erp.Controllers
             if (!CommonNeeds.checkdtb(_dataDbContext, database))
             {
 
-                return BadRequest("No Database is created");
+                return BadRequest("No Database with this specifc name exist is created");
             }
             var module = await _dataDbContext.Modules.FindAsync(id);
 
@@ -56,7 +56,7 @@ namespace Erp.Controllers
         {
             if (!CommonNeeds.checkdtb(_dataDbContext, database))
             {
-                return BadRequest("No Database is created");
+                return BadRequest("No Database with this specifc name exist is created");
             }
             
             _dataDbContext.Modules.Add(module);

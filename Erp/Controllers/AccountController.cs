@@ -1,4 +1,5 @@
 ﻿using Erp.Data;
+
 using Erp.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,9 +14,8 @@ namespace Erp.Controllers
 {
     public class AccountController : Controller
     {
-
         private ILogger<AccountsDbContext> muserLogger;
-        private RoleManager<ApplicationRole> mroleManager;
+        private Management _management;
         private DataDbContext mdataDbContext;
         protected AccountsDbContext mContext;
         private UserManager<ApplicationUser> mUserManager;
@@ -25,11 +25,11 @@ namespace Erp.Controllers
 
         public AccountController(AccountsDbContext context, DataDbContext dataDbContext, IConfiguration configuration,
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager, RoleManager<ApplicationRole> roleManager,
-            ILogger<AccountsDbContext> userlogger)
+            SignInManager<ApplicationUser> signInManager, 
+            ILogger<AccountsDbContext> userlogger, Management management)
         {
+            _management = management;
             muserLogger = userlogger;
-            mroleManager = roleManager;
             mdataDbContext = dataDbContext;
             mContext = context;
             mUserManager = userManager;
@@ -66,31 +66,36 @@ namespace Erp.Controllers
 
             LoginModel signInModel = mod.LoginModel;
 
-            var user = mContext.Admins.Where(dt => dt.UserName == signInModel.UserName).First();
+            var user = await mUserManager.FindByNameAsync(signInModel.UserName);
 
             if (user != null && signInModel.DatabaseName == user.DatabaseName)
             {
-                var result = await mSignInManager.PasswordSignInAsync(signInModel.UserName, signInModel.Password,
-                        true, false);
-                if (result.Succeeded)
+                if (CommonNeeds.checkdtb(mdataDbContext, signInModel.DatabaseName))
                 {
-                    if (!CommonNeeds.checkdtb(mdataDbContext, signInModel.DatabaseName))
+                    var result = await mSignInManager.PasswordSignInAsync(signInModel.UserName, signInModel.Password,
+                            true, false);
+                    if (result.Succeeded)
                     {
-                        mdataDbContext.Database.EnsureCreated();
-                    }
-                    var roles = await mUserManager.GetRolesAsync(user);
 
-                    muserLogger.LogInformation("A user with a specifc roles : ");
-                    foreach (var el in roles)
-                    {
-                        Console.Write(" " + el);
-                    }
-                    Console.Write(" has logged int the system");
+                        var roles = await mUserManager.GetRolesAsync(user);
 
-                    return RedirectToAction("System", "App");
+                        muserLogger.LogInformation("A user with a specifc roles : ");
+                        foreach (var el in roles)
+                        {
+                            Console.Write(" " + el);
+
+                        }
+                        Console.Write(" has logged int the system");
+
+                        return RedirectToAction("System", "App");
+                    }
                 }
+                else
+                    ModelState.AddModelError("", "database does not exist please contact system admin");
             }
-            ModelState.AddModelError("", "Wrong Entry");
+            else           
+                 ModelState.AddModelError("", "Wrong Entry");
+            
 
             return View();
 
@@ -133,18 +138,9 @@ namespace Erp.Controllers
                 if (result.Succeeded)
                 {
 
-
                     var roleName = "Adminstrator";
 
-
-
-                    var role = await mroleManager.RoleExistsAsync(roleName);
-                    if (!role)
-                    {
-                        await mroleManager.CreateAsync(new ApplicationRole(roleName));
-                    }
-
-                    await mUserManager.AddToRoleAsync(user, roleName);
+                    await _management.AddRoleToUser(roleName, user);
 
                     muserLogger.LogInformation("A user with a specifc roles : " + roleName + " has Been Created");
 
@@ -192,7 +188,7 @@ namespace Erp.Controllers
         [HttpPost]
         public async Task<IActionResult> Register_AUser(IndexViewModel mod)
         {
-
+            
 
             Register registerModel = mod.Register;
 
@@ -210,17 +206,14 @@ namespace Erp.Controllers
             var result = await mUserManager.CreateAsync(client, registerModel.Password);
             if (result.Succeeded)
             {
-                var role = await mroleManager.RoleExistsAsync(registerModel.Role);
-                if (!role)
-                {
-                    await mroleManager.CreateAsync(new ApplicationRole(registerModel.Role));
-                }
 
-                await mUserManager.AddToRoleAsync(client, registerModel.Role);
+                await _management.AddRoleToUser(registerModel.Role, client);
+     
                 muserLogger.LogInformation("A user with a specfic Role : "
                     + registerModel.Role + " Has been created by A user With A specifc Roles: ");
 
-                var roles = await mUserManager.GetRolesAsync(user);
+                var roles = await _management.GetUserRoleAsync(client);
+
                 foreach (var el in roles)
                 {
                     Console.Write(" " + el);
@@ -232,7 +225,8 @@ namespace Erp.Controllers
             {
                 ModelState.AddModelError("", el.Code);
             }
-            return Redirect(CommonNeeds.CurrentPath[User]);
+            
+            return RedirectToAction("System", "App");
         }
 
 

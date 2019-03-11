@@ -28,8 +28,13 @@ namespace Erp.Controllers
         [Authorize]
         public IActionResult System()
         {
-            CommonNeeds.CurrentPath.Add(User, HttpContext.Request.Path);
-
+            if (CommonNeeds.CurrentPath.Keys.Contains(User))
+            {
+                CommonNeeds.CurrentPath[User] = HttpContext.Request.Path;
+            }
+            else
+                CommonNeeds.CurrentPath.Add(User, HttpContext.Request.Path);
+            Console.WriteLine("Path" + " = " + CommonNeeds.CurrentPath[User]);
             ViewBag.Title = "System";
             return View();
         }
