@@ -1,4 +1,5 @@
 ﻿using Erp.Data;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -7,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Swashbuckle.AspNetCore.Swagger;
-using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 using System.IO;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -18,6 +18,7 @@ namespace Erp
     {
         public Startup(IConfiguration configuration)
         {
+            
             Configuration = configuration;
         }
 
@@ -33,7 +34,7 @@ namespace Erp
             services.AddDbContext<DataDbContext>();
 
 
-
+            services.AddScoped<Management>();
 
             services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {

@@ -9,7 +9,7 @@
     <script src="~/node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
 }
 
-@if (User.IsInRole("Adminstrator"))
+@if (management.checkRole(User, "Adminstrator"))
 {
 <div>
     <div class="text-center">

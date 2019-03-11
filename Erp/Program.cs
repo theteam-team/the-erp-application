@@ -16,13 +16,14 @@ namespace Erp
             .ConfigureAppConfiguration(setupConfiguration)
             .UseStartup<Startup>()
             .Build();
+           
 
         private static void setupConfiguration(WebHostBuilderContext ctx, IConfigurationBuilder builder)
         {
             builder.Sources.Clear();
             builder.AddJsonFile("AppConfig.json", false, true)
                    .AddEnvironmentVariables();
-
+                    
              
         }
     }
