@@ -3,21 +3,20 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from "rxjs/operators";
+import { Module } from './module';
 // import 'rxjs/add/operator/map';
 @Injectable()
-
 export class DataService {
+    constructor(private http: HttpClient) { }
 
-    constructor(private http: HttpClient) {
+    public modules: Module[] = [];
+
+    loadModules(): Observable<boolean> {
+        return this.http.get("api/Module/GetModules/new")
+            .pipe(    
+            map((data: any[]) => {
+                    this.modules = data;
+                    return true;
+                }));
     }
-    public modules = [{
-        title: "First Module",
-        price: 19.6
-    }, {
-        title: "First Module",
-        price: 19.6
-    }, {
-        title: "First Module",
-        price: 19.6
-    }];
 }

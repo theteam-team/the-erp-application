@@ -1,5 +1,6 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { DataService } from '../shared/dataService';
+import { Module } from "../shared/module";
 
 @Component({
     selector: 'module-list',
@@ -7,9 +8,19 @@ import { DataService } from '../shared/dataService';
     styleUrls: [],
 })
 
-export class ModuleList{
+export class ModuleList implements OnInit {
+
     constructor(private data: DataService) {
-        this.modules = data.modules;
     }
-    public modules = [];
+
+    public modules: Module[] = [];
+
+    ngOnInit(): void {
+        this.data.loadModules()
+            .subscribe(success => {
+                if (success) {
+                    this.modules = this.data.modules;
+                }
+           });
+    }   
 }
