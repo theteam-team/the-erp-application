@@ -3,5 +3,5 @@
     title: string;
     category: string;
     discription: string;
-    price: string;
+    price: number;
 } 

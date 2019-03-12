@@ -28,6 +28,7 @@ namespace Erp.Controllers
         [Authorize]
         public IActionResult System()
         {
+            ViewBag.CurrentBag = "system";
             if (CommonNeeds.CurrentPath.Keys.Contains(User))
             {
                 CommonNeeds.CurrentPath[User] = HttpContext.Request.Path;

@@ -23,7 +23,7 @@ namespace Erp
             builder.Sources.Clear();
             builder.AddJsonFile("AppConfig.json", false, true)
                    .AddEnvironmentVariables();
-                    
+                   
              
         }
     }
