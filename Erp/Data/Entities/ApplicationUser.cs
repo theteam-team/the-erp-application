@@ -5,18 +5,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Erp.Data
 {
-    ///<summary >   
-    /// Represents The user Tabel in the Database, each proberty represents a column
-    /// </summary>
     public class ApplicationUser : IdentityUser
     {
               
         [Required]
         [MaxLength(250)]        
-        public string DatabaseName { get; set; }        
+        public String DatabaseName { get; set; }        
         [Required]
-        public string Country { get; set; }
+        public String Country { get; set; }
         [Required]
-        public string Language { get; set; }       
+        public String Language { get; set; }       
     }
 }

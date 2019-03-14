@@ -10,25 +10,36 @@ using System.Threading.Tasks;
 namespace Erp.Data
 {
    
-    /// <summary>
-    /// this class works as an interface to the database containing the data of the modules
-    /// </summary>
+
 
     public class DataDbContext : DbContext 
     {
-        /// This proberty represents a table in the database to the Modules Entity and can be used to make a CRUD operation on this table 
         public DbSet<Modules> Modules  { get; set; }
-       
-        /// this  proberty used to set the connection string to the database
         public string ConnectionString { get; set; }
 
-        /// ovrriding this method from the base class and pass to it an optionBuilder Containing the New Configuration to the database
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(ConnectionString);
 
         }
-        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //MyClassBuilder MCB = new MyClassBuilder("Student");
+            //var myclass = MCB.CreateObject(new string[3] { "ID", "Name", "Address" },
+            //    new Type[3] { typeof(int), typeof(string), typeof(string) });
+            //CommonNeeds.myclass = myclass;
+            //Type type = myclass.GetType();
+           
+            //var entityMethod = typeof(ModelBuilder).GetMethod("Entity", new Type[] { });
+            //if (type.IsClass)
+            //{
+            //    entityMethod.MakeGenericMethod(type)
+            //        .Invoke(modelBuilder, new object[] { });
+            //}
+            base.OnModelCreating(modelBuilder);
+
+            
+        }
 
     }
 }

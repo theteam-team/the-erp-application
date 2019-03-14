@@ -1,6 +1,5 @@
 ﻿using Erp.Data;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -8,9 +7,6 @@ using System.Linq;
 
 namespace Erp.Controllers
 {
-    /// <summary>
-    /// This Controller Handles App Requests And will Contains the System Module
-    /// </summary>
     public class AppController : Controller
     {
         private AccountsDbContext mcontext;
@@ -32,8 +28,14 @@ namespace Erp.Controllers
         [Authorize]
         public IActionResult System()
         {
-            HttpContext.Session.SetString("LastPageView", HttpContext.Request.Path);          
             ViewBag.CurrentBag = "system";
+            if (CommonNeeds.CurrentPath.Keys.Contains(User))
+            {
+                CommonNeeds.CurrentPath[User] = HttpContext.Request.Path;
+            }
+            else
+                CommonNeeds.CurrentPath.Add(User, HttpContext.Request.Path);
+            Console.WriteLine("Path" + " = " + CommonNeeds.CurrentPath[User]);
             ViewBag.Title = "System";
             return View();
         }

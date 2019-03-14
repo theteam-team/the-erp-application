@@ -22,27 +22,20 @@ namespace Erp
             Configuration = configuration;
         }
 
-        /// <summary>
-        /// used to access the configuration of the web host
-        /// </summary>
         public IConfiguration Configuration { get; }
-      
-        /// <summary>
-        /// This method gets called by the runtime. Use this method to add services to the container.
-        /// which is used to implement the dependancy injection pattern
-        /// </summary>
-        /// <param name="services">The Services container </param>
+        // This method gets called by the runtime. Use this method to add services to the container.
+        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
 
             services.AddDbContext<AccountsDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddDbContext<DataDbContext>();
+
+
             services.AddScoped<Management>();
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("CreateUsers", policy => policy.RequireRole("Adminstrator"));
-            });
+
             services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
                 options.Password.RequiredLength = 5;
@@ -53,8 +46,7 @@ namespace Erp
             })
                     .AddEntityFrameworkStores<AccountsDbContext>()
                     .AddDefaultTokenProviders();
-            services.AddSession();
-            services.AddDistributedMemoryCache();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSwaggerGen(c =>
             {
@@ -76,24 +68,32 @@ namespace Erp
                         Url = "https://example.com/license"
                     }
                 });
+
                 // Set the comments path for the Swagger JSON and UI.
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
+                //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                //c.IncludeXmlComments(xmlPath);
             });
 
 
         }
 
-        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, AccountsDbContext mcontext)
         {
-            
-            mcontext.Database.EnsureCreated(); //ensure that the database used to store user accounts is created at the begining
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/error");
+            }
+            mcontext.Database.EnsureCreated();
+
             app.UseAuthentication();
             app.UseNodeModules(env);
             app.UseStaticFiles();
-            app.UseSession();
             app.UseMvc(cfg =>
             {
 

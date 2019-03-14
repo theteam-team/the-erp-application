@@ -1,30 +1,32 @@
 ﻿using Erp.Data;
+
 using Erp.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Erp.Controllers
-{  /// <summary>
-   /// The Countroller That handels User login, logout and Registeration
-   /// </summary>
+{
     public class AccountController : Controller
     {
-        private ILogger<ApplicationUser> muserLogger; // This object used to implement the logging with respect to Users Activity.
-        private Management _management;  // This object used to integrate the management system with this Controller.
-        private DataDbContext mdataDbContext;   // This object Used as entry to the database created to store the system data with respect to a specific user.
-        protected AccountsDbContext mContext;   // this object used as an entry to the database creaded to store Accounts information.      
-        private UserManager<ApplicationUser> mUserManager;  //used to manage the user stored in the database according to an API.
-        private SignInManager<ApplicationUser> mSignInManager; //used To sign in the user according to an Api.
-        public AccountController(AccountsDbContext context, DataDbContext dataDbContext,
+        private ILogger<AccountsDbContext> muserLogger;
+        private Management _management;
+        private DataDbContext mdataDbContext;
+        protected AccountsDbContext mContext;
+        private UserManager<ApplicationUser> mUserManager;
+        private SignInManager<ApplicationUser> mSignInManager;
+
+        public IConfiguration Configuration { get; }
+
+        public AccountController(AccountsDbContext context, DataDbContext dataDbContext, IConfiguration configuration,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager, 
-            ILogger<ApplicationUser> userlogger, Management management)
+            ILogger<AccountsDbContext> userlogger, Management management)
         {
             _management = management;
             muserLogger = userlogger;
@@ -33,30 +35,36 @@ namespace Erp.Controllers
             mUserManager = userManager;
             mSignInManager = signInManager;
         }
-        
+
         [HttpGet]
         public IActionResult Login()
         {
            
-            if (User.Identity.IsAuthenticated)  
+         
+
+            if (this.User.Identity.IsAuthenticated  )
             {
-
-                if (HttpContext.Session.GetString("LastPageView") != null)
-                    return Redirect(HttpContext.Session.GetString("LastPageView"));
+                if(CommonNeeds.CurrentPath.Keys.Contains(User))
+                    return Redirect(CommonNeeds.CurrentPath[User]);
                 return RedirectToAction("System", "App");
-
                 
             }
             ViewBag.CurrentView = "login";
-            HttpContext.Session.SetString("LastPageView", HttpContext.Request.Path);
-            return View();
-        } 
 
+            if (CommonNeeds.CurrentPath.Keys.Contains(User))
+            {
+                CommonNeeds.CurrentPath[User] = HttpContext.Request.Path;
+            }
+            else
+                CommonNeeds.CurrentPath.Add(User, HttpContext.Request.Path);
+
+            return View();
+        }
         [HttpPost]
         public async Task<IActionResult> Login(IndexViewModel mod)
         {
 
-            LoginModel signInModel = mod.LoginModel; 
+            LoginModel signInModel = mod.LoginModel;
 
             var user = await mUserManager.FindByNameAsync(signInModel.UserName);
 
@@ -96,7 +104,12 @@ namespace Erp.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            HttpContext.Session.SetString("LastPageView", HttpContext.Request.Path);
+            if (CommonNeeds.CurrentPath.Keys.Contains(User))
+            {
+                CommonNeeds.CurrentPath[User] = HttpContext.Request.Path;
+            }
+            else
+                CommonNeeds.CurrentPath.Add(User, HttpContext.Request.Path);
             ViewBag.CurrentView = "register";
             return View();
         }
@@ -127,7 +140,7 @@ namespace Erp.Controllers
 
                     var roleName = "Adminstrator";
 
-                    await _management.AddRoleToUserAsync(roleName, user);
+                    await _management.AddRoleToUser(roleName, user);
 
                     muserLogger.LogInformation("A user with a specifc roles : " + roleName + " has Been Created");
 
@@ -135,6 +148,20 @@ namespace Erp.Controllers
                     {
                         mdataDbContext.Database.EnsureCreated();
                     }
+
+                    IndexViewModel viewModel = new IndexViewModel
+                    {
+                        Register = registerModel,
+                        LoginModel = new LoginModel
+                        {
+                            DatabaseName = registerModel.DataBaseName,
+                            UserName = registerModel.UserName,
+                            Password = registerModel.Password
+                        }
+
+                    };
+
+
                     var res = await mSignInManager.PasswordSignInAsync(user.UserName, registerModel.Password,
                         true, false);
                     if (res.Succeeded)
@@ -152,18 +179,17 @@ namespace Erp.Controllers
                 }
             }
             else
-                ModelState.AddModelError("", "This Database Name is used");
+                ModelState.AddModelError("", "This Database name is used");
 
             return View();
 
         }
 
         [HttpPost]
-        [Authorize(Policy = "CreateUsers")]
-        public async Task<IActionResult> CreateUser(IndexViewModel mod)
+        public async Task<IActionResult> Register_AUser(IndexViewModel mod)
         {
-
             
+
             Register registerModel = mod.Register;
 
             var user = await mUserManager.GetUserAsync(User);
@@ -181,12 +207,12 @@ namespace Erp.Controllers
             if (result.Succeeded)
             {
 
-                await _management.AddRoleToUserAsync(registerModel.Role, client);
-
+                await _management.AddRoleToUser(registerModel.Role, client);
+     
                 muserLogger.LogInformation("A user with a specfic Role : "
                     + registerModel.Role + " Has been created by A user With A specifc Roles: ");
 
-                var roles = await _management.GetUserRoleAsync(user);
+                var roles = await _management.GetUserRoleAsync(client);
 
                 foreach (var el in roles)
                 {
@@ -200,15 +226,11 @@ namespace Erp.Controllers
                 ModelState.AddModelError("", el.Code);
             }
             
-            ModelState.AddModelError("", "You don't Have the Authority To Do that , please Contact The System Adminstrator");
-
-            Console.WriteLine("\n" + HttpContext.Session.GetString("LastPageView"));
-            if(HttpContext.Session.GetString("LastPageView") != null)
-                return Redirect(HttpContext.Session.GetString("LastPageView"));
-
-            return RedirectToAction("App", "System");
-            
+            return RedirectToAction("System", "App");
         }
+
+
+
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
