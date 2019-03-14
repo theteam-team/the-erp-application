@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Erp.Data
 {
+    /// <summary>
+    /// used To discribe the Role of a specific user
+    /// </summary>
     public class ApplicationRole : IdentityRole
     {
         public ApplicationRole()

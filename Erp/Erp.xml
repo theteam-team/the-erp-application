@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Erp</name>
+    </assembly>
+    <members>
+        <member name="T:Erp.CommonNeeds">
+            <summary>
+            Contains Common Properties and Methods needed For each http request
+            </summary>
+        </member>
+        <member name="M:Erp.CommonNeeds.checkdtb(Erp.Data.DataDbContext,System.String)">
+            <summary>
+            Used To Check if a database with this specifc name is existed or not
+            </summary>
+            <param name="dataDbContext">The Database Context used to manage the database connection</param>
+            <param name="DatabaseName">the Database Name</param>
+            <returns></returns>
+        </member>
+        <member name="T:Erp.Controllers.AccountController">
+            <summary>
+            The Countroller That handels User login, logout and Registeration
+            </summary>
+        </member>
+        <member name="T:Erp.Controllers.AppController">
+            <summary>
+            This Controller Handles App Requests And will Contains the System Module
+            </summary>
+        </member>
+        <member name="T:Erp.Controllers.CRMController">
+            <summary>
+            Web Api To Contact The CRM modules Web Services
+            </summary>
+        </member>
+        <member name="M:Erp.Controllers.CRMController.AddNumbers(Erp.Data.Numbers)">
+            <summary>
+            rest web service that responds to a post http request with a body containing an object of the Class numbers
+            This web service Contact with a specific C++ Function in the CRM dll through a wrapper to serve the request
+            </summary>
+            <param name="numbers">The object passed To the web service </param>
+            <returns>the summation of the fields of the passed object </returns>
+        </member>
+        <member name="M:Erp.Controllers.CRMController.MultiplyNumbers(Erp.Data.Numbers)">
+            <summary>
+            rest web service that responds to a post http request with a body containing an object of the Class numbers
+            This web service Contact with a specific C++ Function in the CRM dll through a wrapper to serve the request
+            </summary>
+            <param name="numbers">The object passed To the web service </param>
+            <returns>the multiplication of the fields of the passed object </returns>
+        </member>
+        <member name="T:Erp.Controllers.ModuleController">
+            <summary>
+            Trival Class used for testing
+            </summary>
+        </member>
+        <member name="T:Erp.Data.DataDbContext">
+            <summary>
+            this class works as an interface to the database containing the data of the modules
+            </summary>
+        </member>
+        <member name="P:Erp.Data.DataDbContext.Modules">
+            This proberty represents a table in the database to the Modules Entity and can be used to make a CRUD operation on this table 
+        </member>
+        <member name="P:Erp.Data.DataDbContext.ConnectionString">
+            this  proberty used to set the connection string to the database
+        </member>
+        <member name="M:Erp.Data.DataDbContext.OnConfiguring(Microsoft.EntityFrameworkCore.DbContextOptionsBuilder)">
+            ovrriding this method from the base class and pass to it an optionBuilder Containing the New Configuration to the database
+        </member>
+        <member name="T:Erp.Data.ApplicationRole">
+            <summary>
+            used To discribe the Role of a specific user
+            </summary>
+        </member>
+        <member name="T:Erp.Data.ApplicationUser">
+            <summary >   
+             Represents The user Tabel in the Database, each proberty represents a column
+             </summary>
+        </member>
+        <member name="T:Erp.Data.Modules">
+            <summary>
+            A Class rebresents the Modules Tables in the database
+            </summary>
+        </member>
+        <member name="T:Erp.Management">
+            <summary>
+            This class represents the management System which is used To Assign users roles, get users roles ... etc
+            </summary>
+        </member>
+        <member name="M:Erp.Management.#ctor(Erp.Data.AccountsDbContext,Erp.Data.DataDbContext,Microsoft.AspNetCore.Identity.UserManager{Erp.Data.ApplicationUser},Microsoft.AspNetCore.Identity.RoleManager{Erp.Data.ApplicationRole})">
+            this constructor parameters will be assigned using the dependancy injection
+        </member>
+        <member name="M:Erp.Management.AddRoleToUserAsync(System.String,Erp.Data.ApplicationUser)">
+            <summary>
+            Add A Role to A specifc user. 
+            This is an Async Mesthod and returns a Task so you must await it.
+            </summary>
+            <param name="roleName">The name of the Role</param>
+            <param name="user">The specifc User To which the role is assigned </param>
+            <returns>Task</returns>
+        </member>
+        <member name="M:Erp.Management.CreateRoleAsync(System.String)">
+            <summary>
+            Create A specfic Role
+            if the role existed , no action is taken if not , the role will be created 
+            This is an Async Mesthod and returns a Task so you must await it.
+            </summary>
+            <param name="roleName">The name of the Role to be created</param>
+            <returns>Task</returns>
+        </member>
+        <member name="M:Erp.Management.GetUserRoleAsync(Erp.Data.ApplicationUser)">
+            <summary>
+            Returns a List of the roles assigned To a specific User
+            </summary>
+            <param name="user">The User we wish to see its assigned roles</param>
+            <returns>The list of the Assigned roles</returns>
+        </member>
+        <member name="M:Erp.Management.GetUserRoleAsync(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Returns a List of the roles assigned To a specific User
+            </summary>
+            <param name="user">The User we wish to see its assigned roles, this user represent the securety claims in the current HttpContext</param>
+            <returns></returns>
+        </member>
+        <member name="M:Erp.Management.checkRole(System.Security.Claims.ClaimsPrincipal,System.String)">
+            <summary>
+            check if a user is in the specific Role or not
+            </summary>
+            <param name="user">this user represent the securety claims in the current HttpContext</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:Erp.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method gets called by the runtime. Use this method to add services to the container.
+            which is used to implement the dependancy injection pattern
+            </summary>
+            <param name="services">The Services container </param>
+        </member>
+        <member name="M:Erp.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment,Erp.Data.AccountsDbContext)">
+            This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        </member>
+    </members>
+</doc>

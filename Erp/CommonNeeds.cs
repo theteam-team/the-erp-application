@@ -11,23 +11,24 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Erp
 {
-    public static class CommonNeeds
+    /// <summary>
+    /// Contains Common Properties and Methods needed For each http request
+    /// </summary>
+    public class CommonNeeds
     {
-        public static object myclass { get; set; }
-        public static Dictionary<System.Security.Claims.ClaimsPrincipal, string> CurrentPath
-        = new Dictionary<System.Security.Claims.ClaimsPrincipal, string>();
 
-        public static bool checkdtb(DataDbContext dataDbContext ,string Database)
+        /// <summary>
+        /// Used To Check if a database with this specifc name is existed or not
+        /// </summary>
+        /// <param name="dataDbContext">The Database Context used to manage the database connection</param>
+        /// <param name="DatabaseName">the Database Name</param>
+        /// <returns></returns>
+        public static bool checkdtb(DataDbContext dataDbContext ,string DatabaseName)
         {
             dataDbContext.ConnectionString = "Server=(localdb)\\ProjectsV13;Database="
-                    + Database + ";Trusted_Connection=True;MultipleActiveResultSets=true";
+                    + DatabaseName + ";Trusted_Connection=True;MultipleActiveResultSets=true";
             return (dataDbContext.Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists();
         }
-
-
-        public static void loginLogger()
-        {
-   
-        }
+     
     }
 }
