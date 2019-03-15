@@ -1,7 +1,15 @@
 ﻿<div class="row">
-    <div class="module-info col-md-4" *ngFor="let m of modules">
+    <div class="module-info col-md-4 well well-sm" *ngFor="let m of modules">
+        <div class="card bg-light m-1 p-2">
+            
+    <img src="/img/SK-A-2351.jpg" class="img-float" alt="m.title" /> 
+            <div class="module-name">{{ m.category}}</div>
+            <ul class="module-props">
+                <li> <strong>title: </strong>{{ m.title }} </li>
+                <li> <strong>price:</strong> {{ m.price | currency:"USD":true }}</li>
+                <li> <strong>Description</strong> {{ m.discription }}</li>
+            </ul>
+            <button id="buyButton" class="btn btn-success">Buy</button>
+        </div>
     </div>
-    <ul>
-        <li *ngFor="let m of modules">{{ m.title }}: {{  m.price | currency:"USD" }}</li>
-    </ul>
 </div>

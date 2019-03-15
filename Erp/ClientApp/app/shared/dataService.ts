@@ -12,7 +12,7 @@ export class DataService {
     public modules: Module[] = [];
 
     loadModules(): Observable<boolean> {
-        return this.http.get("http://localhost:8888/api/Module/GetModules/new")
+        return this.http.get("http://localhost:8888/api/Module/GetModules/kemo")
             .pipe(    
             map((data: any[]) => {
                     this.modules = data;

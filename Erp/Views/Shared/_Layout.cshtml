@@ -32,7 +32,7 @@
                     {
                         <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Login"> <i class="fa fa-sign-in"></i> Login</a> </li>
                     }
-                    else if (User.Identity.IsAuthenticated && ViewBag.CurrentView == "system")
+                    else if (User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Logout"> <i class="fa fa-sign-out"></i>Log Out</a> </li>
                     }

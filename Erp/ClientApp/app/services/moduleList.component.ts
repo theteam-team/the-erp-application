@@ -5,7 +5,7 @@ import { Module } from "../shared/module";
 @Component({
     selector: 'module-list',
     templateUrl: 'moduleList.component.html',
-    styleUrls: [],
+    styleUrls: ["moduleList.component.css"],
 })
 
 export class ModuleList implements OnInit {
