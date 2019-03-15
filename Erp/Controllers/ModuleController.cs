@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Erp.Controllers
 {
+    /// <summary>
+    /// Trival Class used for testing
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class ModuleController : ControllerBase

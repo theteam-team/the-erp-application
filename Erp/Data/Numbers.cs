@@ -5,8 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Erp.ViewModels
+namespace Erp.Data
 {
+
+    
     public class Numbers
     {
         [Required]
