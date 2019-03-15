@@ -11,9 +11,9 @@ namespace Erp.ModulesWrappers
     /// </summary>
     class Crm_Wrapper
     {
-        [DllImport("Modules//CRM.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("Modules//CRM//CRM.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int AddNumbers(int x, int y);
-        [DllImport("Modules//CRM.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("Modules//CRM//CRM.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int MultiplyNumbers(int x, int y);
         
     }
