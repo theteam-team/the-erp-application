@@ -47,7 +47,7 @@ namespace Erp.Controllers
                 return RedirectToAction("System", "App"); 
             }
             ViewBag.CurrentView = "login";
-            HttpContext.Session.SetString("LastPageView", HttpContext.Request.Path);
+            //HttpContext.Session.SetString("LastPageView", HttpContext.Request.Path);
             return View();
         } 
 
@@ -95,7 +95,7 @@ namespace Erp.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            HttpContext.Session.SetString("LastPageView", HttpContext.Request.Path);
+            //HttpContext.Session.SetString("LastPageView", HttpContext.Request.Path);
             ViewBag.CurrentView = "register";
             return View();
         }
