@@ -9,8 +9,8 @@
     <link href="~/css/site.css" rel="stylesheet" />
 </head>
 <body>
-    <header class="container">
-        <nav class="navbar navbar-dark bg-dark navbar-expand-md">
+    <header class="Header">
+        <nav class="navbar navbar-dark bg-dark navbar-expand-md sticky-top">
             <h2 class="navbar-brand"><i class="fa fa-graduation-cap"></i> The team team Graduation Project</h2>
             <button class="navbar-toggler" data-toggle="collapse" data-target="#theMenu">
                 <span class="navbar-toggler-icon"></span>
@@ -42,12 +42,8 @@
         </nav>
     </header>
 
-    <section class="container">
-            <h2 class="text-left">@ViewBag.Title</h2>
-        <menu>
-            <ul>
-            </ul>
-        </menu>
+    <section>
+        <!-- <h2 class="text-left">@ViewBag.Title</h2>-->
         @RenderBody()
     </section>
     <footer class="container">

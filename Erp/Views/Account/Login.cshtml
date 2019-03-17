@@ -4,58 +4,60 @@
 }
 @section Scripts
     {
-        <script src="~/node_modules/jquery-validation/dist/jquery.validate.min.js"></script>
-        <script src="~/node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script> 
+    <script src="~/node_modules/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
 }
 <div class="col-md-12">
-    <div class="text-center">
-        <label id="loginToggle" class="label label-primary">log In</label>
-    </div>
-    <div class="col-md-6 offset-md-3">
-        <div id="signIn-div" class="card card-body bg-light">
-            <form class="popup-form" id="signIn-form" asp-controller="Account" asp-action="Login" method="post">
-                <div asp-validation-summary="ModelOnly"></div>
-                <div>
-                    <label asp-for="LoginModel.UserName" class="fa fa-user"> Username</label>
-                    <input type="text" asp-for="LoginModel.UserName" class="form-control" />
-                    <span asp-validation-for="LoginModel.UserName" class="text-danger"></span>
-                </div>
-                <br>
-                <div>
-                    <label asp-for="LoginModel.Password" class="fa fa-lock"> Password</label>
-                    <input type="password" asp-for="LoginModel.Password" class="form-control" />
-                    <span asp-validation-for="LoginModel.Password" class="text-danger"></span>
-                </div>
-                <br>
-                @* Adds The Database Names to the Login Form (Subject To change) *@
-                @{
-                    List<string> list = new List<string>();
-
-                    var Admins = await userManager.GetUsersInRoleAsync("Adminstrator");
-
-                    @foreach (var el in Admins)
-                    {
-                        list.Add(el.DatabaseName);
-                    }
-                }
-                <div>
-                    <label asp-for="LoginModel.DatabaseName" class="fa fa-database"> Database</label>
-                    <select asp-for="LoginModel.DatabaseName" asp-items="@(new SelectList(list))" class="form-control">
-                        <option value="">Please choose a Database</option>
-                    </select>
-                    <span asp-validation-for="LoginModel.DatabaseName"></span>
-                </div>
-                <br>
-                <div>
-                    <label>Remember Me?</label>
-                    <input type="checkbox" />
-                </div>
-                <div>
-                    <i class="fa fa-sign-in"></i>
-                    <input type="submit" value="Login" class="btn btn-primary" />
-                </div>
-            </form>
+    <section class="container">
+        <div class="text-center">
+            <label id="loginToggle" class="label label-primary">Log In</label>
         </div>
-    </div>
+        <div class="col-md-6 offset-md-3">
+            <div id="signIn-div" class="card card-body bg-light">
+                <form class="popup-form" id="signIn-form" asp-controller="Account" asp-action="Login" method="post">
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <div>
+                        <label asp-for="LoginModel.UserName" class="fa fa-user"> Username</label>
+                        <input type="text" asp-for="LoginModel.UserName" class="form-control" />
+                        <span asp-validation-for="LoginModel.UserName" class="text-danger"></span>
+                    </div>
+                    <br>
+                    <div>
+                        <label asp-for="LoginModel.Password" class="fa fa-lock"> Password</label>
+                        <input type="password" asp-for="LoginModel.Password" class="form-control" />
+                        <span asp-validation-for="LoginModel.Password" class="text-danger"></span>
+                    </div>
+                    <br>
+                    @* Adds The Database Names to the Login Form (Subject To change) *@
+                    @{
+                        List<string> list = new List<string>();
+
+                        var Admins = await userManager.GetUsersInRoleAsync("Adminstrator");
+
+                        @foreach (var el in Admins)
+                        {
+                            list.Add(el.DatabaseName);
+                        }
+                    }
+                    <div>
+                        <label asp-for="LoginModel.DatabaseName" class="fa fa-database"> Database</label>
+                        <select asp-for="LoginModel.DatabaseName" asp-items="@(new SelectList(list))" class="form-control">
+                            <option value="">Please choose a Database</option>
+                        </select>
+                        <span asp-validation-for="LoginModel.DatabaseName"></span>
+                    </div>
+                    <br>
+                    <div>
+                        <label>Remember Me?</label>
+                        <input type="checkbox" />
+                    </div>
+                    <div>
+                        <i class="fa fa-sign-in"></i>
+                        <input type="submit" value="Login" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
 </div>
 
