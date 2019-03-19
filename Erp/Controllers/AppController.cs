@@ -37,5 +37,11 @@ namespace Erp.Controllers
             ViewBag.Title = "System";
             return View();
         }
+        public IActionResult Modules()
+        {
+            ViewBag.CurrentPath = HttpContext.Request.Path;
+            ViewBag.CurrentView = "Modules";
+            return View();
+        }
     }
 }

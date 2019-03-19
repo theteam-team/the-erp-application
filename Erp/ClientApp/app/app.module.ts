@@ -5,6 +5,8 @@ import { ModuleList } from './services/moduleList.component';
 //import { Cart } from './services/cart.component';
 import { DataService } from './shared/dataService';
 import { HttpClientModule } from '@angular/common/http';
+import { RouterModule, Routes } from '@angular/router';
+
 
 @NgModule({
   declarations: [
