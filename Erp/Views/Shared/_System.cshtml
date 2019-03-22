@@ -8,11 +8,25 @@
     <link href="~/css/site.css" rel="stylesheet" />
 </head>
 <body class="bg-light">
+    <header class="Header">
+        <nav class="navbar navbar-dark bg-dark navbar-expand-md sticky-top justify-content-between">
+            <h2 class="navbar-brand"><i class="fa fa-graduation-cap"></i> The team team Graduation Project</h2>
+            <ul class="nav nav-tabs">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle bg-dark" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Settings</a>
+                    <div class="dropdown-menu bg-dark">
+                        <a class="dropdown-item bg-dark" href="#">Action</a>
+                        <a class="dropdown-item bg-dark" href="#">Another action</a>
+                        <a class="dropdown-item bg-dark" href="#">Something else here</a>
+                        <div class="dropdown-divider bg-dark"></div>
+                        <a class="dropdown-item bg-dark" href="#">Separated link</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+
+    </header>
     <div class="row">
-        <div class="col-md-12">
-            <nav class="navbar navbar-dark bg-dark navbar-expand-md sticky-top">
-            </nav>
-        </div>
         <div class="col-md-3">
             <nav class="navbar navbar-dark bg-dark">
                 <a class="navbar-brand" href="#">
@@ -56,38 +70,38 @@
                 @RenderBody()
             </section>
         </div>
+        <!--
+    <h2>Vertical Tabs</h2>
+    <p>Click on the buttons inside the tabbed menu:</p>
 
-        <h2>Vertical Tabs</h2>
-        <p>Click on the buttons inside the tabbed menu:</p>
+    <div class="tab">
+        <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">London</button>
+        <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
+        <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button>
+    </div>
 
-        <div class="tab">
-            <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">London</button>
-            <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
-            <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button>
-        </div>
+    <div id="London" class="tabcontent">
+        <h3>London</h3>
+        <p>London is the capital city of England.</p>
+    </div>
 
-        <div id="London" class="tabcontent">
-            <h3>London</h3>
-            <p>London is the capital city of England.</p>
-        </div>
+    <div id="Paris" class="tabcontent">
+        <h3>Paris</h3>
+        <p>Paris is the capital of France.</p>
+    </div>
 
-        <div id="Paris" class="tabcontent">
-            <h3>Paris</h3>
-            <p>Paris is the capital of France.</p>
-        </div>
-
-        <div id="Tokyo" class="tabcontent">
-            <h3>Tokyo</h3>
-            <p>Tokyo is the capital of Japan.</p>
-        </div>
-
-    </div>        
-            <footer class="container">
-                <div class="text-center">Copyright 2019 Phyzia llc </div>
-            </footer>
-            <script src="~/node_modules/jquery/dist/jquery.min.js"></script>
-            <script src="~/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-            <script src="~/js/index.js"></script>
-            @RenderSection("scripts", false)
+    <div id="Tokyo" class="tabcontent">
+        <h3>Tokyo</h3>
+        <p>Tokyo is the capital of Japan.</p>
+    </div>
+        -->
+    </div>
+    <footer class="container">
+        <div class="text-center">Copyright 2019 Phyzia llc </div>
+    </footer>
+    <script src="~/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="~/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/index.js"></script>
+    @RenderSection("scripts", false)
 </body>
 </html>
