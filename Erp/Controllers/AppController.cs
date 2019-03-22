@@ -23,6 +23,9 @@ namespace Erp.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult Home()
         {
+            if (User.Identity.IsAuthenticated)
+                return RedirectToAction("System", "App");
+
             if (mcontext.Users.Any())
                 return RedirectToAction("Login", "Account");
             else

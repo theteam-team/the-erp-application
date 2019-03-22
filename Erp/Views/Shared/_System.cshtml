@@ -7,8 +7,12 @@
     <link href="~/node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <link href="~/css/site.css" rel="stylesheet" />
 </head>
-<body>
+<body class="bg-light">
     <div class="row">
+        <div class="col-md-12">
+            <nav class="navbar navbar-dark bg-dark navbar-expand-md sticky-top">
+            </nav>
+        </div>
         <div class="col-md-3">
             <nav class="navbar navbar-dark bg-dark">
                 <a class="navbar-brand" href="#">
@@ -48,11 +52,35 @@
         </div>
         <div class="col-md-9">
             <section>
-
                 <!-- <h2 class="text-left">@ViewBag.Title</h2>-->
                 @RenderBody()
             </section>
         </div>
+
+        <h2>Vertical Tabs</h2>
+        <p>Click on the buttons inside the tabbed menu:</p>
+
+        <div class="tab">
+            <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">London</button>
+            <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
+            <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button>
+        </div>
+
+        <div id="London" class="tabcontent">
+            <h3>London</h3>
+            <p>London is the capital city of England.</p>
+        </div>
+
+        <div id="Paris" class="tabcontent">
+            <h3>Paris</h3>
+            <p>Paris is the capital of France.</p>
+        </div>
+
+        <div id="Tokyo" class="tabcontent">
+            <h3>Tokyo</h3>
+            <p>Tokyo is the capital of Japan.</p>
+        </div>
+
     </div>        
             <footer class="container">
                 <div class="text-center">Copyright 2019 Phyzia llc </div>
