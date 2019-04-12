@@ -38,15 +38,7 @@
             </summary>
             <param name="dataDbContext"></param>
         </member>
-        <member name="M:Erp.Controllers.CRM_APIController.AddNumbers(Erp.Data.Numbers)">
-            <summary>
-            rest web service that responds to a post http request with a body containing an object of the Class numbers
-            This web service Contact with a specific C++ Function in the CRM dll through a wrapper to serve the request
-            </summary>
-            <param name="numbers">The object passed To the web service </param>
-            <returns>the summation of the fields of the passed object </returns>
-        </member>
-        <member name="M:Erp.Controllers.CRM_APIController.MultiplyNumbers(Erp.Data.Numbers)">
+        <member name="M:Erp.Controllers.CRM_APIController.AddCustomer(Erp.ViewModels.CRN_Tabels.Customer)">
             <summary>
             rest web service that responds to a post http request with a body containing an object of the Class numbers
             This web service Contact with a specific C++ Function in the CRM dll through a wrapper to serve the request

@@ -284,6 +284,7 @@ extern "C"	ERP_API void getCustomerById(char* customer_id, Customer** customer, 
 					{
 
 						cout << row[5];
+
 						p->customer_id = row[0];
 						p->first_name = row[1];
 						p->middle_name = row[2];
