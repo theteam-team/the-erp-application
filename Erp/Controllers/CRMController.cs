@@ -5,9 +5,10 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Erp.Data;
 using Erp.ModulesWrappers;
-using Erp.ViewModels.CRN_Tabels;
+using Erp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Erp.ViewModels.CRN_Tabels;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -74,19 +75,20 @@ namespace Erp.Controllers
              
         }
         [HttpPost("AddOpportunities")]
-        public ActionResult<string> AddOpportunities(Opportunities_product opportunities_Product)
+        public  ActionResult<string> AddOpportunities(Opportunities_product opportunities_Product)
         {
             byte[] error = new byte[100];
             int status = Crm_Wrapper.AddOpportunity(opportunities_Product.Opportunities, error);
             string z = System.Text.Encoding.ASCII.GetString(error);
             Console.WriteLine("status = "+ status);
+            int numberOfProducts = opportunities_Product.product_id.Length;
             if (status == 0)
             {
-                for (int i = 0; i < opportunities_Product.product_id.Count; ++i)
-                {
+                //for (int i = 0; i < opportunities_Product.product_id.Length; ++i)
+                //{
                     byte[] _error = new byte[100];
                     status = Crm_Wrapper.AddOpportunitie_detail(opportunities_Product.Opportunities.opportunity_id,
-                        opportunities_Product.product_id[i], _error);
+                        opportunities_Product.product_id,  numberOfProducts,_error);
                     z = System.Text.Encoding.ASCII.GetString(_error);
                     z.Remove(z.IndexOf('\0'));
                     if (status != 0)
@@ -94,7 +96,7 @@ namespace Erp.Controllers
 
                         return BadRequest(z.Remove(z.IndexOf('\0')));
                     }
-                }
+                //}
             }
             else
             {
@@ -106,17 +108,19 @@ namespace Erp.Controllers
         [HttpGet("GetCustomer/{id}")]
         public ActionResult<Customer> GetCustomer(string id)
         {
-            IntPtr outArray;
-            IntPtr statusPtr;
+            IntPtr customerPtr;
+            int statusPtr;
             byte[] error = new byte[100];      
-            Crm_Wrapper.getCustomerById(id, out outArray, out statusPtr, error);
-            int status = Marshal.ReadInt32(statusPtr);
-            Marshal.FreeCoTaskMem(statusPtr);
+            Crm_Wrapper.getCustomerById(id, out customerPtr, out statusPtr, error);
+            int status = statusPtr;
+            //Marshal.ReadInt32(statusPtr);
+            //Marshal.FreeCoTaskMem(statusPtr);
+            Console.WriteLine("status = " + status);
             string z = System.Text.Encoding.ASCII.GetString(error);
             if (status == 0)
             {
-                Customer customer = (Customer)Marshal.PtrToStructure(outArray, typeof(Customer));
-                Marshal.FreeCoTaskMem(outArray);
+                Customer customer = (Customer)Marshal.PtrToStructure(customerPtr, typeof(Customer));
+                Marshal.FreeCoTaskMem(customerPtr);
                 return Ok(customer);
             }
             else

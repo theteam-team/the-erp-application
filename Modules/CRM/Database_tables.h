@@ -38,17 +38,18 @@ struct Customer_interest
 	unsigned char* customer_id;
 	unsigned int level_of_interest;
 };
-struct Customer_Opportunities
+struct Opportunity
 {
 	char* opportunity_id;
 	char* customer_id;
+	char* employee_id;
 	unsigned int status;
 	double expected_revenue;
 	char* notes;
 	char* start_date;
 	char* end_data;
 };
-struct crm_employee
+struct Employee
 {
 	char* id;
 	char* first_name;
@@ -63,6 +64,7 @@ struct crm_employee
 	unsigned int points;
 	bool is_available;
 	char* role_id;
+	char* department;
 };
 struct  Opportunities_details
 {

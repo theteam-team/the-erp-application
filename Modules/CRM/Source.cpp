@@ -80,7 +80,7 @@ extern "C"	ERP_API int AddCustomer(Customer* customer, char* error)
 	mysql_close(conn);
 	return status;
 }
-extern "C"	ERP_API int AddEmployee(crm_employee* crm_employee, char* error)
+extern "C"	ERP_API int AddEmployee(Employee* crm_employee, char* error)
 {
 	int status;
 	MYSQL* conn;
@@ -94,8 +94,8 @@ extern "C"	ERP_API int AddEmployee(crm_employee* crm_employee, char* error)
 			"" + crm_employee->middle_name + "','" + crm_employee->last_name + "','" + crm_employee->email + "',"
 			"" + to_string(crm_employee->phone_number) + ",'" + crm_employee->gender + "'," + to_string(crm_employee->points) + ","
 			"" + to_string(crm_employee->year_birth) + "," + to_string(crm_employee->month_birth) +
-			"" + "," + to_string(crm_employee->day_birth) + ",'" + crm_employee->role_id + "'," +
-			"" + to_string(crm_employee->is_available) + ");";
+			"" + "," + to_string(crm_employee->day_birth) + "," + to_string(crm_employee->is_available) + "," +
+			"'" + crm_employee->role_id + "','" + crm_employee->department + "');";
 		cout << query << endl;
 		const char* q = query.c_str();
 		qstate = mysql_query(conn, q);
@@ -160,7 +160,7 @@ extern "C"	ERP_API void AddRole(Crm_roles* crm_roles,  char* error)
 	}
 	mysql_close(conn);
 }
-extern "C"	ERP_API int AddOpportunity(Customer_Opportunities* opportunities,  char* error)
+extern "C"	ERP_API int AddOpportunity(Opportunity* opportunities,  char* error)
 {
 
 	int status;
@@ -171,8 +171,17 @@ extern "C"	ERP_API int AddOpportunity(Customer_Opportunities* opportunities,  ch
 	conn = mysql_real_connect(conn, "localhost", "root", "123456789pp", "erp_crm", 3306, NULL, 0);
 	if (conn) 
 	{
+		string x = opportunities->employee_id;
+		if (x == "") 
+		{
+			x = "Null";
+		}
+		else
+		{
+			x = "'" + x + "'";
+		}
 		string query = string("INSERT INTO customer_opportunities VALUES('") + opportunities->opportunity_id + "','" + opportunities->customer_id + "',"
-			""  + to_string(opportunities->status) +  "," + to_string(opportunities->expected_revenue)+ ",'" + opportunities->notes + "','" + 
+			"" + x + "," + to_string(opportunities->status) +  "," + to_string(opportunities->expected_revenue)+ ",'" + opportunities->notes + "','" +
 			"" +opportunities->start_date +  "','" + opportunities->end_data +  "'";
 		query += ");";
 		cout << query << endl;
@@ -206,7 +215,7 @@ extern "C"	ERP_API int AddOpportunity(Customer_Opportunities* opportunities,  ch
 	return status;
 }
 
-extern "C"	ERP_API int AddOpportunitie_detail(char* opportunity_id, char* product_id, char* error)
+extern "C"	ERP_API int AddOpportunitie_detail(char* opportunity_id, char** product_id,  int numOfProducts, char* error)
 {
 	int status;
 	int _qstate;
@@ -217,25 +226,28 @@ extern "C"	ERP_API int AddOpportunitie_detail(char* opportunity_id, char* produc
 	conn = mysql_real_connect(conn, "localhost", "root", "123456789pp", "erp_crm", 3306, NULL, 0);
 	if (conn)
 	{
-		
-		string query = string("INSERT INTO opportunities_details VALUES('") + opportunity_id + "','" + product_id + "');";
-		cout << query << endl;
-		const char* q = query.c_str();
-		_qstate = mysql_query(conn, q);
-		if (_qstate)
+		for (int i = 0; i < numOfProducts; ++i) 
 		{
-			cout << "Query failed: " << mysql_error(conn) << endl;
-			status = 2;
-			string s = mysql_error(conn);
-			strcpy_s(error, s.length() + 1, mysql_error(conn));
-		}
-		else
-		{
-			cout << "Query successded" << endl;
-			status = 0;
-			string s = mysql_error(conn);
-			strcpy_s(error, s.length() + 1, mysql_error(conn));
 
+			string query = string("INSERT INTO opportunities_details VALUES('") + opportunity_id + "','" + product_id[i] + "');";
+			cout << query << endl;
+			const char* q = query.c_str();
+			_qstate = mysql_query(conn, q);
+			if (_qstate)
+			{
+				cout << "Query failed: " << mysql_error(conn) << endl;
+				status = 2;
+				string s = mysql_error(conn);
+				strcpy_s(error, s.length() + 1, mysql_error(conn));
+			}
+			else
+			{
+				cout << "Query successded" << endl;
+				status = 0;
+				string s = mysql_error(conn);
+				strcpy_s(error, s.length() + 1, mysql_error(conn));
+
+			}
 		}
 	}
 	else {
@@ -247,11 +259,10 @@ extern "C"	ERP_API int AddOpportunitie_detail(char* opportunity_id, char* produc
 	mysql_close(conn);
 	return status;
 }
-extern "C"	ERP_API void getCustomerById(char* customer_id, Customer** customer, int** _status, char* error)
+extern "C"	ERP_API void getCustomerById(char* customer_id, Customer** customer, int* _status, char* error)
 {
 		
-		*_status = (int*)CoTaskMemAlloc(sizeof(int));
-		int* status = *_status;
+		int* status = _status;
 		MYSQL* conn;
 		MYSQL_ROW row;
 		MYSQL_RES *res;
