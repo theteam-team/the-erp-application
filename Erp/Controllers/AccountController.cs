@@ -104,7 +104,7 @@ namespace Erp.Controllers
         {
             Register registerModel = mod.Register;
 
-            var database = mContext.Admins.Where(dt => dt.DatabaseName == registerModel.DataBaseName);
+            var database = mContext.ErpUsers.Where(dt => dt.DatabaseName == registerModel.DataBaseName);
 
             if (database != null)
             {

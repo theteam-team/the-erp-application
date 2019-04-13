@@ -11,6 +11,9 @@ using Swashbuckle.AspNetCore.Swagger;
 using System.Reflection;
 using System.IO;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Erp.Interfaces;
+using Erp.Models;
+using Erp.Repository;
 
 namespace Erp
 {
@@ -34,7 +37,9 @@ namespace Erp
         /// <param name="services">The Services container </param>
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddTransient<ICustomerRepository, CustomerRepository>();
+            services.AddTransient<IOpportunityRepository, OpportunityRepository>();
+            services.AddTransient<IEmployeeRepository, EmployeeRepository>();
             //add the database contexts to the services Containers to use them by the dependency injection
             services.AddDbContext<AccountsDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

@@ -27,24 +27,10 @@
             This Controller Handles App Requests And will Contains the System Modules Actions
             </summary>
         </member>
-        <member name="T:Erp.Controllers.CRM_APIController">
+        <member name="T:Erp.Controllers.CrmApiController">
             <summary>
             Web Api To Contact The CRM modules Web Services
             </summary>
-        </member>
-        <member name="M:Erp.Controllers.CRM_APIController.#ctor(Erp.Data.DataDbContext)">
-            <summary>
-            a constructror gets its services parameters resolved by the runtime from the service container
-            </summary>
-            <param name="dataDbContext"></param>
-        </member>
-        <member name="M:Erp.Controllers.CRM_APIController.AddCustomer(Erp.Models.Customer)">
-            <summary>
-            rest web service that responds to a post http request with a body containing an object of the Class numbers
-            This web service Contact with a specific C++ Function in the CRM dll through a wrapper to serve the request
-            </summary>
-            <param name="numbers">The object passed To the web service </param>
-            <returns>the multiplication of the fields of the passed object </returns>
         </member>
         <member name="T:Erp.Controllers.ModuleController">
             <summary>

@@ -9,6 +9,8 @@ using Erp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Erp.ViewModels.CRN_Tabels;
+using Erp.Repository;
+using Erp.Interfaces;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -20,47 +22,29 @@ namespace Erp.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    public class CRM_APIController : ControllerBase
+    public class CrmApiController : ControllerBase
     {
-        private DataDbContext _dataDbContext;  //object to connect with the Database Containing The Crm Data
-        /// <summary>
-        /// a constructror gets its services parameters resolved by the runtime from the service container
-        /// </summary>
-        /// <param name="dataDbContext"></param>
-        public CRM_APIController(DataDbContext dataDbContext)
+        private ICustomerRepository _customeRepository;
+        private IOpportunityRepository _opportunityRepository;
+        private IEmployeeRepository _employeeRepository;
+
+        public CrmApiController ( ICustomerRepository customerepository , IOpportunityRepository opportunityRepository, 
+            IEmployeeRepository employeeRepository)
         {
-            _dataDbContext = dataDbContext;
+            _employeeRepository = employeeRepository;
+            _customeRepository = customerepository;
+            _opportunityRepository = opportunityRepository;
 
         }
-        /// <summary>
-        /// rest web service that responds to a post http request with a body containing an object of the Class numbers
-        /// This web service Contact with a specific C++ Function in the CRM dll through a wrapper to serve the request
-        /// </summary>
-        /// <param name="numbers">The object passed To the web service </param>
-        /// <returns>the summation of the fields of the passed object </returns>
-        //[HttpPost("AddNumber")]
-        //public ActionResult<int> AddNumbers(Numbers numbers)
-        //{
-        //    return Crm_Wrapper.AddNumbers(numbers.N1, numbers.N2) ;
-        //}
-
-        /// <summary>
-        /// rest web service that responds to a post http request with a body containing an object of the Class numbers
-        /// This web service Contact with a specific C++ Function in the CRM dll through a wrapper to serve the request
-        /// </summary>
-        /// <param name="numbers">The object passed To the web service </param>
-        /// <returns>the multiplication of the fields of the passed object </returns>
-        //[HttpPost("MultiplyNumbers")]
-        //public ActionResult<int> MultiplyNumbers(Numbers numbers)
-        //{
-        //    return Crm_Wrapper.MultiplyNumbers(numbers.N1, numbers.N1);
-        //}
+        
+        
 
         [HttpPost("AddCustomer")]
-        public ActionResult<string> AddCustomer(Customer customer)
+        public  async Task<ActionResult<string>> AddCustomer(Customer customer)
         {
+            
             byte[] error = new byte[100];
-            int status = Crm_Wrapper.AddCustomer(customer, error);
+            int status = await _customeRepository.Create(customer, error);
             string z = System.Text.Encoding.ASCII.GetString(error);
             if (status != 0)
             {
@@ -75,56 +59,53 @@ namespace Erp.Controllers
              
         }
         [HttpPost("AddOpportunities")]
-        public  ActionResult<string> AddOpportunities(Opportunities_product opportunities_Product)
+        public async Task<ActionResult<string>> AddOpportunities(Opportunities_product opportunities_Product)
         {
             byte[] error = new byte[100];
-            int status = Crm_Wrapper.AddOpportunity(opportunities_Product.Opportunities, error);
-            string z = System.Text.Encoding.ASCII.GetString(error);
-            Console.WriteLine("status = "+ status);
-            int numberOfProducts = opportunities_Product.product_id.Length;
-            if (status == 0)
+            int status = await _opportunityRepository.Create(opportunities_Product, error);
+            
+            if (status != 0)
             {
-                //for (int i = 0; i < opportunities_Product.product_id.Length; ++i)
-                //{
-                    byte[] _error = new byte[100];
-                    status = Crm_Wrapper.AddOpportunitie_detail(opportunities_Product.Opportunities.opportunity_id,
-                        opportunities_Product.product_id,  numberOfProducts,_error);
-                    z = System.Text.Encoding.ASCII.GetString(_error);
-                    z.Remove(z.IndexOf('\0'));
-                    if (status != 0)
-                    {
-
-                        return BadRequest(z.Remove(z.IndexOf('\0')));
-                    }
-                //}
-            }
-            else
-            {
+                string z = System.Text.Encoding.ASCII.GetString(error);
+                z.Remove(z.IndexOf('\0'));
                 return BadRequest(z.Remove(z.IndexOf('\0')));
+                
             }
              return Ok("successfuly added");
             
         }
-        [HttpGet("GetCustomer/{id}")]
-        public ActionResult<Customer> GetCustomer(string id)
+        [HttpPost("AddEmployee")]
+        public async Task<ActionResult<string>> AddEmployee(Employee employee)
         {
-            IntPtr customerPtr;
-            int statusPtr;
-            byte[] error = new byte[100];      
-            Crm_Wrapper.getCustomerById(id, out customerPtr, out statusPtr, error);
-            int status = statusPtr;
-            //Marshal.ReadInt32(statusPtr);
-            //Marshal.FreeCoTaskMem(statusPtr);
-            Console.WriteLine("status = " + status);
-            string z = System.Text.Encoding.ASCII.GetString(error);
-            if (status == 0)
+            byte[] error = new byte[100];
+            int status = await _employeeRepository.Create(employee, error);
+
+            if (status != 0)
             {
-                Customer customer = (Customer)Marshal.PtrToStructure(customerPtr, typeof(Customer));
-                Marshal.FreeCoTaskMem(customerPtr);
+                string z = System.Text.Encoding.ASCII.GetString(error);
+                z.Remove(z.IndexOf('\0'));
+                return BadRequest(z.Remove(z.IndexOf('\0')));
+
+            }
+            return Ok("successfuly added");
+
+        }
+
+
+        [HttpGet("GetCustomer/{id}")]
+        public async Task<ActionResult<Customer>> GetCustomer(string id)
+        {
+            byte[] err = new byte[100];
+            Customer customer =  await _customeRepository.GetById(id, err);
+            string z = System.Text.Encoding.ASCII.GetString(err);
+            string error = z.Remove(z.IndexOf('\0'));
+            if (customer != null)
+            {
+                
                 return Ok(customer);
             }
             else
-                return BadRequest(z.Remove(z.IndexOf('\0')));
+                return BadRequest(error);
         }
 
 

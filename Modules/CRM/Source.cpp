@@ -90,11 +90,10 @@ extern "C"	ERP_API int AddEmployee(Employee* crm_employee, char* error)
 	conn = mysql_real_connect(conn, "localhost", "root", "123456789pp", "erp_crm", 3306, NULL, 0);
 	if(conn)
 	{
-		string query = (string)"INSERT INTO crm_employee VALUES('" + crm_employee->id + "','" + crm_employee->first_name + "','"
+		string query = (string)"INSERT INTO employee VALUES('" + crm_employee->id + "','" + crm_employee->first_name + "','"
 			"" + crm_employee->middle_name + "','" + crm_employee->last_name + "','" + crm_employee->email + "',"
-			"" + to_string(crm_employee->phone_number) + ",'" + crm_employee->gender + "'," + to_string(crm_employee->points) + ","
-			"" + to_string(crm_employee->year_birth) + "," + to_string(crm_employee->month_birth) +
-			"" + "," + to_string(crm_employee->day_birth) + "," + to_string(crm_employee->is_available) + "," +
+			"" + to_string(crm_employee->phone_number) +  "," + to_string(crm_employee->year_birth) + "," + to_string(crm_employee->month_birth) +
+			"" + "," + to_string(crm_employee->day_birth) + ",'" + crm_employee->gender + "'," + to_string(crm_employee->points)+ "," + to_string(crm_employee->is_available) + "," +
 			"'" + crm_employee->role_id + "','" + crm_employee->department + "');";
 		cout << query << endl;
 		const char* q = query.c_str();
@@ -124,7 +123,7 @@ extern "C"	ERP_API int AddEmployee(Employee* crm_employee, char* error)
 }
 
 			
-extern "C"	ERP_API void AddRole(Crm_roles* crm_roles,  char* error)
+/*extern "C"	ERP_API void AddRole(Crm_roles* crm_roles,  char* error)
 {
 	int status;
 	MYSQL* conn;
@@ -134,7 +133,7 @@ extern "C"	ERP_API void AddRole(Crm_roles* crm_roles,  char* error)
 	conn = mysql_real_connect(conn, "localhost", "root", "123456789pp", "erp_crm", 3306, NULL, 0);
 	if (conn)
 	{
-		string query = string("INSERT INTO Crm_roles VALUES('") + crm_roles->role_id + "','" + crm_roles->role+ "');";
+		string query = string("INSERT INTO roles VALUES('") + crm_roles->role_id + "','" + crm_roles->role+ "');";
 		cout << query << endl;
 		const char* q = query.c_str();
 		qstate = mysql_query(conn, q);
@@ -159,7 +158,7 @@ extern "C"	ERP_API void AddRole(Crm_roles* crm_roles,  char* error)
 		status = 3;
 	}
 	mysql_close(conn);
-}
+}*/
 extern "C"	ERP_API int AddOpportunity(Opportunity* opportunities,  char* error)
 {
 
@@ -180,7 +179,7 @@ extern "C"	ERP_API int AddOpportunity(Opportunity* opportunities,  char* error)
 		{
 			x = "'" + x + "'";
 		}
-		string query = string("INSERT INTO customer_opportunities VALUES('") + opportunities->opportunity_id + "','" + opportunities->customer_id + "',"
+		string query = string("INSERT INTO opportunities VALUES('") + opportunities->opportunity_id + "','" + opportunities->customer_id + "',"
 			"" + x + "," + to_string(opportunities->status) +  "," + to_string(opportunities->expected_revenue)+ ",'" + opportunities->notes + "','" +
 			"" +opportunities->start_date +  "','" + opportunities->end_data +  "'";
 		query += ");";

@@ -24,7 +24,7 @@ namespace Erp.Models
         public string gender;
         public uint points;
         public bool is_available;
-        public string role_id;
+        public string role;
         public string department;
     }
 }

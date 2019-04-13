@@ -34,8 +34,12 @@ namespace Erp
         public async Task AddRoleToUserAsync(string roleName, ApplicationUser user)
         {
             await CreateRoleAsync(roleName);
-
+            
             await mUserManager.AddToRoleAsync(user, roleName);
+        }
+        public async Task<string> getRoleIdAsync(string roleName)
+        {
+            return await mroleManager.GetRoleIdAsync(await mroleManager.FindByNameAsync(roleName));
         }
 
         /// <summary>
