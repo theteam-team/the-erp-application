@@ -25,6 +25,7 @@ namespace Erp.Controllers
         {
             if (User.Identity.IsAuthenticated)
                 return RedirectToAction("System", "App");
+
             if (mcontext.Users.Any())
                 return RedirectToAction("Login", "Account");
             else
