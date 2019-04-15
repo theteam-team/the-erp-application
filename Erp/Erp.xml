@@ -118,6 +118,15 @@
             the Wrapper for the Crm c++ Code
             </summary>
         </member>
+        <member name="M:Erp.ModulesWrappers.Crm_Wrapper.AddCustomer(Erp.Models.Customer,System.Byte[])">
+            Customer 
+        </member>
+        <member name="M:Erp.ModulesWrappers.Crm_Wrapper.AddOpportunity(Erp.Models.Opportunity,System.Byte[])">
+            Opportunity
+        </member>
+        <member name="M:Erp.ModulesWrappers.Crm_Wrapper.AddEmployee(Erp.Models.Employee,System.Byte[])">
+            Employee
+        </member>
         <member name="P:Erp.Startup.Configuration">
             <summary>
             used to access the configuration of the web host

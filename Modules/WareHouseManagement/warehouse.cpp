@@ -1,5 +1,5 @@
 #include "pch.h"
-
+#include "Header.h"
 #include <iostream>
 #include <cstdio>
 #include <fstream>
@@ -8,7 +8,7 @@
 #include <cstdlib>
 #include <conio.h>
 #include <windows.h>
-
+#include"DatabaseEntities.h"
 #include <mysql.h>
 
 using namespace std;
@@ -48,19 +48,19 @@ public:
 
 
 void addProduct(string, string, string, string, string, string, string, string);
-void deleteProduct(string);
-int checkUnitsInStock(string);
-void addToStock(string, int);
-void removeFromStock(string, int);
-void updateProductInfo(string, string, string);
-string getProductInfo(string, string);
-void getAllProductInfo(string);
+void deleteProduct(char*);
+int checkUnitsInStock(char*);
+void addToStock(char*, int);
+void removeFromStock(char*, int);
+void updateProductInfo(char*, char*, char*);
+char* getProductInfo(char*, char*);
+void getAllProductInfo(char*);
 void showProducts();
-void getOrderInfo(string);
+void getOrderInfo(char*);
 void showCompletedOrders();
 void showOrdersInProgress();
-void showProductsInOrder(string);
-double makeOrder(string);
+void showProductsInOrder(char*);
+double makeOrder(char*);
 
 
 int main() {
@@ -69,25 +69,27 @@ int main() {
 }
 
 
-void addProduct(string id, string name, string price, string unitsInStock, string description, string position, string size, string weight) {
-
-	string query = "insert into product (Product_ID, Product_Name, Product_Price, Units_In_Stock, Product_Description, Product_Position, Product_Size, Product_Weight) values ('" + id + "', '" + name + "', '" + price + "', '" + unitsInStock + "', '" + description + "', '" + position + "', '" + size + "', '" + weight + "')";
+ void addProduct(Product * _Product) 
+{
+	
+	db_response::ConnectionFunction();
+	string query = (string) "insert into product (Product_ID, Product_Name, Product_Price, Units_In_Stock, Product_Description, Product_Position, Product_Size, Product_Weight) values ('" + _Product->id  + "', '" + _Product->name + "', '" + _Product->price + "', '" + _Product->unitsInStock + "', '" + _Product->description + "', '" + _Product->position + "', '" + _Product->size + "', '" + _Product->weight + "')";
 	char const *q = query.c_str();
 	qstate = mysql_query(conn, q);
 }
 
 
-void deleteProduct(string id) {
+ extern "C"	ERP_API void deleteProduct(char * id) {
 
-	string query = "delete from product where Product_ID = " + id;
+	string query = (string)"delete from product where Product_ID = " + id;
 	char const *q = query.c_str();
 	qstate = mysql_query(conn, q);
 }
 
 
-int checkUnitsInStock(string id) {
+ extern "C"	ERP_API int checkUnitsInStock(char* id) {
 
-	string query = "select Units_In_Stock from product where Product_ID = " + id;
+	string query = (string)"select Units_In_Stock from product where Product_ID = " + id;
 	char const *q = query.c_str();
 
 	mysql_free_result(res);
@@ -100,7 +102,7 @@ int checkUnitsInStock(string id) {
 }
 
 
-void addToStock(string id, int newUnits) {
+ extern "C"	ERP_API void addToStock(char* id, int newUnits) {
 
 	int units;
 	units = checkUnitsInStock(id);
@@ -112,7 +114,7 @@ void addToStock(string id, int newUnits) {
 }
 
 
-void removeFromStock(string id, int newUnits) {
+ extern "C"	ERP_API void removeFromStock(char* id, int newUnits) {
 
 	int units;
 	units = checkUnitsInStock(id);
@@ -124,17 +126,17 @@ void removeFromStock(string id, int newUnits) {
 }
 
 
-void updateProductInfo(string id, string key, string value) {
+ extern "C"	ERP_API void updateProductInfo(char* id, char* key, char* value) {
 
-	string query = "update product set " + key + " = '" + value + "' where Product_ID = " + id;
+	string query = (string)"update product set " + key + " = '" + value + "' where Product_ID = " + id;
 	char const *q = query.c_str();
 	qstate = mysql_query(conn, q);
 }
 
 
-string getProductInfo(string id, string key) {
+ extern "C"	ERP_API char* getProductInfo(char* id, char * key) {
 
-	string query = "select " + key + " from product where Product_ID = " + id;
+	string query = (string)"select " + key + " from product where Product_ID = " + id;
 	char const *q = query.c_str();
 	
 	mysql_free_result(res);
@@ -147,10 +149,10 @@ string getProductInfo(string id, string key) {
 }
 
 
-void getAllProductInfo(string id) {
+ extern "C"	ERP_API void getAllProductInfo(char* id) {
 
 	unsigned int i, numOfFields;
-	string query = "select * from product where Product_ID = " + id;
+	string query = (string)"select * from product where Product_ID = " + id;
 	char const *q = query.c_str();
 
 	mysql_free_result(res);
@@ -173,7 +175,7 @@ void getAllProductInfo(string id) {
 }
 
 
-void showProducts() {
+ extern "C"	ERP_API void showProducts() {
 
 	unsigned int i, numOfFields;
 
@@ -186,7 +188,7 @@ void showProducts() {
 
 	while (row = mysql_fetch_row(res)) {
 
-		cout << "id   name   description   position   price   size   weight   units in stock\n";
+		/*cout << "id   name   description   position   price   size   weight   units in stock\n";
 
 		for (i = 0; i < numOfFields; i++) {
 
@@ -195,15 +197,17 @@ void showProducts() {
 			else
 				cout << "NULL" << "   ";
 		}
-		cout << "\n\n";
+		cout << "\n\n";*/
+
+
 	}
 }
 
 
-void getOrderInfo(string id) {
+ extern "C"	ERP_API void getOrderInfo(char* id) {
 
 	unsigned int i, numOfFields;
-	string query = "select * from order where Order_ID = " + id;
+	string query = (string)"select * from order where Order_ID = " + id;
 	char const *q = query.c_str();
 
 	mysql_free_result(res);
@@ -226,7 +230,7 @@ void getOrderInfo(string id) {
 }
 
 
-void showCompletedOrders() {
+ extern "C"	ERP_API void showCompletedOrders() {
 
 	unsigned int i, numOfFields;
 
@@ -253,7 +257,7 @@ void showCompletedOrders() {
 }
 
 
-void showOrdersInProgress() {
+ extern "C"	ERP_API void showOrdersInProgress() {
 
 	unsigned int i, numOfFields;
 
@@ -280,9 +284,9 @@ void showOrdersInProgress() {
 }
 
 
-void showProductsInOrder(string id) {
+ extern "C"	ERP_API void showProductsInOrder(char* id) {
 
-	string query = "select Product_Product_ID, Units_In_Order from order_has_product where Order_Order_ID = " + id;
+	string query = (string)"select Product_Product_ID, Units_In_Order from order_has_product where Order_Order_ID = " + id;
 	char const *q = query.c_str();
 
 	mysql_free_result(res);
@@ -297,14 +301,14 @@ void showProductsInOrder(string id) {
 }
 
 
-double makeOrder(string id) {
+ extern "C"	ERP_API double makeOrder(char* id) {
 
 	MYSQL_ROW r;
 	double price, total = 0;
 	int units, unitsInOrder;
 	string productID;
 
-	string query = "select Product_Product_ID, Units_In_Order from order_has_product where Order_Order_ID = " + id;
+	string query = (string)"select Product_Product_ID, Units_In_Order from order_has_product where Order_Order_ID = " + id;
 	char const *q = query.c_str();
 
 	mysql_free_result(res);
@@ -333,8 +337,9 @@ double makeOrder(string id) {
 			unitsInOrder = stoi(r[0]);
 
 		total = price * unitsInOrder;
-
-		removeFromStock(productID, unitsInOrder);
+		char* _productId;
+		strcpy_s(_productId, productID.length() + 1, productID.c_str());
+		removeFromStock(_productId, unitsInOrder);
 	}
 
 	return total;
