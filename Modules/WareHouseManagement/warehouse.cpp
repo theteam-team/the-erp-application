@@ -15,8 +15,8 @@ using namespace std;
 
 #define SERVER "localhost"
 #define USER "root" //your username
-#define PASSWORD "rana" //your password for mysql
-#define DATABASE "warehouse" //database name
+#define PASSWORD "123456789pp" //your password for mysql
+#define DATABASE "erp" //database name
 
 int qstate;
 MYSQL* conn;
