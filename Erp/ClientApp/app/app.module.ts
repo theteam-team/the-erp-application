@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { ModuleList } from './services/moduleList.component';
-import { Cart } from './services/cart.component';
+//import { Cart } from './services/cart.component';
 import { DataService } from './shared/dataService';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
@@ -12,7 +12,7 @@ import { RouterModule, Routes } from '@angular/router';
   declarations: [
       AppComponent,
       ModuleList,
-      Cart
+     // Cart
   ],
   imports: [
       BrowserModule,
