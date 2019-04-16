@@ -3,10 +3,10 @@ struct Product
 {
 	char* id;
 	char* name;
-	char* price;
-	char* unitsInStock;
 	char* description;
 	char* position;
-	char* size;
-	char* weight;
+	double price;
+	double size;
+	double weight;
+	unsigned int unitsInStock;
 };

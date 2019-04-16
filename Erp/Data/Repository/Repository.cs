@@ -8,6 +8,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using Erp.ViewModels.CRN_Tabels;
+using Erp.ModulesWrappers;
+using System.Text;
 
 namespace Erp.Repository
 {
@@ -32,7 +34,11 @@ namespace Erp.Repository
         public async Task<int> Create(T entity, byte[] error)
         {
             int status = 0;
-            
+            if (typeof(T) == typeof(Product))
+            {
+                Product product = (Product)(object)(entity);
+                status = await Task.Run(() => Warehouse_Wrapper.addProduct(product, error));
+            }
             if (typeof(T) == typeof(Customer))
             {
                 Customer customer = (Customer)(object)entity;
@@ -70,10 +76,28 @@ namespace Erp.Repository
             
         }
 
-        //public void Delete(T entity)
-        //{
+        public async Task<int> Delete(string id, byte[] error)
+        {
+            int status = 10;
+            if (typeof(T) == typeof(Product))
+            {
+                
+                status = await Task.Run(() => Warehouse_Wrapper.deleteProduct(id, error));
+            }
+            return status;
 
-        //}
+
+        }public async Task<int> Delete(T entity, byte[] error)
+        {
+            int status = 10;
+            if (typeof(T) == typeof(Product))
+            {
+                Product product = (Product)(object)(entity);
+                status = await Task.Run(() => Warehouse_Wrapper.deleteProduct(product.id , error));
+            }
+            return status;
+
+        }
 
         //public IEnumerable<T> Find(Func<T, bool> predicate)
         //{
@@ -102,13 +126,49 @@ namespace Erp.Repository
                 Console.WriteLine("status = " + status);
                 return (T)(object)customer ;
             }
+            if (typeof(T) == typeof(Product))
+            {
+                IntPtr prodductPtr;
+                int status = 0;
+                Product product = null;
+                await Task.Run(() =>
+                {
+                    status = Warehouse_Wrapper.getAllProductInfo(id, out prodductPtr, error);
+                    product = (Product)Marshal.PtrToStructure(prodductPtr, typeof(Product));
+                    Marshal.FreeCoTaskMem(prodductPtr);
+                });
+                Console.WriteLine("status = " + status);
+                return (T)(object)product;
+            }
             return null ;
             
         }
 
-        //public void Update(T entity)
-        //{
-
-        //}
+        public async Task<int> UpdateInfo(string id, string key, string value, byte[] error)
+        {
+            int status = 0;
+            if (typeof(T) == typeof(Product))
+            {
+                return await Task.Run(() => Warehouse_Wrapper.updateProductInfo(id, key, value, error));
+            }
+            return status;
+        }
+        public async Task<string> getInfo(string id, string key, byte[] error)
+        {
+            
+            if (typeof(T) == typeof(Product))
+            {
+                //IntPtr x = await Task.Run(() => Warehouse_Wrapper.getProductInfo(id, key, error));
+                //string z = Marshal.PtrToStringAnsi(x);
+                //Marshal.FreeCoTaskMem(x);
+                //return z;
+                StringBuilder sb = new StringBuilder(256);
+                IntPtr z = await Task.Run(() => Warehouse_Wrapper.getProductInfo(id, key, sb,error));
+                string x = Marshal.PtrToStringAnsi(z);
+                Console.Write(x);
+                return x;
+            }
+            return null;
+        }
     }
 }

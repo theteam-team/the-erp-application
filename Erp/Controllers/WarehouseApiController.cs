@@ -1,0 +1,179 @@
+﻿using Erp.Interfaces;
+using Erp.Models;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Erp.Controllers
+{
+    [Produces("application/json")]
+    [Route("api/[controller]")]
+    [ApiController]
+    public class WarehouseApiController : ControllerBase
+    {
+        private readonly IProductRepository _iProductRepository;
+
+        public WarehouseApiController(IProductRepository iProductRepository)
+        {
+            _iProductRepository = iProductRepository;
+        }
+        [HttpPost("AddProduct")]
+        public async Task<ActionResult<string>> AddProduct(Product product)
+        {
+            byte[] error = new byte[100];
+            int status = await _iProductRepository.Create(product, error);
+            string z = System.Text.Encoding.ASCII.GetString(error);
+            if (status != 0)
+            {
+
+                return BadRequest(z.Remove(z.IndexOf('\0')));
+            }
+            else
+            {
+                return Ok("successfuly added");
+            }
+        }
+        [HttpDelete("DeleteProduct")]
+        public async Task<ActionResult<string>> DeleteProduct(Product product)
+        {
+            byte[] error = new byte[100];
+            int status = await _iProductRepository.Delete(product, error);
+            string z = System.Text.Encoding.ASCII.GetString(error);
+            if (status != 0)
+            {
+
+                return BadRequest(z.Remove(z.IndexOf('\0')));
+            }
+            else
+            {
+                return Ok("successfuly deleted");
+            }
+        }
+        [HttpGet("CheckUnitsInStock/{id}")]
+        public async Task<ActionResult<int>> CheckUnitsInStock(string id)
+        {
+            byte[] error = new byte[100];
+            int units = await _iProductRepository.checkunitsInStock(id, error);
+            string z = System.Text.Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok("Units = " + units);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+        [HttpPut("AddToStock/{id}")]
+        public async Task<ActionResult<int>> AddToStock(string id, int newUnits)
+        {
+            byte[] error = new byte[100];
+            int status = await _iProductRepository.addToStock(id, newUnits, error);
+            string z = System.Text.Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (status == 0)
+            {
+
+                return Ok("Succesfully Added");
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+        [HttpDelete("RemoveFromStock/{id}")]
+        public async Task<ActionResult<int>> RemoveFromStock(string id, int newUnits)
+        {
+            byte[] error = new byte[100];
+            int status = await _iProductRepository.removeFromStock(id, newUnits, error);
+            string z = System.Text.Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (status == 0)
+            {
+
+                return Ok("Succesfully removed");
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+        [HttpPut("UpdateProductInfo/{id}")]
+        public async Task<ActionResult<int>> UpdateProductInfo(string id, string key, string value)
+        {
+            //Console.WriteLine(id);
+            byte[] error = new byte[100];
+            int status = await _iProductRepository.UpdateInfo(id, key, value, error);
+            string z = System.Text.Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (status == 0)
+            {
+
+                return Ok("Succesfully Modified");
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+
+
+        [HttpDelete("DeleteProductById/{id}")]
+        public async Task<ActionResult<string>> DeleteProductById(string id)
+        {
+
+            byte[] error = new byte[100];
+            int status = await _iProductRepository.Delete(id, error);
+            string z = System.Text.Encoding.ASCII.GetString(error);
+            if (status != 0)
+            {
+
+                return BadRequest(z.Remove(z.IndexOf('\0')));
+            }
+            else
+            {
+                return Ok("successfuly deleted");
+            }
+        }
+
+        [HttpGet("GetProductById/{id}")]
+        public async Task<ActionResult<Product>> GetProduct(string id)
+        {
+            byte[] error = new byte[100];
+            Product product = await _iProductRepository.GetById(id, error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(product);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+        [HttpGet("GetProductInfo/{id}")]
+        public async Task<ActionResult<Product>> GetProductInfo(string id, string key)
+        {
+            byte[] error = new byte[100];
+            string info = await _iProductRepository.getInfo(id, key, error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(info);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+    }
+}

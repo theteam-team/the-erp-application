@@ -40,6 +40,7 @@ namespace Erp
             services.AddTransient<ICustomerRepository, CustomerRepository>();
             services.AddTransient<IOpportunityRepository, OpportunityRepository>();
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+            services.AddTransient<IProductRepository, ProductRepository>();
             //add the database contexts to the services Containers to use them by the dependency injection
             services.AddDbContext<AccountsDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
