@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Header.h">
+    <ClInclude Include="CrmDatabase_tables.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Database_tables.h">
+    <ClInclude Include="CrmHeader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

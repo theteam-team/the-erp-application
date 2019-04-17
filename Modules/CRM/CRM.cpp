@@ -1,5 +1,5 @@
-#include"Header.h"
-#include "Database_tables.h"
+#include"CrmHeader.h"
+#include "CrmDatabase_tables.h"
 #include <stdio.h>
 #include<iostream>
 #include <sstream> 
@@ -144,33 +144,33 @@ extern "C"	ERP_API int AddOpportunitie_detail(char* opportunity_id, char** produ
 	
 	return status;
 }
-extern "C"	ERP_API void getCustomerById(char* customer_id, Customer** customer, int* _status, char* error)
+extern "C"	ERP_API Customer* getCustomerById(char* customer_id,  char* error)
 {
-		
-		int* mstatus = _status;
+	    status = 0;
 		db_response::ConnectionFunction(error);
 		if (conn)
 		{
-			string query = "SELECT * FROM customers WHERE customer_id = '";
+			string query = "SELECT * FROM Customer WHERE customer_id = '";
 			query += customer_id;
 			query += "';";
 			cout << query << endl;
 			const char* q = query.c_str();
 			qstate = mysql_query(conn, q);
-			checkQuery(qstate, error);
-				
+			if (checkQuery(qstate, error))
+			{
+
 				res = mysql_store_result(conn);
 				if (res->row_count > 0)
 				{
-					
-					*customer = (Customer*)CoTaskMemAlloc(sizeof(Customer));
-					Customer* p = *customer;
-					*mstatus = 0;
+
+					Customer *customer = (Customer*)CoTaskMemAlloc(sizeof(Customer));
+					Customer* p = customer;
+					status = 0;
 					cout << "query succeedd" << endl;
 					while (row = mysql_fetch_row(res))
 					{
 						p->customer_id = row[0];
-						p->name = row[1];				
+						p->name = row[1];
 						p->phone_number = stoi(row[2]);
 						p->email = row[3];
 						p->dateOfBirth = row[4];
@@ -181,15 +181,19 @@ extern "C"	ERP_API void getCustomerById(char* customer_id, Customer** customer, 
 						p->company_email = row[9];
 						p->is_lead = row[10];
 					}
+					return customer;
 				}
 				else
 				{
 					string s = "Error This customer id does not exixt";
 					strcpy_s(error, s.length() + 1, s.c_str());
-					*mstatus = 2;
+					status = 2;
 				}
+			}
 		}
-		mysql_close(conn);
+	mysql_close(conn);
+
+	return nullptr;
 }
 unsigned int stringToInt(char * c) 
 {
@@ -198,7 +202,7 @@ unsigned int stringToInt(char * c)
 	q >> number;
 	return number;
 }
-void checkQuery(int qstate, char * error) 
+bool checkQuery(int qstate, char * error) 
 {
 	if (qstate)
 	{
@@ -206,6 +210,7 @@ void checkQuery(int qstate, char * error)
 		status = 1;
 		string s = mysql_error(conn);
 		strcpy_s(error, s.length() + 1, mysql_error(conn));
+		return false;
 	}
 	else
 	{
@@ -213,6 +218,7 @@ void checkQuery(int qstate, char * error)
 		status = 0;
 		string s = mysql_error(conn);
 		strcpy_s(error, s.length() + 1, mysql_error(conn));
+		return true;
 
 	}
 }

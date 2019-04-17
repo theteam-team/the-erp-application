@@ -135,18 +135,15 @@ namespace Erp.Repository
         public async Task <T> GetById(string id, byte[] error)
         {
             if (typeof(T) == typeof(Customer))
-            {
-                IntPtr customerPtr;
-                int statusPtr = 0;
+            { 
                 Customer customer = null;
                 await Task.Run(() =>
                 {
-                    Crm_Wrapper.getCustomerById(id, out customerPtr, out statusPtr, error);
+                    IntPtr customerPtr =  Crm_Wrapper.getCustomerById(id,  error);
                     customer = (Customer)Marshal.PtrToStructure(customerPtr, typeof(Customer));
                     Marshal.FreeCoTaskMem(customerPtr);
                 });
-                int status = statusPtr;
-                Console.WriteLine("status = " + status);
+                //Console.WriteLine("status = " + status);
                 return (T)(object)customer ;
             }
             if (typeof(T) == typeof(Order))

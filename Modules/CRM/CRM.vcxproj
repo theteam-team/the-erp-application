@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Database_tables.h" />
-    <ClInclude Include="Header.h" />
+    <ClInclude Include="CrmDatabase_tables.h" />
+    <ClInclude Include="CrmHeader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CRM.cpp" />

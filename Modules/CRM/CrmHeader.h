@@ -3,4 +3,4 @@
 #include<objbase.h>
 #include <windows.h>
 unsigned int stringToInt(char * c);
-void checkQuery(int qstate,  char * error);
+bool checkQuery(int qstate,  char * error);

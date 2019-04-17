@@ -13,14 +13,11 @@ namespace Erp.Models
     {
         [Required]
         public string id;
-        public string first_name;
-        public string middle_name;
-        public string last_name;
-        public string email;
+        public string name;       
         public uint phone_number;
-        public uint year_birth;
-        public uint month_birth;
-        public uint day_birth;
+        [EmailAddress]
+        public string email;       
+        public string Dateofbirth;
         public string gender;
         public uint points;
         public bool is_available;

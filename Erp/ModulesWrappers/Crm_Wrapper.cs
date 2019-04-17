@@ -19,7 +19,7 @@ namespace Erp.ModulesWrappers
         [DllImport("Modules//CRM//CRM.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern int AddCustomer(Customer customer, byte[] error);
         [DllImport("Modules//CRM//CRM.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        public static extern void getCustomerById(string id, out IntPtr customer, out int status, byte[] error);
+        public static extern IntPtr getCustomerById(string id,  byte[] error);
         ///Opportunity
         [DllImport("Modules//CRM//CRM.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern int AddOpportunity(Opportunity opportunities, byte[] error);
