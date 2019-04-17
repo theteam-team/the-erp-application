@@ -2,17 +2,13 @@
 struct Customer
 {
 	char* customer_id;
-	char* first_name;
-	char* middle_name;
-	char* last_name;
-	char* email;
-	unsigned int phone_number;
+	char* name;
+	unsigned int phone_number;	
+	char *email;
+	char* dateOfBirth;
 	char* gender;
 	unsigned int loyality_points;
 	unsigned int type;
-	unsigned int year_birth;
-	unsigned int month_birth;
-	unsigned int day_birth;
 	char* company;
 	char* company_email;
 	bool is_lead;
@@ -41,25 +37,21 @@ struct Customer_interest
 struct Opportunity
 {
 	char* opportunity_id;
-	char* customer_id;
-	char* employee_id;
 	unsigned int status;
 	double expected_revenue;
 	char* notes;
 	char* start_date;
 	char* end_data;
+	char* customer_id;
+	char* employee_id;
 };
 struct Employee
 {
 	char* id;
-	char* first_name;
-	char* middle_name;
-	char* last_name;
-	char *email;
+	char* name;	
 	unsigned int phone_number;
-	unsigned int year_birth;
-	unsigned int month_birth;
-	unsigned int day_birth;
+	char *email;
+	char* dateOfBirth;	
 	char* gender;
 	unsigned int points;
 	bool is_available;

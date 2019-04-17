@@ -61,7 +61,7 @@ namespace Erp.Controllers
         [HttpPost("AddOpportunities")]
         public async Task<ActionResult<string>> AddOpportunities(Opportunities_product opportunities_Product)
         {
-            byte[] error = new byte[100];
+            byte[] error = new byte[500];
             int status = await _opportunityRepository.Create(opportunities_Product, error);
             
             if (status != 0)

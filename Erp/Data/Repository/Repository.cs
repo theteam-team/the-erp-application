@@ -56,6 +56,7 @@ namespace Erp.Repository
             {
                 Opportunities_product opportunities_Product = (Opportunities_product)(object)entity;
                 status = await Task.Run(() => Crm_Wrapper.AddOpportunity(opportunities_Product.Opportunities, error));
+                Console.WriteLine("status= " +  status);
                 if (status == 0)
                 {
                     int numberOfProducts = opportunities_Product.product_id.Length;
@@ -104,10 +105,32 @@ namespace Erp.Repository
 
         //}
 
-        //public IEnumerable<T> GetAll()
-        //{
-
-        //}
+        public async Task<List<T>> GetAll(byte[] error)
+        {
+            if (typeof(T) == typeof(Product))
+            {
+                List<Product> products = new List<Product>();
+                IntPtr ProductPtr;
+                await Task.Run(() =>
+                {   
+                    
+                    int number_fields = Warehouse_Wrapper.showProducts(out ProductPtr, error);
+                   
+                    IntPtr current = ProductPtr;
+                    for (int i = 0; i < number_fields; ++i)
+                    {
+                        Product product = (Product)Marshal.PtrToStructure(current, typeof(Product));
+                       
+                        current = (IntPtr)((long)current + Marshal.SizeOf(product));
+                        products.Add(product);
+                    }
+                    Marshal.FreeCoTaskMem(ProductPtr);
+                });
+                return (List<T>)(object)products;
+            }
+            
+            return null;
+        }
 
         public async Task <T> GetById(string id, byte[] error)
         {
@@ -125,6 +148,13 @@ namespace Erp.Repository
                 int status = statusPtr;
                 Console.WriteLine("status = " + status);
                 return (T)(object)customer ;
+            }
+            if (typeof(T) == typeof(Order))
+            {
+                IntPtr orderPtr = await Task.Run(() => Warehouse_Wrapper.getOrderInfo(id, error));
+                Order order = (Order)Marshal.PtrToStructure(orderPtr, typeof(Order));
+                Marshal.FreeCoTaskMem(orderPtr);
+                return (T)(object)(order);
             }
             if (typeof(T) == typeof(Product))
             {

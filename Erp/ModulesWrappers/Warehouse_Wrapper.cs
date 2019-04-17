@@ -35,5 +35,18 @@ namespace Erp.ModulesWrappers
          public static extern  IntPtr getProductInfo(string id, string key, StringBuilder result ,byte[] error);
 
 
+        [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+         public static extern  int showProducts(out IntPtr Product, byte[] error);
+
+        [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern  IntPtr getOrderInfo(string id, byte[] error);
+        [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern  int showCompletedOrders(out IntPtr order, byte[] error);
+        [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern  int showOrdersInProgress(out IntPtr order, byte[] error);
+        [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern  int showProductsInOrder(string id, out IntPtr productInOrder, byte[] error);
+
+
     }
 }

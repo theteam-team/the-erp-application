@@ -12,8 +12,6 @@ namespace Erp.Models
     {
         [Required]
         public string opportunity_id;
-        public string customer_id;
-        public string employee_id;
         public uint status;
         public double expected_revenue;
         public string notes;
@@ -23,5 +21,7 @@ namespace Erp.Models
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         public string end_data;
+        public string customer_id;
+        public string employee_id;
     }
 }

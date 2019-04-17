@@ -1,4 +1,4 @@
 #define ERP_API __declspec(dllexport)
-void checkQuery(int qstate,  char * error);
+bool checkQuery(int qstate,  char * error);
 
 
