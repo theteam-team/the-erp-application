@@ -1,31 +1,55 @@
 ﻿<div class="row">
     <div class="col-md-12">
-        <nav class="navbar navbar-expand-md navbar-light bg-white">
+        <nav class="navbar navbar-expand-md navbar-light bg-white justify-content-between">
             <a class="navbar-brand" routerLink="accounting">{{ title }}</a>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/">Home</a>
+                        <a class="nav-link" href="/">Our Customers</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" routerLink="">Module List</a>
+                        <a class="nav-link" routerLink="">Account details</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Modules
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Invoices
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">CRM</a>
-                            <a class="dropdown-item" href="#">Warehousing</a>
+                            <a class="dropdown-item" href="#">last two deals</a>
+                            <a class="dropdown-item" href="#">last two deals</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Add Modules</a>
+                            <a class="dropdown-item" href="#">Create Invoice</a>
                         </div>
                     </li>
                 </ul>
-            </div>
+        </div>
+                   
+            <ul class="nav nav-tabs">
+                <!--class="navbar-nav mr-auto"-->
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" routerLink="">Module List</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Modules
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">CRM</a>
+                        <a class="dropdown-item" href="#">Warehousing</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Add Modules</a>
+                    </div>
+                </li>
+            </ul>
         </nav>
     </div>
     <div class="col-md-9">
-    HI
+        <h2>Welcome to Accounting Page</h2>
     </div>
 </div>
