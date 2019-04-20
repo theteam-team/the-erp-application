@@ -8,9 +8,10 @@ import { Module } from './module';
 @Injectable()
 export class DataService {
     constructor(private http: HttpClient) { }
+    private token: string = "";
+    private tokenExpiration: Date;
 
     public modules: Module[] = [];
-
     loadModules(): Observable<boolean> {
         return this.http.get("http://localhost:8888/api/Module/GetModules/kemo")
             .pipe(    
@@ -18,5 +19,9 @@ export class DataService {
                     this.modules = data;
                     return true;
                 }));
+    }
+
+    public get loginRequired(): boolean {
+        return this.token.length == 0 || this.tokenExpiration > new Date();
     }
 }

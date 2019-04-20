@@ -42,8 +42,8 @@ namespace Erp.Controllers
         }
         public IActionResult Modules()
         {
-            ViewBag.CurrentPath = HttpContext.Request.Path;
-            ViewBag.CurrentView = "Modules";
+           // ViewBag.CurrentPath = HttpContext.Request.Path;
+           // ViewBag.CurrentView = "Modules";
             return View();
         }
     }

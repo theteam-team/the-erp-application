@@ -1,0 +1,11 @@
+﻿.module-info img {
+    max-width: 100px;
+    max-height: 100px;
+    float: left;
+    margin: 0 2px;
+}
+
+.module-info .module-name {
+    font-size: large;
+    font-weight: bold;
+}
