@@ -27,32 +27,10 @@
             This Controller Handles App Requests And will Contains the System Modules Actions
             </summary>
         </member>
-        <member name="T:Erp.Controllers.CRM_APIController">
+        <member name="T:Erp.Controllers.CrmApiController">
             <summary>
             Web Api To Contact The CRM modules Web Services
             </summary>
-        </member>
-        <member name="M:Erp.Controllers.CRM_APIController.#ctor(Erp.Data.DataDbContext)">
-            <summary>
-            a constructror gets its services parameters resolved by the runtime from the service container
-            </summary>
-            <param name="dataDbContext"></param>
-        </member>
-        <member name="M:Erp.Controllers.CRM_APIController.AddNumbers(Erp.Data.Numbers)">
-            <summary>
-            rest web service that responds to a post http request with a body containing an object of the Class numbers
-            This web service Contact with a specific C++ Function in the CRM dll through a wrapper to serve the request
-            </summary>
-            <param name="numbers">The object passed To the web service </param>
-            <returns>the summation of the fields of the passed object </returns>
-        </member>
-        <member name="M:Erp.Controllers.CRM_APIController.MultiplyNumbers(Erp.Data.Numbers)">
-            <summary>
-            rest web service that responds to a post http request with a body containing an object of the Class numbers
-            This web service Contact with a specific C++ Function in the CRM dll through a wrapper to serve the request
-            </summary>
-            <param name="numbers">The object passed To the web service </param>
-            <returns>the multiplication of the fields of the passed object </returns>
         </member>
         <member name="T:Erp.Controllers.ModuleController">
             <summary>
@@ -93,7 +71,7 @@
             This class represents the management System which is used To Assign users roles, get users roles ... etc
             </summary>
         </member>
-        <member name="M:Erp.Management.#ctor(Erp.Data.AccountsDbContext,Erp.Data.DataDbContext,Microsoft.AspNetCore.Identity.UserManager{Erp.Data.ApplicationUser},Microsoft.AspNetCore.Identity.RoleManager{Erp.Data.ApplicationRole})">
+        <member name="M:Erp.Management.#ctor(Erp.Data.AccountDbContext,Erp.Data.DataDbContext,Microsoft.AspNetCore.Identity.UserManager{Erp.Data.ApplicationUser},Microsoft.AspNetCore.Identity.RoleManager{Erp.Data.ApplicationRole})">
             this constructor parameters will be assigned using the dependancy injection
         </member>
         <member name="M:Erp.Management.AddRoleToUserAsync(System.String,Erp.Data.ApplicationUser)">
@@ -140,6 +118,15 @@
             the Wrapper for the Crm c++ Code
             </summary>
         </member>
+        <member name="M:Erp.ModulesWrappers.Crm_Wrapper.AddCustomer(Erp.Models.Customer,System.Byte[])">
+            Customer 
+        </member>
+        <member name="M:Erp.ModulesWrappers.Crm_Wrapper.AddOpportunity(Erp.Models.Opportunity,System.Byte[])">
+            Opportunity
+        </member>
+        <member name="M:Erp.ModulesWrappers.Crm_Wrapper.AddEmployee(Erp.Models.Employee,System.Byte[])">
+            Employee
+        </member>
         <member name="P:Erp.Startup.Configuration">
             <summary>
             used to access the configuration of the web host
@@ -152,7 +139,7 @@
             </summary>
             <param name="services">The Services container </param>
         </member>
-        <member name="M:Erp.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment,Erp.Data.AccountsDbContext)">
+        <member name="M:Erp.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment,Erp.Data.AccountDbContext)">
             This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         </member>
     </members>

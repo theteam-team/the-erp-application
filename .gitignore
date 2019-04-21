@@ -4,6 +4,7 @@ Erp/node_modules/*
 Erp/wwwroot/clientapp*
 *[Dd]ebug.*
 bin/*
+*/bin/*
 */.vs/*
 .vs/*
 *.suo

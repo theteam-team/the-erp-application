@@ -8,12 +8,14 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>$(SolutionDir)\Erp\Erp.xml</DocumentationFile>
     <OutputPath>$(SolutionDir)\bin\$(Configuration)\</OutputPath>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+  	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>$(SolutionDir)\bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
@@ -52,5 +54,24 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="mysql_dll\libeay32.dll">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="mysql_dll\libmysql.dll">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="mysql_dll\mysqlcppconn8-1-vs14.dll">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="mysql_dll\ssleay32.dll">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="copy $(SolutionDir)\Erp\mysql_dll\libmysql.dll $(SolutionDir)\bin\Debug\netcoreapp2.2\libmysql.dll&#xD;&#xA;copy $(SolutionDir)\Erp\mysql_dll\libeay32.dll $(SolutionDir)\bin\Debug\netcoreapp2.2\libeay32.dll&#xD;&#xA;copy $(SolutionDir)\Erp\mysql_dll\ssleay32.dll $(SolutionDir)\bin\Debug\netcoreapp2.2\ssleay32.dll&#xD;&#xA;copy $(SolutionDir)\Erp\mysql_dll\mysqlcppconn8-1-vs14.dll $(SolutionDir)\bin\Debug\netcoreapp2.2\mysqlcppconn8-1-vs14.dll" />
+  </Target>
 
 </Project>

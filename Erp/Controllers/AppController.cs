@@ -13,9 +13,9 @@ namespace Erp.Controllers
     /// </summary>
     public class AppController : Controller
     {
-        private AccountsDbContext mcontext;
+        private AccountDbContext mcontext;
 
-        public AppController(AccountsDbContext context)
+        public AppController(AccountDbContext context)
         {
             mcontext = context;
         }
