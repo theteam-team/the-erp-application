@@ -15,7 +15,7 @@ namespace Erp
         private UserManager<ApplicationUser> mUserManager; //Object Used For Manageing Users In Stored In a datastore "ex : Database"
         
         /// this constructor parameters will be assigned using the dependancy injection
-        public Management(AccountsDbContext context, DataDbContext dataDbContext,
+        public Management(AccountDbContext context, DataDbContext dataDbContext,
             UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
             mroleManager = roleManager;

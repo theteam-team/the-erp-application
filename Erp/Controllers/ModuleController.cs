@@ -15,10 +15,10 @@ namespace Erp.Controllers
     [Route("api/[controller]")]
     public class ModuleController : ControllerBase
     {
-        private AccountsDbContext _accountDbcontext;
+        private AccountDbContext _accountDbcontext;
         private DataDbContext _dataDbContext;
 
-        public ModuleController(DataDbContext dataDbContext, AccountsDbContext accountsDbContext)
+        public ModuleController(DataDbContext dataDbContext, AccountDbContext accountsDbContext)
         {
             _accountDbcontext = accountsDbContext;
             _dataDbContext = dataDbContext;

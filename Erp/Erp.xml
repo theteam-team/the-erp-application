@@ -71,7 +71,7 @@
             This class represents the management System which is used To Assign users roles, get users roles ... etc
             </summary>
         </member>
-        <member name="M:Erp.Management.#ctor(Erp.Data.AccountsDbContext,Erp.Data.DataDbContext,Microsoft.AspNetCore.Identity.UserManager{Erp.Data.ApplicationUser},Microsoft.AspNetCore.Identity.RoleManager{Erp.Data.ApplicationRole})">
+        <member name="M:Erp.Management.#ctor(Erp.Data.AccountDbContext,Erp.Data.DataDbContext,Microsoft.AspNetCore.Identity.UserManager{Erp.Data.ApplicationUser},Microsoft.AspNetCore.Identity.RoleManager{Erp.Data.ApplicationRole})">
             this constructor parameters will be assigned using the dependancy injection
         </member>
         <member name="M:Erp.Management.AddRoleToUserAsync(System.String,Erp.Data.ApplicationUser)">
@@ -139,7 +139,7 @@
             </summary>
             <param name="services">The Services container </param>
         </member>
-        <member name="M:Erp.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment,Erp.Data.AccountsDbContext)">
+        <member name="M:Erp.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment,Erp.Data.AccountDbContext)">
             This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         </member>
     </members>

@@ -19,10 +19,10 @@ namespace Erp.Controllers
         private ILogger<ApplicationUser> muserLogger; // This object used to implement the logging with respect to Users Activity.
         private Management _management;  // This object used to integrate the management system with this Controller.
         private DataDbContext mdataDbContext;   // This object Used as entry to the database created to store the system data with respect to a specific user.
-        private AccountsDbContext mContext;   // this object used as an entry to the database creaded to store Accounts information.      
+        private AccountDbContext mContext;   // this object used as an entry to the database creaded to store Accounts information.      
         private UserManager<ApplicationUser> mUserManager;  //used to manage the user stored in the database according to an API.
         private SignInManager<ApplicationUser> mSignInManager; //used To sign in the user according to an Api.
-        public AccountController(AccountsDbContext context, DataDbContext dataDbContext,
+        public AccountController(AccountDbContext context, DataDbContext dataDbContext,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager, 
             ILogger<ApplicationUser> userlogger, Management management)

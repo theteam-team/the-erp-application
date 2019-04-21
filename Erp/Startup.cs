@@ -43,7 +43,7 @@ namespace Erp
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
             //add the database contexts to the services Containers to use them by the dependency injection
-            services.AddDbContext<AccountsDbContext>(options =>
+            services.AddDbContext<AccountDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<DataDbContext>();
             services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
@@ -54,7 +54,7 @@ namespace Erp
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireDigit = false;
             })
-                    .AddEntityFrameworkStores<AccountsDbContext>()
+                    .AddEntityFrameworkStores<AccountDbContext>()
                     .AddDefaultTokenProviders();
             //add the management as a scoped service ,a new object per each new request, to the service Container to use it by the dependency injection 
             services.AddScoped<Management>();
@@ -100,7 +100,7 @@ namespace Erp
         }
 
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, AccountsDbContext mcontext)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, AccountDbContext mcontext)
         {
             
             mcontext.Database.EnsureCreated(); //ensure that the database used to store user accounts is created at the begining
