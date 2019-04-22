@@ -1,6 +1,5 @@
 // MySqlTest.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-
 #include "pch.h"
 #include <string>
 #include <string.h>
@@ -9,7 +8,6 @@
 #include <sstream> 
 using namespace std;
 using namespace std;
-
 MYSQL* conn;
 MYSQL_ROW row;
 MYSQL_RES *res;
@@ -18,7 +16,6 @@ string query;
 string input;
 string accId;
 string accMoney;
-
 void showDatabase() {
 	query = "SHOW DATABASES";
 	const char* q = query.c_str();
@@ -95,8 +92,17 @@ void finish_with_error(MYSQL *conn)
 	mysql_close(conn);
 	exit(1);
 }
+void queryParameters() {
+	cout << "write fieldName" << endl;
+	string field;
+	getline(cin, field);
+	string search_string;
+	cout << "Value is ?" << endl;
+	getline(cin, search_string);
+}
 void insertion() {
-	printf("let's insert\n");
+	cout << "let's insert" << endl;
+	//printf("let's insert\n");
 	string z = chooseTable();
 	showFieldName();
 	int s = numberOfColumns(z);
@@ -106,7 +112,7 @@ void insertion() {
 	query = "INSERT INTO ";
 	query += z;
 	query += " VALUES('";
-	cout << "Enter a/an "+z+" fields in the same order: ";
+	cout << "Enter a/an " + z + " fields in the same order: ";
 	for (int i = 0; i < s; i++) {
 		string field;
 		getline(cin, field);
@@ -131,20 +137,20 @@ void insertion() {
 	}
 }
 void search() {
-	printf("let's search\n");
+	cout << "let's search" << endl;
 	//cout << "choose table (CUSTOMER_T, ACCOUNT_T, PRODUCTS_T, PAYMENT_T,INVOICE_T)" << endl;
 	string z = chooseTable();
 	showFieldName();
 	int m = numberOfColumns(z);
 	//cout << z << endl;
-	cout << "search by ? .. " << endl << "write fieldName" << endl;
-	string i;
-	getline(cin, i);
+	cout << "write fieldName" << endl;
+	string field;
+	getline(cin, field);
 	string search_string;
-	cout << "search about" << endl;
+	cout << "Value is ?" << endl;
 	getline(cin, search_string);
 	showFieldName();
-	query = "SELECT * FROM "+z+" WHERE "+i+" = '"+ search_string +"'";
+	query = "SELECT * FROM " + z + " WHERE " + field + " = '" + search_string + "'";
 	const char* q = query.c_str();
 	qstate = mysql_query(conn, q);
 	if (!qstate) {
@@ -159,7 +165,7 @@ void search() {
 					cout << "\t" << row[j] << "\t";
 				else
 					cout << "NULL" << endl;
-				
+
 				// Also, you can use ternary operator here instead of if-else
 				// cout << row[i] ? row[i] : "NULL" << endl;
 			}
@@ -171,13 +177,51 @@ void search() {
 }
 void update() {
 	printf("let's update\n");
-	search();
+	string z = chooseTable();
+	showFieldName();
+	cout << "update fieldName ";
+	string field;
+	getline(cin, field);
+	string update_string;
+	cout << " new Value is ";
+	getline(cin, update_string);
+	//
+	cout << "which has another fieldName called ";
+	string by_field;
+	getline(cin, by_field);
+	string update_by;
+	cout << "that has a value of ";
+	getline(cin, update_by);
+	//
+	query = "UPDATE " + z + " SET " + field + " = '" + update_string + "' WHERE " + by_field + " = '" + update_by + "'";
+	const char* q = query.c_str();
+	qstate = mysql_query(conn, q);
+	if (!qstate) {
+		res = mysql_store_result(conn);
+	}
+	else
+		cout << "Query failed: " << mysql_error(conn) << endl;
 }
 void deletion() {
-	printf("let's delete\n");
-}
-void createTable() {
-
+	cout << "let's delete" << endl;
+	string table = chooseTable();
+	showFieldName();
+	cout << "write fieldName" << endl;
+	string field;
+	getline(cin, field);
+	string search_string;
+	cout << "Value is ?" << endl;
+	getline(cin, search_string);
+	//showFieldName();
+	query = "DELETE FROM " + table + " WHERE " + field + " = '" + search_string + "'";
+	cout << query << endl;
+	const char* q = query.c_str();
+	qstate = mysql_query(conn, q);
+	if (!qstate) {
+		res = mysql_store_result(conn);
+	}
+	else
+		cout << "Query failed: " << mysql_error(conn) << endl;
 }
 void init() {
 	conn = mysql_init(0);
@@ -212,16 +256,18 @@ void init() {
 			else
 				printf("wrong input, please choose one operation from four mentioned\n");
 		}
-		printf("\nThanks for your work\n");
-		
+		printf("\nThanks for your work\n\n");
+
 	}
 
-	else 
+	else
 		puts("Connection to database has failed!");
 }
 int main()
 {
-	init();	
+	while (true) {
+		init();
+	}
 
 	//string s = "Ali";
 	//cout << s << endl;
@@ -239,14 +285,14 @@ int main()
 				printf("ID: %d, Money: %d\n", row[0], row[1]);
 			}
 		}
-		
+
 		else
 		{
 			cout << "Query failed: " << mysql_error(conn) << endl;
 		}
 		*/
 		/* // last inserted id (for auto incremented id)
- 		int id = mysql_insert_id(conn);
+		int id = mysql_insert_id(conn);
 		printf("The last inserted row id is: %d\n", id);
 		*/
 	return 0;
