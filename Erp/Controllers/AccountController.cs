@@ -4,9 +4,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Erp.Controllers
@@ -16,59 +22,61 @@ namespace Erp.Controllers
     public class AccountController : Controller
     {
         private int x = 10;
-        private ILogger<ApplicationUser> muserLogger; // This object used to implement the logging with respect to Users Activity.
+        private IConfiguration _config;
         private Management _management;  // This object used to integrate the management system with this Controller.
+        private ILogger<ApplicationUser> muserLogger;
         private DataDbContext mdataDbContext;   // This object Used as entry to the database created to store the system data with respect to a specific user.
         private AccountDbContext mContext;   // this object used as an entry to the database creaded to store Accounts information.      
-        private UserManager<ApplicationUser> mUserManager;  //used to manage the user stored in the database according to an API.
-        private SignInManager<ApplicationUser> mSignInManager; //used To sign in the user according to an Api.
+        private UserManager<ApplicationUser> _userManager;  //used to manage the user stored in the database according to an API.
+        private SignInManager<ApplicationUser> _signInManager; //used To sign in the user according to an Api.
         public AccountController(AccountDbContext context, DataDbContext dataDbContext,
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager, 
-            ILogger<ApplicationUser> userlogger, Management management)
+            SignInManager<ApplicationUser> signInManager,
+            ILogger<ApplicationUser> userlogger, Management management, IConfiguration config)
         {
+            _config = config;
             _management = management;
             muserLogger = userlogger;
             mdataDbContext = dataDbContext;
             mContext = context;
-            mUserManager = userManager;
-            mSignInManager = signInManager;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
-        
+
         [HttpGet]
         public IActionResult Login()
         {
             x++;
-            if (User.Identity.IsAuthenticated)  
+            if (User.Identity.IsAuthenticated)
             {
 
                 if (HttpContext.Session.GetString("LastPageView") != null)
                     return Redirect(HttpContext.Session.GetString("LastPageView"));
-                return RedirectToAction("System", "App"); 
+                return RedirectToAction("System", "App");
             }
             ViewBag.CurrentView = "login";
             //HttpContext.Session.SetString("LastPageView", HttpContext.Request.Path);
             return View();
-        } 
+        }
 
         [HttpPost]
         public async Task<IActionResult> Login(IndexViewModel mod)
         {
 
-            LoginModel signInModel = mod.LoginModel; 
+            LoginModel signInModel = mod.LoginModel;
 
-            var user = await mUserManager.FindByNameAsync(signInModel.UserName);
+            var user = await _userManager.FindByNameAsync(signInModel.UserName);
 
             if (user != null && signInModel.DatabaseName == user.DatabaseName)
             {
                 if (CommonNeeds.checkdtb(mdataDbContext, signInModel.DatabaseName))
                 {
-                    var result = await mSignInManager.PasswordSignInAsync(signInModel.UserName, signInModel.Password,
+                    var result = await _signInManager.PasswordSignInAsync(signInModel.UserName, signInModel.Password,
                             true, false);
                     if (result.Succeeded)
                     {
 
-                        var roles = await mUserManager.GetRolesAsync(user);
+                        var roles = await _userManager.GetRolesAsync(user);
 
                         muserLogger.LogInformation("A user with a specifc roles : ");
                         foreach (var el in roles)
@@ -84,9 +92,9 @@ namespace Erp.Controllers
                 else
                     ModelState.AddModelError("", "database does not exist please contact system admin");
             }
-            else           
-                 ModelState.AddModelError("", "Wrong Entry");
-            
+            else
+                ModelState.AddModelError("", "Wrong Entry");
+
 
             return View();
 
@@ -95,7 +103,7 @@ namespace Erp.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            //HttpContext.Session.SetString("LastPageView", HttpContext.Request.Path);
+            
             ViewBag.CurrentView = "register";
             return View();
         }
@@ -118,7 +126,7 @@ namespace Erp.Controllers
                     UserName = registerModel.UserName
 
                 };
-                var result = await mUserManager.CreateAsync(user, registerModel.Password);
+                var result = await _userManager.CreateAsync(user, registerModel.Password);
 
 
                 if (result.Succeeded)
@@ -134,7 +142,7 @@ namespace Erp.Controllers
                     {
                         mdataDbContext.Database.EnsureCreated();
                     }
-                    var res = await mSignInManager.PasswordSignInAsync(user.UserName, registerModel.Password,
+                    var res = await _signInManager.PasswordSignInAsync(user.UserName, registerModel.Password,
                         true, false);
                     if (res.Succeeded)
                     {
@@ -162,10 +170,10 @@ namespace Erp.Controllers
         public async Task<IActionResult> CreateUser(IndexViewModel mod)
         {
 
-            
+
             Register registerModel = mod.Register;
 
-            var user = await mUserManager.GetUserAsync(User);
+            var user = await _userManager.GetUserAsync(User);
 
             var client = (new ApplicationUser
             {
@@ -176,7 +184,7 @@ namespace Erp.Controllers
                 UserName = registerModel.UserName
 
             });
-            var result = await mUserManager.CreateAsync(client, registerModel.Password);
+            var result = await _userManager.CreateAsync(client, registerModel.Password);
             if (result.Succeeded)
             {
 
@@ -198,23 +206,23 @@ namespace Erp.Controllers
             {
                 ModelState.AddModelError("", el.Code);
             }
-            
+
             ModelState.AddModelError("", "You don't Have the Authority To Do that , please Contact The System Adminstrator");
 
             Console.WriteLine("\n" + HttpContext.Session.GetString("LastPageView"));
-            if(HttpContext.Session.GetString("LastPageView") != null)
+            if (HttpContext.Session.GetString("LastPageView") != null)
                 return Redirect(HttpContext.Session.GetString("LastPageView"));
 
             return RedirectToAction("App", "System");
-            
+
         }
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            await mSignInManager.SignOutAsync();
+            await _signInManager.SignOutAsync();
             muserLogger.LogInformation("A user With specific Roles : ");
-            var user = await mUserManager.GetUserAsync(User);
-            var roles = await mUserManager.GetRolesAsync(user);
+            var user = await _userManager.GetUserAsync(User);
+            var roles = await _userManager.GetRolesAsync(user);
             foreach (var el in roles)
             {
                 Console.Write(" " + el);
@@ -223,12 +231,56 @@ namespace Erp.Controllers
             return RedirectToAction("Login", "Account");
         }
 
-        public IActionResult z3eem()
+        [HttpPost("CreateToken")]
+        public async Task<IActionResult> CreateToken([FromBody] LoginModel model)
         {
-            ViewBag.CurrentPath = HttpContext.Request.Path;
-            ViewBag.CurrentView = "z3eem";
-            return View();
-        }
+            Console.WriteLine("here");
 
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByNameAsync(model.UserName);
+
+                if (user != null)
+                {
+                    var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
+
+                    if (result.Succeeded)
+                    {
+                        // Create the token
+                        var claims = new List<Claim>()
+                        {
+                          new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                          new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                          new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
+                        };
+
+                        foreach (var role in await _management.GetUserRoleAsync(user))
+                        {
+                            claims.Add(new Claim(ClaimTypes.Role, role));
+                        }
+
+                        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
+                        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+                        var token = new JwtSecurityToken(
+                          _config["Tokens:Issuer"],
+                          _config["Tokens:Audience"],
+                          claims,
+                          expires: DateTime.Now.AddMinutes(30),
+                          signingCredentials: creds);
+
+                        var results = new
+                        {
+                            token = new JwtSecurityTokenHandler().WriteToken(token),
+                            expiration = token.ValidTo
+                        };
+
+                        return Created("", results);
+                    }
+                }
+            }
+           return BadRequest();
+
+        }
     }
 }

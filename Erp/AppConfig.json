@@ -9,5 +9,10 @@
     "LogLevel": {
       "Microsoft": "Warning"
     }
+  },
+  "Tokens": {
+    "Key": "a;lkjasdf;lkajsd;flkjas ;dflkja sd",
+    "Issuer": "http://localhost:8888",
+    "Audience": "users"
   }
 }

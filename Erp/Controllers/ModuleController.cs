@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Erp.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,6 +27,8 @@ namespace Erp.Controllers
             _dataDbContext = dataDbContext;
         }
         [HttpGet("GetModules/{database}")]
+        //[Authorize(Roles = "Adminstrator")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<List<Modules>> GetModules(string database)
         {
             if (!CommonNeeds.checkdtb(_dataDbContext, database))

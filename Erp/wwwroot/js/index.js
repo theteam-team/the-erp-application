@@ -1,7 +1,6 @@
 ﻿$(document).ready(function () {
     var x = 0;
     var s = "";
-
     console.log("Hello Pluralsight");
     var button = $("#buyButton");
     button.on("click", function () {
@@ -12,7 +11,7 @@
     productInfo.on("click", function () {
         console.log("clicked one of the items: " + $(this).text());
     });
-
+    
     var $loginToggle = $("#loginToggle");
     var $SignInForm = $("#signIn-form");
     var $signInToggle = $("#registerToggle");
