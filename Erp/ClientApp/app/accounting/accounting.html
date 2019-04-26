@@ -1,55 +1,203 @@
-﻿<div class="row">
-    <div class="col-md-12">
-        <nav class="navbar navbar-expand-md navbar-light bg-white justify-content-between">
-            <a class="navbar-brand" routerLink="accounting">{{ title }}</a>
-            <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/">Our Customers</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" routerLink="">Account details</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Invoices
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">last two deals</a>
-                            <a class="dropdown-item" href="#">last two deals</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Create Invoice</a>
+﻿<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <nav class="navbar navbar-expand-md navbar-light bg-light">
+                <!--justify-content-between-->
+                <a class="navbar-brand" routerLink="accounting">{{ title }}</a>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a style="color:#2A57BF;" class="nav-item nav-link active" data-toggle="tab" href="#nav-Summary">Summary</a>
+                    <a style="color:#2A57BF;" class="nav-item nav-link " data-toggle="tab" href="#nav-Activity">Activity</a>
+                    <a style="color:#2A57BF;" class="nav-item nav-link" data-toggle="tab" href="#nav-Send-Request">Send & Request</a>
+                    <a style="color:#2A57BF;" class="nav-item nav-link" data-toggle="tab" href="#nav-Wallet">Wallet</a>
+                    <a style="color:#2A57BF;" class="nav-item nav-link" data-toggle="tab" href="#nav-Offers">Offers</a>
+                    <a style="color:#2A57BF;" class="nav-item nav-link" data-toggle="tab" href="#nav-Help">Help</a>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-Summary" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <div class="row container-fluid">
+                        <div class="col-md-4 bg-light m-2 p-2 card card-body">
+                            <div class="row">
+                                <h6 class="text-left col m-2 p-2"><strong>Your Balance</strong></h6>
+                                <a class="text-right col m-2 p-2" href="#" style="color:DodgerBlue;">Details</a>
+                            </div>
+                            <p class="m-2 p-2" style="color:#566573;">You don't need a balance to shop or send payments</p>
+                            <h6 class="text-left col m-2 p-2"><strong>Currencies</strong></h6>
+                            <h6 class="text-center">{{money}} 0.00 EUR</h6>
                         </div>
-                    </li>
-                </ul>
-        </div>
-                   
-            <ul class="nav nav-tabs">
-                <!--class="navbar-nav mr-auto"-->
-                <li class="nav-item active">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" routerLink="">Module List</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Modules
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">CRM</a>
-                        <a class="dropdown-item" href="#">Warehousing</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Add Modules</a>
+                        <div class="col-md-7 bg-light m-2 p-2 card card-body">
+                            <div class="row">
+                                <a class="text-left col m-2 p-2" href="#" style="color:DodgerBlue;">Recent Activity</a>
+                            </div>
+                            <p class="m-2 p-2" style="color:#17202A;">
+                                Keep track of your most recent stuff here when you shop, send, or receive payments.
+                                Don’t see a past payment? Search by date in your <a href="#"></a><br />
+                            </p>
+                        </div>
                     </div>
-                </li>
-            </ul>
-        </nav>
+                    <div class="row container-fluid">
+                        <div class="col-md-4 bg-light m-2 p-2 card card-body">
+                            <div class="row">
+                                <h6 class="text-left col m-2 p-2"><strong>Bank accounts and cards</strong></h6>
+                            </div>
+                            <p class="m-2 p-2" style="color:#566573;">Add your card - we help keep your information more secure.</p>
+                            <button type="button" class="btn btn-outline-info m-2 p-2"> Add a bank account</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-Activity" role="tabpanel" aria-labelledby="nav-profile-tab">
+                    <div class="row container-fluid">
+                        <div class="col-md-3 bg-light p-2 mt-2 ml-2">
+                            <form>
+                                <div class="col">
+                                    <label class="fa fa-calendar"><strong> Start Date</strong></label>
+                                    <input type="date" class="form-control" />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-3 bg-light p-2 mt-2">
+                            <form>
+                                <div class="col">
+                                    <label class="fa fa-calendar"><strong> End Date</strong></label>
+                                    <input type="date" class="form-control" />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-5 bg-light p-2 mt-2">
+                            <form>
+                                <div class="col">
+                                    <h6> &nbsp; </h6>
+                                    <input type="search" class="form-control" placeholder="Search Activities"/>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-11 bg-light p-2 ml-2">
+                            <form>
+                                <div class="col">
+                                    <button class="form-control btn btn-outline-primary">search</button>
+                                </div>
+                            </form>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="tab-pane fade bg-dark" id="nav-Send-Request" role="tabpanel" aria-labelledby="nav-contact-tab">
+                    <div class="container-fluid bg-light">
+                        <nav class="col-md-12 bg-light">
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                <a style="color:#1A57BF;" class="nav-item nav-link active" data-toggle="tab" href="#nav-Send">Send</a>
+                                <a style="color:#1A57BF;" class="nav-item nav-link " data-toggle="tab" href="#nav-Request">Request</a>
+                                <a style="color:#1A57BF;" class="nav-item nav-link" data-toggle="tab" href="#nav-Contacts">Contacts</a>
+                                <a style="color:#1A57BF;" class="nav-item nav-link" data-toggle="tab" href="#nav-More">More</a>
+                            </div>
+                        </nav>
+                    </div>
+                    <div class="tab-content m-2 bg-light card card-body" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-Send" role="tabpanel" aria-labelledby="nav-contact-tab">
+                            <div class="col">
+                                <h1>Hiiiibye</h1>
+                                <h1>Hiiiibye</h1>
+                                <h1>Hiiiibye</h1>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="nav-Request" role="tabpanel" aria-labelledby="nav-contact-tab">
+                            Hi Request
+                        </div>
+                        <div class="tab-pane fade" id="nav-Contacts" role="tabpanel" aria-labelledby="nav-contact-tab">
+                            Hi Contacts
+                        </div>
+                        <div class="tab-pane fade" id="nav-More" role="tabpanel" aria-labelledby="nav-contact-tab">
+                            HI More
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-Wallet" role="tabpanel" aria-labelledby="nav-contact-tab">
+                    <div class="row container-fluid">
+                        <div class="col-md-4 m-2 p-2 card card-body" style="height:100px;">
+                            <a href="#"><strong>Link a bank account &gt;</strong></a>
+                            <h6 class="mt-2" style="color:#566573;">Transfer funds from PayPal right to your bank</h6>
+                        </div>
+                        <div class="text-center col-md-7 m-2 p-2 card card-body">
+                            <h4><strong> PayPal Balance </strong></h4>
+                            <h4> 0.00 EUR‬</h4>
+                            <h6 style="color:#566573;">Estimated total of all currencies</h6>
+                            <div class="col text-center m-2">
+                                <button class="btn btn-outline-primary">Transfer Funds</button>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-3 offset-md-3">
+                                    <i class="fa fa-usd"></i> USD
+                                </div>
+                                <div class="col-md-3">
+                                    {{money}}0.0000 USD
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <a class="col-md-5 offset-md-4"href="#"><strong>Add a currency +</strong></a>
+                            </div>
+                            <hr />
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-Offers" role="tabpanel" aria-labelledby="nav-contact-tab">
+                    <div class="container-fluid bg-light">
+                        <div class="col-md-12 m-2">
+                            <h1 class="text-center">لا لسه مفيش حاجة </h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-Help" role="tabpanel" aria-labelledby="nav-contact-tab">
+                    <div class="container-fluid bg-light">
+                        <div class="col-md-12 m-2">
+                            <h1 class="text-center">ما قولت لك مفيش حااجة</h1>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-9">
-        <h2>Welcome to Accounting Page</h2>
+    <!--
+    <div class="col-md-9 m-2" id='pageOne'>
+        <h2 class="text-center">Welcome, {{username}} Let’s create an account for you</h2>
+        <div class="col-md-7 offset-md-2 card card-body bg-light">
+            <form>
+                <div class="form-group input-append date">
+                    <input type="text" class="form-control" placeholder=" Date of birth DD/MM/YYYY">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Address Line">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="City">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="State">
+                </div>
+                <div class="form-group">
+                    <input type="tel" class="form-control" placeholder="Postal code">
+                </div>
+                <div class="form-group">
+                    <input type="tel" class="form-control" placeholder="Mobile number">
+                </div>
+                <button type="submit" class="btn btn-primary">Create account</button>
+            </form>
+        </div>
     </div>
+    <div class="col-md-9 m-2">
+        <div class="col-md-7 offset-md-2 card card-body bg-light">
+            <h2 class="text-center">Confirmation code</h2>
+            <br />
+            <h4 class="text-center">We sent a code to your phone</h4>
+            <form>
+                <div class="form-group">
+                    <input type="tel" class="form-control" placeholder="Enter your code">
+                </div>
+                <button type="submit" class="btn btn-primary">Confirm</button>
+            </form>
+        </div>
+    </div>
+    -->
+
 </div>
