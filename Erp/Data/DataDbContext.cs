@@ -22,7 +22,7 @@ namespace Erp.Data
         /// this  proberty used to set the connection string to the database
         public string ConnectionString { get; set; }
 
-        /// ovrriding this method from the base class and pass to it an optionBuilder Containing the New Configuration to the database
+        /// ovrriding this method from the base class and pass to it an optionBuilder Containing the New _config to the database
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(ConnectionString);

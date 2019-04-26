@@ -49,7 +49,7 @@
             this  proberty used to set the connection string to the database
         </member>
         <member name="M:Erp.Data.DataDbContext.OnConfiguring(Microsoft.EntityFrameworkCore.DbContextOptionsBuilder)">
-            ovrriding this method from the base class and pass to it an optionBuilder Containing the New Configuration to the database
+            ovrriding this method from the base class and pass to it an optionBuilder Containing the New _config to the database
         </member>
         <member name="T:Erp.Data.ApplicationRole">
             <summary>
@@ -127,7 +127,7 @@
         <member name="M:Erp.ModulesWrappers.Crm_Wrapper.AddEmployee(Erp.Models.Employee,System.Byte[])">
             Employee
         </member>
-        <member name="P:Erp.Startup.Configuration">
+        <member name="P:Erp.Startup._config">
             <summary>
             used to access the configuration of the web host
             </summary>

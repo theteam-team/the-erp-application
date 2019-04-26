@@ -112,16 +112,11 @@ extern "C"	ERP_API int AddOpportunity(Opportunity* opportunities,  char* error)
 			"" +opportunities->start_date +  "','" + opportunities->end_data +  "','" + opportunities->customer_id + "',"  + x + "";
 		query += ");";
 		cout << query << endl;
-		const char* q = query.c_str();
-		//cout << "here\n";
-		qstate = mysql_query(conn, q);
-		//cout << "here\n";
-		checkQuery(qstate,  error);
-		//cout << "here\n";
-		mysql_close(conn);
-		//cout << "here\n";
+		const char* q = query.c_str();		
+		qstate = mysql_query(conn, q);		
+		checkQuery(qstate,  error);		
+		mysql_close(conn);		
 	}
-		//cout << "here\n";
 	return status;
 }
 

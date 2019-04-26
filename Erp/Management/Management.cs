@@ -30,7 +30,7 @@ namespace Erp
         /// <param name="roleName">The name of the Role</param>
         /// <param name="user">The specifc User To which the role is assigned </param>
         /// <returns>Task</returns>
-
+        
         public async Task AddRoleToUserAsync(string roleName, ApplicationUser user)
         {
             await CreateRoleAsync(roleName);
