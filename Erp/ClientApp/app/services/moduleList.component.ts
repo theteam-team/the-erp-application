@@ -3,6 +3,7 @@ import { DataService } from '../shared/dataService';
 import { Module } from "../shared/module";
 import { Route } from '@angular/compiler/src/core';
 import { Router } from '@angular/router';
+
 @Component({
     selector: 'module-list',
     templateUrl: 'moduleList.component.html',

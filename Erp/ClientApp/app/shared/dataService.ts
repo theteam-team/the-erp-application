@@ -24,4 +24,40 @@ export class DataService {
     public get loginRequired(): boolean {
         return this.token.length == 0 || this.tokenExpiration > new Date();
     }
+
+    /*public products = [{
+        id: "1",
+        name: "first",
+        price: 10,
+        units: 4
+    }, {
+        id: "2",
+        name: "second",
+        price: 8,
+        units: 3
+    }, {
+        id: "3",
+        name: "third",
+        price: 20,
+        units: 6
+    }, {
+        id: "4",
+        name: "fourth",
+        price: 3,
+        units: 15
+    }, {
+        id: "5",
+        name: "fifth",
+        price: 5,
+        units: 3
+    }];*/
+    public products = [];
+    loadProducts(): Observable<boolean> {
+        return this.http.get("/api/WarehouseApi/ShowProducts")
+            .pipe(
+                map((data: any[]) => {
+                    this.products = data;
+                    return true;
+                }));
+    }
 }

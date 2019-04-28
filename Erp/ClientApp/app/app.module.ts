@@ -8,14 +8,18 @@ import { AccountingModule } from './accounting/accounting';
 import { DataService } from './shared/dataService';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes, Router } from '@angular/router';
+import { WarehouseComponent } from './warehouse/warehouse.component';
+import { ProductsComponent } from './warehouse/products/products.component';
 
 
 let routes = [
     { path: "", component: ModuleList }, 
 
     { path: "accounting", component: AccountingModule },
-    { path: "login", component: Login }
+    { path: "login", component: Login },
 
+    { path: "warehouse", component: WarehouseComponent },
+    { path: "warehouse/products", component: ProductsComponent }
 ];
 @NgModule({
   declarations: [
@@ -23,7 +27,9 @@ let routes = [
       ModuleList,
       Accounting,
       AccountingModule,
-      Login
+      Login,
+      WarehouseComponent,
+      ProductsComponent
     ],
   imports: [
       BrowserModule,

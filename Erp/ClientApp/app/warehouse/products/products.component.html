@@ -1,0 +1,11 @@
+<app-warehouse></app-warehouse>
+
+<div class="row">
+    <div class="product-info col-md-4" *ngFor="let p of products">
+        <ul class="product-props">
+            <li>Name: {{ p.name }}</li>
+            <li>Price: {{ p.price }}</li>
+            <li>Units: {{ p.unitsInStock }}</li>
+        </ul>
+    </div>
+</div>
