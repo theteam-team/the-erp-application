@@ -12,16 +12,14 @@ An EPR System for Medium Businesses and Start-Ups
 * In *Modules\WareHouseManagement\warehouse.cpp*  and  *Modules\CRM\CRM.cpp*  change the password in the line `#define PASSWORD "123456789pp"` to your mysql server password
 
 ##Pre-Build
-* Make sure that Erp Project is in debug-(Any Cpu) mode 
-* Make sure that Erp Modules (CRM, WareHouse...) is in Release-(x64) mode 
+in *Solution Explorer*, in *Modules* folder, right click on any module => *Properties* => *Configuration manager* and make sure each module is set to **Release x64** and *Erp* is set to **Debug Any CPU**
 
 
 ## Build
 * `cd Erp`
 * `npm install`
-* `ng build`
-* Right-Click On each Module Project >> Build
-
+* `ng build` 
+* In *Solution Explorer* Right-Click on the Solution File **the-erp-app** Choose **Build Solution**    
 
 ## Run
 * Start your mysql server
