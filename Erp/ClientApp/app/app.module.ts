@@ -10,6 +10,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes, Router } from '@angular/router';
 import { WarehouseComponent } from './warehouse/warehouse.component';
 import { ProductsComponent } from './warehouse/products/products.component';
+import { OrdersComponent } from './warehouse/orders/orders.component';
+import { ConfigurationComponent } from './warehouse/configuration/configuration.component';
+import { ProductComponent } from './warehouse/product/product.component';
+import { OrderComponent } from './warehouse/order/order.component';
 
 
 let routes = [
@@ -19,7 +23,11 @@ let routes = [
     { path: "login", component: Login },
 
     { path: "warehouse", component: WarehouseComponent },
-    { path: "warehouse/products", component: ProductsComponent }
+    { path: "warehouse/products", component: ProductsComponent },
+    { path: "warehouse/orders", component: OrdersComponent },
+    { path: "warehouse/configuration", component: ConfigurationComponent },
+    { path: "warehouse/products/:productid", component: ProductComponent },
+    { path: "warehouse/orders/:orderid", component: OrderComponent }
 ];
 @NgModule({
   declarations: [
@@ -29,7 +37,11 @@ let routes = [
       AccountingModule,
       Login,
       WarehouseComponent,
-      ProductsComponent
+      ProductsComponent,
+      OrdersComponent,
+      ConfigurationComponent,
+      ProductComponent,
+      OrderComponent
     ],
   imports: [
       BrowserModule,

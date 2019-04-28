@@ -69,6 +69,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\app\Warehouse\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 

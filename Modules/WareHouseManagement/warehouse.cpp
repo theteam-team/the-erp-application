@@ -297,7 +297,7 @@ extern "C"	ERP_API int addProduct(Product * product, char * error)
 
 				 Product *_product = *product;
 				 while (row = mysql_fetch_row(res)) {
-					 cout << row[0];
+					 
 					 _product->id = row[0];
 					 _product->name = row[1];
 					 _product->description = row[2];
