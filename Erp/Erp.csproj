@@ -25,6 +25,41 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\app\Test\test.component.html" />
+    <None Remove="ClientApp\app\Test\test.component.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ClientApp\app\accountingSystem.html" />
+    <Content Include="ClientApp\app\accountingSystem.ts" />
+    <Content Include="ClientApp\app\accounting\accounting.css" />
+    <Content Include="ClientApp\app\accounting\accounting.html" />
+    <Content Include="ClientApp\app\accounting\accounting.ts" />
+    <Content Include="ClientApp\app\app.component.html" />
+    <Content Include="ClientApp\app\login\login.component.html" />
+    <Content Include="ClientApp\app\login\login.component.ts" />
+    <Content Include="ClientApp\app\services\moduleList.component.css" />
+    <Content Include="ClientApp\app\services\moduleList.component.html" />
+    <Content Include="ClientApp\app\services\moduleList.component.ts" />
+    <Content Include="ClientApp\app\shared\dataService.ts" />
+    <Content Include="ClientApp\app\shared\module.ts" />
+    <Content Include="ClientApp\app\shared\order.ts" />
+    <Content Include="ClientApp\app\Test\test.component.html" />
+    <Content Include="ClientApp\app\Test\test.component.ts" />
+    <Content Include="ClientApp\assets\.gitkeep" />
+    <Content Include="ClientApp\browserslist" />
+    <Content Include="ClientApp\environments\environment.prod.ts" />
+    <Content Include="ClientApp\environments\environment.ts" />
+    <Content Include="ClientApp\favicon.ico" />
+    <Content Include="ClientApp\index.html" />
+    <Content Include="ClientApp\karma.conf.js" />
+    <Content Include="ClientApp\main.ts" />
+    <Content Include="ClientApp\polyfills.ts" />
+    <Content Include="ClientApp\styles.css" />
+    <Content Include="ClientApp\test.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
    
     <PackageReference Include="Microsoft.AspNetCore.App" />
    
@@ -66,10 +101,6 @@
     <None Update="mysql_dll\ssleay32.dll">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">

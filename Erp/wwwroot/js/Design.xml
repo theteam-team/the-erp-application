@@ -36,15 +36,15 @@
             <restLink>http link</restLink>
             <soapFunc>getHello</soapFunc>
         </serviceTask>
-        <parallel nId="5c7c4013-dc5d-4ef0-b167-d657f6e2aeea" type="START">
+        <parallel nId="5c7c4013-dc5d-4ef0-b167-d657f6e2aeea" type="parallel">
             <NId>5c7c4013-dc5d-4ef0-b167-d657f6e2aeea</NId>
-            <type>START</type>
+            <type>parallel</type>
             <nextNode>f65667fa-9cb5-4ef9-80fd-1db526bf03dc</nextNode>
             <nextNode>09028f4b-9e3b-4535-8e4f-8a222d37cc6a</nextNode>
         </parallel>
-        <condition nId="1fca3740-7a53-48af-9286-b90b68b0ff58" type="START">
+        <condition nId="1fca3740-7a53-48af-9286-b90b68b0ff58" type="condition">
             <NId>1fca3740-7a53-48af-9286-b90b68b0ff58</NId>
-            <type>START</type>
+            <type>condition</type>
             <previousNode>aa2c092e-c67e-473a-825c-14e56ee4adbd</previousNode>
             <nextNode>5c7c4013-dc5d-4ef0-b167-d657f6e2aeea</nextNode>
             <nextNode>fe84bce5-d113-4561-b565-188a3cb70b0d</nextNode>
@@ -83,4 +83,41 @@
             <value></value>
         </variable>
     </variables>
+  <positions>
+    <Node nId="aa2c092e-c67e-473a-825c-14e56ee4adbd" >
+      <id>aa2c092e-c67e-473a-825c-14e56ee4adbd</id>
+      <x>100</x>
+      <y>500</y>
+    </Node>
+    <Node nId="f65667fa-9cb5-4ef9-80fd-1db526bf03dc" >
+      <id>f65667fa-9cb5-4ef9-80fd-1db526bf03dc</id>
+      <x>700</x>
+      <y>300</y>
+    </Node>
+    <Node nId="09028f4b-9e3b-4535-8e4f-8a222d37cc6a" >
+      <id>09028f4b-9e3b-4535-8e4f-8a222d37cc6a</id>
+      <x>700</x>
+      <y>500</y>
+    </Node>
+    <Node nId="fe84bce5-d113-4561-b565-188a3cb70b0d" >
+      <id>fe84bce5-d113-4561-b565-188a3cb70b0d</id>
+      <x>500</x>
+      <y>600</y>
+    </Node>
+    <Node nId="5c7c4013-dc5d-4ef0-b167-d657f6e2aeea" >
+      <id>5c7c4013-dc5d-4ef0-b167-d657f6e2aeea</id>
+      <x>500</x>
+      <y>400</y>
+    </Node>
+    <Node nId="1fca3740-7a53-48af-9286-b90b68b0ff58" >
+      <id>1fca3740-7a53-48af-9286-b90b68b0ff58</id>
+      <x>300</x>
+      <y>500</y>
+    </Node> 
+    <Node nId="573fef8c-9936-4906-ab00-5d2f22acbbf1" >
+      <id>573fef8c-9936-4906-ab00-5d2f22acbbf1</id>
+      <x>900</x>
+      <y>500</y>
+    </Node>
+  </positions>
 </bpm>

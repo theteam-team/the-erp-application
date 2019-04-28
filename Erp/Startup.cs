@@ -17,6 +17,8 @@ using Erp.Repository;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Collections.Generic;
+using Erp.Hubs;
+
 namespace Erp
 {
     public class Startup
@@ -39,6 +41,7 @@ namespace Erp
         /// <param name="services">The Services container </param>
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSignalR();
             services.AddAuthentication()
                 .AddCookie()
                 .AddJwtBearer(cfg => {
@@ -127,6 +130,10 @@ namespace Erp
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, AccountDbContext mcontext)
         {
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/charHub");
+            });
             mcontext.Database.EnsureCreated(); //ensure that the database used to store user accounts is created at the begining
             app.UseAuthentication();//enable the use of the Authentication of the http request
             app.UseNodeModules(env);//include the Node modules File into hte the response
