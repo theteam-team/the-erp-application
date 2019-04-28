@@ -9,7 +9,7 @@
         <serviceTask nId="f65667fa-9cb5-4ef9-80fd-1db526bf03dc" type="TASK">
             <NId>f65667fa-9cb5-4ef9-80fd-1db526bf03dc</NId>
             <type>TASK</type>
-            <nextNode>573fef8c-9936-4906-ab00-5d2f22acbbf1</nextNode>
+            <nextNode>08ec8b9d-fc04-4dbf-9e90-5e5d9c2987b1</nextNode>
             <input>b</input>
             <ServiceType>rest</ServiceType>
             <restLink>http link</restLink>
@@ -19,7 +19,7 @@
             <NId>09028f4b-9e3b-4535-8e4f-8a222d37cc6a</NId>
             <type>TASK</type>
             <previousNode>5c7c4013-dc5d-4ef0-b167-d657f6e2aeea</previousNode>
-            <nextNode>573fef8c-9936-4906-ab00-5d2f22acbbf1</nextNode>
+            <nextNode>9f0e5850-b69b-4e01-a3d9-ff7ca4944ff0</nextNode>
             <input>c</input>
             <ServiceType>rest</ServiceType>
             <restLink>http link</restLink>
@@ -54,6 +54,16 @@
             <NId>573fef8c-9936-4906-ab00-5d2f22acbbf1</NId>
             <type>END</type>
             <previousNode>fe84bce5-d113-4561-b565-188a3cb70b0d</previousNode>
+        </end>
+        <end nId="08ec8b9d-fc04-4dbf-9e90-5e5d9c2987b1" type="END">
+          <NId>08ec8b9d-fc04-4dbf-9e90-5e5d9c2987b1</NId>
+          <type>END</type>
+          <previousNode>d2dc5a08-4b87-4c04-80fd-2a78039f6768</previousNode>
+        </end>
+        <end nId="9f0e5850-b69b-4e01-a3d9-ff7ca4944ff0" type="END">
+          <NId>9f0e5850-b69b-4e01-a3d9-ff7ca4944ff0</NId>
+          <type>END</type>
+          <previousNode>22df26e4-df2e-4d27-a34a-f2b5865d57b5</previousNode>
         </end>
     </nodes>
     <variables>
@@ -116,6 +126,16 @@
     </Node> 
     <Node nId="573fef8c-9936-4906-ab00-5d2f22acbbf1" >
       <id>573fef8c-9936-4906-ab00-5d2f22acbbf1</id>
+      <x>900</x>
+      <y>700</y>
+    </Node>
+    <Node nId="08ec8b9d-fc04-4dbf-9e90-5e5d9c2987b1" >
+      <id>08ec8b9d-fc04-4dbf-9e90-5e5d9c2987b1</id>
+      <x>900</x>
+      <y>300</y>
+    </Node>
+    <Node nId="9f0e5850-b69b-4e01-a3d9-ff7ca4944ff0" >
+      <id>9f0e5850-b69b-4e01-a3d9-ff7ca4944ff0</id>
       <x>900</x>
       <y>500</y>
     </Node>

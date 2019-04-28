@@ -130,16 +130,16 @@ namespace Erp
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, AccountDbContext mcontext)
         {
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<ChatHub>("/charHub");
-            });
             mcontext.Database.EnsureCreated(); //ensure that the database used to store user accounts is created at the begining
             app.UseAuthentication();//enable the use of the Authentication of the http request
             app.UseNodeModules(env);//include the Node modules File into hte the response
             app.UseStaticFiles();//mark wwwroot Files as servable
             app.UseSession();//enable the use of the session storge 
             app.UseWebSockets();
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/charHub");
+            });
             
             app.UseMvc(cfg =>
             {

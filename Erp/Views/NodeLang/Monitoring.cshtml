@@ -7,7 +7,13 @@
 }
 <a href="~/js/Design.xml">~/js/Design.xml</a>
 <div>
-    <svg id="WorkFlow" width="1000" height="1000" xmlns="http://www.w3.org/2000/svg"> </svg>
+    <svg id="WorkFlow" width="1000" height="1000" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <marker id="arrowhead" viewBox="0 0 20 20" refX="11" refY="10" markerUnits="strokeWidth" markerWidth="10" markerHeight="10" orient="auto">
+                <path d="M 1 5 L 11 10 L 1 15 Z" style="fill: black; stroke-width: 1px; stroke-linecap: round; stroke-dasharray: 10000, 1; stroke: black;"></path>
+            </marker>
+        </defs>
+    </svg>
     @*<canvas id="myCanvas" width="1000" height="1000" style="border:1px solid #000000;"></canvas>*@
     <button style="float:left;" onclick="readXml()">show</button>
     <button style="float:left;" onclick="change()">change</button>

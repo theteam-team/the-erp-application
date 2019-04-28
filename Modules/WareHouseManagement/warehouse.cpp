@@ -299,13 +299,20 @@ extern "C"	ERP_API int addProduct(Product * product, char * error)
 				 while (row = mysql_fetch_row(res)) {
 
 					 _product->id = row[0];
-					 _product->name = row[1];
-					 _product->description = row[2];
-					 _product->position = row[3];
-					 _product->price = stod(row[4]);
-					 _product->size = stod(row[5]);
-					 _product->weight = stod(row[6]);
-					 _product->unitsInStock = stoi(row[7]);
+					 if(row[1])
+						_product->name = row[1];
+					 if(row[2])
+						_product->description = row[2];
+					 if(row[3])
+						 _product->position = row[3];
+					if(row[4])
+						_product->price = stod(row[4]);
+					 if(row[5])
+						_product->size = stod(row[5]);
+					 if(row[6])
+						_product->weight = stod(row[6]);
+					 if(row[7])
+						 _product->unitsInStock = stoi(row[7]);
 					 numberOfRows++;
 					 _product++;
 				 }

@@ -1,4 +1,4 @@
-﻿let WorkFlowObjext =
+﻿let WorkFlowObject =
 {
     "Nodes": {},
     "Variables": {},
@@ -9,7 +9,7 @@ let loaded = false;
 let xmlns = "http://www.w3.org/2000/svg";
 let xlinkns = "http://www.w3.org/1999/xlink";
 let WorkFlow = document.getElementById("WorkFlow");
-var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+var connection = new signalR.HubConnectionBuilder().withUrl("http://localhost:8888/charHub").build();
 
 function readXml() {
     if (!loaded) {
@@ -39,20 +39,42 @@ function Parse(xmlWorkFlow, currentNode)
     var nextNodeID = currentNode.getElementsByTagName("nextNode");
     for (var i = 0; i < nextNodeID.length; ++i)
     {
-        var nextNode = xmlWorkFlow.querySelectorAll("[nId='" + nextNodeID[i].innerHTML + "']")[0];     
+        var nextNode = xmlWorkFlow.getElementsByTagName("nodes")[0].querySelectorAll("[nId='" + nextNodeID[i].innerHTML + "']")[0];     
         drawImage(nextNode, xmlWorkFlow);
-        currentNode = nextNode;
+        drawLine(currentNode, nextNode);
         console.log(nextNodeID[i].innerHTML + " " + currentNode.tagName);
         if (currentNode.tagName != "end")
-            Parse(xmlWorkFlow, currentNode);
+            Parse(xmlWorkFlow, nextNode);
     }
     
 }
+function drawLine(currentNode, nextNode)
+{
+    currentNodeId = currentNode.getAttribute("nId");
+    nextNodeId = nextNode.getAttribute("nId");
+    x1 = +WorkFlowObject.Nodes[currentNodeId].x + +WorkFlowObject.Nodes[currentNodeId].width / 2;
+    y1 = WorkFlowObject.Nodes[currentNodeId].y;
+    x2 = +WorkFlowObject.Nodes[nextNodeId].x - +WorkFlowObject.Nodes[currentNodeId].width / 2;
+    y2 = WorkFlowObject.Nodes[nextNodeId].y;
+     
+    var xDis = x2 - x1;
+    var yDis = y2 - y1;
+    var path = document.createElementNS(xmlns, 'path');
+    var path_s = "M" + x1 + " " + y1 + " h " + (8 * xDis) / 10 + " v " + yDis + " L " + x2 + " " + y2;
+    path.setAttribute('id', currentNodeId + nextNodeId);
+    path.setAttribute('stroke', "black");
+    path.setAttribute('stroke-width', "2");
+    path.setAttribute('stroke-linecap', "round");
+    path.setAttribute('d', path_s);
+    path.setAttribute('fill', "none")
+    path.setAttribute('marker-end', "url(#arrowhead)");
 
+    WorkFlow.appendChild(path);
+}
 
 function drawImage(currentNode, xmlDoc) {
     var imgSrc = 'http://localhost:8888/img/nodes/' + currentNode.tagName + '.png';
-    var node = WorkFlowObjext.Nodes;
+    var node = WorkFlowObject.Nodes;
     var img = document.createElementNS(xmlns, 'image');
     currentNodeId = currentNode.getAttribute("nId");
     img.setAttribute('height', '100');
@@ -63,7 +85,7 @@ function drawImage(currentNode, xmlDoc) {
     Type = currentNode.getAttribute("type");
     node[currentNodeId] = {
         "img": undefined, "name": currentNode.tagName
-        , "type": Type, "x": 0, "y": 0
+        , "type": Type, "x": 0, "y": 0, "width": 0
     };
     getPosition(xmlDoc, currentNode);
     posX = node[currentNodeId].x;
@@ -73,10 +95,27 @@ function drawImage(currentNode, xmlDoc) {
     node[currentNodeId].img = img;
     
     WorkFlow.appendChild(img);
-    
+    editImagePosition(currentNodeId)
     
 }
 
+function editImagePosition(currentNodeId)
+{
+    var x = WorkFlowObject.Nodes[currentNodeId].x;
+    var y = WorkFlowObject.Nodes[currentNodeId].y;
+    //console.log(x + " " + y);
+
+    var img = document.getElementById(currentNodeId);
+    var rect = img.getBoundingClientRect();
+    console.log(rect);
+    
+     cx = +x + rect.width * 0.5;    // find center of first image
+     cy = +y + rect.width * 0.5;
+    WorkFlowObject.Nodes[currentNodeId].x = cx;
+    WorkFlowObject.Nodes[currentNodeId].y = cy;
+    WorkFlowObject.Nodes[currentNodeId].width = rect.width;
+    console.log(cx + " " + cy);
+}
 function getPosition(xmlDoc , currentNode)
 {
     currentNodeId = currentNode.getAttribute("nId");
@@ -84,11 +123,20 @@ function getPosition(xmlDoc , currentNode)
         .querySelectorAll("[nId='" + currentNodeId + "']")[0];
     var x = NodePosition.getElementsByTagName("x")[0].innerHTML;
     var y = NodePosition.getElementsByTagName("y")[0].innerHTML;
-    WorkFlowObjext.Nodes[currentNodeId].x = x;
-    WorkFlowObjext.Nodes[currentNodeId].y = y;
+    WorkFlowObject.Nodes[currentNodeId].x = x;
+    WorkFlowObject.Nodes[currentNodeId].y = y;
         
 }
 
+{
+    "workflowId":
+    {
+        "instance1":"id"
+        "instance2":"id"
+        "instance3": "id"
+        ....
+    }
+}
 
 
 function change(NodeId)
@@ -96,7 +144,6 @@ function change(NodeId)
    
     if (loaded)
     {
-
         var img = $("#"+NodeId);
         console.log(img);
         imgSrc = 'http://localhost:8888/img/nodes/' + img.attr("nodeName")+ "_chosen" + '.png';
