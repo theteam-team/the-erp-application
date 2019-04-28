@@ -12,5 +12,6 @@ namespace Erp.Models
     {
        public string productId;
        public uint Units;
+       public uint Units_Done;
     }
 }
