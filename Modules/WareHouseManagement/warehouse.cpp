@@ -14,7 +14,7 @@ using namespace std;
 
 #define SERVER "localhost"
 #define USER "root" //your username
-#define PASSWORD "123456789pp" //your password for mysql
+#define PASSWORD "rana" //your password for mysql
 #define DATABASE "erp" //database name
 int status;
 int qstate;
@@ -297,7 +297,7 @@ extern "C"	ERP_API int addProduct(Product * product, char * error)
 
 				 Product *_product = *product;
 				 while (row = mysql_fetch_row(res)) {
-
+					 cout << row[0];
 					 _product->id = row[0];
 					 _product->name = row[1];
 					 _product->description = row[2];
@@ -459,7 +459,7 @@ extern "C"	ERP_API int addProduct(Product * product, char * error)
 
 		 mysql_free_result(res);
 
-		 string query = (string)"select Product_Product_ID, Units_In_Order from order_has_product where Order_Order_ID = " + id;
+		 string query = (string)"select Product_Product_ID, Units_In_Order, Units_Done from order_has_product where Order_Order_ID = " + id;
 		 qstate = mysql_query(conn, query.c_str());
 		 cout << query << endl;
 		 if (checkQuery(qstate, error)) {
@@ -477,6 +477,7 @@ extern "C"	ERP_API int addProduct(Product * product, char * error)
 
 					 _product->productId = row[0];
 					 _product->Units = stoi(row[1]);
+					 _product->Units_Done = stoi(row[2]);
 					 numberOfRows++;
 					 _product++;
 				 }
