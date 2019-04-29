@@ -1,5 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms'
+import { MatCardModule, MatButtonModule } from '@angular/material';
+
 import { AppComponent } from './app.component';
 import { Login } from './login/login.component';
 import { Accounting } from './accountingSystem';
@@ -14,10 +17,17 @@ import { OrdersComponent } from './warehouse/orders/orders.component';
 import { ConfigurationComponent } from './warehouse/configuration/configuration.component';
 import { ProductComponent } from './warehouse/product/product.component';
 import { OrderComponent } from './warehouse/order/order.component';
-
+import { CreateOpportunityComponent } from './CRM/create-opportunity/create-opportunity.component';
+import { CreateCustomerComponent } from './CRM/create-customer/create-customer.component';
+import { CustomersComponent } from './CRM/customers/customers.component';
+import { PipelineComponent } from './CRM/pipeline/pipeline.component';
+import { CrmComponent } from './CRM/crm.component';
+import { customerService } from './crm/customers/customer.service';
+import { CustomerFilterPipe } from './crm/customers/customer-filter';
+import { OpportunityFilterPipe } from './crm/pipeline/opportunity-filter';
 
 let routes = [
-    { path: "", component: ModuleList }, 
+    { path: "", component: ModuleList },
 
     { path: "accounting", component: AccountingModule },
     { path: "login", component: Login },
@@ -27,7 +37,13 @@ let routes = [
     { path: "warehouse/orders", component: OrdersComponent },
     { path: "warehouse/configuration", component: ConfigurationComponent },
     { path: "warehouse/products/:productid", component: ProductComponent },
-    { path: "warehouse/orders/:orderid", component: OrderComponent }
+    { path: "warehouse/orders/:orderid", component: OrderComponent },
+
+    { path: "crm", component: CrmComponent },
+    { path: "crm/pipeline", component:PipelineComponent },
+    { path: "crm/customers", component: CustomersComponent },
+    { path: "crm/editCustomer/:id", component: CreateCustomerComponent },
+    { path: "crm/editOpportunity/:id", component: CreateOpportunityComponent }
 ];
 @NgModule({
   declarations: [
@@ -41,11 +57,22 @@ let routes = [
       OrdersComponent,
       ConfigurationComponent,
       ProductComponent,
-      OrderComponent
+      OrderComponent,
+      PipelineComponent,
+      CustomersComponent,
+      CreateCustomerComponent,
+      CreateOpportunityComponent,
+      CrmComponent,
+      CustomerFilterPipe,
+      OpportunityFilterPipe
     ],
   imports: [
       BrowserModule,
       HttpClientModule,
+      FormsModule,
+      MatCardModule,
+      MatButtonModule,
+
       RouterModule.forRoot(routes, {
           useHash: true,
           enableTracing: false
@@ -53,7 +80,8 @@ let routes = [
     ],
 
   providers: [
-       DataService
+      DataService,
+      customerService
     ],
 
   bootstrap: [AppComponent, Accounting] // 
