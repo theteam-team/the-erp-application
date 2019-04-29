@@ -1,15 +1,53 @@
 ﻿<div class="row">
-    <div class="module-info col-md-4 well well-sm" *ngFor="let m of modules">
-        <div class="card bg-white m-1 p-2">
-            
-    <img src="/img/SK-A-2351.jpg" class="img-float" alt="m.title" /> 
-            <div class="module-name">{{ m.category}}</div>
-            <ul class="module-props">
-                <li> <strong>title: </strong>{{ m.title }} </li>
-                <li> <strong>price:</strong> {{ m.price | currency:"USD":true }}</li>
-                <li> <strong>Description</strong> {{ m.discription }}</li>
-            </ul>
-            <button id="buyButton" class="btn btn-success">Buy</button>
+    <div class="col-md-12">
+        <nav class="navbar navbar-expand-md navbar-light bg-white">
+            <a class="navbar-brand" routerLink="">{{ title }}</a>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Modules
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" routerLink="accounting">Accounting</a>
+                            <a class="dropdown-item" href="#">CRM</a>
+                            <a class="dropdown-item" routerLink="/warehouse">Warehousing</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Add Modules</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div class="col-md-9">
+        <div class="row">
+
+            <div class="module-info col-md-4 well well-sm" *ngFor="let m of modules">
+                <div class="card bg-white m-1 p-2">
+                    <img src="/img/SK-A-2351.jpg" class="img-float" alt="m.title" />
+                    <div class="module-name">{{ m.category}}</div>
+                    <ul class="module-props">
+                        <li> <strong>title: </strong>{{ m.title }} </li>
+                        <li> <strong>price:</strong> {{ m.price | currency:"USD":true }}</li>
+                        <li> <strong>Description</strong> {{ m.discription }}</li>
+                    </ul>
+                    <!--
+                            <button id="buyButton" class="btn btn-success" (click)="onClickMe()">Buy</button>
+                    <button class="btn btn-success" (click)="onAccounting()">accounting</button>
+
+                    -->
+                    <button class="btn btn-success" (click)="onAccounting()">BUY</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<router-outlet></router-outlet>

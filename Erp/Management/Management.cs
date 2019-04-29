@@ -15,7 +15,7 @@ namespace Erp
         private UserManager<ApplicationUser> mUserManager; //Object Used For Manageing Users In Stored In a datastore "ex : Database"
         
         /// this constructor parameters will be assigned using the dependancy injection
-        public Management(AccountsDbContext context, DataDbContext dataDbContext,
+        public Management(AccountDbContext context, DataDbContext dataDbContext,
             UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
             mroleManager = roleManager;
@@ -30,12 +30,16 @@ namespace Erp
         /// <param name="roleName">The name of the Role</param>
         /// <param name="user">The specifc User To which the role is assigned </param>
         /// <returns>Task</returns>
-
+        
         public async Task AddRoleToUserAsync(string roleName, ApplicationUser user)
         {
             await CreateRoleAsync(roleName);
-
+            
             await mUserManager.AddToRoleAsync(user, roleName);
+        }
+        public async Task<string> getRoleIdAsync(string roleName)
+        {
+            return await mroleManager.GetRoleIdAsync(await mroleManager.FindByNameAsync(roleName));
         }
 
         /// <summary>

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Erp.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,15 +18,17 @@ namespace Erp.Controllers
     [Route("api/[controller]")]
     public class ModuleController : ControllerBase
     {
-        private AccountsDbContext _accountDbcontext;
+        private AccountDbContext _accountDbcontext;
         private DataDbContext _dataDbContext;
 
-        public ModuleController(DataDbContext dataDbContext, AccountsDbContext accountsDbContext)
+        public ModuleController(DataDbContext dataDbContext, AccountDbContext accountsDbContext)
         {
             _accountDbcontext = accountsDbContext;
             _dataDbContext = dataDbContext;
         }
         [HttpGet("GetModules/{database}")]
+        //[Authorize(Roles = "Adminstrator")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<List<Modules>> GetModules(string database)
         {
             if (!CommonNeeds.checkdtb(_dataDbContext, database))
