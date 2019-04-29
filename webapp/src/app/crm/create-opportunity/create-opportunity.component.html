@@ -1,0 +1,41 @@
+
+<form #opportunityForm="ngForm" ngNativeValidate (ngSubmit)="saveOpportunity()">
+  <div class="container">
+    <div class="row" style=" padding:50px; padding-left:100px">
+      <div class="col-md-8  ">
+        <h1 style="color:darkcyan;"> Create an Opportunity</h1>
+        <br />
+        <div class="form-group">
+          <label for="title"> Opportunity title:</label>
+          <input required type="text" class="form-control" id="title" name="title" [(ngModel)]="title">
+        </div>
+
+        <div class="form-group">
+          <label for="customer"> Customer:</label>
+          <select type="text" class="form-control" id="customer" name="customer" [(ngModel)]="customer">
+            <option *ngFor="let customer of customers" [value]="customer.id">  </option>
+          </select>
+
+        </div>
+        <div class="form-group">
+          <label for="title"> Expected Revenue:</label>
+          <input required type="text" class="form-control" id="expected_revenue" name="expected_revenue" [(ngModel)]="expected_revenue">
+        </div>
+
+        <div class="form-group">
+          <label for="start_date">start date:</label>
+          <input required type="date" class="form-control" id="start_date" name="start_date" [(ngModel)]="start_date">
+        </div>
+
+        <button type="submit" class="btn btn-info">Save</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+
+{{ opportunityForm.value | json}}
+<br />
+<br />
+ 
+
