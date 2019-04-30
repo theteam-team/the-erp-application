@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Erp.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace Erp.Data
     {
         /// This proberty represents a table in the database to the Modules Entity and can be used to make a CRUD operation on this table 
         public DbSet<Modules> Modules  { get; set; }
-       
+        public DbSet<NodeLangWorkflow> NodeLangWorkflow { get; set; }
         /// this  proberty used to set the connection string to the database
         public string ConnectionString { get; set; }
 

@@ -7,11 +7,14 @@ using System.Threading.Tasks;
 
 namespace Erp.Data.Entities
 {
-    public class NodeLang_Workflow
+    public class NodeLangWorkflow
     {
         [Key]
         public Guid Id { get; set; }
-        public string MyProperty { get; set; }
+        public string Name { get; set; }
+
+        public string WorkFlow { get; set;}
+        public long RuningInstances { get; set; }
         //public N MyProperty { get; set; }
     }
 }

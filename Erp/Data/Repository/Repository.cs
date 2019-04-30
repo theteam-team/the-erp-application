@@ -10,12 +10,20 @@ using System.Runtime.InteropServices;
 using Erp.ViewModels.CRN_Tabels;
 using Erp.ModulesWrappers;
 using System.Text;
+using Erp.Data;
+using Erp.Data.Entities;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace Erp.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
     {
+        private readonly UserManager<ApplicationUser> _usermanager;
+        private readonly DataDbContext _datadbContext;
         private Management _managment;
+
+        public ClaimsPrincipal User { get;  set; }
 
         //public Repository( )
         //{
@@ -27,13 +35,19 @@ namespace Erp.Repository
         //{
         //    //return _context.Set<T>().Where(predicate).Count();
         //}
-        public Repository(Management management)
+        public Repository(Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager)
         {
+            _usermanager = userManager;
+            _datadbContext = datadbContext;
             _managment = management;
         }
         public async Task<int> Create(T entity, byte[] error)
         {
             int status = 0;
+            if (typeof(T) == typeof(NodeLangWorkflow))
+            {
+                
+            }
             if (typeof(T) == typeof(Product))
             {
                 Product product = (Product)(object)(entity);
@@ -76,7 +90,16 @@ namespace Erp.Repository
             return status;
             
         }
-
+        public async Task Create(T entity)
+        {
+            var user = await _usermanager.GetUserAsync(User);
+            if (!CommonNeeds.checkdtb(_datadbContext, user.DatabaseName))
+            {
+                throw new Exception("Error Please DataBase Does Not Exist");
+            }
+            _datadbContext.Add(entity);
+            _datadbContext.SaveChanges();
+        }
         public async Task<int> Delete(string id, byte[] error)
         {
             int status = 10;

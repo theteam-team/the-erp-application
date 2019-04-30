@@ -1,4 +1,5 @@
-﻿let WorkFlowObject =
+﻿"use strict";
+let WorkFlowObject =
 {
     "Nodes": {},
     "Variables": {},
@@ -9,8 +10,8 @@ let loaded = false;
 let xmlns = "http://www.w3.org/2000/svg";
 let xlinkns = "http://www.w3.org/1999/xlink";
 let WorkFlow = document.getElementById("WorkFlow");
-var connection = new signalR.HubConnectionBuilder().withUrl("http://localhost:8888/charHub").build();
-
+let connection = new signalR.HubConnectionBuilder().withUrl("/MonitoringHub").build();
+connection.start();
 function readXml() {
     if (!loaded) {
         var xml = new XMLHttpRequest();
@@ -127,26 +128,7 @@ function getPosition(xmlDoc , currentNode)
     WorkFlowObject.Nodes[currentNodeId].y = y;
         
 }
-
+function change()
 {
-    "workflowId":
-    {
-        "instance1":"id"
-        "instance2":"id"
-        "instance3": "id"
-        ....
-    }
-}
-
-
-function change(NodeId)
-{
-   
-    if (loaded)
-    {
-        var img = $("#"+NodeId);
-        console.log(img);
-        imgSrc = 'http://localhost:8888/img/nodes/' + img.attr("nodeName")+ "_chosen" + '.png';
-        img.attr("href", imgSrc);
-    }
+    connection.invoke("updateDeployList", "test", "test");
 }

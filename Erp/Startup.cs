@@ -41,6 +41,8 @@ namespace Erp
         /// <param name="services">The Services container </param>
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<INodeLangRepository, NodeLangRepository>();
+            services.AddTransient<MonitoringHub>();
             services.AddSignalR();
             services.AddAuthentication()
                 .AddCookie()
@@ -138,7 +140,7 @@ namespace Erp
             app.UseWebSockets();
             app.UseSignalR(routes =>
             {
-                routes.MapHub<ChatHub>("/charHub");
+                routes.MapHub<MonitoringHub>("/MonitoringHub");
             });
             
             app.UseMvc(cfg =>

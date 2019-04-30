@@ -6,11 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Erp.ModulesWrappers;
+using Erp.Data;
+using Microsoft.AspNetCore.Identity;
+
 namespace Erp.Repository
 {
     public class ProductRepository : Repository<Product>, IProductRepository
     {
-        public ProductRepository(Management management) : base(management)
+        public ProductRepository(Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, userManager)
         {
            
         }
