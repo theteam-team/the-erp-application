@@ -23,4 +23,14 @@ export class AccountingModule implements OnInit {
                 }
             });
     }
+    /*
+    public addr = <HTMLSelectElement>document.getElementById('addr');
+    public i: any = 1;
+    public b: any ;
+    private addRow(): void {
+        alert("hi");
+        this.b = this.i - 1;
+        (this.addr + this.i)
+    }
+    */
 }

@@ -12,9 +12,7 @@ import { RouterModule, Routes, Router } from '@angular/router';
 
 let routes = [
     { path: "", component: ModuleList }, 
-
     { path: "accounting", component: AccountingModule },
-    { path: "login", component: Login }
 
 ];
 @NgModule({
@@ -38,7 +36,7 @@ let routes = [
        DataService
     ],
 
-  bootstrap: [AppComponent, Accounting] // 
+    bootstrap: [AppComponent, Accounting, Login] // 
     
 })
 export class AppModule { }

@@ -45,9 +45,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="nav-Activity" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <div class="tab-pane fade card card-body m-2 bg-light" id="nav-Activity" role="tabpanel" aria-labelledby="nav-profile-tab">
                     <div class="row container-fluid">
-                        <div class="col-md-3 bg-light p-2 mt-2 ml-2">
+                        <div class="col-md-3 bg-light p-2">
                             <form>
                                 <div class="col">
                                     <label class="fa fa-calendar"><strong> Start Date</strong></label>
@@ -55,7 +55,7 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="col-md-3 bg-light p-2 mt-2">
+                        <div class="col-md-3 bg-light p-2">
                             <form>
                                 <div class="col">
                                     <label class="fa fa-calendar"><strong> End Date</strong></label>
@@ -63,29 +63,27 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="col-md-5 bg-light p-2 mt-2">
-                            <form>
-                                <div class="col">
+                        <div class="col-md-6 bg-light p-2">
+                            <form class="row">
+                                <div class="col-md-8">
                                     <h6> &nbsp; </h6>
-                                    <input type="search" class="form-control" placeholder="Search Activities"/>
+                                    <input type="search" class="form-control" placeholder="Search Activities" />
                                 </div>
-                            </form>
-                        </div>
-                        <div class="col-md-11 bg-light p-2 ml-2">
-                            <form>
-                                <div class="col">
+                                <div class="col-md-4">
+                                    <h6> &nbsp; </h6>
                                     <button class="form-control btn btn-outline-primary">search</button>
                                 </div>
                             </form>
                         </div>
+                        
 
 
                     </div>
                 </div>
                 <div class="tab-pane fade bg-dark" id="nav-Send-Request" role="tabpanel" aria-labelledby="nav-contact-tab">
                     <div class="container-fluid bg-light">
-                        <nav class="col-md-12 bg-light">
-                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <nav class="col-md-12 bg-light" >
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist" style="text-align:center;">
                                 <a style="color:#1A57BF;" class="nav-item nav-link active" data-toggle="tab" href="#nav-Send">Send</a>
                                 <a style="color:#1A57BF;" class="nav-item nav-link " data-toggle="tab" href="#nav-Request">Request</a>
                                 <a style="color:#1A57BF;" class="nav-item nav-link" data-toggle="tab" href="#nav-Contacts">Contacts</a>
@@ -93,8 +91,8 @@
                             </div>
                         </nav>
                     </div>
-                    <div class="tab-content m-2" id="nav-tabContent">
-                        <div class="tab-pane fade show active" id="nav-Send" role="tabpanel" aria-labelledby="nav-contact-tab">
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active m-2" id="nav-Send" role="tabpanel" aria-labelledby="nav-contact-tab">
                             <div class="row container-fluid">
                                 <div class="col-md-7 bg-light card card-body ml-2">
                                     <h3>Send Payment to</h3>
@@ -104,13 +102,272 @@
                                         <button class="btn btn-outline-primary">Next</button>
                                     </div>
                                 </div>
-                                <div class="col-md-4 bg-light ml-2 card card-body" style="height:60px;">
-                                    <a href="#"><i class="fa fa-file-text"></i> Send an invoice</a>
+                                <div class="col-md-4 bg-light ml-2 card card-body" style="height:75px;">
+                                    <button (click)="show = true" class="form-control btn-outline-info"><i class="fa fa-file-text"></i> Send an invoice</button>
                                 </div>
 
                             </div>
+                            <div id="invoice" class="row container-fluid" *ngIf="show; else elseBlock">
+                                <div class="col-md-12 bg-light card card-body m-2">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <h2> Create Invoice</h2>
+                                        </div>
+                                        <div class="col-md-8 text-right">
+                                            <button class="btn btn-primary mr-2">Preview</button>
+                                            <div class="btn-group" role="group">
+                                                <button id="btnGroupDrop1" type="button" class="btn btn-secondary mr-2 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Send via
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                    <a class="dropdown-item" href="#"> PayPal </a>
+                                                    <a class="dropdown-item" href="#"> Share Link myself</a>
+                                                </div>
+                                            </div>
+                                            <div class="btn-group" role="group">
+                                                <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Save as
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                    <a class="dropdown-item" href="#"> draft </a>
+                                                    <a class="dropdown-item" href="#">Template</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    <div class="row mb-4">
+                                        <div class="col-md-3">
+                                            <h3>My templates</h3>
+
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="input-group">
+                                                <div class="input-group-append">
+                                                    <select class="custom-select" id="inputGroupSelect01">
+                                                        <option selected>Invoice for quantity (default)</option>
+                                                        <option value="1">Invoice for amount only</option>
+                                                        <option value="2">Invoice for hours</option>
+                                                        <option value="3">Create a new tenplate</option>
+                                                        <option value="4">Manage tenplate settings</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="text-left col mt-5 p-2">Your Business Information<a href="#" style="font-size: 0.8rem;">  Edit</a></h4>
+                                        </div>
+                                        <div class="col">
+                                            <div class="row m-2">
+                                                <div class="col-md-6 text-right">
+                                                    <h5>Frequency</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <div class="input-group-append">
+                                                            <select class="custom-select" id="inputGroupSelect01">
+                                                                <option selected>Once only</option>
+                                                                <option value="1">Every 1 month</option>
+                                                                <option value="2">Every 1 year</option>
+                                                                <option value="3">Every 1 week</option>
+                                                                <option value="4">Every 1 quarter</option>
+                                                                <option value="5">Custom</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row m-2">
+                                                <div class="col-md-6 text-right">
+                                                    <h5>Invoice Number</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input class="form-control" type="number" />
+                                                </div>
+                                            </div>
+                                            <div class="row m-2">
+                                                <div class="col-md-6 text-right">
+                                                    <h5>Invoice Date</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input class="form-control" type="date" />
+                                                </div>
+                                            </div>
+                                            <div class="row m-2">
+                                                <div class="col-md-6 text-right">
+                                                    <h5>Reference</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input class="form-control" type="text" placeholder="Such as PO #" />
+                                                </div>
+                                            </div>
+                                            <div class="row m-2">
+                                                <div class="col-md-6 text-right">
+                                                    <h5>Due Date</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <div class="input-group-append">
+                                                            <select class="custom-select" id="inputGroupSelect01">
+                                                                <option value="1">Enter a due date</option>
+                                                                <option selected>Due on receipt</option>
+                                                                <option value="2">Due on 10 days</option>
+                                                                <option value="3">Due on 15 days</option>
+                                                                <option value="4">Due on 30 days</option>
+                                                                <option value="5">Due on 60 days</option>
+                                                                <option value="6">Due on 90 days</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row mb-4">
+                                        <div class="col">
+                                            <label>Bill to</label>
+                                            <input class="form-control" type="text" placeholder="Email address or name" />
+                                        </div>
+                                        <div class="col">
+                                            <label>Cs:</label>
+                                            <input class="form-control" type="email" placeholder="Email address" />
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="table-responsive-md">
+                                            <table class="table" id="tab_logic">
+                                                <thead>
+                                                    <tr class="row container-fluid">
+                                                        <th class="col-md-4 text-center"> Description </th>
+                                                        <th class="col-md-2 text-center"> Qty </th>
+                                                        <th class="col-md-2 text-center"> Price </th>
+                                                        <th class="col-md-2 text-center"> Tax </th>
+                                                        <th class="col-md-2 text-center"> Amount </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="row container-fluid" id='addr0'>
+                                                        <td class="col-md-4"><input type="text" name='description[]' placeholder='Item Name' class="form-control" /></td>
+                                                        <td class="col-md-2"><input type="number" name='qty[]' placeholder='qty' class="form-control qty" step="0" min="0" /></td>
+                                                        <td class="col-md-2"><input type="number" name='price[]' placeholder='price' class="form-control price" step="0.00" min="0" /></td>
+                                                        <td class="col-md-2"><input type="number" name='tax[]' placeholder='0 Tax' class="form-control tax" step="0.00" min="0" /></td>
+                                                        <td class="col-md-2"><input type="number" name='amount[]' placeholder='0.00' class="form-control amount" readonly /></td>
+                                                    </tr>
+                                                    <tr class="row container-fluid" id='addr1'></tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-md-12">
+                                            <button id="add_row" class="btn btn-outline-primary pull-left">Add Row</button>
+                                            <button id='delete_row' class="pull-right btn btn-outline-primary">Delete Row</button>
+                                        </div>
+                                    </div>
+                                    <div class="row container-fluid m-2">
+                                        <div class="col-md-6">
+                                            <form class="form-inline">
+                                                <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                                                    <input type="checkbox" class="custom-control-input" id="chk1" (click)="show1 = !show1" />
+                                                    <label class="custom-control-label" for="chk1">Allow partial payment.</label>
+                                                </div>
+                                                <div id="partial" class="row container-fluid" *ngIf="show1; else elseBlock">
+                                                    <div>
+                                                        <p>Minimum Amount Due (optional)</p>
+                                                        <input class="form-control" type="number" />
+                                                    </div>
+                                                </div>
+                                                <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                                                    <input type="checkbox" class="custom-control-input" id="chk2" />
+                                                    <label class="custom-control-label" for="chk2">Allow partial payment.</label>
+                                                </div>
+                                            </form>
+
+
+
+
+                                        </div>
+                                        <div class="pull-right col-md-6">
+                                            <table class="table table-bordered table-hover" id="tab_logic_total">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="text-center">Sub Total</th>
+                                                        <td class="text-center"><input type="number" name='sub_total' placeholder='0.00' class="form-control" id="sub_total" readonly /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-center">Tax</th>
+                                                        <td class="text-center">
+                                                            <div class="input-group mb-2 mb-sm-0">
+                                                                <input type="number" class="form-control" id="tax" placeholder="0">
+                                                                <div class="input-group-addon">%</div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-center">Tax Amount</th>
+                                                        <td class="text-center"><input type="number" name='tax_amount' id="tax_amount" placeholder='0.00' class="form-control" readonly /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-center">Grand Total</th>
+                                                        <td class="text-center"><input type="number" name='total_amount' id="total_amount" placeholder='0.00' class="form-control" readonly /></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row mt-4 mb-4">
+                                        <form class="col">
+                                            <label><strong>Note to recipient</strong></label>
+                                            <textarea class="form-control" rows="5" id="Note" placeholder="Example: 'Thank you for your business'"></textarea>
+                                        </form>
+                                        <form class="col">
+                                            <label><strong>Terms and Conditions</strong></label>
+                                            <textarea class="form-control" rows="5" id="Terms" placeholder="Include your return or cancelation policy"></textarea>
+                                        </form>
+                                    </div>
+                                    <div class="row container-fluid">
+                                        <button class="btn btn-secondary">Attach Files</button>
+                                    </div>
+                                    <div class="row container-fluid">
+                                        <p class="mt-2" style="color:#566573;"><i>
+                                            It is the user's responsibility to create an invoice that is compliant with local laws and regulations,
+                                            including, but not limited to, the application of the correct VAT rate(s).</i>
+                                        </p>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-8 text-right offset-md-4">
+                                            <button class="btn btn-primary mr-2">Preview</button>
+                                            <div class="btn-group" role="group">
+                                                <button id="btnGroupDrop1" type="button" class="btn btn-secondary mr-2 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Send via
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                    <a class="dropdown-item" href="#"> PayPal </a>
+                                                    <a class="dropdown-item" href="#"> Share Link myself</a>
+                                                </div>
+                                            </div>
+                                            <div class="btn-group" role="group">
+                                                <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Save as
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                    <a class="dropdown-item" href="#"> draft </a>
+                                                    <a class="dropdown-item" href="#">Template</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button (click)="show = false" class="form-control btn-outline-info mt-5">close </button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="tab-pane fade" id="nav-Request" role="tabpanel" aria-labelledby="nav-contact-tab">
+                        <div class="tab-pane fade m-2" id="nav-Request" role="tabpanel" aria-labelledby="nav-contact-tab">
                             <div class="row container-fluid">
                                 <div class="col-md-7 bg-light card card-body ml-2">
                                     <h3>Request payment from</h3>
@@ -127,7 +384,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="nav-Contacts" role="tabpanel" aria-labelledby="nav-contact-tab">
+                        <div class="tab-pane fade m-2" id="nav-Contacts" role="tabpanel" aria-labelledby="nav-contact-tab">
                             <div class="row container-fluid">
                                 <div class="col-md-7 bg-light card card-body ml-2">
                                     <input class="form-control" type="email" placeholder="Search" />
@@ -143,7 +400,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="nav-More" role="tabpanel" aria-labelledby="nav-contact-tab">
+                        <div class="tab-pane fade m-2" id="nav-More" role="tabpanel" aria-labelledby="nav-contact-tab">
                             HI More
                         </div>
                     </div>
@@ -237,3 +494,4 @@
     -->
 
 </div>
+
