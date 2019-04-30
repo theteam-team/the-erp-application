@@ -1,0 +1,33 @@
+{
+  "Customers": [
+    {
+      "id": 1,
+      "first_name": "menna",
+      "middle_name": "essam",
+      "last_name": "eldin",
+      "email": "menna777@gmail.com",
+      "phone_number": "01117572565",
+      "company": "none",
+      "company_email": "mmm@yahoo.com",
+      "gender": "female",
+      "is_lead": true,
+      "dateOfBirth": "new",
+      "Date": "1996-1-31"
+    },
+    {
+      "id": 2,
+      "first_name": "ahmed",
+      "middle_name": "essam",
+      "last_name": "eldin",
+      "email": "menn6667@gmail.com",
+      "phone_number": "01144472565",
+      "company": "none",
+      "company_email": "sss@yahoo.com",
+      "gender": "male",
+      "is_lead": true,
+      "dateOfBirth": "new",
+      "Date": "1997-2-3"
+    }
+  ] 
+
+} 

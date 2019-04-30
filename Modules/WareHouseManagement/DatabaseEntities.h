@@ -21,7 +21,8 @@ struct Order
 };
 struct Product_In_Order 
 {
+	char* orderId;
 	char* productId;
 	unsigned int Units;
-
+	unsigned int Units_Done;
 };

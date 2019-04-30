@@ -14,7 +14,7 @@ using namespace std;
 
 #define SERVER "localhost"
 #define USER "root" //your username
-#define PASSWORD "123456789pp" //your password for mysql
+#define PASSWORD "rana" //your password for mysql
 #define DATABASE "erp" //database name
 int status;
 int qstate;
@@ -297,15 +297,15 @@ extern "C"	ERP_API int addProduct(Product * product, char * error)
 
 				 Product *_product = *product;
 				 while (row = mysql_fetch_row(res)) {
-
+					 
 					 _product->id = row[0];
-					 _product->name = row[1];
-					 _product->description = row[2];
-					 _product->position = row[3];
-					 _product->price = stod(row[4]);
-					 _product->size = stod(row[5]);
-					 _product->weight = stod(row[6]);
-					 _product->unitsInStock = stoi(row[7]);
+					 row[1] ? _product->name = row[1] : _product->name = nullptr;
+					 row[2] ? _product->description = row[2] : _product->description = nullptr;
+					 row[3] ? _product->position = row[3] : _product->position = nullptr;
+					 row[4] ? _product->price = stod(row[4]) : _product->price = 0;
+					 row[5] ? _product->price = stod(row[5]) : _product->size = 0;
+					 row[6] ? _product->price = stod(row[6]) : _product->weight = 0;
+					 row[7] ? _product->unitsInStock = stoi(row[7]) : _product->unitsInStock = 0;
 					 numberOfRows++;
 					 _product++;
 				 }
@@ -459,7 +459,7 @@ extern "C"	ERP_API int addProduct(Product * product, char * error)
 
 		 mysql_free_result(res);
 
-		 string query = (string)"select Product_Product_ID, Units_In_Order from order_has_product where Order_Order_ID = " + id;
+		 string query = (string)"select Product_Product_ID, Units_In_Order, Units_Done from order_has_product where Order_Order_ID = " + id;
 		 qstate = mysql_query(conn, query.c_str());
 		 cout << query << endl;
 		 if (checkQuery(qstate, error)) {
@@ -477,6 +477,7 @@ extern "C"	ERP_API int addProduct(Product * product, char * error)
 
 					 _product->productId = row[0];
 					 _product->Units = stoi(row[1]);
+					 _product->Units_Done = stoi(row[2]);
 					 numberOfRows++;
 					 _product++;
 				 }

@@ -10,7 +10,9 @@ namespace Erp.Models
     [StructLayout(LayoutKind.Sequential)]
     public class Product_In_Order
     {
+	   public string orderId;	
        public string productId;
        public uint Units;
+       public uint Units_Done;
     }
 }
