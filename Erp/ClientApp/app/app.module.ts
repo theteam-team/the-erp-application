@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'
-
+import { MatCardModule, MatButtonModule } from '@angular/material';
 import { AppComponent } from './app.component';
 import { Login } from './login/login.component';
 import { Accounting } from './accountingSystem';
@@ -73,7 +73,8 @@ let routes = [
       BrowserModule,
       HttpClientModule,
       FormsModule,
-    
+      MatCardModule,
+      MatButtonModule,   
 
       RouterModule.forRoot(routes, {
           useHash: true,
