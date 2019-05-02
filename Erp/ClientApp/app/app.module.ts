@@ -7,6 +7,15 @@ import { Login } from './login/login.component';
 import { Accounting } from './accountingSystem';
 import { ModuleList } from './services/moduleList.component';
 import { AccountingModule } from './accounting/accounting';
+import { AccountingBody } from './accounting/body/bodycomponent';
+import { AccountingSummary } from './accounting/body/summary/summary.component';
+import { AccountingActivity } from './accounting/body/activity/activity.component';
+import { AccountingSendRequest } from './accounting/body/send-request/send-request.component';
+import { AccountingWallet } from './accounting/body/wallet/wallet.component'; 
+import { AccountingOffers } from './accounting/body/offers/offers.component'; 
+import { AccountingHelp } from './accounting/body/help/help.component';
+import { AccountingSend } from './accounting/body/send-request/send/send.component';
+import { Invoice } from './accounting/body/send-request/send/createInvoice/invoice.component';
 import { DataService } from './shared/dataService';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes, Router } from '@angular/router';
@@ -29,10 +38,7 @@ let routes = [
 
     { path: "", component: ModuleList }, 
     { path: "accounting", component: AccountingModule },
-
     { path: "", component: ModuleList },
-
-    { path: "accounting", component: AccountingModule },
     { path: "login", component: Login },
 
     { path: "warehouse", component: WarehouseComponent },
@@ -41,7 +47,7 @@ let routes = [
     { path: "warehouse/configuration", component: ConfigurationComponent },
     { path: "warehouse/products/:productid", component: ProductComponent },
     { path: "warehouse/orders/:orderid", component: OrderComponent },
-
+    
     { path: "crm", component: CrmComponent },
     { path: "crm/pipeline", component:PipelineComponent },
     { path: "crm/customers", component: CustomersComponent },
@@ -54,6 +60,15 @@ let routes = [
       ModuleList,
       Accounting,
       AccountingModule,
+      AccountingBody,
+      AccountingSummary,
+      AccountingActivity,
+      AccountingSendRequest,
+      AccountingWallet,
+      AccountingOffers,
+      AccountingHelp,
+      AccountingSend,
+      Invoice,
       Login,
       WarehouseComponent,
       ProductsComponent,
