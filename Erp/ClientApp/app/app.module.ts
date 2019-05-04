@@ -2,12 +2,20 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'
 import { MatCardModule, MatButtonModule } from '@angular/material';
-
 import { AppComponent } from './app.component';
 import { Login } from './login/login.component';
 import { Accounting } from './accountingSystem';
 import { ModuleList } from './services/moduleList.component';
 import { AccountingModule } from './accounting/accounting';
+import { AccountingBody } from './accounting/body/bodycomponent';
+import { AccountingSummary } from './accounting/body/summary/summary.component';
+import { AccountingActivity } from './accounting/body/activity/activity.component';
+import { AccountingSendRequest } from './accounting/body/send-request/send-request.component';
+import { AccountingWallet } from './accounting/body/wallet/wallet.component'; 
+import { AccountingOffers } from './accounting/body/offers/offers.component'; 
+import { AccountingHelp } from './accounting/body/help/help.component';
+import { AccountingSend } from './accounting/body/send-request/send/send.component';
+import { Invoice } from './accounting/body/send-request/send/createInvoice/invoice.component';
 import { DataService } from './shared/dataService';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes, Router } from '@angular/router';
@@ -32,9 +40,10 @@ import { OpportunityFilterPipe } from './crm/pipeline/opportunity-filter';
 import { AddProductsInOrderComponent } from './warehouse/add-products-in-order/add-products-in-order.component';
 
 let routes = [
-    { path: "", component: ModuleList },
 
+    { path: "", component: ModuleList }, 
     { path: "accounting", component: AccountingModule },
+    { path: "", component: ModuleList },
     { path: "login", component: Login },
 
     { path: "warehouse", component: WarehouseComponent },
@@ -60,6 +69,15 @@ let routes = [
       ModuleList,
       Accounting,
       AccountingModule,
+      AccountingBody,
+      AccountingSummary,
+      AccountingActivity,
+      AccountingSendRequest,
+      AccountingWallet,
+      AccountingOffers,
+      AccountingHelp,
+      AccountingSend,
+      Invoice,
       Login,
       WarehouseComponent,
       ProductsComponent,
@@ -83,7 +101,7 @@ let routes = [
       HttpClientModule,
       FormsModule,
       MatCardModule,
-      MatButtonModule,
+      MatButtonModule,   
 
       RouterModule.forRoot(routes, {
           useHash: true,
@@ -97,7 +115,7 @@ let routes = [
       customerService
     ],
 
-  bootstrap: [AppComponent, Accounting] // 
+    bootstrap: [AppComponent, Accounting, Login] // 
     
 })
 

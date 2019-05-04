@@ -1,1 +1,10 @@
-﻿
+﻿<button (click)="show = !show">{{show ? 'hide' : 'show'}}</button>
+<p>show = {{show}}</p>
+<hr>
+<div *ngIf="show; else elseBlock">This div would only be shown if "show" will be true</div>
+<ng-template #elseBlock>Else this div will be shown</ng-template>
+<br><br>
+<button (click)="hidden = !hidden">{{hidden ? 'show' : 'hide'}}</button>
+<p>hidden = {{hidden}}</p>
+<hr>
+<div [hidden]="hidden">This is another div using hidden attribute</div>

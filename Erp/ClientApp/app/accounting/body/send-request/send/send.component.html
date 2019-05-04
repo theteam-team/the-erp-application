@@ -1,0 +1,41 @@
+﻿<div class="row container-fluid">
+    <div class="col-md-7 bg-light card card-body ml-2">
+        <h3>Send Payment to</h3>
+        <input class="form-control" type="email" placeholder="Name or Email address" />
+        <br />
+        <div class="text-left">
+            <button class="btn btn-outline-primary">Next</button>
+        </div>
+    </div>
+    <div class="col-md-4 bg-light ml-2 card card-body" style="height:75px;">
+        <button (click)="show = true" class="form-control btn-outline-info"><i class="fa fa-file-text"></i> Send an invoice</button>
+    </div>
+</div>
+<div id="invoice" class="row container-fluid"  *ngIf="show; else elseBlock">
+    <div class="col-md-12 bg-light card card-body m-2 text-dark">
+        <nav class="container-fluid navbar navbar-expand-md navbar-light bg-light mb-2 text-dark" >
+            <div class="col-md-9 offset-md-2 nav nav-tabs" id="nav-tab" role="tablist">
+                <a style="color:#0026ff;" class="nav-item nav-link active mr-4" data-toggle="tab" href="#nav-createInvoice">Create Invoice</a>
+                <a style="color:#0026ff;" class="nav-item nav-link mr-4" data-toggle="tab" href="#nav-items">Items</a>
+                <a style="color:#0026ff;" class="nav-item nav-link mr-4" data-toggle="tab" href="#nav-settings">Settings</a>
+                <a style="color:#0026ff;" class="nav-item nav-link " data-toggle="tab" href="#nav-help">Help</a>
+            </div>
+        </nav>
+        <div class="tab-content card card-body bg-light" id="nav-tabContent">
+            <div class="tab-pane fade bg-light show active" id="nav-createInvoice" role="tabpanel" aria-labelledby="nav-contact-tab">
+                <create-invoice></create-invoice>
+            </div>
+            <div class="tab-pane fade bg-light" id="nav-items" role="tabpanel" aria-labelledby="nav-contact-tab">
+                items
+            </div>
+            <div class="tab-pane fade bg-light" id="nav-settings" role="tabpanel" aria-labelledby="nav-contact-tab">
+                settings
+            </div>
+            <div class="tab-pane fade bg-light" id="nav-help" role="tabpanel" aria-labelledby="nav-contact-tab">
+                help me please
+            </div>
+            <button (click)="show = false" class="form-control btn-outline-info mt-5">close </button>
+        </div>
+        
+    </div>
+</div>

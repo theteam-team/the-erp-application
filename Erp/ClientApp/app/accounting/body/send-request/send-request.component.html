@@ -1,0 +1,51 @@
+﻿<div class="bg-light">
+    <nav class="container bg-light">
+        <div class="col-md-9 offset-md-3 nav nav-tabs" id="nav-tab" role="tablist" style="text-align:center;">
+            <a style="color:#1A57BF;" class="nav-item nav-link active mr-4" data-toggle="tab" href="#nav-Send">Send</a>
+            <a style="color:#1A57BF;" class="nav-item nav-link mr-4" data-toggle="tab" href="#nav-Request">Request</a>
+            <a style="color:#1A57BF;" class="nav-item nav-link mr-4" data-toggle="tab" href="#nav-Contacts">Contacts</a>
+            <a style="color:#1A57BF;" class="nav-item nav-link" data-toggle="tab" href="#nav-More">More</a>
+        </div>
+    </nav>
+</div>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active m-2" id="nav-Send" role="tabpanel" aria-labelledby="nav-contact-tab">
+        <accounting-send></accounting-send>
+    </div>
+    <div class="tab-pane fade m-2" id="nav-Request" role="tabpanel" aria-labelledby="nav-contact-tab">
+        <div class="row container-fluid">
+            <div class="col-md-7 bg-light card card-body ml-2">
+                <h3>Request payment from</h3>
+                <input class="form-control" type="email" placeholder="Names or emails " />
+                <br />
+                <div class="text-left">
+                    <button class="btn btn-outline-primary">Next</button>
+                </div>
+            </div>
+            <div class="col-md-4 bg-light ml-2 card card-body" style="height:125px;">
+                <a href="#"><i class="fa fa-file-text"></i> Send an invoice</a>
+                <hr />
+                <a href="#"><i class="fa fa-paypal"></i> Get your own PayPal.Me</a>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade m-2" id="nav-Contacts" role="tabpanel" aria-labelledby="nav-contact-tab">
+        <div class="row container-fluid">
+            <div class="col-md-7 bg-light card card-body ml-2" style="height:80px;">
+                <input class="form-control" type="email" placeholder="Search" />
+            </div>
+            <div class="text-center col-md-4 bg-light ml-2 card card-body">
+                <h1><i class="fa fa-paypal"></i>&nbsp;</h1>
+                <p><strong>Get paid with your PayPal.Me</strong></p>
+                <p>
+                    Share your personal link with almost anyone.
+                    They just click, enter the amount,
+                    log in and you get paid - the payment is in your PayPal account in seconds.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade m-2" id="nav-More" role="tabpanel" aria-labelledby="nav-contact-tab">
+        HI More
+    </div>
+</div>
