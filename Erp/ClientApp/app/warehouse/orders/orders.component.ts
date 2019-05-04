@@ -1,15 +1,65 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from 'ClientApp/app/shared/dataService';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.css']
 })
+
 export class OrdersComponent implements OnInit {
 
-  constructor() { }
+    constructor(private data: DataService, private router: Router) {
+    }
 
-  ngOnInit() {
-  }
+    public orders = [];
 
+    ngOnInit(): void {
+        this.displayAllOrders();
+    }
+
+    onOrderClick(orderid: string) {
+        this.router.navigate(["warehouse/order", orderid]);
+    }
+
+    displayAllOrders(): void {
+        this.data.loadAllOrders()
+            .subscribe(success => {
+                if (success) {
+                    this.orders = this.data.orders;
+                }
+            })
+    }
+
+    displayCompletedOrders(): void{
+        this.data.loadCompletedOrders()
+            .subscribe(success => {
+                if (success) {
+                    this.orders = this.data.orders;
+                }
+            })
+    }
+
+    displayOrdersInProgress(): void {
+        this.data.loadOrdersInProgress()
+            .subscribe(success => {
+                if (success) {
+                    this.orders = this.data.orders;
+                }
+            })
+    }
+
+    displayReadyOrders(): void {
+        this.data.loadReadyOrders()
+            .subscribe(success => {
+                if (success) {
+                    this.orders = this.data.orders;
+                }
+            })
+    }
+
+    addOrder() {
+        this.router.navigate(["warehouse/addOrder"]);
+    }
 }

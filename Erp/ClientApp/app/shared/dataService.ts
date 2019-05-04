@@ -1,21 +1,22 @@
-﻿// import { HttpClient } from 'selenium-webdriver/http';
-import { HttpClient } from '@angular/common/http';
+﻿import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from "rxjs/operators";
 import { Module } from './module';
-// import 'rxjs/add/operator/map';
+
 @Injectable()
 export class DataService {
+
     constructor(private http: HttpClient) { }
+
     private token: string = "";
     private tokenExpiration: Date;
 
     public modules: Module[] = [];
     loadModules(): Observable<boolean> {
         return this.http.get("/api/Module/GetModules/kemo")
-            .pipe(    
-            map((data: any[]) => {
+            .pipe(
+                map((data: any[]) => {
                     this.modules = data;
                     return true;
                 }));
@@ -25,32 +26,6 @@ export class DataService {
         return this.token.length == 0 || this.tokenExpiration > new Date();
     }
 
-    /*public products = [{
-        id: "1",
-        name: "first",
-        price: 10,
-        units: 4
-    }, {
-        id: "2",
-        name: "second",
-        price: 8,
-        units: 3
-    }, {
-        id: "3",
-        name: "third",
-        price: 20,
-        units: 6
-    }, {
-        id: "4",
-        name: "fourth",
-        price: 3,
-        units: 15
-    }, {
-        id: "5",
-        name: "fifth",
-        price: 5,
-        units: 3
-    }];*/
     public products = [];
     loadProducts(): Observable<boolean> {
         return this.http.get("/api/WarehouseApi/ShowProducts")
@@ -59,5 +34,91 @@ export class DataService {
                     this.products = data;
                     return true;
                 }));
+    }
+
+    searchProducts(key: string, value: string): Observable<boolean> {
+        return this.http.get("/api/WarehouseApi/SearchProducts/" + key + "/" + value)
+            .pipe(
+                map((data: any[]) => {
+                    this.products = data;
+                    return true;
+                }));
+    }
+
+    public productInfo;
+    loadProductInfo(productID: string): Observable<boolean> {
+        return this.http.get("/api/WarehouseApi/GetProductById/" + productID)
+            .pipe(
+                map((data: any[]) => {
+                    this.productInfo = data;
+                    return true;
+                }));
+    }
+
+    public orders = [];
+    loadAllOrders(): Observable<boolean> {
+        return this.http.get("/api/WarehouseApi/ShowAllOrders")
+            .pipe(
+                map((data: any[]) => {
+                    this.orders = data;
+                    return true;
+                }));
+    }
+
+    loadCompletedOrders(): Observable<boolean> {
+        return this.http.get("/api/WarehouseApi/ShowCompletedOrders")
+            .pipe(
+                map((data: any[]) => {
+                    this.orders = data;
+                    return true;
+                }));
+    }
+
+    loadOrdersInProgress(): Observable<boolean> {
+        return this.http.get("/api/WarehouseApi/ShowOrdersInProgress")
+            .pipe(
+                map((data: any[]) => {
+                    this.orders = data;
+                    return true;
+                }));
+    }
+
+    loadReadyOrders(): Observable<boolean> {
+        return this.http.get("/api/WarehouseApi/ShowReadyOrders")
+            .pipe(
+                map((data: any[]) => {
+                    this.orders = data;
+                    return true;
+                }));
+    }
+
+    public orderInfo;
+    loadOrderInfo(orderID: string): Observable<boolean> {
+        return this.http.get("/api/WarehouseApi/GetOrderInfo/" + orderID)
+            .pipe(
+                map((data: any[]) => {
+                    this.orderInfo = data;
+                    return true;
+                }));
+    }
+
+    saveOrder(form) {
+        return this.http.post("/api/WarehouseApi/AddOrder", form).subscribe((data) => { });
+    }
+
+    saveProduct(form) {
+        return this.http.post("/api/WarehouseApi/AddProduct", form).subscribe((data) => { });
+    }
+
+    saveProductsInOrder(form) {
+        return this.http.post("/api/WarehouseApi/AddProductsInOrder", form).subscribe((data) => { });
+    }
+
+    saveEdits(form) {
+        return this.http.put("/api/WarehouseApi/EditProduct", form).subscribe((data) => { });
+    }
+
+    deleteProduct(orderID: string) {
+        return this.http.delete("/api/WarehouseApi/DeleteProductById/" + orderID).subscribe((data) => { });
     }
 }

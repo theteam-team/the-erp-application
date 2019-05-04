@@ -1,0 +1,49 @@
+<app-warehouse></app-warehouse>
+
+<form #productForm="ngForm" (ngSubmit)="saveProduct(productForm)">
+        <div class="panel panel-primary col-md-9">
+            <div class="panel-heading">
+                <h3>Create New Product</h3>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-md-6 offset-md-2" for="id">Product ID</label>
+                    <input class="form-control col-md-6 offset-md-2" id="id" name="id" [(ngModel)]="id" type="text" placeholder="ID" />
+                </div>
+                <div class="form-group">
+                    <label class="col-md-6 offset-md-2" for="name">Product Name</label>
+                    <input class="form-control col-md-6 offset-md-2" id="name" name="name" [(ngModel)]="name" type="text" placeholder="Name" />
+                </div>
+                <div class="form-group">
+                    <label class="col-md-6 offset-md-2" for="description">Product Description</label>
+                    <input class="form-control col-md-6 offset-md-2" id="description" name="description" [(ngModel)]="description" type="text" placeholder="Description" />
+                </div>
+                <div class="form-group">
+                    <label class="col-md-6 offset-md-2" for="position">Product Position</label>
+                    <input class="form-control col-md-6 offset-md-2" id="position" name="position" [(ngModel)]="position" type="text" placeholder="Position" />
+                </div>
+                <div class="form-group">
+                    <label class="col-md-6 offset-md-2" for="price">Product Price</label>
+                    <input class="form-control col-md-6 offset-md-2" id="price" name="price" [(ngModel)]="price" type="text" placeholder="Price" />
+                </div>
+                <div class="form-group">
+                    <label class="col-md-6 offset-md-2" for="size">Product Size</label>
+                    <input class="form-control col-md-6 offset-md-2" id="size" name="size" [(ngModel)]="size" type="text" placeholder="Size" />
+                </div>
+                <div class="form-group">
+                    <label class="col-md-6 offset-md-2" for="weight">Product Weight</label>
+                    <input class="form-control col-md-6 offset-md-2" id="weight" name="weight" [(ngModel)]="weight" type="text" placeholder="Weight" />
+                </div>
+                <div class="form-group">
+                    <label class="col-md-6 offset-md-2" for="unitsInStock">Number of units</label>
+                    <input class="form-control col-md-6 offset-md-2" id="unitsInStock" name="unitsInStock" [(ngModel)]="unitsInStock" type="text" placeholder="Units" />
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button type="submit" class="btn btn-primary col-md-2 offset-md-4">Save</button>
+            </div>
+        </div>
+</form>
+<div>
+    <button type="button" (click)="goToProducts()">Cancel</button>
+</div>

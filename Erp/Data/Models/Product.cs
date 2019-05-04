@@ -12,12 +12,17 @@ namespace Erp.Models
     {
         [Required]
         public string id;
+        [Required]
         public string name;
         public string description;
+        [Required]
         public string position;
+        [Required]
         public double price;
+        [Required]
         public double size;
         public double weight;
+        [Required]
         public uint unitsInStock;
     }
 }

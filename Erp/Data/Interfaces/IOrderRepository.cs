@@ -10,7 +10,7 @@ namespace Erp.Interfaces
     public interface IOrderRepository : IRepository<Order>
     {
         Task<List<Order>> ShowCompletedOrders(byte[] error);
+        Task<List<Order>> ShowReadyOrders(byte[] error);
         Task<List<Order>> ShowOrdersInProgress(byte[] error);
-        Task<List<Product_In_Order>> ShowProductsInOrder(string id, byte[] error);
     }
 }

@@ -12,12 +12,11 @@ namespace Erp.Models
     public class Order
     {
        [Required]
-        public string Order_ID;
-        public string Order_Required_Date;
-        public string Order_Completed_Date;
-        public string Payment_Payment_ID;
-        public string Shipment_Shipment_ID;
-        public string Opportunities_Opportunity_ID;
-       
+        public string id;
+        public string requiredDate;
+        public string completedDate;
+        public string orderStatus;
+        public string customerID;
+        public string paymentID;
     }
 }

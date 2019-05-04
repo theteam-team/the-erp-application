@@ -1,38 +1,28 @@
-<div class="row">
-    <div>
-        <nav class="navbar navbar-dark bg-dark navbar-expand-md sticky-top justify-content-between">
-            <a class="navbar-brand" routerLink="">Modules</a>
-            <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <a class="navbar-brand" routerLink="/warehouse">Overview</a>
-            <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <a class="navbar-brand" routerLink="/warehouse/orders">Orders</a>
-            <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <a class="navbar-brand" routerLink="/warehouse/products">Products</a>
-            <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <a class="navbar-brand" routerLink="/warehouse/configuration">Configuration</a>
-            <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </nav>
-    </div>
+<div>
+    <nav class="navbar navbar-expand-md sticky-top justify-content-between">
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#warehouseMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="warehouseMenu" class="navbar-collapse" collapse>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="">Modules</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/warehouse">Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/warehouse/orders">Orders</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/warehouse/products">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/warehouse/configuration">Configuration</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 </div>
 
 <router-outlet></router-outlet>
-
-
-<!--
-    List<Product> products = await _iProductRepository.GetAll(error);
-    string info = await _iProductRepository.getInfo(id, key, error);
-    Product product = await _iProductRepository.GetById(id, error);
-    Order order = await _orderRepository.GetById(id, error);
-    List<Order> orders = await _orderRepository.ShowCompletedOrders(error);
-    List<Product_In_Order> orders = await _orderRepository.ShowProductsInOrder(id, error);
--->

@@ -1,4 +1,4 @@
-﻿using Erp.Interfaces;
+using Erp.Interfaces;
 using Erp.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,12 +16,15 @@ namespace Erp.Controllers
     {
         private readonly IProductRepository _iProductRepository;
         private readonly IOrderRepository _orderRepository;
+        private readonly IOrderProductRepository _orderProductRepository;
 
-        public WarehouseApiController(IProductRepository iProductRepository, IOrderRepository orderRepository)
+        public WarehouseApiController(IProductRepository iProductRepository, IOrderRepository orderRepository, IOrderProductRepository orderProductRepository)
         {
             _iProductRepository = iProductRepository;
             _orderRepository = orderRepository;
+            _orderProductRepository = orderProductRepository;
         }
+
         [HttpPost("AddProduct")]
         public async Task<ActionResult<string>> AddProduct(Product product)
         {
@@ -38,11 +41,12 @@ namespace Erp.Controllers
                 return Ok("successfuly added");
             }
         }
-        [HttpDelete("DeleteProduct")]
-        public async Task<ActionResult<string>> DeleteProduct(Product product)
+
+        [HttpPost("AddOrder")]
+        public async Task<ActionResult<string>> AddOrder(Order order)
         {
             byte[] error = new byte[500];
-            int status = await _iProductRepository.Delete(product, error);
+            int status = await _orderRepository.Create(order, error);
             string z = System.Text.Encoding.ASCII.GetString(error);
             if (status != 0)
             {
@@ -51,9 +55,44 @@ namespace Erp.Controllers
             }
             else
             {
-                return Ok("successfuly deleted");
+                return Ok("successfuly added");
             }
         }
+
+        [HttpPost("AddProductsInOrder")]
+        public async Task<ActionResult<string>> AddProductsInOrder(ProductInOrder product)
+        {
+            byte[] error = new byte[500];
+            int status = await _orderProductRepository.Create(product, error);
+            string z = System.Text.Encoding.ASCII.GetString(error);
+            if (status != 0)
+            {
+
+                return BadRequest(z.Remove(z.IndexOf('\0')));
+            }
+            else
+            {
+                return Ok("successfuly added");
+            }
+        }
+
+        [HttpPut("EditProduct")]
+        public async Task<ActionResult<string>> EditProduct(Product product)
+        {
+            byte[] error = new byte[500];
+            int status = await _iProductRepository.EditProduct(product, error);
+            string z = System.Text.Encoding.ASCII.GetString(error);
+            if (status != 0)
+            {
+
+                return BadRequest(z.Remove(z.IndexOf('\0')));
+            }
+            else
+            {
+                return Ok("successfuly added");
+            }
+        }
+
         [HttpGet("CheckUnitsInStock/{id}")]
         public async Task<ActionResult<int>> CheckUnitsInStock(string id)
         {
@@ -71,6 +110,7 @@ namespace Erp.Controllers
                 return BadRequest(y);
             }
         }
+
         [HttpPut("AddToStock/{id}")]
         public async Task<ActionResult<int>> AddToStock(string id, int newUnits)
         {
@@ -88,6 +128,7 @@ namespace Erp.Controllers
                 return BadRequest(y);
             }
         }
+
         [HttpDelete("RemoveFromStock/{id}")]
         public async Task<ActionResult<int>> RemoveFromStock(string id, int newUnits)
         {
@@ -105,25 +146,6 @@ namespace Erp.Controllers
                 return BadRequest(y);
             }
         }
-        [HttpPut("UpdateProductInfo/{id}")]
-        public async Task<ActionResult<int>> UpdateProductInfo(string id, string key, string value)
-        {
-            //Console.WriteLine(id);
-            byte[] error = new byte[500];
-            int status = await _iProductRepository.UpdateInfo(id, key, value, error);
-            string z = System.Text.Encoding.ASCII.GetString(error);
-            string y = z.Remove(z.IndexOf('\0'));
-            if (status == 0)
-            {
-
-                return Ok("Succesfully Modified");
-            }
-            else
-            {
-                return BadRequest(y);
-            }
-        }
-
 
         [HttpDelete("DeleteProductById/{id}")]
         public async Task<ActionResult<string>> DeleteProductById(string id)
@@ -160,23 +182,7 @@ namespace Erp.Controllers
                 return BadRequest(y);
             }
         }
-        [HttpGet("GetProductInfo/{id}")]
-        public async Task<ActionResult<Product>> GetProductInfo(string id, string key)
-        {
-            byte[] error = new byte[500];
-            string info = await _iProductRepository.getInfo(id, key, error);
-            string z = Encoding.ASCII.GetString(error);
-            string y = z.Remove(z.IndexOf('\0'));
-            if (y == "")
-            {
-
-                return Ok(info);
-            }
-            else
-            {
-                return BadRequest(y);
-            }
-        }
+        
         [HttpGet("ShowProducts")]
         public async Task<ActionResult<List<Product>>> ShowProducts()
         {
@@ -194,6 +200,25 @@ namespace Erp.Controllers
                 return BadRequest(y);
             }
         }
+
+        [HttpGet("SearchProducts/{key}/{value}")]
+        public async Task<ActionResult<List<Product>>> SearchProducts(string key, string value)
+        {
+            byte[] error = new byte[500];
+            List<Product> products = await _iProductRepository.SearchProducts(key, value, error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(products);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+
         [HttpGet("GetOrderInfo/{id}")]
         public async Task<ActionResult<Order>> GetOrderInfo(string id)
         {
@@ -211,6 +236,43 @@ namespace Erp.Controllers
                 return BadRequest(y);
             }
         }
+
+        [HttpGet("ShowAllOrders")]
+        public async Task<ActionResult<List<Order>>> ShowAllOrders()
+        {
+            byte[] error = new byte[500];
+            List<Order> orders = await _orderRepository.GetAll(error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(orders);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+
+        [HttpGet("ShowReadyOrders")]
+        public async Task<ActionResult<List<Order>>> ShowReadyOrders()
+        {
+            byte[] error = new byte[500];
+            List<Order> orders = await _orderRepository.ShowReadyOrders(error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(orders);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+
         [HttpGet("ShowCompletedOrders")]
         public async Task<ActionResult<List<Order>>> ShowCompletedOrders()
         {
@@ -228,6 +290,7 @@ namespace Erp.Controllers
                 return BadRequest(y);
             }
         }
+
         [HttpGet("ShowOrdersInProgress")]
         public async Task<ActionResult<List<Order>>> ShowOrdersInProgress()
         {
@@ -245,11 +308,12 @@ namespace Erp.Controllers
                 return BadRequest(y);
             }
         }
+
         [HttpGet("ShowProductsInOrder/{id}")]
-        public async Task<ActionResult<List<Product_In_Order>>> ShowProductsInOrder(string id)
+        public async Task<ActionResult<List<ProductInOrder>>> ShowProductsInOrder(string id)
         {
             byte[] error = new byte[500];
-            List<Product_In_Order> orders = await _orderRepository.ShowProductsInOrder(id, error);
+            List<ProductInOrder> orders = await _orderProductRepository.ShowProductsInOrder(id, error);
             string z = Encoding.ASCII.GetString(error);
             string y = z.Remove(z.IndexOf('\0'));
             if (y == "")

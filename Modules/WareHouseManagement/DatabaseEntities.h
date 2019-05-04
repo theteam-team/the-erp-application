@@ -10,19 +10,21 @@ struct Product
 	double weight;
 	unsigned int unitsInStock;
 };
+
 struct Order 
 {
-	char* Order_ID;
-	char* Order_Required_Date;
-	char* Order_Completed_Date;
-	char* Payment_Payment_ID;
-	char* Shipment_Shipment_ID;
-	char* Opportunities_Opportunity_ID;
+	char* id;
+	char* requiredDate;
+	char* completedDate;
+	char* orderStatus;
+	char* customerID;
+	char* paymentID;
 };
-struct Product_In_Order 
+
+struct ProductInOrder
 {
 	char* orderId;
 	char* productId;
-	unsigned int Units;
-	unsigned int Units_Done;
+	unsigned int units;
+	unsigned int unitsDone;
 };

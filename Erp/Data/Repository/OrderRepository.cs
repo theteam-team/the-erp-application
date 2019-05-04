@@ -40,6 +40,29 @@ namespace Erp.Repository
 
         }
 
+        public async Task<List<Order>> ShowReadyOrders(byte[] error)
+        {
+            List<Order> orders = new List<Order>();
+            IntPtr ProductPtr;
+            await Task.Run(() =>
+            {
+
+                int number_fields = Warehouse_Wrapper.showReadyOrders(out ProductPtr, error);
+
+                IntPtr current = ProductPtr;
+                for (int i = 0; i < number_fields; ++i)
+                {
+                    Order order = (Order)Marshal.PtrToStructure(current, typeof(Order));
+
+                    current = (IntPtr)((long)current + Marshal.SizeOf(order));
+                    orders.Add(order);
+                }
+                Marshal.FreeCoTaskMem(ProductPtr);
+            });
+            return orders;
+
+        }
+
         public async Task<List<Order>> ShowOrdersInProgress(byte[] error)
         {
             List<Order> orders = new List<Order>();
@@ -60,28 +83,6 @@ namespace Erp.Repository
                 Marshal.FreeCoTaskMem(ProductPtr);
             });
             return orders;
-        }
-
-        public async Task<List<Product_In_Order>> ShowProductsInOrder(string id, byte[] error)
-        {
-            List<Product_In_Order> product_In_Orders = new List<Product_In_Order>();
-            IntPtr ProductPtr;
-            await Task.Run(() =>
-            {
-
-                int number_fields = Warehouse_Wrapper.showProductsInOrder(id ,out ProductPtr, error);
-
-                IntPtr current = ProductPtr;
-                for (int i = 0; i < number_fields; ++i)
-                {
-                    Product_In_Order product_In_Order = (Product_In_Order)Marshal.PtrToStructure(current, typeof(Product_In_Order));
-  
-                    current = (IntPtr)((long)current + Marshal.SizeOf(product_In_Order));
-                    product_In_Orders.Add(product_In_Order);
-                }
-                Marshal.FreeCoTaskMem(ProductPtr);
-            });
-            return product_In_Orders;
         }
     }
 }

@@ -1,5 +1,22 @@
 <app-warehouse></app-warehouse>
 
-<p>
-  orders works!
-</p>
+<div>
+    <button class="col-md-3" type="button" (click)="addOrder()">Add Order</button>
+</div>
+<div class="row">
+    <button type="button" (click)="displayAllOrders()">All</button>
+    <button type="button" (click)="displayCompletedOrders()">Done</button>
+    <button type="button" (click)="displayReadyOrders()">Ready</button>
+    <button type="button" (click)="displayOrdersInProgress()">In Progress</button>
+</div>
+<div class="row">
+    <div class="order-info col-md-3" *ngFor="let o of orders">
+        <div class="border rounded p-3">
+            <ul class="order-props">
+                <li>ID: {{ o.id }}</li>
+                <li>Status: {{ o.orderStatus }}</li>
+            </ul>
+            <button type="button" (click)="onOrderClick(o.id)">See All Info</button>
+        </div>
+    </div>
+</div>

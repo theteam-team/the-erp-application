@@ -1,5 +1,10 @@
 <app-warehouse></app-warehouse>
 
-<p>
-  order works!
-</p>
+<div class="order-info col-md-3">
+    <div class="border rounded p-3">
+        <ul class="order-props">
+            <li>ID: {{ orderInfo.id }}</li>
+            <li>Status: {{ orderInfo.orderStatus }}</li>
+        </ul>
+    </div>
+</div>

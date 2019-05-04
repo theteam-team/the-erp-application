@@ -11,12 +11,16 @@ import { AccountingModule } from './accounting/accounting';
 import { DataService } from './shared/dataService';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes, Router } from '@angular/router';
+
 import { WarehouseComponent } from './warehouse/warehouse.component';
 import { ProductsComponent } from './warehouse/products/products.component';
 import { OrdersComponent } from './warehouse/orders/orders.component';
 import { ConfigurationComponent } from './warehouse/configuration/configuration.component';
 import { ProductComponent } from './warehouse/product/product.component';
 import { OrderComponent } from './warehouse/order/order.component';
+import { AddProductComponent } from './warehouse/add-product/add-product.component';
+import { AddOrderComponent } from './warehouse/add-order/add-order.component';
+
 import { CreateOpportunityComponent } from './CRM/create-opportunity/create-opportunity.component';
 import { CreateCustomerComponent } from './CRM/create-customer/create-customer.component';
 import { CustomersComponent } from './CRM/customers/customers.component';
@@ -25,6 +29,7 @@ import { CrmComponent } from './CRM/crm.component';
 import { customerService } from './crm/customers/customer.service';
 import { CustomerFilterPipe } from './crm/customers/customer-filter';
 import { OpportunityFilterPipe } from './crm/pipeline/opportunity-filter';
+import { AddProductsInOrderComponent } from './warehouse/add-products-in-order/add-products-in-order.component';
 
 let routes = [
     { path: "", component: ModuleList },
@@ -36,8 +41,11 @@ let routes = [
     { path: "warehouse/products", component: ProductsComponent },
     { path: "warehouse/orders", component: OrdersComponent },
     { path: "warehouse/configuration", component: ConfigurationComponent },
-    { path: "warehouse/products/:productid", component: ProductComponent },
-    { path: "warehouse/orders/:orderid", component: OrderComponent },
+    { path: "warehouse/product/:productid", component: ProductComponent },
+    { path: "warehouse/order/:orderid", component: OrderComponent },
+    { path: "warehouse/addproduct", component: AddProductComponent },
+    { path: "warehouse/addOrder", component: AddOrderComponent },
+    { path: "warehouse/addOrder/addProducts", component: AddProductsInOrderComponent },
 
     { path: "crm", component: CrmComponent },
     { path: "crm/pipeline", component:PipelineComponent },
@@ -45,6 +53,7 @@ let routes = [
     { path: "crm/editCustomer/:id", component: CreateCustomerComponent },
     { path: "crm/editOpportunity/:id", component: CreateOpportunityComponent }
 ];
+
 @NgModule({
   declarations: [
       AppComponent,
@@ -64,7 +73,10 @@ let routes = [
       CreateOpportunityComponent,
       CrmComponent,
       CustomerFilterPipe,
-      OpportunityFilterPipe
+      OpportunityFilterPipe,
+      AddProductComponent,
+      AddOrderComponent,
+      AddProductsInOrderComponent
     ],
   imports: [
       BrowserModule,
@@ -75,7 +87,8 @@ let routes = [
 
       RouterModule.forRoot(routes, {
           useHash: true,
-          enableTracing: false
+          enableTracing: false,
+          onSameUrlNavigation: "reload"
       })
     ],
 
@@ -87,5 +100,5 @@ let routes = [
   bootstrap: [AppComponent, Accounting] // 
     
 })
+
 export class AppModule { }
- 

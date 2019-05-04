@@ -1,5 +1,56 @@
 <app-warehouse></app-warehouse>
 
-<p>
-  product works!
-</p>
+<div class="row">
+    <button type="button" (click)="editProduct()">Edit</button>
+</div>
+<div class="product-info">
+    <form #productForm="ngForm" (ngSubmit)="saveEdits(productForm)">
+        <fieldset [disabled]="formDisabled">
+            <div class="panel panel-primary col-md-9">
+                <div class="panel-heading">
+                    <h3>Product Info</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-md-6 offset-md-2" for="id">Product ID</label>
+                        <input disabled="disabled" class="form-control col-md-6 offset-md-2" id="id" name="id" [(ngModel)]="id" type="text" value={{productInfo.id}} />
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-6 offset-md-2" for="name">Product Name</label>
+                        <input class="form-control col-md-6 offset-md-2" id="name" name="name" [(ngModel)]="name" type="text" value={{productInfo.name}} />
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-6 offset-md-2" for="description">Product Description</label>
+                        <input class="form-control col-md-6 offset-md-2" id="description" name="description" [(ngModel)]="description" type="text" value={{productInfo.description}} />
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-6 offset-md-2" for="position">Product Position</label>
+                        <input class="form-control col-md-6 offset-md-2" id="position" name="position" [(ngModel)]="position" type="text" value={{productInfo.position}} />
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-6 offset-md-2" for="price">Product Price</label>
+                        <input class="form-control col-md-6 offset-md-2" id="price" name="price" [(ngModel)]="price" type="text" value={{productInfo.price}} />
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-6 offset-md-2" for="size">Product Size</label>
+                        <input class="form-control col-md-6 offset-md-2" id="size" name="size" [(ngModel)]="size" type="text" value={{productInfo.size}} />
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-6 offset-md-2" for="weight">Product Weight</label>
+                        <input class="form-control col-md-6 offset-md-2" id="weight" name="weight" [(ngModel)]="weight" type="text" value={{productInfo.weight}} />
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-6 offset-md-2" for="unitsInStock">Number of units</label>
+                        <input class="form-control col-md-6 offset-md-2" id="unitsInStock" name="unitsInStock" [(ngModel)]="unitsInStock" type="text" value={{productInfo.unitsInStock}} />
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-primary col-md-2 offset-md-2">Save</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+    <div>
+        <button type="button" (click)="goToProducts()">Cancel</button>
+    </div>
+</div>
