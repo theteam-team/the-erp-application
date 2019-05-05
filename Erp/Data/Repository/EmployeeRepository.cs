@@ -5,11 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Erp.Models;
 using Erp.Interfaces;
+using Erp.Data;
+using Microsoft.AspNetCore.Identity;
+
 namespace Erp.Repository
 {
     public class EmployeeRepository : Repository<Employee>, IEmployeeRepository
     {
-        public EmployeeRepository(Management management) : base(management)
+        public EmployeeRepository(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
         {
 
         }

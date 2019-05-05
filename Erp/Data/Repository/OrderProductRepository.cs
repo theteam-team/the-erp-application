@@ -7,12 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using Erp.ModulesWrappers;
+using Erp.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace Erp.Repository
 {
     public class OrderProductRepository : Repository<ProductInOrder>, IOrderProductRepository
     {
-        public OrderProductRepository(Management management) : base(management)
+        public OrderProductRepository(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
         {
 
         }

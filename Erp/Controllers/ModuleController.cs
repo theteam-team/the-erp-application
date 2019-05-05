@@ -5,9 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Erp.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Erp.Controllers
 {
@@ -16,8 +18,9 @@ namespace Erp.Controllers
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = "Bearer, Identity.Application")]
     public class ModuleController : ControllerBase
-    {
+    {        
         private AccountDbContext _accountDbcontext;
         private DataDbContext _dataDbContext;
 
@@ -26,11 +29,12 @@ namespace Erp.Controllers
             _accountDbcontext = accountsDbContext;
             _dataDbContext = dataDbContext;
         }
+        
+        
         [HttpGet("GetModules/{database}")]
-        //[Authorize(Roles = "Adminstrator")]
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<List<Modules>> GetModules(string database)
         {
+            Console.Write("ads");
             if (!CommonNeeds.checkdtb(_dataDbContext, database))
             {
 

@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿
+$(document).ready(function () {
     var x = 0;
     var s = "";
     console.log("Hello Pluralsight");
@@ -6,7 +7,7 @@
     button.on("click", function () {
         console.log("Buying Item");
     });
-
+    
     var productInfo = $(".product-props li");
     productInfo.on("click", function () {
         console.log("clicked one of the items: " + $(this).text());
