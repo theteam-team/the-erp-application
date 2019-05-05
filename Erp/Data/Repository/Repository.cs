@@ -9,32 +9,35 @@ using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using Erp.ViewModels.CRN_Tabels;
 using System.Text;
+using Erp.Data;
+using Erp.Data.Entities;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace Erp.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
     {
+        private AccountDbContext _accountdbContext;
+        private readonly UserManager<ApplicationUser> _usermanager;
+        private readonly DataDbContext _datadbContext;
         private Management _managment;
 
-        //public Repository( )
-        //{
-        //   // _context = context;
-        //}
-        ////otected void Save() => _context.SaveChanges();
+        public ClaimsPrincipal User { get;  set; }
 
-        //public int Count(Func<T, bool> predicate)
-        //{
-        //    //return _context.Set<T>().Where(predicate).Count();
-        //}
-        public Repository(Management management)
+       
+        public Repository(Management management, DataDbContext datadbContext, AccountDbContext accountdbContext
+            , UserManager<ApplicationUser> userManager)
         {
+            _accountdbContext = accountdbContext;
+            _usermanager = userManager;
+            _datadbContext = datadbContext;
             _managment = management;
         }
 
         public async Task<int> Create(T entity, byte[] error)
         {
             int status = 0;
-
             if (typeof(T) == typeof(Product))
             {
                 Product product = (Product)(object)(entity);
@@ -90,6 +93,21 @@ namespace Erp.Repository
             return status;
         }
 
+        protected void InitiateConnection()
+        {
+            var user = _accountdbContext.ErpUsers.Where(us => us.UserName == User.Identity.Name).First();
+            if (!CommonNeeds.checkdtb(_datadbContext, user.DatabaseName))
+            {
+                throw new Exception("Error Please DataBase Does Not Exist");
+            }
+        }
+
+        public async Task Create(T entity)
+        {
+            await Task.Run(()=>InitiateConnection());
+            _datadbContext.Add(entity);
+            _datadbContext.SaveChanges();
+        }
         public async Task<int> Delete(string id, byte[] error)
         {
             int status = 10;
@@ -101,12 +119,6 @@ namespace Erp.Repository
             }
             return status;
         }
-
-        //public IEnumerable<T> Find(Func<T, bool> predicate)
-        //{
-
-        //}
-
         public async Task<List<T>> GetAll(byte[] error)
         {
             if (typeof(T) == typeof(Product))
@@ -154,6 +166,16 @@ namespace Erp.Repository
             }
             return null;
         }
+        public async Task<List<T>> GetAll()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                await Task.Run(() => InitiateConnection());
+                return _datadbContext.Set<T>().ToList();
+            }
+            return null;
+        }
+
 
         public async Task <T> GetById(string id, byte[] error)
         {
@@ -202,7 +224,14 @@ namespace Erp.Repository
                 Console.WriteLine("status = " + status);
                 return (T)(object)product;
             }
-            return null;           
+            return null ;
+            
         }
+        public async Task<T> GetById(object id)
+        {
+            await Task.Run(() => InitiateConnection());
+            return _datadbContext.Find<T>(id);
+        }
+       
     }
 }

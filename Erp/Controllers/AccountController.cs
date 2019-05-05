@@ -46,7 +46,6 @@ namespace Erp.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            x++;
             if (User.Identity.IsAuthenticated)
             {
 
@@ -234,7 +233,7 @@ namespace Erp.Controllers
         [HttpPost("CreateToken")]
         public async Task<IActionResult> CreateToken([FromBody] LoginModel model)
         {
-            Console.WriteLine("here");
+       
 
             if (ModelState.IsValid)
             {
@@ -266,7 +265,7 @@ namespace Erp.Controllers
                           _config["Tokens:Issuer"],
                           _config["Tokens:Audience"],
                           claims,
-                          expires: DateTime.Now.AddMinutes(30),
+                          expires: DateTime.Now.AddMinutes(10000),
                           signingCredentials: creds);
 
                         var results = new
