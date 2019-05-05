@@ -51,6 +51,7 @@ namespace Erp
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddTransient<IOrderProductRepository, OrderProductRepository>();
             services.AddDbContext<AccountDbContext>(options =>
                 options.UseSqlServer(_config.GetConnectionString("DefaultConnection")));
             services.AddDbContext<DataDbContext>();
