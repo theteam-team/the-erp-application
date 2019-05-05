@@ -7,7 +7,7 @@
 #include <string.h>
 #include <cstdlib>
 #include <conio.h>
-#include"DatabaseEntities.h"
+#include "DatabaseEntities.h"
 #include <mysql.h>
 
 #pragma warning(disable : 4996)
@@ -102,7 +102,7 @@ extern "C" ERP_API int addProductsInOrder(ProductInOrder* product, char* error)
 
 	if (conn) {
 
-		string query = (string) "insert into order_has_product values ('" + product->orderId + "', '" + product->productId + "', " + to_string(product->units) + ", " + to_string(product->unitsDone) + ")";
+		string query = (string) "insert into order_has_product values ('" + product->orderID + "', '" + product->productID + "', " + to_string(product->unitsOrdered) + ", " + to_string(product->unitsDone) + ")";
 		cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
@@ -628,8 +628,8 @@ extern "C" ERP_API int editProduct(Product* product, char* error)
 				 ProductInOrder *_product = *product;
 				 while (row = mysql_fetch_row(res)) {
 
-					 _product->productId = row[0];
-					 _product->units = stoi(row[1]);
+					 _product->productID = row[0];
+					 _product->unitsOrdered = stoi(row[1]);
 					 _product->unitsDone = stoi(row[2]);
 					 numberOfRows++;
 					 _product++;

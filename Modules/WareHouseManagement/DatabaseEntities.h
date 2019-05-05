@@ -23,8 +23,8 @@ struct Order
 
 struct ProductInOrder
 {
-	char* orderId;
-	char* productId;
-	unsigned int units;
+	char* orderID;
+	char* productID;
+	unsigned int unitsOrdered;
 	unsigned int unitsDone;
 };

@@ -10,9 +10,9 @@ import { Router } from '@angular/router';
 export class AddProductsInOrderComponent implements OnInit {
 
     public orderInfo = {
-        "orderId": "3",
-        "productId": "3",
-        "units": 3,
+        "orderID": "3",
+        "productID": "3",
+        "unitsOrdered": 3,
         "unitsDone": 0
     };
 

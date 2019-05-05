@@ -28,6 +28,7 @@ import { ProductComponent } from './warehouse/product/product.component';
 import { OrderComponent } from './warehouse/order/order.component';
 import { AddProductComponent } from './warehouse/add-product/add-product.component';
 import { AddOrderComponent } from './warehouse/add-order/add-order.component';
+import { AddProductsInOrderComponent } from './warehouse/add-products-in-order/add-products-in-order.component';
 
 import { CreateOpportunityComponent } from './CRM/create-opportunity/create-opportunity.component';
 import { CreateCustomerComponent } from './CRM/create-customer/create-customer.component';
@@ -37,7 +38,6 @@ import { CrmComponent } from './CRM/crm.component';
 import { customerService } from './crm/customers/customer.service';
 import { CustomerFilterPipe } from './crm/customers/customer-filter';
 import { OpportunityFilterPipe } from './crm/pipeline/opportunity-filter';
-import { AddProductsInOrderComponent } from './warehouse/add-products-in-order/add-products-in-order.component';
 
 let routes = [
 

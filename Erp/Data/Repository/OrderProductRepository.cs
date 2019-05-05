@@ -19,7 +19,7 @@ namespace Erp.Repository
 
         public async Task<List<ProductInOrder>> ShowProductsInOrder(string id, byte[] error)
         {
-            List<ProductInOrder> product_In_Orders = new List<ProductInOrder>();
+            List<ProductInOrder> productsInOrder = new List<ProductInOrder>();
             IntPtr ProductPtr;
             await Task.Run(() =>
             {
@@ -29,14 +29,14 @@ namespace Erp.Repository
                 IntPtr current = ProductPtr;
                 for (int i = 0; i < number_fields; ++i)
                 {
-                    ProductInOrder product_In_Order = (ProductInOrder)Marshal.PtrToStructure(current, typeof(ProductInOrder));
+                    ProductInOrder productInOrder = (ProductInOrder)Marshal.PtrToStructure(current, typeof(ProductInOrder));
 
-                    current = (IntPtr)((long)current + Marshal.SizeOf(product_In_Order));
-                    product_In_Orders.Add(product_In_Order);
+                    current = (IntPtr)((long)current + Marshal.SizeOf(productInOrder));
+                    productsInOrder.Add(productInOrder);
                 }
                 Marshal.FreeCoTaskMem(ProductPtr);
             });
-            return product_In_Orders;
+            return productsInOrder;
         }
     }
 }
