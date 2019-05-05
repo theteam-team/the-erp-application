@@ -20,18 +20,34 @@ namespace Erp.Controllers
     [Authorize(Roles = "Adminstrator")]
     public class NodeLangController : Controller
     {
+        private readonly UserManager<ApplicationUser> _usermanager;
+        private readonly IHubContext<DeployWorkflowHub> _hubcontext;
+        private readonly DeployWorkflowHub _monitoringHub;
+        private INodeLangRepository _nodeLangRepository;
         [HttpGet("monitoring")]
-        public IActionResult Monitoring()
+        public IActionResult Monitoring_Deployer()
         {
             return View();
         }
+        [HttpGet("monitoring/{id}")]
+        public IActionResult Monitoring_Workflow([FromRoute]string id)
+        {
+            ViewBag.Id = id;
+            return View();
+        }
+        [HttpGet("GetWorkFlow/{id}")]
+        public async Task<ActionResult<string>> GetWorkFlow([FromRoute]string id)
+        {
+            Guid guid = Guid.Parse(id);
+            _nodeLangRepository.User = User;
+            var workFlow = await _nodeLangRepository.GetById(id);
+            string WorkFlowStr = workFlow.WorkFlow;
+            return WorkFlowStr;
+            
+        }
 
-        private readonly UserManager<ApplicationUser> _usermanager;
-        private readonly IHubContext<MonitoringHub> _hubcontext;
-        private readonly MonitoringHub _monitoringHub;
-        private INodeLangRepository _nodeLangRepository;
 
-        public NodeLangController(INodeLangRepository nodeLangRepository, UserManager<ApplicationUser> userManager, IHubContext<MonitoringHub> hubcontext)
+        public NodeLangController(INodeLangRepository nodeLangRepository, UserManager<ApplicationUser> userManager, IHubContext<DeployWorkflowHub> hubcontext)
         {
             _usermanager = userManager;
             _hubcontext = hubcontext;
@@ -40,20 +56,18 @@ namespace Erp.Controllers
         [HttpPost("UploadWorkFlow")]
         public async Task<IActionResult> UploadWorkFlow(IFormFile file)
         {
-            //try
-            //{
+            try
+            {
                 bool isCopied = false;
-                //1 check if the file length is greater than 0 bytes 
                 if (file.Length > 0)
                 {
-                    string fileName = file.FileName;
-                    //2 Get the extension of the file
+                    string fileName = file.FileName;                   
                     string extension = Path.GetExtension(fileName);
-                    //3 check the file extension as png
                     if (extension == ".xml")
                     {
                         string workFlowStr = null;
                         string WorkFlowName = null;
+                        string workFlowId = null;
                         using (Stream stream = file.OpenReadStream())
                         {
                             BinaryReader br = new BinaryReader(stream);
@@ -69,13 +83,12 @@ namespace Erp.Controllers
                                 throw new Exception("This xml file is not supported");
                             }
                             WorkFlowName = element.Attributes["name"].Value;
+                            workFlowId = element.Attributes["id"].Value;
                             Console.WriteLine(WorkFlowName);
                         }
-                        //4 set the path where file will be copied
                         string filePath = Path.GetFullPath(
                             Path.Combine(Directory.GetCurrentDirectory(),
                                                         "wwwroot/WorkFlows"));
-                        //5 copy the file to the path
                         using (var fileStream = new FileStream(
                             Path.Combine(filePath, fileName),
                                            FileMode.Create))
@@ -87,21 +100,21 @@ namespace Erp.Controllers
                         }
                         if (isCopied)
                         {
-                            Guid id = Guid.NewGuid();
-                            string idstr = id.ToString();
+
+                            string idstr = workFlowId;
+                           
                             Console.WriteLine(idstr);
-                         _nodeLangRepository.User = User;
+                            _nodeLangRepository.User = User;
                             await _nodeLangRepository.Create(new NodeLangWorkflow
-                                {
-                                    Id = id,
-                                    Name = WorkFlowName,
-                                    WorkFlow = workFlowStr,
-                                    RuningInstances = 0
-                                }
+                            {
+                                Id = workFlowId,
+                                Name = WorkFlowName,
+                                WorkFlow = workFlowStr,
+                                RuningInstances = 0
+                            }
                             );
-
-
-                        await _hubcontext.Clients.All.SendAsync("updateDeployList", idstr, WorkFlowName);                      
+                            await _hubcontext.Clients.All.SendAsync("updateDeployList", idstr, WorkFlowName, workFlowStr);
+                            return Ok();
                         }
                     }
                     else
@@ -109,7 +122,12 @@ namespace Erp.Controllers
                         throw new Exception("File must be either .xml");
                     }
                 }
-            return RedirectToAction("Monitoring");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return BadRequest("error");
 
         }
     }

@@ -13,7 +13,7 @@ namespace Erp.Repository
 {
     public class OpportunityRepository : Repository<Opportunities_product>, IOpportunityRepository
     {
-        public OpportunityRepository(Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, userManager)
+        public OpportunityRepository(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
         {
 
         }

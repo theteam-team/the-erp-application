@@ -19,24 +19,18 @@ namespace Erp.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
     {
+        private AccountDbContext _accountdbContext;
         private readonly UserManager<ApplicationUser> _usermanager;
         private readonly DataDbContext _datadbContext;
         private Management _managment;
 
         public ClaimsPrincipal User { get;  set; }
 
-        //public Repository( )
-        //{
-        //   // _context = context;
-        //}
-        ////otected void Save() => _context.SaveChanges();
-
-        //public int Count(Func<T, bool> predicate)
-        //{
-        //    //return _context.Set<T>().Where(predicate).Count();
-        //}
-        public Repository(Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager)
+       
+        public Repository(Management management, DataDbContext datadbContext, AccountDbContext accountdbContext
+            , UserManager<ApplicationUser> userManager)
         {
+            _accountdbContext = accountdbContext;
             _usermanager = userManager;
             _datadbContext = datadbContext;
             _managment = management;
@@ -90,13 +84,19 @@ namespace Erp.Repository
             return status;
             
         }
-        public async Task Create(T entity)
+
+        protected void InitiateConnection()
         {
-            var user = await _usermanager.GetUserAsync(User);
+            var user = _accountdbContext.ErpUsers.Where(us => us.UserName == User.Identity.Name).First();
             if (!CommonNeeds.checkdtb(_datadbContext, user.DatabaseName))
             {
                 throw new Exception("Error Please DataBase Does Not Exist");
             }
+        }
+
+        public async Task Create(T entity)
+        {
+            await Task.Run(()=>InitiateConnection());
             _datadbContext.Add(entity);
             _datadbContext.SaveChanges();
         }
@@ -122,12 +122,6 @@ namespace Erp.Repository
             return status;
 
         }
-
-        //public IEnumerable<T> Find(Func<T, bool> predicate)
-        //{
-
-        //}
-
         public async Task<List<T>> GetAll(byte[] error)
         {
             if (typeof(T) == typeof(Product))
@@ -154,6 +148,16 @@ namespace Erp.Repository
             
             return null;
         }
+        public async Task<List<T>> GetAll()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                await Task.Run(() => InitiateConnection());
+                return _datadbContext.Set<T>().ToList();
+            }
+            return null;
+        }
+
 
         public async Task <T> GetById(string id, byte[] error)
         {
@@ -193,7 +197,11 @@ namespace Erp.Repository
             return null ;
             
         }
-
+        public async Task<T> GetById(object id)
+        {
+            await Task.Run(() => InitiateConnection());
+            return _datadbContext.Find<T>(id);
+        }
         public async Task<int> UpdateInfo(string id, string key, string value, byte[] error)
         {
             int status = 0;
@@ -208,10 +216,7 @@ namespace Erp.Repository
             
             if (typeof(T) == typeof(Product))
             {
-                //IntPtr x = await Task.Run(() => Warehouse_Wrapper.getProductInfo(id, key, error));
-                //string z = Marshal.PtrToStringAnsi(x);
-                //Marshal.FreeCoTaskMem(x);
-                //return z;
+                
                 StringBuilder sb = new StringBuilder(256);
                 IntPtr z = await Task.Run(() => Warehouse_Wrapper.getProductInfo(id, key, sb,error));
                 string x = Marshal.PtrToStringAnsi(z);

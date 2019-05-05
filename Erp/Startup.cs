@@ -18,6 +18,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Collections.Generic;
 using Erp.Hubs;
+using Erp.Hups;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Erp
 {
@@ -42,25 +45,12 @@ namespace Erp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<INodeLangRepository, NodeLangRepository>();
-            services.AddTransient<MonitoringHub>();
-            services.AddSignalR();
-            services.AddAuthentication()
-                .AddCookie()
-                .AddJwtBearer(cfg => {
-                    cfg.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidateIssuer = true,
-                        ValidIssuer = _config["Tokens:Issuer"],
-                        ValidAudience = _config["Tokens:Audience"],                       
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]))
-                    };
-                    });
+            services.AddSignalR();           
             services.AddTransient<ICustomerRepository, CustomerRepository>();
             services.AddTransient<IOpportunityRepository, OpportunityRepository>();
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
-            //add the database contexts to the services Containers to use them by the dependency injection
             services.AddDbContext<AccountDbContext>(options =>
                 options.UseSqlServer(_config.GetConnectionString("DefaultConnection")));
             services.AddDbContext<DataDbContext>();
@@ -74,6 +64,20 @@ namespace Erp
             })
                     .AddEntityFrameworkStores<AccountDbContext>()
                     .AddDefaultTokenProviders();
+            services.AddAuthentication()                  
+                .AddCookie()
+                .AddJwtBearer(cfg => 
+                    {
+                        cfg.SaveToken = true;
+                        cfg.RequireHttpsMetadata = true;
+                        cfg.TokenValidationParameters = new TokenValidationParameters()
+                        {
+                            ValidateIssuer = true,
+                            ValidIssuer = _config["Tokens:Issuer"],
+                            ValidAudience = _config["Tokens:Audience"],                       
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]))
+                        };
+                    });
             //add the management as a scoped service ,a new object per each new request, to the service Container to use it by the dependency injection 
             services.AddScoped<Management>();
             //enahance the management system by adding the policy-based-authorization
@@ -132,15 +136,18 @@ namespace Erp
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, AccountDbContext mcontext)
         {
-            mcontext.Database.EnsureCreated(); //ensure that the database used to store user accounts is created at the begining
-            app.UseAuthentication();//enable the use of the Authentication of the http request
+            //ensure that the database used to store user accounts is created at the begining
+
+           
             app.UseNodeModules(env);//include the Node modules File into hte the response
             app.UseStaticFiles();//mark wwwroot Files as servable
             app.UseSession();//enable the use of the session storge 
-            app.UseWebSockets();
+            app.UseWebSockets();            
+            app.UseAuthentication();//enable the use of the Authentication of the http request
             app.UseSignalR(routes =>
             {
-                routes.MapHub<MonitoringHub>("/MonitoringHub");
+                routes.MapHub<DeployWorkflowHub>("/DeployWorkflowHub");
+                routes.MapHub<MonitoringWorkflowHub>("/MonitoringWorkflowHub");
             });
             
             app.UseMvc(cfg =>

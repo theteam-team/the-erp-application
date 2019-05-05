@@ -10,14 +10,17 @@ namespace Erp.Interfaces
     {
          ClaimsPrincipal User { get;  set; }
         Task<List<T>> GetAll(byte[] error);
+        Task<List<T>> GetAll();
 
         //IEnumerable<T> Find(Func<T, bool> predicate);
 
+        Task<T> GetById(object id);
         Task<T> GetById(string id, byte[] error);
 
         Task<int> Create(T entity, byte[] error);
         Task Create(T entity);
         Task<int> UpdateInfo(string id, string key, string value, byte[] error);
+       
         Task<string> getInfo(string id, string key,  byte[] error);
   
 
