@@ -265,7 +265,7 @@ namespace Erp.Controllers
                           _config["Tokens:Issuer"],
                           _config["Tokens:Audience"],
                           claims,
-                          expires: DateTime.Now.AddMinutes(10000),
+                          expires: DateTime.Now.AddMinutes(100000000),
                           signingCredentials: creds);
 
                         var results = new
