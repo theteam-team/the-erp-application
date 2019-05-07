@@ -148,7 +148,7 @@ namespace Erp
             app.UseSignalR(routes =>
             {
                 routes.MapHub<DeployWorkflowHub>("/DeployWorkflowHub");
-                routes.MapHub<MonitoringWorkflowHub>("/MonitoringWorkflowHub");
+                routes.MapHub<NotificationHub>("/NotificationHub");
             });
             
             app.UseMvc(cfg =>

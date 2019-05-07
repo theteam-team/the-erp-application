@@ -66,6 +66,15 @@
             A Class rebresents the Modules Tables in the database
             </summary>
         </member>
+        <member name="M:Erp.Hubs.DeployWorkflowHub.GetCurrentDeployed">
+            Deployment
+        </member>
+        <member name="M:Erp.Hubs.DeployWorkflowHub.GetRunningWorkFlowInstances(System.String)">
+            Insatances
+        </member>
+        <member name="M:Erp.Hubs.DeployWorkflowHub.GetExecutedNodes(System.String,System.String)">
+            Executing 
+        </member>
         <member name="T:Erp.Management">
             <summary>
             This class represents the management System which is used To Assign users roles, get users roles ... etc
