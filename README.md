@@ -11,8 +11,8 @@ An EPR System for Medium Businesses and Start-Ups
 * Create **erp** database, diagram found in *Database_schemas* folder
 * In *Modules\WareHouseManagement\warehouse.cpp*  and  *Modules\CRM\CRM.cpp*  change the password in the line `#define PASSWORD "123456789pp"` to your mysql server password
 
-##Pre-Build
-in *Solution Explorer*, in *Modules* folder, right click on any module => *Properties* => *Configuration manager* and make sure each module is set to **Release x64** and *Erp* is set to **Debug Any CPU**
+## Pre-Build
+In *Solution Explorer*, in *Modules* folder, right click on any module => *Properties* => *Configuration manager* and make sure each module is set to **Release x64** and *Erp* is set to **Debug Any CPU**
 
 
 ## Build
