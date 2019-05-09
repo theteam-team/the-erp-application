@@ -139,7 +139,7 @@ namespace Erp
         {
             //ensure that the database used to store user accounts is created at the begining
 
-           
+            mcontext.Database.EnsureCreated();
             app.UseNodeModules(env);//include the Node modules File into hte the response
             app.UseStaticFiles();//mark wwwroot Files as servable
             app.UseSession();//enable the use of the session storge 

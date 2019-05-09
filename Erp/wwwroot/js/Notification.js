@@ -1,12 +1,10 @@
 ﻿
-
 let connection = new signalR.HubConnectionBuilder().withUrl("/NotificationHub").build();
 connection.start().then(() => { connection.send('AddToGroupRole') });
 
 connection.on('receiveNotification', function (notificationId, message) {
     createNotficationCard(notificationId, message)
 });
-
 
 
 function createNotficationCard(notificationId, message)
