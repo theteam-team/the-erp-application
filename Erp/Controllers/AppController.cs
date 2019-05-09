@@ -47,5 +47,10 @@ namespace Erp.Controllers
            // ViewBag.CurrentView = "Modules";
             return View();
         }
+
+        public IActionResult Notification()
+        {
+            return View();
+        }
     }
 }
