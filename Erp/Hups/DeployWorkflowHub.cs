@@ -34,63 +34,33 @@ namespace Erp.Hubs
            
             
         }*/
+        /// Deployment
         public async Task GetCurrentDeployed()
         {
 
             _nodeLangRepository.User = Context.User;
             List<NodeLangWorkflow> nodeLangWorkflows = await _nodeLangRepository.GetAll();
-            string x = "nodeLangWorkflows";
+           
 
             if (nodeLangWorkflows != null)
             {
-                //Console.WriteLine("GetCurrentDeployed");
 
                 await Clients.Caller.SendAsync("InitializeDeployList", nodeLangWorkflows);
                
             }
         }
-        public async Task InitializeExecution(string workflowID, string InstanceId)
-        {
-            //Console.WriteLine(Context.ConnectionId);
-            Console.WriteLine(workflowID);
-            await Clients.Group("Engine").SendAsync("InitializeExecution", workflowID, InstanceId);
-        }
-
-
-        public async Task UpdateExecution(string workflowID, string InstanceId, List<string> nodeID)
-        {
-            Console.WriteLine(workflowID);
-            await Clients.Group(workflowID).SendAsync("UpdateExecution", workflowID, InstanceId, nodeID);
-        }
-
         public async Task updateDeployList(string Id, string name, string workflowStr)
         {
             await Clients.Others.SendAsync("updateDeployList", Id, name, workflowStr);
             
         }
 
-        public async Task AddToGroup(string groupName)
-        {
-            await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
-
-        }
-        public async Task GetExecutedNodes(string workflowId, string instanceId)
-
-        {
-            await Clients.Group("Engine").SendAsync("GetExecutedNodes", workflowId, instanceId);
-
-        }
-
-
-
+        /// Insatances
         public async Task GetRunningWorkFlowInstances(string WorkflowId)
-        {
-            //Console.WriteLine("GetRunningWorkFlowInstances");
-            
-            await Clients.Group("Engine").SendAsync("GetRunningWorkFlowInstances", WorkflowId, Context.ConnectionId);
-            
-
+        {                      
+            await Clients.Group("Engine").SendAsync("GetRunningWorkFlowInstances", WorkflowId, Context.ConnectionId);           
         }
+
         public async Task InitializeRuningInstances(string WorkflowId, List<string> Instances,string ConnectionId)
         {
          
@@ -98,22 +68,45 @@ namespace Erp.Hubs
             
 
         }
-
-
-       
-
+        
         public async Task AddRunningInstance(string WorkflowId, string InstanceId, List<string> currentNode)
-        {
-
-          
-            //Console.WriteLine("AddRunningInstance");
-            //List<Task> taskList = new List<Task>();
+        {                
             await Clients.OthersInGroup(WorkflowId).SendAsync("AddRunningInstance", WorkflowId, InstanceId, currentNode);
           
-            await Clients.OthersInGroup("Deployment").SendAsync("updateNumberOfInstances", WorkflowId);
-            //await Task.WhenAll(taskList);
+            await Clients.OthersInGroup("Deployment").SendAsync("updateNumberOfInstances", WorkflowId);         
+        }
+
+
+        /// Executing 
+
+        public async Task GetExecutedNodes(string workflowId, string instanceId)
+        {
+            await Clients.Group("Engine").SendAsync("GetExecutedNodes", workflowId, instanceId);
 
         }
+        public async Task InitializeExecution(string workflowID, string InstanceId)
+        {
+            
+            Console.WriteLine(workflowID);
+            await Clients.Group("Engine").SendAsync("InitializeExecution", workflowID, InstanceId);
+        }
+        public async Task UpdateExecution(string workflowID, string InstanceId, List<string> nodeID)
+        {
+            Console.WriteLine(workflowID);
+            await Clients.Group(workflowID).SendAsync("UpdateExecution", workflowID, InstanceId, nodeID);
+        }
+
+
+
+
+        public async Task AddToGroup(string groupName)
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+
+        }
+
+
+
 
     }
 }
