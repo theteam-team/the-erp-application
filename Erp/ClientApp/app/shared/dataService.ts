@@ -1,6 +1,6 @@
 ﻿import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map } from "rxjs/operators";
 import { Module } from './module';
 
@@ -36,11 +36,30 @@ export class DataService {
                 }));
     }
 
+    public productsInOrder = [];
+    loadProductsInOrder(id: string): Observable<boolean> {
+        return this.http.get("/api/WarehouseApi/ShowProductsInOrder/" + id)
+            .pipe(
+                map((data: any[]) => {
+                    this.productsInOrder = data;
+                    return true;
+                }));
+    }
+
     searchProducts(key: string, value: string): Observable<boolean> {
         return this.http.get("/api/WarehouseApi/SearchProducts/" + key + "/" + value)
             .pipe(
                 map((data: any[]) => {
                     this.products = data;
+                    return true;
+                }));
+    }
+
+    searchOrders(key: string, value: string): Observable<boolean> {
+        return this.http.get("/api/WarehouseApi/SearchOrders/" + key + "/" + value)
+            .pipe(
+                map((data: any[]) => {
+                    this.orders = data;
                     return true;
                 }));
     }
@@ -110,15 +129,35 @@ export class DataService {
         return this.http.post("/api/WarehouseApi/AddProduct", form).subscribe((data) => { });
     }
 
-    saveProductsInOrder(form) {
-        return this.http.post("/api/WarehouseApi/AddProductsInOrder", form).subscribe((data) => { });
+    addProductToOrder(product) {
+        return this.http.post("/api/WarehouseApi/AddProductToOrder", product).subscribe((data) => { });
+    }
+
+    deleteProductFromOrder(oID: string, pID: string) {
+        return this.http.delete("/api/WarehouseApi/DeleteProductFromOrder/" + oID + "/" + pID).subscribe((data) => { });
     }
 
     saveEdits(form) {
         return this.http.put("/api/WarehouseApi/EditProduct", form).subscribe((data) => { });
     }
 
-    deleteProduct(orderID: string) {
-        return this.http.delete("/api/WarehouseApi/DeleteProductById/" + orderID).subscribe((data) => { });
+    saveOrderEdits(form) {
+        return this.http.put("/api/WarehouseApi/EditOrder", form).subscribe((data) => { });
+    }
+
+    saveProductEdits(form) {
+        return this.http.put("/api/WarehouseApi/EditProductInOrder", form).subscribe((data) => { });
+    }
+
+    deleteProduct(productID: string) {
+        return this.http.delete("/api/WarehouseApi/DeleteProductById/" + productID).subscribe((data) => { });
+    }
+
+    deleteOrder(orderID: string) {
+        return this.http.delete("/api/WarehouseApi/DeleteOrderById/" + orderID).subscribe((data) => { });
+    }
+
+    removeFromStock(form) {
+        return this.http.put("/api/WarehouseApi/RemoveFromStock", form).subscribe((data) => { });
     }
 }

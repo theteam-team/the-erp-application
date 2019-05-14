@@ -53,7 +53,7 @@ namespace Erp.Repository
             if (typeof(T) == typeof(ProductInOrder))
             {
                 ProductInOrder product = (ProductInOrder)(object)(entity);
-                status = await Task.Run(() => Warehouse_Wrapper.addProductsInOrder(product, error));
+                status = await Task.Run(() => Warehouse_Wrapper.addProductToOrder(product, error));
             }
 
             if (typeof(T) == typeof(Customer))
@@ -108,6 +108,7 @@ namespace Erp.Repository
             _datadbContext.Add(entity);
             _datadbContext.SaveChanges();
         }
+
         public async Task<int> Delete(string id, byte[] error)
         {
             int status = 10;
@@ -117,8 +118,15 @@ namespace Erp.Repository
 
                 status = await Task.Run(() => Warehouse_Wrapper.deleteProduct(id, error));
             }
+            if (typeof(T) == typeof(Order))
+            {
+
+                status = await Task.Run(() => Warehouse_Wrapper.deleteOrder(id, error));
+            }
             return status;
+        
         }
+
         public async Task<List<T>> GetAll(byte[] error)
         {
             if (typeof(T) == typeof(Product))

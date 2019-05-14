@@ -1,6 +1,8 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { DataService } from 'ClientApp/app/shared/dataService';
 
 @Component({
@@ -16,7 +18,7 @@ export class ProductComponent implements OnInit {
     public check: boolean;
     public productInfo;
 
-    constructor(private data: DataService, private router: Router, private route: ActivatedRoute) {
+    constructor(private data: DataService, private router: Router, private route: ActivatedRoute, private location: Location) {
         this.route.paramMap.subscribe(params => this.productID = params.get('productid'));
     }
 
@@ -28,6 +30,10 @@ export class ProductComponent implements OnInit {
                 }
             })
         this.formDisabled = true;
+    }
+
+    reloadComponent(): void {
+        location.reload();
     }
 
     saveEdits(pForm: NgForm): void {
@@ -55,6 +61,7 @@ export class ProductComponent implements OnInit {
         }
 
         this.data.saveEdits(this.productInfo);
+        this.reloadComponent();
     }
 
     editProduct() {
@@ -62,9 +69,12 @@ export class ProductComponent implements OnInit {
     }
 
     goToProducts() {
-        this.check = window.confirm("Are you sure you want to exit without saving?");
-        if (this.check) {
-            this.router.navigate(["warehouse/products"]);
+        if (!this.formDisabled) {
+            this.check = window.confirm("Are you sure you want to exit without saving?");
+            if (this.check) {
+                this.router.navigate(["warehouse/products"]);
+            }
         }
+        this.router.navigate(["warehouse/products"]);
     }
 }

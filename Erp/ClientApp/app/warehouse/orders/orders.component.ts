@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from 'ClientApp/app/shared/dataService';
+import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
+
+import { DataService } from 'ClientApp/app/shared/dataService';
 
 @Component({
   selector: 'app-orders',
@@ -10,13 +13,17 @@ import { Router } from '@angular/router';
 
 export class OrdersComponent implements OnInit {
 
-    constructor(private data: DataService, private router: Router) {
+    constructor(private data: DataService, private router: Router, private location: Location) {
     }
 
     public orders = [];
 
     ngOnInit(): void {
         this.displayAllOrders();
+    }
+
+    reloadComponent(): void {
+        location.reload();
     }
 
     onOrderClick(orderid: string) {
@@ -59,7 +66,22 @@ export class OrdersComponent implements OnInit {
             })
     }
 
+    searchOrders(sForm: NgForm): void {
+        console.log(sForm.value);
+        this.data.searchOrders(sForm.value.sKey, sForm.value.sValue)
+            .subscribe(success => {
+                if (success) {
+                    this.orders = this.data.orders;
+                }
+            })
+    }
+
     addOrder() {
         this.router.navigate(["warehouse/addOrder"]);
+    }
+
+    deleteOrder(orderID: string) {
+        this.data.deleteOrder(orderID);
+        this.reloadComponent();
     }
 }

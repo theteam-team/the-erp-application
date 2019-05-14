@@ -26,7 +26,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.searchProducts(key, value, out ProductPtr, error);
+                int number_fields = Warehouse_Wrapper.searchProducts(out ProductPtr, key, value, error);
 
                 IntPtr current = ProductPtr;
                 for (int i = 0; i < number_fields; ++i)
@@ -48,17 +48,10 @@ namespace Erp.Repository
             status = await Task.Run(() => Warehouse_Wrapper.editProduct(product, error));
             return status;
         }
-        public async Task<int> checkunitsInStock(string id, byte[] error)
-        {
-           return await Task.Run(()=> Warehouse_Wrapper.checkUnitsInStock(id, error));  
-        }
+
         public async Task<int> addToStock(string id, int newUnits,byte[] error)
         {
             return await Task.Run(() => Warehouse_Wrapper.addToStock(id, newUnits, error));
-        }
-        public async Task<int> removeFromStock(string id, int newUnits,byte[] error)
-        {
-            return await Task.Run(() => Warehouse_Wrapper.removeFromStock(id, newUnits, error));
         }
         //public async Task<int> updateProductInfo(string id, string key, string value, byte[] error)
         //{

@@ -29,6 +29,8 @@ import { OrderComponent } from './warehouse/order/order.component';
 import { AddProductComponent } from './warehouse/add-product/add-product.component';
 import { AddOrderComponent } from './warehouse/add-order/add-order.component';
 import { AddProductsInOrderComponent } from './warehouse/add-products-in-order/add-products-in-order.component';
+import { SubmitOrderComponent } from './warehouse/submit-order/submit-order.component';
+import { EditOrderComponent } from './warehouse/edit-order/edit-order.component';
 
 import { CreateOpportunityComponent } from './CRM/create-opportunity/create-opportunity.component';
 import { CreateCustomerComponent } from './CRM/create-customer/create-customer.component';
@@ -52,9 +54,11 @@ let routes = [
     { path: "warehouse/configuration", component: ConfigurationComponent },
     { path: "warehouse/product/:productid", component: ProductComponent },
     { path: "warehouse/order/:orderid", component: OrderComponent },
+    { path: "warehouse/order/editOrder/:orderid", component: EditOrderComponent },
     { path: "warehouse/addproduct", component: AddProductComponent },
     { path: "warehouse/addOrder", component: AddOrderComponent },
-    { path: "warehouse/addOrder/addProducts", component: AddProductsInOrderComponent },
+    { path: "warehouse/addOrder/addProducts/:orderid", component: AddProductsInOrderComponent },
+    { path: "warehouse/addOrder/submitOrder/:orderid", component: SubmitOrderComponent },
 
     { path: "crm", component: CrmComponent },
     { path: "crm/pipeline", component:PipelineComponent },
@@ -94,7 +98,9 @@ let routes = [
       OpportunityFilterPipe,
       AddProductComponent,
       AddOrderComponent,
-      AddProductsInOrderComponent
+      AddProductsInOrderComponent,
+      SubmitOrderComponent,
+      EditOrderComponent
     ],
   imports: [
       BrowserModule,

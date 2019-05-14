@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
-import { DataService } from 'ClientApp/app/shared/dataService';
 import { Router } from '@angular/router';
+import { DataService } from 'ClientApp/app/shared/dataService';
 
 @Component({
   selector: 'app-add-product',
@@ -12,14 +13,19 @@ export class AddProductComponent implements OnInit {
 
     public check: boolean;
 
-    constructor(private data: DataService, private router: Router) { }
+    constructor(private data: DataService, private router: Router, private location: Location) {
+    }
 
     ngOnInit() {
     }
 
+    reloadComponent(): void {
+        location.reload();
+    }
+
     saveProduct(pForm: NgForm): void {
         this.data.saveProduct(pForm.value);
-        this.router.navigate(["warehouse/products"]);
+        this.reloadComponent();
     }
 
     goToProducts() {
@@ -28,4 +34,6 @@ export class AddProductComponent implements OnInit {
             this.router.navigate(["warehouse/products"]);
         }
     }
+
+
 }

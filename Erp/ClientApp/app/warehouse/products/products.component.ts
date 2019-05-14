@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from 'ClientApp/app/shared/dataService';
+import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
+
+import { DataService } from 'ClientApp/app/shared/dataService';
 
 @Component({
   selector: 'app-products',
@@ -10,16 +13,22 @@ import { Router } from '@angular/router';
 
 export class ProductsComponent implements OnInit {
 
-    constructor(private data: DataService, private router: Router) {
-    }
-
     public products = [];
+
+    constructor(private data: DataService, private router: Router, private location: Location) {
+        
+    }
 
     ngOnInit(): void {
         this.displayAllProducts();
     }
 
+    reloadComponent(): void {
+        location.reload();
+    }
+
     displayAllProducts(): void {
+
         this.data.loadProducts()
             .subscribe(success => {
                 if (success) {
@@ -28,8 +37,9 @@ export class ProductsComponent implements OnInit {
             })
     }
 
-    searchProducts(key: string, value: string): void {
-        this.data.searchProducts(key, value)
+    searchProducts(sForm: NgForm): void {
+        console.log(sForm.value);
+        this.data.searchProducts(sForm.value.sKey, sForm.value.sValue)
             .subscribe(success => {
                 if (success) {
                     this.products = this.data.products;
@@ -37,16 +47,16 @@ export class ProductsComponent implements OnInit {
             })
     }
     
-    onProductClick(productid: string) {
-        this.router.navigate(["warehouse/product", productid]);
+    onProductClick(productID: string) {
+        this.router.navigate(["warehouse/product", productID]);
     }
 
     addProduct() {
         this.router.navigate(["warehouse/addproduct"]);
     }
 
-    deleteProduct(productid: string) {
-        this.data.deleteProduct(productid);
-        this.router.navigate(["warehouse/products"]);
+    deleteProduct(productID: string) {
+        this.data.deleteProduct(productID);
+        this.reloadComponent();
     }
 }

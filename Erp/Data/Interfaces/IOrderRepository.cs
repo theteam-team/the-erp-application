@@ -9,6 +9,8 @@ namespace Erp.Interfaces
 {
     public interface IOrderRepository : IRepository<Order>
     {
+        Task<List<Order>> SearchOrders(string key, string value, byte[] error);
+        Task<int> EditOrder(Order entity, byte[] error);
         Task<List<Order>> ShowCompletedOrders(byte[] error);
         Task<List<Order>> ShowReadyOrders(byte[] error);
         Task<List<Order>> ShowOrdersInProgress(byte[] error);

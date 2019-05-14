@@ -11,8 +11,6 @@ namespace Erp.Interfaces
     {
         Task<List<Product>> SearchProducts(string key, string value, byte[] error);
         Task<int> EditProduct(Product entity, byte[] error);
-        Task<int> checkunitsInStock(string id, byte[] error);
         Task<int> addToStock(string id, int newUnits,byte[] error);
-        Task<int> removeFromStock(string id, int newUnits, byte[] error);
     }
 }

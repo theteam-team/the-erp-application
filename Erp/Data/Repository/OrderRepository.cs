@@ -19,6 +19,36 @@ namespace Erp.Repository
 
         }
 
+        public async Task<List<Order>> SearchOrders(string key, string value, byte[] error)
+        {
+            List<Order> orders = new List<Order>();
+            IntPtr OrderPtr;
+            await Task.Run(() =>
+            {
+
+                int number_fields = Warehouse_Wrapper.searchOrders(out OrderPtr, key, value, error);
+
+                IntPtr current = OrderPtr;
+                for (int i = 0; i < number_fields; ++i)
+                {
+                    Order order = (Order)Marshal.PtrToStructure(current, typeof(Order));
+
+                    current = (IntPtr)((long)current + Marshal.SizeOf(order));
+                    orders.Add(order);
+                }
+                Marshal.FreeCoTaskMem(OrderPtr);
+            });
+            return (List<Order>)(object)orders;
+        }
+
+        public async Task<int> EditOrder(Order entity, byte[] error)
+        {
+            int status = 0;
+            Order order = (Order)(object)(entity);
+            status = await Task.Run(() => Warehouse_Wrapper.editOrder(order, error));
+            return status;
+        }
+
         public async Task<List<Order>> ShowCompletedOrders(byte[] error)
         {
             List<Order> orders = new List<Order>();

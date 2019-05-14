@@ -1,0 +1,17 @@
+<app-warehouse></app-warehouse>
+
+<div class="row">
+    <div class="product-info col-md-3" *ngFor="let p of productsInOrder">
+        <div class="border rounded p-3">
+            <ul class="product-props">
+                <li>ID: {{ p.productID }}</li>
+                <li>Units Ordered: {{ p.unitsOrdered }}</li>
+            </ul>
+            <button type="button" (click)="onProductRemove(p.productID)">Remove From Order</button>
+        </div>
+    </div>
+    <div>
+        <button type="button" (click)="goBack()">Back</button>
+        <button type="button" (click)="submitOrder()">Submit Order</button>
+    </div>
+</div>

@@ -15,8 +15,8 @@ export class AddOrderComponent implements OnInit {
     public orderInfo = {
         "id": "",
         "requiredDate": "",
-        "completedDate": "",
-        "orderStatus": "",
+        "completedDate": '2019-12-31',
+        "orderStatus": "In Progress",
         "customerID": "",
         "paymentID": ""
     };
@@ -29,12 +29,11 @@ export class AddOrderComponent implements OnInit {
     saveOrder(oForm: NgForm): void {
         this.orderInfo.id = oForm.value.id;
         this.orderInfo.requiredDate = oForm.value.requiredDate;
-        this.orderInfo.orderStatus = "In Progress";
         this.orderInfo.customerID = oForm.value.customerID;
         this.orderInfo.paymentID = oForm.value.paymentID;
 
         this.data.saveOrder(this.orderInfo);
-        this.router.navigate(["warehouse/addOrder/addProducts"]);
+        this.router.navigate(["warehouse/addOrder/addProducts", this.orderInfo.id]);
     }
 
     goToOrders() {

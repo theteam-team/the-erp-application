@@ -10,25 +10,24 @@
                     <div class="dropdown dropdown-lg">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
                         <div class="dropdown-menu dropdown-menu-right col-md-9" role="menu">
-                            <form class="form-horizontal" role="form">
+                            <form #searchForm="ngForm" class="form-horizontal" (ngSubmit)="searchProducts(searchForm)">
                                 <div class="form-group">
                                     <label for="filter">Search by</label>
-                                    <select class="form-control">
-                                        <option value="0" selected>ID</option>
-                                        <option value="1">Name</option>
-                                        <option value="2">Position</option>
-                                        <option value="3">Price</option>
+                                    <select class="form-control" id="sKey" name="sKey" [(ngModel)]="sKey">
+                                        <option value="Product_ID" selected>ID</option>
+                                        <option value="Product_Name">Name</option>
+                                        <option value="Product_Position">Position</option>
+                                        <option value="Product_Price">Price</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="contain">Search for Value</label>
-                                    <input name="value" class="form-control" type="text" />
+                                    <label for="contain">Search for Value..</label>
+                                    <input type="text" class="form-control" id="sValue" name="sValue" [(ngModel)]="sValue" />
                                 </div>
                                 <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>Search</button>
                             </form>
                         </div>
                     </div>
-                    <!--<button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>-->
                 </div>
             </div>
         </div>

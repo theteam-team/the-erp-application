@@ -1,5 +1,49 @@
 <app-warehouse></app-warehouse>
 
 <div class="row">
-    <button type="button" class="col-md-2 offset-md-4" (click)="saveProductsInOrder()">Save</button>
+    <div class="col-md-6">
+        <div class="input-group" id="adv-search">
+            <input type="text" class="form-control" placeholder="Search for products" />
+            <div class="input-group-btn">
+                <div class="btn-group" role="group">
+                    <div class="dropdown dropdown-lg">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+                        <div class="dropdown-menu dropdown-menu-right col-md-9" role="menu">
+                            <form #searchForm="ngForm" class="form-horizontal" (ngSubmit)="searchProducts(searchForm)">
+                                <div class="form-group">
+                                    <label for="filter">Search by</label>
+                                    <select class="form-control" id="sKey" name="sKey" [(ngModel)]="sKey">
+                                        <option value="Product_ID" selected>ID</option>
+                                        <option value="Product_Name">Name</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contain">Search for Value..</label>
+                                    <input type="text" class="form-control" id="sValue" name="sValue" [(ngModel)]="sValue" />
+                                </div>
+                                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>Search</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div *ngFor="let p of products">
+        <div class="border rounded p-3">
+            <ul class="product-props">
+                <li>ID: {{ p.id }}</li>
+                <li>Name: {{ p.name }}</li>
+                <li>Price: {{ p.price }} $</li>
+                <li>Units: {{ p.unitsInStock }}</li>
+            </ul>
+            <input #units type="text" id="units" name="units" />
+            <button type="button" (click)="onProductAdd(p.id, units.value)">Add To Order</button>
+        </div>
+    </div>
+    <div>
+        <button type="button" (click)="saveProductsInOrder()">Next</button>
+    </div>
 </div>

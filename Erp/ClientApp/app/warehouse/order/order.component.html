@@ -1,10 +1,44 @@
 <app-warehouse></app-warehouse>
 
-<div class="order-info col-md-3">
-    <div class="border rounded p-3">
-        <ul class="order-props">
-            <li>ID: {{ orderInfo.id }}</li>
-            <li>Status: {{ orderInfo.orderStatus }}</li>
-        </ul>
+<div class="row">
+    <button type="button" (click)="editOrder()">Edit</button>
+</div>
+<div class="order-info">
+    <form #orderForm="ngForm" (ngSubmit)="saveOrderEdits(orderForm)">
+        <fieldset [disabled]="formDisabled">
+            <div class="panel panel-primary col-md-9">
+                <div class="panel-heading">
+                    <h3>Order Info</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-md-6 offset-md-2" for="id">Order ID</label>
+                        <input disabled="disabled" class="form-control col-md-6 offset-md-2" id="id" name="id" [(ngModel)]="id" type="text" value={{orderInfo.id}} />
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-6 offset-md-2" for="requiredDate">Date</label>
+                        <input class="form-control col-md-6 offset-md-2" id="requiredDate" name="requiredDate" [(ngModel)]="requiredDate" type="text" value={{orderInfo.requiredDate}} />
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-6 offset-md-2" for="customerID">Customer</label>
+                        <input class="form-control col-md-6 offset-md-2" id="customerID" name="customerID" [(ngModel)]="customerID" type="text" value={{orderInfo.customerID}} />
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-6 offset-md-2" for="paymentID">Payment</label>
+                        <input class="form-control col-md-6 offset-md-2" id="paymentID" name="paymentID" [(ngModel)]="paymentID" type="text" value={{orderInfo.paymentID}} />
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-6 offset-md-2" for="orderStatus">Status</label>
+                        <input class="form-control col-md-6 offset-md-2" id="orderStatus" name="orderStatus" [(ngModel)]="orderStatus" type="text" value={{orderInfo.orderStatus}} />
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-primary col-md-2 offset-md-2">Next</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+    <div>
+        <button type="button" (click)="goToOrders()">Back</button>
     </div>
 </div>

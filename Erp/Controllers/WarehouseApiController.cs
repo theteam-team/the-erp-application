@@ -59,8 +59,8 @@ namespace Erp.Controllers
             }
         }
 
-        [HttpPost("AddProductsInOrder")]
-        public async Task<ActionResult<string>> AddProductsInOrder(ProductInOrder product)
+        [HttpPost("AddProductToOrder")]
+        public async Task<ActionResult<string>> AddProductToOrder(ProductInOrder product)
         {
             byte[] error = new byte[500];
             int status = await _orderProductRepository.Create(product, error);
@@ -93,21 +93,37 @@ namespace Erp.Controllers
             }
         }
 
-        [HttpGet("CheckUnitsInStock/{id}")]
-        public async Task<ActionResult<int>> CheckUnitsInStock(string id)
+        [HttpPut("EditOrder")]
+        public async Task<ActionResult<string>> EditOrder(Order order)
         {
             byte[] error = new byte[500];
-            int units = await _iProductRepository.checkunitsInStock(id, error);
+            int status = await _orderRepository.EditOrder(order, error);
             string z = System.Text.Encoding.ASCII.GetString(error);
-            string y = z.Remove(z.IndexOf('\0'));
-            if (y == "")
+            if (status != 0)
             {
 
-                return Ok("Units = " + units);
+                return BadRequest(z.Remove(z.IndexOf('\0')));
             }
             else
             {
-                return BadRequest(y);
+                return Ok("successfuly added");
+            }
+        }
+
+        [HttpPut("EditProductInOrder")]
+        public async Task<ActionResult<string>> EditProductInOrder(ProductInOrder product)
+        {
+            byte[] error = new byte[500];
+            int status = await _orderProductRepository.EditProductInOrder(product, error);
+            string z = System.Text.Encoding.ASCII.GetString(error);
+            if (status != 0)
+            {
+
+                return BadRequest(z.Remove(z.IndexOf('\0')));
+            }
+            else
+            {
+                return Ok("successfuly added");
             }
         }
 
@@ -129,11 +145,11 @@ namespace Erp.Controllers
             }
         }
 
-        [HttpDelete("RemoveFromStock/{id}")]
-        public async Task<ActionResult<int>> RemoveFromStock(string id, int newUnits)
+        [HttpPut("RemoveFromStock")]
+        public async Task<ActionResult<int>> RemoveFromStock(ProductInOrder product)
         {
             byte[] error = new byte[500];
-            int status = await _iProductRepository.removeFromStock(id, newUnits, error);
+            int status = await _orderProductRepository.removeFromStock(product, error);
             string z = System.Text.Encoding.ASCII.GetString(error);
             string y = z.Remove(z.IndexOf('\0'));
             if (status == 0)
@@ -165,6 +181,42 @@ namespace Erp.Controllers
             }
         }
 
+        [HttpDelete("DeleteOrderById/{id}")]
+        public async Task<ActionResult<string>> DeleteOrderById(string id)
+        {
+
+            byte[] error = new byte[500];
+            int status = await _orderRepository.Delete(id, error);
+            string z = System.Text.Encoding.ASCII.GetString(error);
+            if (status != 0)
+            {
+
+                return BadRequest(z.Remove(z.IndexOf('\0')));
+            }
+            else
+            {
+                return Ok("successfuly deleted");
+            }
+        }
+
+        [HttpDelete("DeleteProductFromOrder/{oid}/{pid}")]
+        public async Task<ActionResult<string>> DeleteProductFromOrder(string oID, string pID)
+        {
+
+            byte[] error = new byte[500];
+            int status = await _orderProductRepository.DeleteProductFromOrder(oID, pID, error);
+            string z = System.Text.Encoding.ASCII.GetString(error);
+            if (status != 0)
+            {
+
+                return BadRequest(z.Remove(z.IndexOf('\0')));
+            }
+            else
+            {
+                return Ok("successfuly deleted");
+            }
+        }
+
         [HttpGet("GetProductById/{id}")]
         public async Task<ActionResult<Product>> GetProduct(string id)
         {
@@ -176,42 +228,6 @@ namespace Erp.Controllers
             {
 
                 return Ok(product);
-            }
-            else
-            {
-                return BadRequest(y);
-            }
-        }
-        
-        [HttpGet("ShowProducts")]
-        public async Task<ActionResult<List<Product>>> ShowProducts()
-        {
-            byte[] error = new byte[500];
-            List<Product> products = await _iProductRepository.GetAll(error);
-            string z = Encoding.ASCII.GetString(error);
-            string y = z.Remove(z.IndexOf('\0'));
-            if (y == "")
-            {
-
-                return Ok(products);
-            }
-            else
-            {
-                return BadRequest(y);
-            }
-        }
-
-        [HttpGet("SearchProducts/{key}/{value}")]
-        public async Task<ActionResult<List<Product>>> SearchProducts(string key, string value)
-        {
-            byte[] error = new byte[500];
-            List<Product> products = await _iProductRepository.SearchProducts(key, value, error);
-            string z = Encoding.ASCII.GetString(error);
-            string y = z.Remove(z.IndexOf('\0'));
-            if (y == "")
-            {
-
-                return Ok(products);
             }
             else
             {
@@ -230,6 +246,24 @@ namespace Erp.Controllers
             {
 
                 return Ok(order);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+
+        [HttpGet("ShowProducts")]
+        public async Task<ActionResult<List<Product>>> ShowProducts()
+        {
+            byte[] error = new byte[500];
+            List<Product> products = await _iProductRepository.GetAll(error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(products);
             }
             else
             {
@@ -314,6 +348,42 @@ namespace Erp.Controllers
         {
             byte[] error = new byte[500];
             List<ProductInOrder> orders = await _orderProductRepository.ShowProductsInOrder(id, error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(orders);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+
+        [HttpGet("SearchProducts/{key}/{value}")]
+        public async Task<ActionResult<List<Product>>> SearchProducts(string key, string value)
+        {
+            byte[] error = new byte[500];
+            List<Product> products = await _iProductRepository.SearchProducts(key, value, error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(products);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+
+        [HttpGet("SearchOrders/{key}/{value}")]
+        public async Task<ActionResult<List<Product>>> SearchOrders(string key, string value)
+        {
+            byte[] error = new byte[500];
+            List<Order> orders = await _orderRepository.SearchOrders(key, value, error);
             string z = Encoding.ASCII.GetString(error);
             string y = z.Remove(z.IndexOf('\0'));
             if (y == "")
