@@ -1,4 +1,3 @@
-
 export class Opportunity {
   id: number;
   title: string;
@@ -9,5 +8,4 @@ export class Opportunity {
   status: number;
   start_date: Date;
   end_date: Date;
-
 }

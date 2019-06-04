@@ -32,14 +32,9 @@ import { AddProductsInOrderComponent } from './warehouse/add-products-in-order/a
 import { SubmitOrderComponent } from './warehouse/submit-order/submit-order.component';
 import { EditOrderComponent } from './warehouse/edit-order/edit-order.component';
 
-import { CreateOpportunityComponent } from './CRM/create-opportunity/create-opportunity.component';
-import { CreateCustomerComponent } from './CRM/create-customer/create-customer.component';
-import { CustomersComponent } from './CRM/customers/customers.component';
-import { PipelineComponent } from './CRM/pipeline/pipeline.component';
+ 
 import { CrmComponent } from './CRM/crm.component';
-import { customerService } from './crm/customers/customer.service';
-import { CustomerFilterPipe } from './crm/customers/customer-filter';
-import { OpportunityFilterPipe } from './crm/pipeline/opportunity-filter';
+
 
 let routes = [
 
@@ -61,10 +56,7 @@ let routes = [
     { path: "warehouse/addOrder/submitOrder/:orderid", component: SubmitOrderComponent },
 
     { path: "crm", component: CrmComponent },
-    { path: "crm/pipeline", component:PipelineComponent },
-    { path: "crm/customers", component: CustomersComponent },
-    { path: "crm/editCustomer/:id", component: CreateCustomerComponent },
-    { path: "crm/editOpportunity/:id", component: CreateOpportunityComponent }
+     
 ];
 
 @NgModule({
@@ -89,13 +81,9 @@ let routes = [
       ConfigurationComponent,
       ProductComponent,
       OrderComponent,
-      PipelineComponent,
-      CustomersComponent,
-      CreateCustomerComponent,
-      CreateOpportunityComponent,
+      
       CrmComponent,
-      CustomerFilterPipe,
-      OpportunityFilterPipe,
+     
       AddProductComponent,
       AddOrderComponent,
       AddProductsInOrderComponent,
@@ -118,7 +106,7 @@ let routes = [
 
   providers: [
       DataService,
-      customerService
+       
     ],
 
     bootstrap: [AppComponent, Accounting, Login] // 

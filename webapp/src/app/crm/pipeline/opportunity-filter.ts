@@ -12,6 +12,8 @@ export class OpportunityFilterPipe implements PipeTransform {
       return opportunity;
     }
     return opportunity.filter(opportunity =>
-      opportunity.customer_name.toLowerCase().indexOf(searchTerm.toLowerCase()) !==-1);
+      opportunity.title.toLowerCase().indexOf(searchTerm.toLowerCase()) !==-1);
+      
   }
+
 }

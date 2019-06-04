@@ -11,10 +11,17 @@ import { PipelineComponent } from './crm/pipeline/pipeline.component';
 import { CreateOpportunityComponent } from './crm/create-opportunity/create-opportunity.component';
 import { CreateCustomerComponent } from './crm/create-customer/create-customer.component';
 import { customerService } from './crm/customers/customer.service';
- 
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CustomerFilterPipe } from './crm/customers/customer-filter';
 import { OpportunityFilterPipe } from './crm/pipeline/opportunity-filter';
 import { HttpClientModule } from '@angular/common/http';
+ 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { OpportunityService } from './crm/create-opportunity/opportunity.service';
+import {  OpportunityCanDeactivateGuardService } from './crm/create-opportunity/opportunity-canDeactivate-guard-service';
+import { CustomerCanDeactivateGuardService } from './crm/create-customer/customer-canDeactivate-guard-service';
+ 
+ 
  
  
 
@@ -30,6 +37,9 @@ import { HttpClientModule } from '@angular/common/http';
     CreateCustomerComponent,
     CustomerFilterPipe,
     OpportunityFilterPipe,
+    
+    
+     
 
   ],
   imports: [
@@ -39,10 +49,12 @@ import { HttpClientModule } from '@angular/common/http';
     MatCardModule,
     MatButtonModule,
     HttpClientModule,
+    DragDropModule,
+    BrowserAnimationsModule,
    
     
   ],
-  providers: [customerService ],
+  providers: [customerService, OpportunityService, OpportunityCanDeactivateGuardService, CustomerCanDeactivateGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
