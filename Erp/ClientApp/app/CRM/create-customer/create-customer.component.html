@@ -1,0 +1,61 @@
+
+<form #customerForm="ngForm" ngNativeValidate (ngSubmit)="saveCustomer()">
+    <div class="container" *ngIf="customer">
+        <div class="row" style=" padding:50px; padding-left:100px">
+            <div class="col-md-8  ">
+                <h1 style="color:darkcyan;"> {{ Title }}</h1>
+                <br />
+                <div class="form-group">
+                    <label for="name">Full Name:</label>
+                    <input required type="text" class="form-control" id="name" name="name" [(ngModel)]="customer.name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input required pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" type="email" class="form-control" id="email" name="email" [(ngModel)]="customer.email">
+
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number:</label>
+                    <input required type="text" class="form-control" id="phone" name="phone" [(ngModel)]="customer.phone_number">
+                </div>
+                <div class="form-group">
+                    <label for="company_name">Company Name:</label>
+                    <input required type="text" class="form-control" id="company_name" name="company_name" [(ngModel)]="customer.company ">
+                </div>
+                <div class="form-group">
+                    <label for="company_email">Company Email:</label>
+                    <input required type="email" class="form-control" id="company_email" name="company_email" [(ngModel)]="customer.company_email">
+                </div>
+                <div class="form-group">
+                    <label for="gender">Gender:</label>
+                    <div class="form-control">
+                        <label class="radio-inline">
+                            <input type="radio" id="gender" value="male" name="gender" [(ngModel)]="customer.gender" required> Male
+                        </label>
+
+                        <label class="radio-inline" style="padding-left:20px">
+                            <input type="radio" value="female" name="gender" [(ngModel)]="customer.gender">Female
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="dateOfBirth">Date of Birth:</label>
+                    <input required type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" [(ngModel)]="customer.dateOfBirth">
+                </div>
+                <div class="form-group">
+                    <div class="form-control">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="is_lead" [(ngModel)]="customer.is_lead"> Is Lead
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-info">Save</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+{{ customerForm.value | json}}
+<br />
+<br />
+customer model: {{ customer | json}}
