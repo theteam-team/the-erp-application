@@ -12,7 +12,7 @@ int qstate;
 #define SERVER "localhost"
 #define USER "root" //your username
 #define PASSWORD "rana" //your password for mysql
-#define DATABASE "erp" //database name
+#define DATABASE "erp" //d	atabase name
 MYSQL* conn;
 MYSQL_ROW row;
 MYSQL_RES* res;
