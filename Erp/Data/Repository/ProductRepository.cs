@@ -49,9 +49,32 @@ namespace Erp.Repository
             return status;
         }
 
-        public async Task<int> addToStock(string id, int newUnits,byte[] error)
+        public async Task<int> addToStock(string id, int newUnits, byte[] error)
         {
             return await Task.Run(() => Warehouse_Wrapper.addToStock(id, newUnits, error));
+        }
+
+        public async Task<List<Product>> getSoldProduct(byte[] error)
+        {
+            List<Product> products = new List<Product>();
+            IntPtr ProductPtr;
+
+            await Task.Run(() =>
+            {
+                int number_fields = Accounting_Wrapper.soldProducts(out ProductPtr, error);
+                IntPtr current = ProductPtr;
+
+                for (int i = 0; i < number_fields; ++i)
+                {
+                    Product product = (Product)Marshal.PtrToStructure(current, typeof(Product));
+
+                    current = (IntPtr)((long)current + Marshal.SizeOf(product));
+                    products.Add(product);
+                }
+                Marshal.FreeCoTaskMem(ProductPtr);
+            });
+            return products;
+
         }
         //public async Task<int> updateProductInfo(string id, string key, string value, byte[] error)
         //{

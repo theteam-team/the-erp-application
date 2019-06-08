@@ -6,62 +6,129 @@
 #include <mysql.h>
 #include <iostream>
 #include <sstream> 
+#include"DatabaseEntities.h"
+#include"Header.h"
 using namespace std;
-using namespace std;
+#define SERVER "localhost"
+#define USER "root" //your username
+#define PASSWORD "123456789pp" //your password for mysql
+#define DATABASE "erp" //database name
+
 MYSQL* conn;
 MYSQL_ROW row;
 MYSQL_RES *res;
+int status;
 int qstate;
+class db_response {
+
+public:
+	static void ConnectionFunction(char* error) {
+
+		conn = mysql_init(0);
+
+		conn = mysql_real_connect(conn, SERVER, USER, PASSWORD, DATABASE, 3306, NULL, 0);
+		if (!conn) {
+
+			cout << "Failed To Connect!" << mysql_errno(conn) << endl;
+			string err = (string)"Connection to database has failed!" + mysql_error(conn);;
+			strcpy_s(error, err.length() + 1, err.c_str());
+			status = 3;
+		}
+	}
+};
 string query;
 string input;
 string accId;
 string accMoney;
-void finish_with_error(MYSQL *conn)
-{
-	fprintf(stderr, "%s\n", mysql_error(conn));
-	mysql_close(conn);
-	exit(1);
-}
-void soldProducts() {
-	query = "SELECT Order_has_Product FROM Order_has_Product";
-	const char* q = query.c_str();
-	qstate = mysql_query(conn, q);
-	if (!qstate) {
-		res = mysql_store_result(conn);
-		while (row = mysql_fetch_row(res)) {
-			int j = 0;
-			while(1)
+//void finish_with_error(MYSQL *conn)
+//{
+//	fprintf(stderr, "%s\n", mysql_error(conn));
+//	mysql_close(conn);
+//	exit(1);
+//}
+extern "C"	ERP_API int soldProducts(Product** product, char* error) {
+	status = 0;
+	int numberOfRows = 0;
+	unsigned int numOfFields;
+	db_response::ConnectionFunction(error);
+	if (conn) {
+
+		mysql_free_result(res);
+		query = "SELECT * FROM erp.product as p  inner join (select Product_Product_ID from order_has_product) as o on p.Product_ID = o.Product_Product_ID";
+
+		qstate = mysql_query(conn, query.c_str());
+		cout << query << endl;
+		if (checkQuery(qstate, error)) {
+
+			res = mysql_store_result(conn);
+
+			if (res->row_count > 0)
 			{
-				// Make sure row[i] is valid!
-				if (row[j] != NULL)
-					cout << "\t" << row[j] << "\t";
-				else
-					cout << "NULL" << endl;
-					break;
-				j++;
-				// Also, you can use ternary operator here instead of if-else
-				// cout << row[i] ? row[i] : "NULL" << endl;
+				*product = (Product*)CoTaskMemAlloc((int)(res->row_count) * sizeof(Product));
+				cout << res->row_count << endl;
+				numOfFields = mysql_num_fields(res);
+
+				Product* _product = *product;
+				while (row = mysql_fetch_row(res)) {
+
+					_product->id = row[0];
+					row[1] ? _product->name = row[1] : _product->name = nullptr;
+					row[2] ? _product->description = row[2] : _product->description = nullptr;
+					row[3] ? _product->position = row[3] : _product->position = nullptr;
+					row[4] ? _product->price = stod(row[4]) : _product->price = 0;
+					row[5] ? _product->size = stod(row[5]) : _product->size = 0;
+					row[6] ? _product->weight = stod(row[6]) : _product->weight = 0;
+					row[7] ? _product->unitsInStock = stoi(row[7]) : _product->unitsInStock = 0;
+					numberOfRows++;
+					_product++;
+				}
 			}
-			cout << endl;
+			else
+			{
+				string s = "No Product Exist";
+				cout << s << endl;
+				strcpy_s(error, s.length() + 1, s.c_str());
+				status = 2;
+			}
 		}
 	}
-	else
-		cout << "Query failed: " << mysql_error(conn) << endl;
+	return numberOfRows;
 }
-void init() {
-	conn = mysql_init(0);
-	conn = mysql_real_connect(conn, "localhost", "root", "rana", "erp", 3306, NULL, 0);
-	if (conn) {
-		puts("Successful connection to database!");
-		printf("MySQL client version: %s\n", mysql_get_client_info());
-		soldProducts();
-	}
+//void init() {
+//	conn = mysql_init(0);
+//	conn = mysql_real_connect(conn, "localhost", "root", "rana", "erp", 3306, NULL, 0);
+//	if (conn) {
+//		puts("Successful connection to database!");
+//		printf("MySQL client version: %s\n", mysql_get_client_info());
+//		soldProducts();
+//	}
+//
+//	else
+//		puts("Connection to database has failed!");
+//}
+//int main()
+//{
+//	init();
+//	return 0;
+//}
 
-	else
-		puts("Connection to database has failed!");
-}
-int main()
+bool checkQuery(int qstate, char* error)
 {
-	init();
-	return 0;
+	if (qstate)
+	{
+		cout << "Query failed: " << mysql_error(conn) << endl;
+		status = 2;
+		string s = mysql_error(conn);
+		strcpy_s(error, s.length() + 1, mysql_error(conn));
+		return false;
+	}
+	else
+	{
+		cout << "Query succeeded" << endl;
+		status = 0;
+		string s = mysql_error(conn);
+		//strcpy_s(error, s.length() + 1, mysql_error(conn));
+		return true;
+
+	}
 }
