@@ -1,6 +1,5 @@
 ﻿import { Component, OnInit } from '@angular/core';
-import { DataService } from '../shared/dataService';
-import { Module } from "../shared/module";
+
 
 @Component({
     selector: 'accounting-modules',
@@ -8,21 +7,9 @@ import { Module } from "../shared/module";
     styleUrls: ["accounting.css"],
 })
 
-export class AccountingModule implements OnInit {
+export class AccountingModule{
     title = 'Accounting';
-    constructor(private data: DataService) {
-    }
-
-    public modules: Module[] = [];
-
-    ngOnInit(): void {
-        this.data.loadModules()
-            .subscribe(success => {
-                if (success) {
-                    this.modules = this.data.modules;
-                }
-            });
-    }
+   
     /*
     public addr = <HTMLSelectElement>document.getElementById('addr');
     public i: any = 1;

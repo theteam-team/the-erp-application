@@ -9,7 +9,7 @@ import { Customer } from '../models/customerModel';
 
 @Component({
     selector: 'app-pipeline',
-    templateUrl: './pipeline.component.html',
+    templateUrl: 'pipline.component.html',
     styles: []
 })
 export class PipelineComponent implements OnInit {
