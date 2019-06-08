@@ -7,11 +7,11 @@
                 <li>ID: {{ p.productID }}</li>
                 <li>Units Ordered: {{ p.unitsOrdered }}</li>
             </ul>
-            <button type="button" (click)="onProductRemove(p.productID)">Remove From Order</button>
+            <button class="btn1" type="button" (click)="onProductRemove(p.productID)">Remove From Order</button>
         </div>
     </div>
-    <div>
-        <button type="button" (click)="goBack()">Back</button>
-        <button type="button" (click)="submitOrder()">Submit Order</button>
-    </div>
+</div>
+<div>
+    <button class="btn1" type="button" (click)="goBack()">Back</button>
+    <button class="btn1" type="button" (click)="submitOrder()">Submit Order</button>
 </div>

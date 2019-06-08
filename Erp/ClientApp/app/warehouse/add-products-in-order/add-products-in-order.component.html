@@ -7,7 +7,7 @@
             <div class="input-group-btn">
                 <div class="btn-group" role="group">
                     <div class="dropdown dropdown-lg">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+                        <button type="button" class="btn2 btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
                         <div class="dropdown-menu dropdown-menu-right col-md-9" role="menu">
                             <form #searchForm="ngForm" class="form-horizontal" (ngSubmit)="searchProducts(searchForm)">
                                 <div class="form-group">
@@ -40,10 +40,10 @@
                 <li>Units: {{ p.unitsInStock }}</li>
             </ul>
             <input #units type="text" id="units" name="units" />
-            <button type="button" (click)="onProductAdd(p.id, units.value)">Add To Order</button>
+            <button class="btn2" type="button" (click)="onProductAdd(p.id, units.value)">Add To Order</button>
         </div>
     </div>
-    <div>
-        <button type="button" (click)="saveProductsInOrder()">Next</button>
-    </div>
+</div>
+<div>
+    <button class="btn2" type="button" (click)="saveProductsInOrder()">Next</button>
 </div>
