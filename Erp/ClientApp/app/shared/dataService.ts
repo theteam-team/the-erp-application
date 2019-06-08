@@ -25,6 +25,7 @@ export class DataService {
     public get loginRequired(): boolean {
         return this.token.length == 0 || this.tokenExpiration > new Date();
     }
+    
 
     public products = [];
     loadProducts(): Observable<boolean> {
@@ -159,5 +160,16 @@ export class DataService {
 
     removeFromStock(form) {
         return this.http.put("/api/WarehouseApi/RemoveFromStock", form).subscribe((data) => { });
+    }
+
+    //Accounting
+    public sold_products = [];
+    loadSoldProducts(): Observable<boolean> {
+        return this.http.get("/api/WarehouseApi/ShowProducts")
+            .pipe(
+                map((data: any[]) => {
+                    this.sold_products = data;
+                    return true;
+                }));
     }
 }

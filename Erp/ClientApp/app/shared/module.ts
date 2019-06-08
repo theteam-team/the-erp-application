@@ -5,3 +5,6 @@
     discription: string;
     price: number;
 } 
+export interface Products {
+    name: string;
+}

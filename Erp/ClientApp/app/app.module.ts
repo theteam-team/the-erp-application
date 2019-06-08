@@ -31,23 +31,21 @@ import { AddOrderComponent } from './warehouse/add-order/add-order.component';
 import { AddProductsInOrderComponent } from './warehouse/add-products-in-order/add-products-in-order.component';
 import { SubmitOrderComponent } from './warehouse/submit-order/submit-order.component';
 import { EditOrderComponent } from './warehouse/edit-order/edit-order.component';
-
+/*
  
-//import { CrmComponent } from './CRM/crm.component';
-//import { CreateCustomerComponent } from './CRM/create-customer/create-customer.component';
-//import { CreateOpportunityComponent } from './CRM/create-opportunity/create-opportunity.component';
-//import { PipelineComponent } from './CRM/pipline/pipline.component';
-//import { CustomersComponent } from './CRM/customers/customers.component';
-//import { CustomerCanDeactivateGuardService } from './CRM/create-customer/customer-canDeacrivare-guard-service';
-//import { OpportunityCanDeactivateGuardService } from './CRM/create-opportunity/opportunity-canDeactivate-guard-service';
-
+import { CrmComponent } from './CRM/crm.component';
+import { CreateCustomerComponent } from './CRM/create-customer/create-customer.component';
+import { CreateOpportunityComponent } from './CRM/create-opportunity/create-opportunity.component';
+import { PipelineComponent } from './CRM/pipline/pipline.component';
+import { CustomersComponent } from './CRM/customers/customers.component';
+import { CustomerCanDeactivateGuardService } from './CRM/create-customer/customer-canDeacrivare-guard-service';
+import { OpportunityCanDeactivateGuardService } from './CRM/create-opportunity/opportunity-canDeactivate-guard-service';
+*/
 
 let routes = [
 
    // { path: "", component: ModuleList }, 
     { path: "accounting", component: AccountingModule },
-    { path: "", component: ModuleList },
-    //{ path: "login", component: Login },
 
     { path: "warehouse", component: WarehouseComponent },
     { path: "warehouse/products", component: ProductsComponent },
@@ -60,21 +58,22 @@ let routes = [
     { path: "warehouse/addOrder", component: AddOrderComponent },
     { path: "warehouse/addOrder/addProducts/:orderid", component: AddProductsInOrderComponent },
     { path: "warehouse/addOrder/submitOrder/:orderid", component: SubmitOrderComponent }
+    /*
+    { path: "crm", component: CrmComponent },
 
-    //{ path: "crm", component: CrmComponent },
-
-    //{ path: '', component: PipelineComponent },
-    //{ path: 'customers', component: CustomersComponent },
-    //{
-    //    path: 'editCustomer/:id',
-    //    component: CreateCustomerComponent,
-    //    canDeactivate: [CustomerCanDeactivateGuardService]
-    //},
-    //{
-    //    path: 'editOpportunity/:id',
-    //    component: CreateOpportunityComponent,
-    //    canDeactivate: [OpportunityCanDeactivateGuardService]
-    //},
+    { path: '', component: PipelineComponent },
+    { path: 'customers', component: CustomersComponent },
+    {
+        path: 'editCustomer/:id',
+        component: CreateCustomerComponent,
+        canDeactivate: [CustomerCanDeactivateGuardService]
+    },
+    {
+        path: 'editOpportunity/:id',
+        component: CreateOpportunityComponent,
+        canDeactivate: [OpportunityCanDeactivateGuardService]
+    },
+    */
 ];
 
 @NgModule({
@@ -106,7 +105,7 @@ let routes = [
       AddOrderComponent,
       AddProductsInOrderComponent,
       SubmitOrderComponent,
-      EditOrderComponent
+      EditOrderComponent,
       //CreateCustomerComponent,
       //CreateOpportunityComponent,
       //PipelineComponent,
