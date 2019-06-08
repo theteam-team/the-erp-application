@@ -46,7 +46,7 @@ string accMoney;
 //	mysql_close(conn);
 //	exit(1);
 //}
-extern "C"	ERP_API int soldProducts(Product** product, char* error) {
+extern "C"	ERP_API int soldProducts(ProductSold** product, char* error) {
 	status = 0;
 	int numberOfRows = 0;
 	unsigned int numOfFields;
@@ -54,7 +54,8 @@ extern "C"	ERP_API int soldProducts(Product** product, char* error) {
 	if (conn) {
 
 		mysql_free_result(res);
-		query = "SELECT * FROM erp.product as p  inner join (select Product_Product_ID from order_has_product) as o on p.Product_ID = o.Product_Product_ID";
+		//query = "SELECT * FROM erp.product as p  inner join (select Product_Product_ID from order_has_product) as o on p.Product_ID = o.Product_Product_ID";
+		query = "SELECT Product_Product_ID, sum(Units_In_Order) as Units_In_Order FROM erp.order_has_product group by Product_Product_ID";
 
 		qstate = mysql_query(conn, query.c_str());
 		cout << query << endl;
@@ -64,21 +65,21 @@ extern "C"	ERP_API int soldProducts(Product** product, char* error) {
 
 			if (res->row_count > 0)
 			{
-				*product = (Product*)CoTaskMemAlloc((int)(res->row_count) * sizeof(Product));
+				*product = (ProductSold*)CoTaskMemAlloc((int)(res->row_count) * sizeof(ProductSold));
 				cout << res->row_count << endl;
 				numOfFields = mysql_num_fields(res);
 
-				Product* _product = *product;
+				ProductSold* _product = *product;
 				while (row = mysql_fetch_row(res)) {
 
 					_product->id = row[0];
-					row[1] ? _product->name = row[1] : _product->name = nullptr;
-					row[2] ? _product->description = row[2] : _product->description = nullptr;
+					row[1] ? _product->unitsSold = stoi(row[1]) : _product->unitsSold = 0;
+					/*row[2] ? _product->description = row[2] : _product->description = nullptr;
 					row[3] ? _product->position = row[3] : _product->position = nullptr;
 					row[4] ? _product->price = stod(row[4]) : _product->price = 0;
 					row[5] ? _product->size = stod(row[5]) : _product->size = 0;
 					row[6] ? _product->weight = stod(row[6]) : _product->weight = 0;
-					row[7] ? _product->unitsInStock = stoi(row[7]) : _product->unitsInStock = 0;
+					row[7] ? _product->unitsInStock = stoi(row[7]) : _product->unitsInStock = 0;*/
 					numberOfRows++;
 					_product++;
 				}
