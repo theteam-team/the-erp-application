@@ -165,7 +165,7 @@ export class DataService {
     //Accounting
     public sold_products = [];
     loadSoldProducts(): Observable<boolean> {
-        return this.http.get("/api/WarehouseApi/ShowProducts")
+        return this.http.get("/api/AccountingApi/GetSoldProduct")
             .pipe(
                 map((data: any[]) => {
                     this.sold_products = data;

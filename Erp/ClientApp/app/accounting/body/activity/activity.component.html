@@ -32,7 +32,7 @@
 <div class="row container-fluid">
     <div class="module-info col-md-4 well well-sm" *ngFor="let s of sold_products">
         <div class="card bg-white m-1 p-2">
-            <div class="module-name">{{ s.tilte }}</div>
+            <div class="module-name">{{ s.name }}</div>
             <button class="btn btn-success" (click)="onAccounting()">close</button>
         </div>
     </div>
