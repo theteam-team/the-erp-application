@@ -21,7 +21,7 @@ An EPR System for Medium Businesses and Start-Ups
 * From *View*, open *SQL Server Object Explorer*, if **(localdb)\ProjectsV13** is not found:
    1. Right click on *SQL Server* => *Add SQL Server*
    2. In *Server Name* type **(localdb)\ProjectsV13** and click **Connect**
-* From *Solution Explorer* right click on each module => Build
+* From *Solution Explorer* right click on each module => *Build*
 * In Command line, type `ng build`
 * Run from VS using **f5**
 * Log in using the *database name:* **kemo** and any username and password
