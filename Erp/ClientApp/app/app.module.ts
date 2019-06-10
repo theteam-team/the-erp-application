@@ -31,20 +31,27 @@ import { AddOrderComponent } from './warehouse/add-order/add-order.component';
 import { AddProductsInOrderComponent } from './warehouse/add-products-in-order/add-products-in-order.component';
 import { SubmitOrderComponent } from './warehouse/submit-order/submit-order.component';
 import { EditOrderComponent } from './warehouse/edit-order/edit-order.component';
-/*
- 
-import { CrmComponent } from './CRM/crm.component';
-import { CreateCustomerComponent } from './CRM/create-customer/create-customer.component';
-import { CreateOpportunityComponent } from './CRM/create-opportunity/create-opportunity.component';
-import { PipelineComponent } from './CRM/pipline/pipline.component';
-import { CustomersComponent } from './CRM/customers/customers.component';
-import { CustomerCanDeactivateGuardService } from './CRM/create-customer/customer-canDeacrivare-guard-service';
-import { OpportunityCanDeactivateGuardService } from './CRM/create-opportunity/opportunity-canDeactivate-guard-service';
-*/
+
+
+import { CrmComponent } from './crm/crm.component';
+import { CustomersComponent } from './crm/customers/customers.component';
+import { PipelineComponent } from './crm/pipeline/pipeline.component';
+import { CreateOpportunityComponent } from './crm/create-opportunity/create-opportunity.component';
+import { CreateCustomerComponent } from './crm/create-customer/create-customer.component';
+import { customerService } from './crm/customers/customer.service';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { CustomerFilterPipe } from './crm/customers/customer-filter';
+import { OpportunityFilterPipe } from './crm/pipeline/opportunity-filter';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { OpportunityService } from './crm/create-opportunity/opportunity.service';
+import { OpportunityCanDeactivateGuardService } from './crm/create-opportunity/opportunity-canDeactivate-guard-service';
+import { CustomerCanDeactivateGuardService } from './crm/create-customer/customer-canDeactivate-guard-service';
+
 
 let routes = [
 
-   // { path: "", component: ModuleList }, 
+    { path: "", component: ModuleList }, 
     { path: "accounting", component: AccountingModule },
 
     { path: "warehouse", component: WarehouseComponent },
@@ -57,23 +64,22 @@ let routes = [
     { path: "warehouse/addproduct", component: AddProductComponent },
     { path: "warehouse/addOrder", component: AddOrderComponent },
     { path: "warehouse/addOrder/addProducts/:orderid", component: AddProductsInOrderComponent },
-    { path: "warehouse/addOrder/submitOrder/:orderid", component: SubmitOrderComponent }
-    /*
-    { path: "crm", component: CrmComponent },
-
-    { path: '', component: PipelineComponent },
-    { path: 'customers', component: CustomersComponent },
+    { path: "warehouse/addOrder/submitOrder/:orderid", component: SubmitOrderComponent },
+    
+    { path: 'crm', component: PipelineComponent },
+    { path: 'crm/pipeline', component: PipelineComponent },
+    { path: 'crm/customers', component: CustomersComponent },
     {
-        path: 'editCustomer/:id',
+        path: 'crm/editCustomer/:id',
         component: CreateCustomerComponent,
         canDeactivate: [CustomerCanDeactivateGuardService]
     },
     {
-        path: 'editOpportunity/:id',
+        path: 'crm/editOpportunity/:id',
         component: CreateOpportunityComponent,
         canDeactivate: [OpportunityCanDeactivateGuardService]
     },
-    */
+    
 ];
 
 @NgModule({
@@ -98,25 +104,32 @@ let routes = [
       ConfigurationComponent,
       ProductComponent,
       OrderComponent,
-      
-     // CrmComponent,
      
       AddProductComponent,
       AddOrderComponent,
       AddProductsInOrderComponent,
       SubmitOrderComponent,
       EditOrderComponent,
-      //CreateCustomerComponent,
-      //CreateOpportunityComponent,
-      //PipelineComponent,
-      //CustomersComponent
+
+      CrmComponent,
+      CustomersComponent,
+      PipelineComponent,
+      CreateOpportunityComponent,
+      CreateCustomerComponent,
+      CustomerFilterPipe,
+      OpportunityFilterPipe,
+
     ],
   imports: [
       BrowserModule,
       HttpClientModule,
       FormsModule,
       MatCardModule,
-      MatButtonModule,   
+      MatButtonModule,
+
+      HttpClientModule,
+      DragDropModule,
+      BrowserAnimationsModule,
 
       RouterModule.forRoot(routes, {
           useHash: true,
@@ -124,13 +137,15 @@ let routes = [
           onSameUrlNavigation: "reload"
       })
     ],
-
+    
+    
   providers: [
       DataService,
+      customerService, OpportunityService, OpportunityCanDeactivateGuardService, CustomerCanDeactivateGuardService
        
     ],
 
-    bootstrap: [AppComponent, Accounting, Login] // 
+    bootstrap: [AppComponent, Accounting, Login]
     
 })
 
