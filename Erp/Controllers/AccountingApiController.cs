@@ -27,10 +27,10 @@ namespace Erp.Controllers
         }
 
         [HttpGet("GetSoldProduct")]
-        public async Task<ActionResult<List<Product>>> GetSoldProduct()
+        public async Task<ActionResult<List<ProductSold>>> GetSoldProduct()
         {
             byte[] error = new byte[500];
-            List<Product> products = await _iProductRepository.getSoldProduct(error);
+            List<ProductSold> products = await _iProductRepository.getSoldProduct(error);
           
             string z = Encoding.ASCII.GetString(error);
             string y = z.Remove(z.IndexOf('\0'));

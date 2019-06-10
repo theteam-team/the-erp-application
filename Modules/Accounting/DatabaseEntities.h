@@ -10,7 +10,11 @@ struct Product
 	double weight;
 	unsigned int unitsInStock;
 };
-
+struct ProductSold
+{
+	char* id;
+	unsigned int unitsSold;
+};
 struct Order 
 {
 	char* id;
