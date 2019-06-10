@@ -1,8 +1,16 @@
-.border {
-    background-color: #d1d1e0;
+.btn2 {
+    background-color: #8c8c8c;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    margin: 10px;
+    text-align: center;
 }
 
-.order-props {
-    list-style-type: none;
-    margin: 5px 5px 5px 5px;
+    .btn2:hover {
+        background-color: #737373;
+    }
+
+.panel {
+    color: white;
 }

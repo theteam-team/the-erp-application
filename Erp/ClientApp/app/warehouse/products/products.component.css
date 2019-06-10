@@ -1,15 +1,19 @@
 .border {
-    background-color: #d1d1e0;
+    background-color: #262626;
+}
+
+.product-info {
+    margin: 10px;
 }
 
 .product-props {
     list-style-type: none;
-    margin: 5px 5px 5px 5px;
+    color: white;
 }
 
 .dropdown.dropdown-lg .dropdown-menu {
     margin-top: -1px;
-    padding: 6px 20px;
+    padding: 5px 5px;
 }
 
 .input-group-btn .btn-group {
@@ -41,10 +45,10 @@
     border-bottom-left-radius: 4px;
 }
 
-@media screen and (min-width: 768px) {
+@media {
     #adv-search {
-        width: 500px;
-        margin: 0 auto;
+        width: auto;
+        margin: 10px;
     }
 
     .dropdown.dropdown-lg {
@@ -52,6 +56,130 @@
     }
 
         .dropdown.dropdown-lg .dropdown-menu {
-            min-width: 500px;
+            width: auto;
         }
 }
+
+.form-control {
+    margin: 10px;
+}
+
+.btn1 {
+    background-color: #8c8c8c;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    margin: 10px;
+    text-align: center;
+}
+
+    .btn1:hover {
+        background-color: #737373;
+    }
+
+.btn2 {
+    background-color: #8c8c8c;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    margin: 5px;
+    text-align: center;
+}
+.btn2:hover {
+    background-color: #737373;
+}
+
+/*
+.upload-options {
+    position: relative;
+    height: 75px;
+    background-color: cadetblue;
+    cursor: pointer;
+    overflow: hidden;
+    text-align: center;
+    -webkit-transition: background-color ease-in-out 150ms;
+    transition: background-color ease-in-out 150ms;
+}
+
+    .upload-options:hover {
+        background-color: #7fb1b3;
+    }
+
+    .upload-options input {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+    }
+
+    .upload-options label {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        font-weight: 400;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        cursor: pointer;
+        overflow: hidden;
+    }
+
+        .upload-options label::after {
+            content: 'add';
+            font-family: 'Material Icons';
+            position: absolute;
+            font-size: 2.5rem;
+            color: #e6e6e6;
+            top: calc(50% - 2.5rem);
+            left: calc(50% - 1.25rem);
+            z-index: 0;
+        }
+
+        .upload-options label span {
+            display: inline-block;
+            width: 50%;
+            height: 100%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+            .upload-options label span:hover i.material-icons {
+                color: lightgray;
+            }
+
+.js--image-preview {
+    height: 225px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    background-image: url();
+    background-color: white;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+    .js--image-preview::after {
+        content: "photo_size_select_actual";
+        font-family: 'Material Icons';
+        position: relative;
+        font-size: 4.5em;
+        color: #e6e6e6;
+        top: calc(50% - 3rem);
+        left: calc(50% - 2.25rem);
+        z-index: 0;
+    }
+
+    .js--image-preview.js--no-default::after {
+        display: none;
+    }
+    */

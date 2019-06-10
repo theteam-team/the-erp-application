@@ -1,15 +1,13 @@
 <app-warehouse></app-warehouse>
 
-<div class="row">
-    <button type="button" (click)="editProduct()">Edit</button>
-</div>
 <div class="product-info">
     <form #productForm="ngForm" (ngSubmit)="saveEdits(productForm)">
-        <fieldset [disabled]="formDisabled">
-            <div class="panel panel-primary col-md-9">
-                <div class="panel-heading">
-                    <h3>Product Info</h3>
-                </div>
+        <!----<fieldset [disabled]="formDisabled">-->
+        <div class="panel panel-primary col-md-9">
+            <div class="panel-heading">
+                <h3>Product Info</h3>
+            </div>
+            <fieldset [disabled]="formDisabled">
                 <div class="panel-body">
                     <div class="form-group">
                         <label class="col-md-6 offset-md-2" for="id">Product ID</label>
@@ -44,13 +42,15 @@
                         <input class="form-control col-md-6 offset-md-2" id="unitsInStock" name="unitsInStock" [(ngModel)]="unitsInStock" type="text" value={{productInfo.unitsInStock}} />
                     </div>
                 </div>
-                <div class="panel-footer">
-                    <button type="submit" class="btn btn-primary col-md-2 offset-md-2">Save</button>
-                </div>
+            </fieldset>
+            <div class="panel-footer">
+                <button class="btn2 col-md-2 offset-md-2" type="button" (click)="editProduct()">Edit</button>
+                <button [disabled]="formDisabled" type="submit" class="btn btn-primary col-md-2 offset-md-2">Save</button>
             </div>
-        </fieldset>
+        </div>
+        <!----</fieldset>-->
     </form>
     <div>
-        <button type="button" (click)="goToProducts()">Back</button>
+        <button class="btn3 col-md-2" type="button" (click)="goToProducts()">Back</button>
     </div>
 </div>
