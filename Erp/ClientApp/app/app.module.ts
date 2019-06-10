@@ -65,8 +65,8 @@ let routes = [
     { path: "warehouse/addOrder", component: AddOrderComponent },
     { path: "warehouse/addOrder/addProducts/:orderid", component: AddProductsInOrderComponent },
     { path: "warehouse/addOrder/submitOrder/:orderid", component: SubmitOrderComponent },
-    
-    { path: 'crm', component: PipelineComponent },
+
+    { path: 'crm', component: CrmComponent },
     { path: 'crm/pipeline', component: PipelineComponent },
     { path: 'crm/customers', component: CustomersComponent },
     {
