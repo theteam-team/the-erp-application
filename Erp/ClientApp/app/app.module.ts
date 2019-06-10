@@ -44,7 +44,7 @@ import { OpportunityCanDeactivateGuardService } from './CRM/create-opportunity/o
 
 let routes = [
 
-   // { path: "", component: ModuleList }, 
+    { path: "", component: ModuleList }, 
     { path: "accounting", component: AccountingModule },
 
     { path: "warehouse", component: WarehouseComponent },
