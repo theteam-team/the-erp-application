@@ -54,9 +54,9 @@ namespace Erp.Repository
             return await Task.Run(() => Warehouse_Wrapper.addToStock(id, newUnits, error));
         }
 
-        public async Task<List<ProductSold>> getSoldProduct(byte[] error)
+        public async Task<List<Product>> getSoldProduct(byte[] error)
         {
-            List<ProductSold> products = new List<ProductSold>();
+            List<Product> products = new List<Product>();
             IntPtr ProductPtr;
 
             await Task.Run(() =>
@@ -66,7 +66,7 @@ namespace Erp.Repository
 
                 for (int i = 0; i < number_fields; ++i)
                 {
-                    ProductSold product = (ProductSold)Marshal.PtrToStructure(current, typeof(ProductSold));
+                    Product product = (Product)Marshal.PtrToStructure(current, typeof(Product));
 
                     current = (IntPtr)((long)current + Marshal.SizeOf(product));
                     products.Add(product);
