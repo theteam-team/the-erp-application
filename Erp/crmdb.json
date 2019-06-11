@@ -39,7 +39,7 @@
       "id": 1,
       "title": "One",
       "customer_id": "1",
-      "expected_revenue": "200",
+      "expected_revenue": 200,
       "status": 1,
       "start_date": "2019-05-20"
     },
@@ -47,7 +47,7 @@
       "id": 2,
       "title": "two",
       "customer_id": "2",
-      "expected_revenue": "80",
+      "expected_revenue": 80,
       "status": 2,
       "start_date": "2019-07-19"
     },
@@ -55,7 +55,7 @@
       "id": 3,
       "title": "three",
       "customer_id": "3",
-      "expected_revenue": "50",
+      "expected_revenue": 50,
       "status": 2,
       "start_date": "2019-05-17"
     }
