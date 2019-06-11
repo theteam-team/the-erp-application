@@ -32,20 +32,12 @@
 -->
 <div class="row container-fluid">
     <div class="col-md-4 well well-sm" *ngFor="let s of sold_products">
-        <div class="card bg-white m-1 p-2">
-            <div>{{ s.id }}</div>
-
+        <div class="card bg-light m-1 p-2">
+            <div> Product ID : {{ s.productid }}</div>
+            <div> total Units in all orders : {{ s.unitsSold }}</div>
             <button class="btn btn-success">close</button>
         </div>
     </div>
 </div>
 
-<div class="row container-fluid">
-    <div class="col-md-4 well well-sm" *ngFor="let s of sold_product">
-        <div class="card bg-white m-1 p-2">
-            <div>{{ s.id }}</div>
 
-            <button class="btn btn-success">close</button>
-        </div>
-    </div>
-</div>

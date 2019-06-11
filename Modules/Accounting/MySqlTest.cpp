@@ -52,9 +52,53 @@ extern "C"	ERP_API int soldProducts(ProductSold** product, char* error) {
 	unsigned int numOfFields;
 	db_response::ConnectionFunction(error);
 	if (conn) {
-
 		mysql_free_result(res);
 		query = "SELECT Product_Product_ID, sum(Units_In_Order) as Units_In_Order FROM erp.order_has_product group by Product_Product_ID";
+		qstate = mysql_query(conn, query.c_str());
+		cout << query << endl;
+		if (checkQuery(qstate, error)) {
+			res = mysql_store_result(conn);
+			if (res->row_count > 0)
+			{
+				*product = (ProductSold*)CoTaskMemAlloc((int)(res->row_count) * sizeof(ProductSold));
+				cout << res->row_count << endl;
+				numOfFields = mysql_num_fields(res);
+				ProductSold* _product = *product;
+				while (row = mysql_fetch_row(res)) {
+					_product->id = row[0];
+					row[1] ? _product->unitsSold = stoi(row[1]) : _product->unitsSold = 0;
+					/*row[1] ? _product->name = row[1] : _product->name = nullptr;
+					row[2] ? _product->description = row[2] : _product->description = nullptr;
+					row[3] ? _product->position = row[3] : _product->position = nullptr;
+					row[4] ? _product->price = stod(row[4]) : _product->price = 0;
+					row[5] ? _product->size = stod(row[5]) : _product->size = 0;
+					row[6] ? _product->weight = stod(row[6]) : _product->weight = 0;
+					row[7] ? _product->unitsInStock = stoi(row[7]) : _product->unitsInStock = 0;*/
+					numberOfRows++;
+					_product++;
+				}
+			}
+			else
+			{
+				string s = "No Product Exist";
+				cout << s << endl;
+				strcpy_s(error, s.length() + 1, s.c_str());
+				status = 2;
+			}
+		}
+	}
+	return numberOfRows;
+}
+extern "C"	ERP_API int profit(ProductSold** product, char* error) {
+	status = 0;
+	int numberOfRows = 0;
+	unsigned int numOfFields;
+	db_response::ConnectionFunction(error);
+	if (conn) {
+
+		mysql_free_result(res);
+		//for each sold product, calculate its profit --> Units_In_Order *( product_price - Produt_cost),,,,,, then get summation of all profits
+		query = "SELECT Product_Product_ID, Product_Price, Product_Cost, sum(Units_In_Order) as Units_In_Order FROM erp.order_has_product NATURAL JOIN erp.product group by Product_Product_ID ";
 
 		qstate = mysql_query(conn, query.c_str());
 		cout << query << endl;
