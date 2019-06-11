@@ -1,4 +1,5 @@
-﻿<div class="row container-fluid">
+﻿<!--
+<div class="row container-fluid">
     <div class="col-md-3 bg-light p-2">
         <form>
             <div class="col">
@@ -28,12 +29,23 @@
         </form>
     </div>
 </div>
+-->
+<div class="row container-fluid">
+    <div class="col-md-4 well well-sm" *ngFor="let s of sold_products">
+        <div class="card bg-white m-1 p-2">
+            <div>{{ s.id }}</div>
+
+            <button class="btn btn-success">close</button>
+        </div>
+    </div>
+</div>
 
 <div class="row container-fluid">
-    <div class="module-info col-md-4 well well-sm" *ngFor="let s of sold_products">
+    <div class="col-md-4 well well-sm" *ngFor="let s of sold_product">
         <div class="card bg-white m-1 p-2">
-            <div class="module-name">{{ s.name }}</div>
-            <button class="btn btn-success" (click)="onAccounting()">close</button>
+            <div>{{ s.id }}</div>
+
+            <button class="btn btn-success">close</button>
         </div>
     </div>
 </div>

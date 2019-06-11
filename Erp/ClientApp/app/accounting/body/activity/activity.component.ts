@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { DataService } from 'ClientApp/app/shared/dataService';
-import { Module, Products } from "ClientApp/app/shared/module";
+import { Products } from "ClientApp/app/shared/module";
 
 @Component({
     selector: 'accounting-activity',
@@ -8,13 +8,18 @@ import { Module, Products } from "ClientApp/app/shared/module";
     styleUrls: [],
 })
 
-export class AccountingActivity{
+export class AccountingActivity implements OnInit{
     title = 'Accounting';
     constructor(private data: DataService) {
     }
 
-    public sold_products: Products[] = [];
+    //trial
+    public sold_product = [{
+        id: "1",
+        name: "hi"
+    }];
 
+    public sold_products: Products[] = [];
     ngOnInit(): void {
         this.data.loadSoldProducts()
             .subscribe(success => {

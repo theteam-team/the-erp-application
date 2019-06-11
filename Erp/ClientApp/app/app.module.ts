@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'
 import { MatCardModule, MatButtonModule } from '@angular/material';
 import { AppComponent } from './app.component';
-import { Login } from './login/login.component';
+//import { Login } from './login/login.component';
 import { Accounting } from './accountingSystem';
 import { ModuleList } from './services/moduleList.component';
 import { AccountingModule } from './accounting/accounting';
@@ -97,7 +97,7 @@ let routes = [
       AccountingHelp,
       AccountingSend,
       Invoice,
-      Login,
+      //Login,
       WarehouseComponent,
       ProductsComponent,
       OrdersComponent,
@@ -145,7 +145,7 @@ let routes = [
        
     ],
 
-    bootstrap: [AppComponent, Accounting, Login]
+    bootstrap: [AppComponent, Accounting]//, Login]
     
 })
 

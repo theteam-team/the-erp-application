@@ -6,5 +6,6 @@
     price: number;
 } 
 export interface Products {
-    name: string;
+    id: string;
+    units: number;
 }

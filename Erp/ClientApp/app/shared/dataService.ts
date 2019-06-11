@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { map } from "rxjs/operators";
-import { Module } from './module';
+import { Module, Products } from './module';
 
 @Injectable()
 export class DataService {
@@ -163,7 +163,7 @@ export class DataService {
     }
 
     //Accounting
-    public sold_products = [];
+    public sold_products: Products[] = [];
     loadSoldProducts(): Observable<boolean> {
         return this.http.get("/api/AccountingApi/GetSoldProduct")
             .pipe(
