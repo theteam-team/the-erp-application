@@ -29,9 +29,6 @@ struct Invoice
 	unsigned int totalPaid;
 	unsigned int totalCost;
 	unsigned int depts;
-
-
-
 };
 struct Order 
 {

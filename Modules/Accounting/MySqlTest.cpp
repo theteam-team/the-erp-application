@@ -84,6 +84,7 @@ extern "C"	ERP_API int soldProducts(ProductSold** product, char* error) {
 	return numberOfRows;
 }
 */
+
 extern "C"	ERP_API int profit(ProductSold** product, char* error) {
 	status = 0;
 	int numberOfRows = 0;
@@ -183,6 +184,7 @@ extern "C"	ERP_API int invoice(Invoice** invoice, char* error) {
 	}
 	return numberOfRows;
 }
+
 //void init() {
 //	conn = mysql_init(0);
 //	conn = mysql_real_connect(conn, "localhost", "root", "rana", "erp", 3306, NULL, 0);
