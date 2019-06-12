@@ -74,6 +74,7 @@ namespace Erp.Controllers
                             true, false);
                     if (result.Succeeded)
                     {
+                      
 
                         var roles = await _userManager.GetRolesAsync(user);
 
@@ -136,6 +137,8 @@ namespace Erp.Controllers
                     await _management.AddRoleToUserAsync(roleName, user);
 
                     muserLogger.LogInformation("A user with a specifc roles : " + roleName + " has Been Created");
+
+                   
 
                     if (!CommonNeeds.checkdtb(mdataDbContext, registerModel.DataBaseName))
                     {

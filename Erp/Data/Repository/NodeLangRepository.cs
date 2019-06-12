@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Erp.Repository
 {
-    public class NodeLangRepository : Repository<NodeLangWorkflow> , INodeLangRepository
+    public class NodeLangRepository : Repository<NodeLangWorkflow, DataDbContext> , INodeLangRepository
     {
         private readonly DataDbContext _dataDbContext;
         private readonly AccountDbContext _accountDbContext;

@@ -1,4 +1,5 @@
 ﻿
+using Erp.Data;
 using Erp.Models;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Erp.Interfaces
 {
-    public interface ICustomerRepository : IRepository<Customer>
+    public interface ICustomerRepository : IRepository<Customer, DataDbContext>
     {
     }
 }

@@ -47,6 +47,7 @@
         </member>
         <member name="P:Erp.Data.DataDbContext.ConnectionString">
             this  proberty used to set the connection string to the database
+            
         </member>
         <member name="M:Erp.Data.DataDbContext.OnConfiguring(Microsoft.EntityFrameworkCore.DbContextOptionsBuilder)">
             ovrriding this method from the base class and pass to it an optionBuilder Containing the New _config to the database
@@ -148,7 +149,7 @@
             </summary>
             <param name="services">The Services container </param>
         </member>
-        <member name="M:Erp.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment,Erp.Data.AccountDbContext)">
+        <member name="M:Erp.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment,Erp.Data.DataDbContext,Erp.Data.AccountDbContext)">
             This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         </member>
     </members>

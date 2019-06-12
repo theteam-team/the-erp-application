@@ -16,7 +16,7 @@ using System.Security.Claims;
 
 namespace Erp.Repository
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T,C> : IRepository<T, C> where T : class where C : DbContext
     {
         private AccountDbContext _accountdbContext;
         private readonly UserManager<ApplicationUser> _usermanager;
@@ -95,18 +95,32 @@ namespace Erp.Repository
 
         protected void InitiateConnection()
         {
-            var user = _accountdbContext.ErpUsers.Where(us => us.UserName == User.Identity.Name).First();
-            if (!CommonNeeds.checkdtb(_datadbContext, user.DatabaseName))
+            string username = "Admin";
+            if (User != null)
+                username = User.Identity.Name;
+            var user = _accountdbContext.ErpUsers.Where(us => us.UserName == username).FirstOrDefault();
+            if (user != null)
             {
-                throw new Exception("Error Please DataBase Does Not Exist");
+                if (!CommonNeeds.checkdtb(_datadbContext, user.DatabaseName))
+                {
+                    throw new Exception("Error Please DataBase Does Not Exist");
+                }
             }
         }
 
         public async Task Create(T entity)
         {
-            await Task.Run(()=>InitiateConnection());
-            _datadbContext.Add(entity);
-            _datadbContext.SaveChanges();
+            if (typeof(C) == (typeof(DataDbContext)))
+            {
+                await Task.Run(() => InitiateConnection());
+                _datadbContext.Add(entity);
+                _datadbContext.SaveChanges();
+            }if (typeof(C) == (typeof(AccountDbContext)))
+            {
+                await Task.Run(() => InitiateConnection());
+                _accountdbContext.Add(entity);
+                _accountdbContext.SaveChanges();
+            }
         }
 
         public async Task<int> Delete(string id, byte[] error)
@@ -237,9 +251,31 @@ namespace Erp.Repository
         }
         public async Task<T> GetById(object id)
         {
-            await Task.Run(() => InitiateConnection());
-            return _datadbContext.Find<T>(id);
+            if (typeof(C) == typeof(DataDbContext))
+            {
+                await Task.Run(() => InitiateConnection());
+                return _datadbContext.Find<T>(id);
+            }
+            if (typeof(C) == typeof(AccountDbContext))
+            {
+                return _accountdbContext.Find<T>(id);
+            }
+            return null;
         }
-       
+
+        public async Task Update(T ob)
+        {
+            if (typeof(C) == typeof(DataDbContext))
+            {
+                await Task.Run(() => InitiateConnection());
+                _datadbContext.Update<T>(ob);
+                _datadbContext.SaveChanges();
+            }
+            if (typeof(C) == typeof(AccountDbContext))
+            {
+                _accountdbContext.Update<T>(ob);
+                _accountdbContext.SaveChanges();
+            }
+        }
     }
 }

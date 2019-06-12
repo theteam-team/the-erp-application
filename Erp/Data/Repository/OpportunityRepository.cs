@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Erp.Repository
 {
-    public class OpportunityRepository : Repository<Opportunities_product>, IOpportunityRepository
+    public class OpportunityRepository : Repository<Opportunities_product, DataDbContext>, IOpportunityRepository
     {
         public OpportunityRepository(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
         {
