@@ -14,6 +14,24 @@ struct ProductSold
 {
 	char* id;
 	unsigned int unitsSold;
+	unsigned int profit;
+	unsigned int price;
+	unsigned int cost;
+};
+struct Invoice
+{
+	char* id;
+	char* suppName;
+	unsigned int suppPhone;
+	char* suppMail;
+	unsigned int payment_method;
+	unsigned int suppUnits;
+	unsigned int totalPaid;
+	unsigned int totalCost;
+	unsigned int depts;
+
+
+
 };
 struct Order 
 {
