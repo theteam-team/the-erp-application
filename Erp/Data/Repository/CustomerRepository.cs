@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Erp.Repository
 {
-    public class CustomerRepository : Repository<Customer>, ICustomerRepository
+    public class CustomerRepository : Repository<Customer, DataDbContext>, ICustomerRepository
     {
         public CustomerRepository(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
         {

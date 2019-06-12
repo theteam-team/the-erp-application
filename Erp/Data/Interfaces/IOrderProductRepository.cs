@@ -1,4 +1,5 @@
-﻿using Erp.Models;
+﻿using Erp.Data;
+using Erp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Erp.Interfaces
 {
-    public interface IOrderProductRepository : IRepository<ProductInOrder>
+    public interface IOrderProductRepository : IRepository<ProductInOrder, DataDbContext>
     {
         Task<int> EditProductInOrder(ProductInOrder entity, byte[] error);
         Task<List<ProductInOrder>> ShowProductsInOrder(string id, byte[] error);

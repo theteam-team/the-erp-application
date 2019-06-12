@@ -1,4 +1,5 @@
-﻿using Erp.Models;
+﻿using Erp.Data;
+using Erp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Erp.Interfaces
 {
-    public interface IOrderRepository : IRepository<Order>
+    public interface IOrderRepository : IRepository<Order, DataDbContext>
     {
         Task<List<Order>> SearchOrders(string key, string value, byte[] error);
         Task<int> EditOrder(Order entity, byte[] error);

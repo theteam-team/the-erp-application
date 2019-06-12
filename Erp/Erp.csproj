@@ -61,6 +61,8 @@
 
   <ItemGroup>
    
+    <PackageReference Include="MailKit" Version="2.2.0" />
+   
     <PackageReference Include="Microsoft.AspNetCore.App" />
    
     <PackageReference Include="Microsoft.AspNetCore.WebSockets" Version="2.2.1" />

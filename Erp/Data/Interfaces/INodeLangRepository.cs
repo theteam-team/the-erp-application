@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Erp.Interfaces
 {
-    public interface INodeLangRepository : IRepository<NodeLangWorkflow>
+    public interface INodeLangRepository : IRepository<NodeLangWorkflow, DataDbContext>
     {
         /*Task<List<WorkflowInstance>> GetRunningInstances(string WorkflowId);
         Task<int> GetRunningInstanceCount(string WorkflowId);

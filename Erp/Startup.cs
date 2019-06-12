@@ -21,6 +21,9 @@ using Erp.Hubs;
 using Erp.Hups;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Erp.BackgroundServices;
+using System.Net.Mail;
+using System.Net;
 
 namespace Erp
 {
@@ -44,9 +47,32 @@ namespace Erp
         /// <param name="services">The Services container </param>
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHostedService<SystemBackgroundService>();
+            //services.AddHostedService<ConsumeScopedServiceHostedService>();
+            //services.AddScoped<IScopedProcessingService, ScopedProcessingService>();
+            //services.AddHostedService<QueuedHostedService>();
+
+            /*services.AddScoped<SmtpClient>((serviceProvider) =>
+            {
+                var config = serviceProvider.GetRequiredService<IConfiguration>();
+                return new SmtpClient()
+                {
+                    Host = config.GetValue<String>("Email:Smtp:Host"),
+                    Port = config.GetValue<int>("Email:Smtp:Port"),
+                    Credentials = new NetworkCredential(
+                            config.GetValue<String>("Email:Smtp:Username"),
+                            config.GetValue<String>("Email:Smtp:Password")
+                        )
+                };
+            });*/
+
+            services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             services.AddTransient<INodeLangRepository, NodeLangRepository>();
             services.AddSignalR();           
             services.AddTransient<ICustomerRepository, CustomerRepository>();
+            services.AddTransient<IEmailRepository, EmailRepository>();
+            services.AddTransient<IEmailUserRepository, EmailUserRepository>();
+            services.AddTransient<IEmailTypeRepository, EmailTypeRepository>();
             services.AddTransient<IOpportunityRepository, OpportunityRepository>();
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
@@ -54,7 +80,8 @@ namespace Erp
             services.AddTransient<IOrderProductRepository, OrderProductRepository>();
             services.AddDbContext<AccountDbContext>(options =>
                 options.UseSqlServer(_config.GetConnectionString("DefaultConnection")));
-            services.AddDbContext<DataDbContext>();
+            services.AddDbContext<DataDbContext>(/*options =>
+                options.UseSqlServer(_config.GetConnectionString("DataDbConnection"))*/);
             services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
                 options.Password.RequiredLength = 5;
@@ -135,10 +162,10 @@ namespace Erp
         }
 
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, AccountDbContext mcontext)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, DataDbContext dataDbContext ,AccountDbContext mcontext)
         {
             //ensure that the database used to store user accounts is created at the begining
-
+            //dataDbContext.Database.EnsureCreated();
             mcontext.Database.EnsureCreated();
             app.UseNodeModules(env);//include the Node modules File into hte the response
             app.UseStaticFiles();//mark wwwroot Files as servable
@@ -151,17 +178,17 @@ namespace Erp
                 routes.MapHub<NotificationHub>("/NotificationHub");
             });
             
+            app.UseSwagger(); //enable the use of Swagger To document the api
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });//configure the swagger endpoint 
             app.UseMvc(cfg =>
             {
 
                 cfg.MapRoute("default", "{controller}/{action}/{id?}", new { controller = "App", action = "index" });
 
             });//enable the use of MVC
-            app.UseSwagger(); //enable the use of Swagger To document the api
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            });//configure the swagger endpoint 
         }
     }
 

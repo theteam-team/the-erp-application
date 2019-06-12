@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Erp.Repository
 {
-    public class OrderProductRepository : Repository<ProductInOrder>, IOrderProductRepository
+    public class OrderProductRepository : Repository<ProductInOrder, DataDbContext>, IOrderProductRepository
     {
         public OrderProductRepository(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
         {

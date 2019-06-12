@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Erp.Repository
 {
-    public class EmployeeRepository : Repository<Employee>, IEmployeeRepository
+    public class EmployeeRepository : Repository<Employee, DataDbContext>, IEmployeeRepository
     {
         public EmployeeRepository(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
         {
