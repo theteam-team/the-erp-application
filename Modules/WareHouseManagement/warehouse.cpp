@@ -15,7 +15,7 @@ using namespace std;
 
 #define SERVER "localhost"
 #define USER "root" //your username
-#define PASSWORD "root" //your password for mysql
+#define PASSWORD "0198484014###" //your password for mysql
 #define DATABASE "erp" //database name
 
 int status;

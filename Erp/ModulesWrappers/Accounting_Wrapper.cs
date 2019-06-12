@@ -13,6 +13,9 @@ namespace Erp.ModulesWrappers
     {
 
         [DllImport("Modules//Accounting//Accounting.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        public static extern int soldProducts(out IntPtr Product, byte[] error);
+        public static extern int profit(out IntPtr Product, byte[] error);
+
+        [DllImport("Modules//Accounting//Accounting.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern int invoice(out IntPtr Invoice, byte[] error);
     }
 }
