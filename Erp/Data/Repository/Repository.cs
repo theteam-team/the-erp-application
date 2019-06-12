@@ -95,7 +95,7 @@ namespace Erp.Repository
 
         protected void InitiateConnection()
         {
-            string username = "Admin";
+            string username = "admin";
             if (User != null)
                 username = User.Identity.Name;
             var user = _accountdbContext.ErpUsers.Where(us => us.UserName == username).FirstOrDefault();

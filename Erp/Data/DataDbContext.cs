@@ -24,7 +24,7 @@ namespace Erp.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserHasEmail>().HasKey(sc => new { sc.EmailId, sc.EmailTypeId, sc.ApplicationUserId });
+            //modelBuilder.Entity<UserHasEmail>().HasKey(sc => new { sc.EmailId, sc.EmailTypeId, sc.ApplicationUserId });
         }
 
         /*public DbSet<Email> Emails { get; set; }

@@ -41,7 +41,7 @@ namespace Erp.Controllers
         }
 
         [HttpPost("SendEmail")]
-        public async Task<ActionResult<string>> SendEmail([FromBody] EmailEntity emailEntity)
+        public async Task<ActionResult<string>> SendEmail([FromBody] EmailViewModel emailEntity)
         {
             Email email = new Email()
             {
