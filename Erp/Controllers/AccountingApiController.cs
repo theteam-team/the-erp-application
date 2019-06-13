@@ -35,10 +35,26 @@ namespace Erp.Controllers
             string z = Encoding.ASCII.GetString(error);
             string y = z.Remove(z.IndexOf('\0'));
             if (y == "")
-            {
-
-               
+            {             
                 return Ok(products);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+
+        [HttpGet("GetInvoice")]
+        public async Task<ActionResult<List<Invoice>>> GetInvoice()
+        {
+            byte[] error = new byte[500];
+            List<Invoice> invoices = await _iProductRepository.getInvoice(error);
+
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+                return Ok(invoices);
             }
             else
             {

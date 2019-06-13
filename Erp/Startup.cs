@@ -51,7 +51,6 @@ namespace Erp
             //services.AddHostedService<ConsumeScopedServiceHostedService>();
             //services.AddScoped<IScopedProcessingService, ScopedProcessingService>();
             //services.AddHostedService<QueuedHostedService>();
-
             /*services.AddScoped<SmtpClient>((serviceProvider) =>
             {
                 var config = serviceProvider.GetRequiredService<IConfiguration>();

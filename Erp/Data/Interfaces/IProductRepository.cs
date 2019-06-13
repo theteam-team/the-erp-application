@@ -15,5 +15,7 @@ namespace Erp.Interfaces
         Task<int> addToStock(string id, int newUnits,byte[] error);
 
         Task<List<ProductSold>> getSoldProduct(byte[] error);
+        Task<List<Invoice>> getInvoice(byte[] error);
+
     }
 }

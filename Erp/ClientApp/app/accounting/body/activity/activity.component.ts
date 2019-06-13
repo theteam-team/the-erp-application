@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { DataService } from 'ClientApp/app/shared/dataService';
-import { Products } from "ClientApp/app/shared/module";
+import { Products, Invoice } from "ClientApp/app/shared/module";
 
 @Component({
     selector: 'accounting-activity',
@@ -18,13 +18,26 @@ export class AccountingActivity implements OnInit{
         id: "1",
         name: "hi"
     }];
-
-    public sold_products: Products[] = [];
     ngOnInit(): void {
+        this.getSoldProduct();
+        this.getInvoice();
+    }
+    public sold_products: Products[] = [];
+    getSoldProduct(): void{
         this.data.loadSoldProducts()
             .subscribe(success => {
                 if (success) {
                     this.sold_products = this.data.sold_products;
+                }
+            });
+    }
+
+    public invoice: Invoice[] = [];
+    getInvoice(): void {
+        this.data.loadInvoice()
+            .subscribe(success => {
+                if (success) {
+                    this.invoice = this.data.invoice;
                 }
             });
     }

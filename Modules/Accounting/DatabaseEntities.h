@@ -20,15 +20,17 @@ struct ProductSold
 };
 struct Invoice
 {
-	char* id;
+	char* suppId;
 	char* suppName;
 	unsigned int suppPhone;
 	char* suppMail;
-	unsigned int payment_method;
+	char* payment_method;
+	char* productName;
+	double productCost;
 	unsigned int suppUnits;
-	unsigned int totalPaid;
-	unsigned int totalCost;
-	unsigned int depts;
+	double totalCost;
+	double totalPaid;
+	double depts;
 };
 struct Order 
 {

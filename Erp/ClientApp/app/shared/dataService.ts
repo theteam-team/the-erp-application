@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { map } from "rxjs/operators";
-import { Module, Products } from './module';
+import { Module, Products, Invoice } from './module';
 
 @Injectable()
 export class DataService {
@@ -169,6 +169,16 @@ export class DataService {
             .pipe(
                 map((data: any[]) => {
                     this.sold_products = data;
+                    return true;
+                }));
+    }
+    
+    public invoice: Invoice[] = [];
+    loadInvoice(): Observable<boolean> {
+        return this.http.get("/api/AccountingApi/GetInvoice")
+            .pipe(
+                map((data: any[]) => {
+                    this.invoice = data;
                     return true;
                 }));
     }
