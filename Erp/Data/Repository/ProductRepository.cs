@@ -62,10 +62,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
                 int number_fields = Accounting_Wrapper.getProfit(out ProductPtr, error);
-
-                
                 IntPtr current = ProductPtr;
-
                 for (int i = 0; i < number_fields; ++i)
                 {
                     ProductSold product = (ProductSold)Marshal.PtrToStructure(current, typeof(ProductSold));

@@ -107,9 +107,9 @@ extern "C"	ERP_API int getProfit(ProductSold** product, char* error) {
 				while (row = mysql_fetch_row(res)) {
 					_product->id = row[0];
 					row[1] ? _product->unitsSold = stoi(row[1]) : _product->unitsSold = 0;
-					row[2] ? _product->price = stoi(row[2]) : _product->price = 0;
-					row[3] ? _product->cost = stoi(row[3]) : _product->cost = 0;
-					row[4] ? _product->profit = stoi(row[4]) : _product->profit = 0;
+					row[2] ? _product->price = stod(row[2]) : _product->price = 0.0;
+					row[3] ? _product->cost = stod(row[3]) : _product->cost = 0.0;
+					row[4] ? _product->profit = stod(row[4]) : _product->profit = 0.0;
 
 					/*row[1] ? _product->name = row[1] : _product->name = nullptr;
 					row[2] ? _product->description = row[2] : _product->description = nullptr;

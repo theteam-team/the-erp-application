@@ -31,21 +31,19 @@
 </div>
 -->
 <div class="row container-fluid">
-    <h1>Sold Products</h1><br />
     <div class="col-md-4 well well-sm" *ngFor="let s of sold_products">
         <div class="card bg-light m-1 p-2">
             <div> Product ID : {{ s.productid }}</div>
             <div> total Units in all orders : {{ s.unitsSold }}</div>
-            <div> total Units in all orders : {{ s.profit }}</div>
-            <div> total Units in all orders : {{ s.price }}</div>
-            <div> total Units in all orders : {{ s.cost }}</div>
+            <div> profit : {{ s.profit }}</div>
+            <div> price: {{ s.price }}</div>
+            <div> cost: {{ s.cost }}</div>
             <button class="btn btn-success">close</button>
         </div>
     </div>
 </div>
 
 <div class="row container-fluid">
-    <h2>supplied Products</h2><br />
     <div class="col-md-4 well well-sm" *ngFor="let i of invoice">
         <div class="card bg-light m-1 p-2">
             <div> suppId : {{ i.suppId }}</div>

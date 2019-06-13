@@ -14,9 +14,9 @@ struct ProductSold
 {
 	char* id;
 	unsigned int unitsSold;
-	unsigned int profit;
-	unsigned int price;
-	unsigned int cost;
+	double profit;
+	double price;
+	double cost;
 };
 struct Invoice
 {

@@ -12,9 +12,9 @@ namespace Erp.Models
        
             public string Productid;
             public uint unitsSold;
-            public uint profit;
-            public uint price;
-            public uint cost;
+            public double profit;
+            public double price;
+            public double cost;
 
     }
 }
