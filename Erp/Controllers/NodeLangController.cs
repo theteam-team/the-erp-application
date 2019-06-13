@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using Erp.Data;
-using Erp.Data.Entities;
+
 using Erp.Hubs;
 using Erp.Interfaces;
 using Microsoft.AspNetCore.Authorization;

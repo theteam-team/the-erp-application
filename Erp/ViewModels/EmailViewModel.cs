@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Erp.ViewModels
 {
-    public class EmailEntity
+    public class EmailViewModel
     {
         [Required]
         public _Email Email { get; set; }
