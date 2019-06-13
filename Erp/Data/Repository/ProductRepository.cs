@@ -61,7 +61,7 @@ namespace Erp.Repository
 
             await Task.Run(() =>
             {
-                int number_fields = Accounting_Wrapper.soldProducts(out ProductPtr, error);
+                int number_fields = Accounting_Wrapper.profit(out ProductPtr, error);
                 IntPtr current = ProductPtr;
 
                 for (int i = 0; i < number_fields; ++i)

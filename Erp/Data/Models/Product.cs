@@ -24,5 +24,7 @@ namespace Erp.Models
         public double weight;
         [Required]
         public uint unitsInStock;
+
+
     }
 }

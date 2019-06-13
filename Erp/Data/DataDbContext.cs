@@ -1,4 +1,4 @@
-﻿using Erp.Data.Entities;
+﻿
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;

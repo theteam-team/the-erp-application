@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Erp.Data.Entities
+namespace Erp.Data
 {
     public class Notification
     {
@@ -14,6 +14,10 @@ namespace Erp.Data.Entities
 
         public string message { get; set; }
 
-        public IList<NotificationApplicationUser> NotificationApplicationUser { get; set; }
+        public string NotificationType { get; set; }
+
+        public IList<NotificationResponses> NotificationResponses { get; set; }
+
+        public IList<NotificationApplicationUser> NotificationApplicationUsers { get; set; }
     }
 }

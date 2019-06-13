@@ -21,5 +21,6 @@ namespace Erp.Interfaces
         Task Create(T entity); 
         Task<int> Delete(string id, byte[] error);
         Task Update(T ob);
+        Task Insert(T ob);
     }
 }

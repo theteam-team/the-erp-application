@@ -24,11 +24,21 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Erp.BackgroundServices;
 using System.Net.Mail;
 using System.Net;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 
 namespace Erp
 {
     public class Startup
     {
+        [Obsolete]
+        public static readonly LoggerFactory MyLoggerFactory
+                 = new LoggerFactory(new[] {
+        new ConsoleLoggerProvider((category, level)
+            => category == DbLoggerCategory.Database.Command.Name
+               && level == LogLevel.Information, true)
+    });
+
         public Startup(IConfiguration configuration)
         {
             
@@ -47,7 +57,7 @@ namespace Erp
         /// <param name="services">The Services container </param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHostedService<SystemBackgroundService>();
+            //services.AddHostedService<SystemBackgroundService>();
             //services.AddHostedService<ConsumeScopedServiceHostedService>();
             //services.AddScoped<IScopedProcessingService, ScopedProcessingService>();
             //services.AddHostedService<QueuedHostedService>();
@@ -72,6 +82,9 @@ namespace Erp
             services.AddTransient<ICustomerRepository, CustomerRepository>();
             services.AddTransient<IEmailRepository, EmailRepository>();
             services.AddTransient<IEmailUserRepository, EmailUserRepository>();
+            services.AddTransient<INotificationRepository, NotificationRepository>();
+            services.AddTransient<INotificationUserRepository, NotificationUserRepository>();
+            services.AddTransient<INotificationResponseRepository, NotificationResponseRepositroy>();
             services.AddTransient<IEmailTypeRepository, EmailTypeRepository>();
             services.AddTransient<IOpportunityRepository, OpportunityRepository>();
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
@@ -79,6 +92,7 @@ namespace Erp
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IOrderProductRepository, OrderProductRepository>();
             services.AddDbContext<AccountDbContext>(options =>
+                //options.UseLoggerFactory(MyLoggerFactory),
                 options.UseSqlServer(_config.GetConnectionString("DefaultConnection")));
             services.AddDbContext<DataDbContext>(/*options =>
                 options.UseSqlServer(_config.GetConnectionString("DataDbConnection"))*/);
