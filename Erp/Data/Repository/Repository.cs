@@ -16,7 +16,7 @@ using System.Security.Claims;
 
 namespace Erp.Repository
 {
-    public class Repository<T, C> : IRepository<T, C> where T : class where C : DbContext
+    public  class Repository<T, C> : IRepository<T, C> where T : class where C : DbContext
     {
         private AccountDbContext _accountdbContext;
         private readonly UserManager<ApplicationUser> _usermanager;
@@ -189,15 +189,6 @@ namespace Erp.Repository
             }
             return null;
         }
-        public async Task<List<T>> GetAll()
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                await Task.Run(() => InitiateConnection());
-                return _datadbContext.Set<T>().ToList();
-            }
-            return null;
-        }
 
 
         public async Task<T> GetById(string id, byte[] error)
@@ -250,7 +241,20 @@ namespace Erp.Repository
             return null;
 
         }
-        public async Task<T> GetById(object id)
+        public virtual async Task<List<T>> GetAll()
+        {
+            if (typeof(C) == typeof(DataDbContext))
+            {
+                await Task.Run(() => InitiateConnection());
+                return _datadbContext.Set<T>().ToList();
+            }
+            if (typeof(C) == typeof(AccountDbContext))
+            {
+                return _datadbContext.Set<T>().ToList();
+            }
+            return null;
+        }
+        public virtual async Task<T> GetById(object id)
         {
             if (typeof(C) == typeof(DataDbContext))
             {
@@ -264,7 +268,7 @@ namespace Erp.Repository
             return null;
         }
 
-        public async Task Update(T ob)
+        public virtual async Task Update(T ob)
         {
             if (typeof(C) == typeof(DataDbContext))
             {
@@ -279,7 +283,7 @@ namespace Erp.Repository
             }
         }
 
-        public async Task Insert(T ob)
+        public virtual async Task Insert(T ob)
         {
             if (typeof(C) == typeof(DataDbContext))
             {

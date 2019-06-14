@@ -37,7 +37,7 @@ namespace Erp
         new ConsoleLoggerProvider((category, level)
             => category == DbLoggerCategory.Database.Command.Name
                && level == LogLevel.Information, true)
-    });
+         });
 
         public Startup(IConfiguration configuration)
         {
@@ -57,7 +57,6 @@ namespace Erp
         /// <param name="services">The Services container </param>
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddHostedService<SystemBackgroundService>();
             //services.AddHostedService<ConsumeScopedServiceHostedService>();
             //services.AddScoped<IScopedProcessingService, ScopedProcessingService>();
             //services.AddHostedService<QueuedHostedService>();
@@ -75,7 +74,8 @@ namespace Erp
                 };
             });*/
 
-            services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
+            services.AddHostedService<SystemBackgroundService>();
+            //services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             services.AddTransient<INodeLangRepository, NodeLangRepository>();
             services.AddSignalR();           
             services.AddTransient<ICustomerRepository, CustomerRepository>();
@@ -103,6 +103,7 @@ namespace Erp
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireDigit = false;
             })
+                
                     .AddEntityFrameworkStores<AccountDbContext>()
                     .AddDefaultTokenProviders();
             services.AddAuthentication()                  

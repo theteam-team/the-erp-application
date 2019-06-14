@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,10 +15,12 @@ namespace Erp.Data
 
         public string message { get; set; }
 
+      
         public string NotificationType { get; set; }
 
+        
         public IList<NotificationResponses> NotificationResponses { get; set; }
-
+        [JsonIgnore]
         public IList<NotificationApplicationUser> NotificationApplicationUsers { get; set; }
     }
 }

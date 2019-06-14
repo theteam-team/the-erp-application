@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Erp.Data
         public string Id { get; set; }
 
         public string  Type { get; set; }
-
+        [JsonIgnore]
         public IList<UserHasEmail> UserHasEmails { get; set; }
 
     }

@@ -12,8 +12,7 @@ namespace Erp.Data
         public Notification Notification { get; set;}
 
         public string ApplicationUserId { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
-        
+        public ApplicationUser ApplicationUser { get; set; }      
         
         public bool IsResponsed { get; set; } = false;
         public string Response { get; set; } = null;

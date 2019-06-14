@@ -49,7 +49,7 @@ namespace Erp.Controllers
            // ViewBag.CurrentView = "Modules";
             return View();
         }
-
+        [Authorize]
         public IActionResult Notification()
         {
             return View();

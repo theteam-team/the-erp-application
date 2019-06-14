@@ -41,17 +41,12 @@ namespace Erp.BackgroundServices
         protected async override Task ExecuteAsync(
             CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Mail sender Hosted Service is starting.");
-            
-
-                
+            _logger.LogInformation("Mail sender Hosted Service is starting.");   
             while (!cancellationToken.IsCancellationRequested)
             {
                
                 await sendMail();
                 Thread.Sleep(2000);
-                //_timer = new Timer(sendMail, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
-                //
 
             }
 
@@ -77,7 +72,6 @@ namespace Erp.BackgroundServices
 
                         var user = _accountDbContext.ErpUsers.Where(u => u.Id == item.ApplicationUserId).FirstOrDefault();
 
-                        _logger.LogInformation("sending mail To " + user.Email);
 
                         var message = new MimeMessage();
 
@@ -88,29 +82,24 @@ namespace Erp.BackgroundServices
                         MailboxAddress to = new MailboxAddress("User",
                         user.Email);
                         message.To.Add(to);
-
-                       
                         message.Subject = email.Subject;
-
-
                         BodyBuilder bodyBuilder = new BodyBuilder();
                         //bodyBuilder.HtmlBody = "<h1>Hello World!</h1>";
                         bodyBuilder.TextBody = email.Message;
                         message.Body = bodyBuilder.ToMessageBody();
-
                         item.IsSent = true;
 
-
-                        using (SmtpClient client = new SmtpClient())
+                        _logger.LogInformation("sending mail To " + user.Email);
+                         await _emailUser.Update(item);
+                        /*using (SmtpClient client = new SmtpClient())
                         {
                             client.Connect("smtp.gmail.com", 587, false);
                             
-                            client.Authenticate("phyzia123@gmail.com", "619730momoaaxz");
+                            client.Authenticate("phyzia123@gmail.com", "");
 
                             client.Send(message);
-                             await _emailUser.Update(item);
                             client.Disconnect(true);
-                        }
+                        }*/
 
                     }
                 }

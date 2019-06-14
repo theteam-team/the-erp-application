@@ -1,6 +1,4 @@
-﻿
-
-let connection = new signalR.HubConnectionBuilder().withUrl("/DeployWorkflowHub").build();
+﻿let connection = new signalR.HubConnectionBuilder().withUrl("/DeployWorkflowHub").build();
 connection.start().then(function ()
 {
     connection.invoke("AddToGroup", "Deployment")

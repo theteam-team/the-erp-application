@@ -1,7 +1,8 @@
 ﻿using Erp.Data;
-
+using Erp.Hups;
 using Erp.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,36 +14,47 @@ namespace Erp.Repository
 {
     public class NotificationRepository : Repository<Notification, AccountDbContext> , INotificationRepository
     {
+        private IHubContext<NotificationHub> _notificationHubContext;
         private AccountDbContext _context;
         private Management _management;
 
-        public NotificationRepository(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
+        public NotificationRepository(IHubContext<NotificationHub> hubContext, AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
         {
+            _notificationHubContext = hubContext;
             _context = accountDbContext;
             _management = management;
         }
 
-       
-
-    }
-    public class NotificationUserRepository : Repository<NotificationApplicationUser, AccountDbContext>, INotificationUserRepository
-    {
-        private AccountDbContext _context;
-        private Management _management;
-
-        public NotificationUserRepository(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
+        public async Task<List<Notification>> GetUnResponsedNotifications(string userId)
         {
-            _context = accountDbContext;
-            _management = management;
+            List<Notification> notifications = new List<Notification>();
+            var result = _context.NotificationUsers
+                .Include(x => x.Notification)
+                .Include(x => x.Notification.NotificationResponses)
+                .Where(dt => dt.ApplicationUserId == userId && !dt.IsResponsed).ToList();
+            if (result != null)
+            {
+                foreach (var item in result)
+                {
+                    notifications.Add(item.Notification);
+                }
+            }
+            //Console.WriteLine(userId);
+            return notifications;
         }
-        public async  Task<NotificationApplicationUser> GetById(string userId, long NotificationId)
+        public override async Task Insert(Notification notification)
         {
-            var result = _context.NotificationUsers          
-                .Where( dt => dt.ApplicationUserId == userId && dt.NotificationId == NotificationId).FirstOrDefault();
-            Console.WriteLine(userId);
-            return result;
+            await base.Insert(notification);
+            List<Task> tasks = new List<Task>();
+            foreach (var item in notification.NotificationApplicationUsers)
+            {
+                tasks.Add(_notificationHubContext.Clients.User(item.ApplicationUserId).SendAsync("receiveNotification", notification));
+
+            }
+           await Task.WhenAll(tasks);
         }
     }
+    
     public class NotificationResponseRepositroy : Repository<NotificationResponses, AccountDbContext>, INotificationResponseRepository
     {
         private AccountDbContext _context;
@@ -53,6 +65,8 @@ namespace Erp.Repository
             _context = accountDbContext;
             _management = management;
         }
+
+
 
 
 

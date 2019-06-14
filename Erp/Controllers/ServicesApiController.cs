@@ -8,6 +8,7 @@ using Erp.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity;
 
 namespace Erp.Controllers
 {
@@ -16,26 +17,23 @@ namespace Erp.Controllers
     [ApiController]
     public class ServicesApiController : ControllerBase
     {
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailRepository _email;
         private readonly IEmailTypeRepository _emailType;
         private readonly IEmailUserRepository _emailUser;
         private readonly DataDbContext _dataDbContext;
         private readonly AccountDbContext _accountDbContext;
         private readonly ILogger<ServicesApiController> _logger;
-      
+
 
         public ServicesApiController(IEmailUserRepository emailUser, IEmailRepository email, IEmailTypeRepository emailType,
-            ILoggerFactory loggerFactory, DataDbContext datadbcontext, AccountDbContext accountDbContext)
+           UserManager<ApplicationUser> userManager, ILoggerFactory loggerFactory)
         {
+            _userManager = userManager;
             _email = email;
             _emailType = emailType;
             _emailUser = emailUser;
-            _dataDbContext = datadbcontext;
-            if (!CommonNeeds.checkdtb(_dataDbContext, "Admin"))
-            {
-                _dataDbContext.Database.EnsureCreated();
-            }
-            _accountDbContext = accountDbContext;
+            
             //TaskQueue = taskQueue;
             _logger = loggerFactory.CreateLogger<ServicesApiController>();
         }
@@ -43,6 +41,7 @@ namespace Erp.Controllers
         [HttpPost("SendEmail")]
         public async Task<ActionResult<string>> SendEmail([FromBody] EmailViewModel emailEntity)
         {
+            List<UserHasEmail> UserEmails = new List<UserHasEmail>();
             Email email = new Email()
             {
                 Id = emailEntity.Email.Id,
@@ -50,50 +49,62 @@ namespace Erp.Controllers
                 Message = emailEntity.Email.Message,
 
             };
-            EmailType emailType = new EmailType()
-            {
-                Id = emailEntity.EmailType.Id,
-                Type = emailEntity.EmailType.Type
-            };
-            string userId = emailEntity.UserId;
-            try
-            {
 
-              
-               if (await _email.GetById(email.Id) == null)
+            foreach (var item in emailEntity.UserNames)
+            {
+                var user = await _userManager.FindByNameAsync(item);
+                if (user != null)
                 {
-                    _accountDbContext.Emails.Add(email);
-
+                    UserEmails.Add(new UserHasEmail { EmailTypeId = emailEntity.EmailTypeId, ApplicationUserId = user.Id });
                 }
-                if (await _emailType.GetById(emailType.Id) == null)
+                else
                 {
-                    
-                    _accountDbContext.EmailTypes.Add(emailType);
-
+                    return BadRequest("UserName: " + item + " Does Not Exist");
                 }
-
-                _accountDbContext.SaveChanges();
-                
-                var user = _accountDbContext.ErpUsers.Where(dt => dt.Id == userId).FirstOrDefault();
-                var emailUser = new UserHasEmail()
-                {
-                    EmailId = email.Id,
-                    //Email = e,
-                    ApplicationUserId = userId,
-                    //ApplicationUser = user,
-                    EmailTypeId = emailType.Id,
-                   // EmailType = eT
-
-
-                };
-                _accountDbContext.UserHasEmails.Add(emailUser);
-                _accountDbContext.SaveChanges();
-                return Ok();
             }
-            catch (Exception ex)
+            email.UserHasEmails = UserEmails;
+            _email.Insert(email);
+            return Ok();
+
+            //try
+            //{
+
+            //    //var emailUser = new UserHasEmail()
+            //    //{
+            //    //    EmailId = email.Id,
+            //    //    //Email = e,
+            //    //    ApplicationUserId = userId,
+            //    //    //ApplicationUser = user,
+            //    //    EmailTypeId = emailType.Id,
+            //    //   // EmailType = eT
+
+
+            //    //};
+
+            //    //_accountDbContext.UserHasEmails.Add(emailUser);
+            //    //_accountDbContext.SaveChanges();
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    return BadRequest(ex.Message);
+            //}
+        }
+
+        [HttpPost("AddEmailTypes")]
+        public async Task<ActionResult<string>> AddEmailTypes([FromBody]List<EmailType> emailTypes)
+        {
+            foreach (var item in emailTypes)
             {
-                return BadRequest(ex.Message);
+                _emailType.Insert(new EmailType { Id = item.Id, Type = item.Type });
             }
+            return Ok();
+        }
+        [HttpGet("GetEmailType")]
+        public async Task<ActionResult<List<EmailType>>> GetEmailType()
+        {
+           
+            return Ok(await _emailType.GetAll());
         }
 
 

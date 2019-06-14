@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Erp.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace Erp.ViewModels
     public class EmailViewModel
     {
         [Required]
-        public _Email Email { get; set; }
+        public Email Email { get; set; }
         [Required]
-        public _EmailType EmailType { get; set; }
+        public string EmailTypeId { get; set; }
         [Required]
-        public string UserId { get; set; }
+        public List<string> UserNames { get; set; }
     }
 }
