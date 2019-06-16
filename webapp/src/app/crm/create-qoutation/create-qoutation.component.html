@@ -1,0 +1,56 @@
+
+<form #qoutationForm="ngForm" (ngSubmit)="saveQoutation( )" >
+  <div class="container">
+    <div class="row" style=" padding:50px; padding-left:100px">
+      <div class="col-md-8" >
+        <h1 style="color:darkcyan;">Create Quotation</h1>
+        <br />
+
+        <div class="form-group"  >
+          <label for="sales" class="control-label"> Salesman:</label>
+          <select class="form-control" id="sales" name="sales" [(ngModel)]="sales" required >
+            <option disabled [ngValue]="null" >-Select Salesman-</option>
+            <option *ngFor="let sales of salesman" [value]="sales.id">{{ sales.name}} </option>
+          </select>
+        </div>
+
+
+        <div class="form-group">
+          <label for="date">Date:</label>
+          <input required type="date" class="form-control" id="date" name="date" [(ngModel)]="date">
+        </div>
+
+        <table class="table table-dark">
+          <thead>
+            <tr>
+              <th scope="col">Product name</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Unit Price</th>
+              <th scope="col">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let qoutation of qoutations">
+             <!--<td *ngFor="let product of products" *ngIf="qoutation.product_id == product.Q_id">{{product.name}}</td>-->
+              <td> {{ qoutation.quatnity}}</td>
+              <!--<td *ngFor="let product of products" *ngIf="qoutation.product_id == product.Q_id">{{product.unit_price}}</td>-->
+            </tr>
+            <button  class="btn btn-dark" [disabled]="qoutationForm.invalid" >+ add product</button>
+          </tbody>
+        </table>
+
+
+        <button type="submit" class="btn btn-info" [disabled]="qoutationForm.invalid">Save</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+
+
+{{ qoutationForm.value | json}}
+
+<br />
+<br />
+
+

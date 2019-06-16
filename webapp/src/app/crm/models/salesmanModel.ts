@@ -1,11 +1,14 @@
-export class Customer {
+
+export class Salesman {
   id: number;
   name: string;
   email: string;
   phone_number: string;
-  company: string;
-  company_email?: string;
+  points: number;
+  Role_id: number;
   gender: string;
-  is_lead: boolean;
+  is_Available: boolean;
   dateOfBirth: Date;
+  department: string;
+
 }

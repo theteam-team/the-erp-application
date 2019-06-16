@@ -39,7 +39,8 @@
       "id": 1,
       "title": "One",
       "customer_id": "1",
-      "expected_revenue": "200",
+      "salesman_id": "3",
+      "expected_revenue": 200,
       "status": 1,
       "start_date": "2019-05-20"
     },
@@ -47,7 +48,8 @@
       "id": 2,
       "title": "two",
       "customer_id": "2",
-      "expected_revenue": "80",
+      "salesmanr_id": "1",
+      "expected_revenue": 80,
       "status": 2,
       "start_date": "2019-07-19"
     },
@@ -55,9 +57,69 @@
       "id": 3,
       "title": "three",
       "customer_id": "3",
-      "expected_revenue": "50",
+      "salesman_id": "2",
+      "expected_revenue": 50,
       "status": 2,
       "start_date": "2019-05-17"
     }
+  ],
+  "salesman": [
+    {
+      "id": 1,
+      "name": "Rana",
+      "email": "rana@yahoo.com",
+      "phone_number": "01468873846",
+      "points": 0,
+      "Role_id": 0,
+      "gender": "female",
+      "is_Available": false,
+      "dateOfBirth": "1996-08-2",
+      "department": "sales"
+    },
+    {
+      "id": 2,
+      "name": "kamal",
+      "email": "kamal@yahoo.com",
+      "phone_number": "014609547985",
+      "points": 0,
+      "Role_id": 0,
+      "gender": " male",
+      "is_Available": false,
+      "dateOfBirth": "1994-01-9",
+      "department": "sales"
+    },
+    {
+      "id": 3,
+      "name": "Abdelrahman",
+      "email": "kiro@yahoo.com",
+      "phone_number": "012564878675",
+      "points": 0,
+      "Role_id": 0,
+      "gender": "male",
+      "is_Available": false,
+      "dateOfBirth": "1996-03-5",
+      "department": "sales"
+    }
+  ],
+  "product": [
+    {
+      "id": 678,
+      "name": "red ball",
+      "unit_price": 10,
+      "description": "ball"
+    },
+    {
+      "id": 944,
+      "name": "blue ball",
+      "unit_price": 20,
+      "description": "ball"
+    },
+    {
+      "id": 235,
+      "name": "green ball",
+      "unit_price": 30,
+      "description": "ball"
+    }
   ]
+
 }

@@ -15,13 +15,19 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CustomerFilterPipe } from './crm/customers/customer-filter';
 import { OpportunityFilterPipe } from './crm/pipeline/opportunity-filter';
 import { HttpClientModule } from '@angular/common/http';
- 
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { OpportunityService } from './crm/create-opportunity/opportunity.service';
+import { OpportunityService } from './crm/services/opportunity.service';
 import {  OpportunityCanDeactivateGuardService } from './crm/create-opportunity/opportunity-canDeactivate-guard-service';
 import { CustomerCanDeactivateGuardService } from './crm/create-customer/customer-canDeactivate-guard-service';
- 
- 
+import { QoutationComponent } from './crm/qoutation/qoutation.component';
+import { CreateQoutationComponent } from './crm/create-qoutation/create-qoutation.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { SalesmanService } from './crm/qoutation/salesman.service';
+import { ProductService } from './crm/qoutation/product.service';
+import { QoutationService } from './crm/qoutation/qoutation.service';
+import { DashboardComponent } from './crm/dashboard/dashboard.component';
+import { ChartsModule } from 'ng2-charts';
  
  
 
@@ -37,6 +43,9 @@ import { CustomerCanDeactivateGuardService } from './crm/create-customer/custome
     CreateCustomerComponent,
     CustomerFilterPipe,
     OpportunityFilterPipe,
+    QoutationComponent,
+    CreateQoutationComponent,
+    DashboardComponent,
     
     
      
@@ -51,10 +60,18 @@ import { CustomerCanDeactivateGuardService } from './crm/create-customer/custome
     HttpClientModule,
     DragDropModule,
     BrowserAnimationsModule,
+    MatDialogModule,
+    ChartsModule
    
     
   ],
-  providers: [customerService, OpportunityService, OpportunityCanDeactivateGuardService, CustomerCanDeactivateGuardService],
+  providers: [customerService,
+              OpportunityService,
+              OpportunityCanDeactivateGuardService,
+              CustomerCanDeactivateGuardService,
+              SalesmanService,
+              ProductService,
+              QoutationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

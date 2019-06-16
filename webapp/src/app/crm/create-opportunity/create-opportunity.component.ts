@@ -4,7 +4,9 @@ import { customerService } from '../customers/customer.service';
 import { Opportunity } from '../models/opportunityModel';
 import { Customer } from '../models/customerModel';
 import { NgForm } from '@angular/forms';
-import { OpportunityService } from './opportunity.service';
+import { OpportunityService } from '../services/opportunity.service';
+import { SalesmanService } from '../qoutation/salesman.service';
+import { Salesman } from '../models/salesmanModel';
 
 
 @Component({
@@ -18,14 +20,15 @@ export class CreateOpportunityComponent implements OnInit {
   Title: string;
   customers: Customer[];
   opportunity: Opportunity;
-
+  salesman: Salesman[];
 
 
   constructor(private _customerService: customerService, private _opportunityService: OpportunityService,
-    private _router: Router, private _route: ActivatedRoute) { }
+    private _router: Router, private _route: ActivatedRoute, private salesmanService : SalesmanService) { }
 
   ngOnInit() {
     this._customerService.getCustomers().subscribe(customers => this.customers = customers);
+    this.salesmanService.getSalesmans().subscribe(salesman => this.salesman = salesman);
 
     this._route.paramMap.subscribe(parameterMap => {
       const id = +parameterMap.get('id');
@@ -39,6 +42,7 @@ export class CreateOpportunityComponent implements OnInit {
         id: null,
         title: null,
         customer_id: null,
+        salesman_id: null,
         expected_revenue: null,
         status: 1,
         start_date: null,

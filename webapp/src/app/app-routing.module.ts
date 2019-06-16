@@ -6,6 +6,9 @@ import { CreateOpportunityComponent } from './crm/create-opportunity/create-oppo
 import { CreateCustomerComponent } from './crm/create-customer/create-customer.component';
 import {  OpportunityCanDeactivateGuardService } from './crm/create-opportunity/opportunity-canDeactivate-guard-service';
 import { CustomerCanDeactivateGuardService } from './crm/create-customer/customer-canDeactivate-guard-service';
+import { QoutationComponent } from './crm/qoutation/qoutation.component';
+import { CreateQoutationComponent } from './crm/create-qoutation/create-qoutation.component';
+import { DashboardComponent } from './crm/dashboard/dashboard.component';
  
  
 
@@ -23,8 +26,12 @@ const routes: Routes = [
     component: CreateOpportunityComponent,
     canDeactivate: [OpportunityCanDeactivateGuardService]
   },
-
-
+  { path: 'quotations', component: QoutationComponent},
+  {
+    path: 'editQoutation/:id',
+    component: CreateQoutationComponent,
+  },
+  { path: 'dashboard', component: DashboardComponent }
    ];
 
 @NgModule({
