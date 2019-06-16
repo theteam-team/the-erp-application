@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
+using Erp.Data.Entities;
+
 namespace Erp.Data
 {
     public class AccountDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
@@ -13,6 +15,8 @@ namespace Erp.Data
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<NotificationApplicationUser> NotificationUsers { get; set; }
         public DbSet<NotificationResponses> NotificationResponses { get; set; }
+        public DbSet<ProcRequest> ProcRequests { get; set; }
+        public DbSet<BpmWorkflowParameters> WorkflowParameters { get; set; }
 
         public AccountDbContext(DbContextOptions<AccountDbContext> optionsBuilder) : base(optionsBuilder) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

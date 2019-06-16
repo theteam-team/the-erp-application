@@ -1,4 +1,5 @@
 ﻿using Erp.Data;
+using Erp.Data.Entities;
 using Erp.Interfaces;
 using Erp.Models;
 using Erp.ModulesWrappers;

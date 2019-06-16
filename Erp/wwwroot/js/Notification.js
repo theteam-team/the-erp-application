@@ -1,23 +1,13 @@
 ﻿$(document).ready(
     function ()
     {
-        $.getJSON("/api/NotificationApi/GetUnResponsedNotifications", function (Notifications) {
-            //alert("Data: " + data + "\nStatus: " + status);
+        $.getJSON("/api/NotificationApi/GetUnResponsedNotifications", function (Notifications) {            
             for (var i = 0; i < Notifications.length; i++) {
                 createNotficationCard(Notifications[i]);
             }
             console.log(Notifications);
         });
-        //$.ajax(
-        //    {
-        //        url: "/api/NotificationApi/GetUnResponsedNotifications",
-        //        type: "GET",
-        //        processData: false,
-        //        contentType: false,
-        //        dataType: "json",
-        //        success: function () { console.log("here"); },
-
-        //    });
+        
     }
 )
 let connection = new signalR.HubConnectionBuilder().withUrl("/NotificationHub").build();

@@ -1,5 +1,5 @@
 ﻿using Erp.Data;
-using Erp.Repository;
+using Erp.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

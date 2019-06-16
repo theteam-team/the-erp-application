@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Erp.Data
+namespace Erp.Data.Entities
 {
     public class Notification
     {

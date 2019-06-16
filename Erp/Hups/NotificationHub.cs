@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Erp.Interfaces;
 using Erp.Data;
+using Erp.Data.Entities;
 
 namespace Erp.Hups
 {

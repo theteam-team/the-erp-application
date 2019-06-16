@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Erp.Data
+namespace Erp.Data.Entities
 {
     ///<summary >   
     /// Represents The user Tabel in the Database, each proberty represents a column

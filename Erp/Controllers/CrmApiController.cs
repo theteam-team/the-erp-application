@@ -9,7 +9,6 @@ using Erp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Erp.ViewModels.CRN_Tabels;
-using Erp.Repository;
 using Erp.Interfaces;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860

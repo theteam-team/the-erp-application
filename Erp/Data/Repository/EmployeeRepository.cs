@@ -7,6 +7,7 @@ using Erp.Models;
 using Erp.Interfaces;
 using Erp.Data;
 using Microsoft.AspNetCore.Identity;
+using Erp.Data.Entities;
 
 namespace Erp.Repository
 {

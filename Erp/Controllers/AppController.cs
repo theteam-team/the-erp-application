@@ -37,7 +37,7 @@ namespace Erp.Controllers
         [Authorize]
         public IActionResult System()
         {
-            HttpContext.Session.SetString("LastPageView", HttpContext.Request.Path);          
+            //HttpContext.Session.SetString("LastPageView", HttpContext.Request.Path);          
             ViewBag.CurrentBag = "system";
             ViewBag.Title = "System";
             

@@ -1,6 +1,8 @@
-﻿using Erp.Hups;
+﻿using Erp.Data;
+using Erp.Data.Entities;
+using Erp.Hups;
 using Erp.Interfaces;
-using Erp.Repository;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -8,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Erp.Data
+namespace Erp.Repository
 {
     public class NotificationUserRepository : Repository<NotificationApplicationUser, AccountDbContext>, INotificationUserRepository
     {

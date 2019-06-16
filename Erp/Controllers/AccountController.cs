@@ -1,4 +1,5 @@
 ﻿ using Erp.Data;
+using Erp.Data.Entities;
 using Erp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using Erp.ViewModels.CRN_Tabels;
 using System.Text;
 using Erp.Data;
+using Erp.Data.Entities;
 
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;

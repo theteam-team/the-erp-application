@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using Erp.ModulesWrappers;
 using Erp.Data;
 using Microsoft.AspNetCore.Identity;
+using Erp.Data.Entities;
 
 namespace Erp.Repository
 {

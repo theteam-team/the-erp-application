@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MimeKit;
 using Microsoft.Extensions.DependencyInjection;
+using Erp.Data.Entities;
 
 namespace Erp.BackgroundServices
 {

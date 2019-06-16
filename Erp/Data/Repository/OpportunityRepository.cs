@@ -8,6 +8,7 @@ using Erp.Interfaces;
 using Erp.ViewModels.CRN_Tabels;
 using Erp.Data;
 using Microsoft.AspNetCore.Identity;
+using Erp.Data.Entities;
 
 namespace Erp.Repository
 {

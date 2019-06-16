@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Erp.Data
+namespace Erp.Data.Entities
 {
     public class UserHasEmail
     {

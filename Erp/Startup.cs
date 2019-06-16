@@ -13,7 +13,7 @@ using System.IO;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Erp.Interfaces;
 using Erp.Models;
-using Erp.Repository;
+
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Collections.Generic;
@@ -26,6 +26,8 @@ using System.Net.Mail;
 using System.Net;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
+using Erp.Repository;
+using Erp.Data.Entities;
 
 namespace Erp
 {
@@ -75,10 +77,14 @@ namespace Erp
             });*/
 
             services.AddHostedService<SystemBackgroundService>();
+            services.AddHostedService<BmService>();
+            services.AddSingleton<BmExectionQueue>();
             //services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             services.AddTransient<INodeLangRepository, NodeLangRepository>();
             services.AddSignalR();           
             services.AddTransient<ICustomerRepository, CustomerRepository>();
+            services.AddTransient<IBmpParmRepo, BmpParmRepo>();
+            services.AddTransient<IProcRequestRepo, ProcRequestRepo>();
             services.AddTransient<IEmailRepository, EmailRepository>();
             services.AddTransient<IEmailUserRepository, EmailUserRepository>();
             services.AddTransient<INotificationRepository, NotificationRepository>();
@@ -178,6 +184,7 @@ namespace Erp
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, DataDbContext dataDbContext ,AccountDbContext mcontext)
         {
+            
             //ensure that the database used to store user accounts is created at the begining
             //dataDbContext.Database.EnsureCreated();
             mcontext.Database.EnsureCreated();
@@ -203,6 +210,7 @@ namespace Erp
                 cfg.MapRoute("default", "{controller}/{action}/{id?}", new { controller = "App", action = "index" });
 
             });//enable the use of MVC
+            
         }
     }
 

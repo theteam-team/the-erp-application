@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Erp.ViewModels;
 using Erp.Data;
+using Erp.Data.Entities;
 using Erp.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;

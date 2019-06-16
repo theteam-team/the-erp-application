@@ -1,5 +1,4 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,6 +6,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Erp.Data.Entities;
+
 
 namespace Erp.Data
 {
@@ -21,6 +22,8 @@ namespace Erp.Data
         //public DbSet<WorkflowInstance> WorkflowInstances { get; set; }
         public DbSet<Modules> Modules  { get; set; }
         public DbSet<NodeLangWorkflow> NodeLangWorkflow { get; set; }
+        
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
