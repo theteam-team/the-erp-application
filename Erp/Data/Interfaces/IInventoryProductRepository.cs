@@ -1,4 +1,5 @@
-﻿using Erp.Models;
+﻿using Erp.Data;
+using Erp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Erp.Interfaces
 {
-    public interface IInventoryProductRepository : IRepository<ProductInInventory>
+    public interface IInventoryProductRepository : IRepository<ProductInInventory, DataDbContext>
     {
         Task<List<ProductInInventory>> ShowProductsInInventory(string id, byte[] error);
         Task<int> EditProductInInventory(ProductInInventory entity, byte[] error);

@@ -106,11 +106,6 @@
   </ItemGroup>
 
   <ItemGroup>
-<<<<<<< HEAD
-    <Folder Include="ClientApp\app\CRM\services\" />
-    <Folder Include="ClientApp\app\warehouse\" />
-=======
->>>>>>> 3d38bace12385966b4264680621cc75944f7c073
     <Folder Include="wwwroot\lib\" />
     <Folder Include="wwwroot\WorkFlows\" />
   </ItemGroup>
