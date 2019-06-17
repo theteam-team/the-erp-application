@@ -6,11 +6,11 @@ import { Router } from '@angular/router';
 import { DataService } from 'ClientApp/app/shared/dataService';
 
 @Component({
-  selector: 'app-add-product',
-  templateUrl: './add-product.component.html',
-  styleUrls: ['./add-product.component.css']
+  selector: 'app-add-inventory',
+  templateUrl: './add-inventory.component.html',
+  styleUrls: ['./add-inventory.component.css']
 })
-export class AddProductComponent implements OnInit {
+export class AddInventoryComponent implements OnInit {
 
     public check: boolean;
 
@@ -24,17 +24,16 @@ export class AddProductComponent implements OnInit {
         location.reload();
     }
 
-    saveProduct(pForm: NgForm): void {
-        this.data.saveProduct(pForm.value);
+    saveInventory(iForm: NgForm): void {
+        this.data.saveInventory(iForm.value);
         this.reloadComponent();
     }
 
-    goToProducts() {
+    goToInventories() {
         this.check = window.confirm("Are you sure you want to exit without saving?");
         if (this.check) {
-            this.router.navigate(["warehouse/products"]);
+            this.router.navigate(["warehouse/inventories"]);
         }
     }
-
 
 }

@@ -9,6 +9,12 @@
             </div>
             <fieldset [disabled]="formDisabled">
                 <div class="panel-body">
+                    <!--<div class="form-group">
+                        Sold<input class="form-control col-md-2 offset-md-2" id="sold" name="sold" [(ngModel)]="sold" type="checkbox" [formControl]="sold" />
+                    </div>
+                    <div class="form-group">
+                        Purchased<input class="form-control col-md-2 offset-md-2" id="purchased" name="purchased" [(ngModel)]="purchased" type="checkbox" [formControl]="purchased" />
+                    </div>-->
                     <div class="form-group">
                         <label class="col-md-6 offset-md-2" for="id">Product ID</label>
                         <input disabled="disabled" class="form-control col-md-6 offset-md-2" id="id" name="id" [(ngModel)]="id" type="text" value={{productInfo.id}} />
@@ -22,20 +28,24 @@
                         <input class="form-control col-md-6 offset-md-2" id="description" name="description" [(ngModel)]="description" type="text" value={{productInfo.description}} />
                     </div>
                     <div class="form-group">
-                        <label class="col-md-6 offset-md-2" for="position">Product Position</label>
-                        <input class="form-control col-md-6 offset-md-2" id="position" name="position" [(ngModel)]="position" type="text" value={{productInfo.position}} />
-                    </div>
-                    <div class="form-group">
                         <label class="col-md-6 offset-md-2" for="price">Product Price</label>
                         <input class="form-control col-md-6 offset-md-2" id="price" name="price" [(ngModel)]="price" type="text" value={{productInfo.price}} />
                     </div>
                     <div class="form-group">
-                        <label class="col-md-6 offset-md-2" for="size">Product Size</label>
-                        <input class="form-control col-md-6 offset-md-2" id="size" name="size" [(ngModel)]="size" type="text" value={{productInfo.size}} />
-                    </div>
-                    <div class="form-group">
                         <label class="col-md-6 offset-md-2" for="weight">Product Weight</label>
                         <input class="form-control col-md-6 offset-md-2" id="weight" name="weight" [(ngModel)]="weight" type="text" value={{productInfo.weight}} />
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-6 offset-md-2" for="length">Product Length</label>
+                        <input class="form-control col-md-6 offset-md-2" id="length" name="length" [(ngModel)]="length" type="text" value={{productInfo.length}} />
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-6 offset-md-2" for="width">Product Width</label>
+                        <input class="form-control col-md-6 offset-md-2" id="width" name="width" [(ngModel)]="width" type="text" value={{productInfo.width}} />
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-6 offset-md-2" for="height">Product Height</label>
+                        <input class="form-control col-md-6 offset-md-2" id="height" name="height" [(ngModel)]="height" type="text" value={{productInfo.height}} />
                     </div>
                     <div class="form-group">
                         <label class="col-md-6 offset-md-2" for="unitsInStock">Number of units</label>

@@ -1,23 +1,23 @@
 <app-warehouse></app-warehouse>
 
 <div class="row">
-    <button class="btn1 col-md-2 offset-md-3" type="button" (click)="addOrder()">Create Order</button>
+    <button class="btn1 col-md-2 offset-md-3" type="button" (click)="addInventory()">New Inventory</button>
     <div class="col-md-6 offset-md-3">
         <div class="input-group" id="adv-search">
-            <input type="text" class="form-control" placeholder="Search for Orders" />
+            <input type="text" class="form-control" placeholder="Search for Inventories" />
             <div class="input-group-btn">
                 <div class="btn-group" role="group">
                     <div class="dropdown dropdown-lg">
                         <button type="button" class="btn1 btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
                         <div class="dropdown-menu dropdown-menu-right col-md-9" role="menu">
-                            <form #searchForm="ngForm" class="form-horizontal" (ngSubmit)="searchOrders(searchForm)">
+                            <form #searchForm="ngForm" class="form-horizontal" (ngSubmit)="searchInventories(searchForm)">
                                 <div class="form-group">
                                     <label for="filter">Search by</label>
                                     <select class="form-control" id="sKey" name="sKey" [(ngModel)]="sKey">
-                                        <option value="Order_ID" selected>ID</option>
-                                        <option value="Required_Date">Date</option>
-                                        <option value="Customer_Customer_ID">Customer</option>
-                                        <option value="Payment_Payment_ID">Payment</option>
+                                        <option value="Inventory_ID" selected>ID</option>
+                                        <option value="Governate">Governorate</option>
+                                        <option value="City">City</option>
+                                        <option value="Street">Street</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -33,30 +33,24 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <button class="btn2" type="button" (click)="displayAllOrders()">All</button>
-    <button class="btn2" type="button" (click)="displayCompletedOrders()">Done</button>
-    <button class="btn2" type="button" (click)="displayReadyOrders()">Ready</button>
-    <button class="btn2" type="button" (click)="displayOrdersInProgress()">In Progress</button>
-</div>
 <div>
     <table class="table table-hover">
         <thead>
             <tr>
                 <th style="width:70px"></th>
                 <th>ID</th>
-                <th>Customer</th>
-                <th>Status</th>
+                <th>address</th>
+                <th>size</th>
             </tr>
         </thead>
-        <tbody class="order-info" *ngFor="let o of orders">
+        <tbody class="inventory-info" *ngFor="let i of inventories">
             <tr>
                 <td style="width:70px">
-                    <button class="btn4" type="button" (click)="deleteOrder(o.id)">x</button>
+                    <button class="btn4" type="button" (click)="deleteInventory(i.id)">x</button>
                 </td>
-                <td><button class="btn4" type="button" (click)="onOrderClick(o.id)">{{ o.id }}</button></td>
-                <td>{{ o.customerID }}</td>
-                <td>{{ o.orderStatus }}</td>
+                <td><button class="btn4" type="button" (click)="onInventoryClick(i.id)">{{ i.id }}</button></td>
+                <td>{{ i.governorate }}, {{ i.city }}, {{ i.street }} st</td>
+                <td>{{ i.length }}*{{ i.width }}*{{ i.height }}</td>
             </tr>
         </tbody>
     </table>

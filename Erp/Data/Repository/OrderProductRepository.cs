@@ -14,9 +14,17 @@ namespace Erp.Repository
 {
     public class OrderProductRepository : Repository<ProductInOrder>, IOrderProductRepository
     {
-        public OrderProductRepository(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
-        {
+        private AccountDbContext _accountdbContext;
+        private readonly UserManager<ApplicationUser> _usermanager;
+        private readonly DataDbContext _datadbContext;
+        private Management _managment;
 
+        public OrderProductRepository(AccountDbContext accountdbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountdbContext, userManager)
+        {
+            _accountdbContext = accountdbContext;
+            _usermanager = userManager;
+            _datadbContext = datadbContext;
+            _managment = management;
         }
 
         public async Task<List<ProductInOrder>> ShowProductsInOrder(string id, byte[] error)
@@ -39,6 +47,15 @@ namespace Erp.Repository
                 Marshal.FreeCoTaskMem(ProductPtr);
             });
             return productsInOrder;
+        }
+        public async Task<List<ProductInOrder>> ShowProductsInOrder()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                await Task.Run(() => InitiateConnection());
+                return _datadbContext.Set<ProductInOrder>().ToList();
+            }
+            return null;
         }
 
         public async Task<int> EditProductInOrder(ProductInOrder entity, byte[] error)

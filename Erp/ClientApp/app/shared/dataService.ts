@@ -47,6 +47,44 @@ export class DataService {
                 }));
     }
 
+    public productsInInventory = [];
+    showProductsInInventory(inventoryID: string): Observable<boolean> {
+        return this.http.get("/api/WarehouseApi/showProductsInInventory/" + inventoryID)
+            .pipe(
+                map((data: any[]) => {
+                    this.productsInInventory = data;
+                    return true;
+                }));
+    }
+
+    public inventories = [];
+    showInventories(): Observable<boolean> {
+        return this.http.get("/api/WarehouseApi/showInventories/")
+            .pipe(
+                map((data: any[]) => {
+                    this.inventories = data;
+                    return true;
+                }));
+    }
+
+    searchByCategory(value: string): Observable<boolean> {
+        return this.http.get("/api/WarehouseApi/SearchProducts/category/" + value)
+            .pipe(
+                map((data: any[]) => {
+                    this.products = data;
+                    return true;
+                }));
+    }
+
+    searchInventories(key: string, value: string): Observable<boolean> {
+        return this.http.get("/api/WarehouseApi/SearchInventories/" + key + "/" + value)
+            .pipe(
+                map((data: any[]) => {
+                    this.inventories = data;
+                    return true;
+                }));
+    }
+
     searchProducts(key: string, value: string): Observable<boolean> {
         return this.http.get("/api/WarehouseApi/SearchProducts/" + key + "/" + value)
             .pipe(
@@ -122,6 +160,10 @@ export class DataService {
                 }));
     }
 
+    saveInventory(form) {
+        return this.http.post("/api/WarehouseApi/AddInventory", form).subscribe((data) => { });
+    }
+
     saveOrder(form) {
         return this.http.post("/api/WarehouseApi/AddOrder", form).subscribe((data) => { });
     }
@@ -134,12 +176,16 @@ export class DataService {
         return this.http.post("/api/WarehouseApi/AddProductToOrder", product).subscribe((data) => { });
     }
 
-    deleteProductFromOrder(oID: string, pID: string) {
-        return this.http.delete("/api/WarehouseApi/DeleteProductFromOrder/" + oID + "/" + pID).subscribe((data) => { });
+    addProductToInventory(product) {
+        return this.http.post("/api/WarehouseApi/AddProductToInventory", product).subscribe((data) => { });
     }
 
     saveEdits(form) {
         return this.http.put("/api/WarehouseApi/EditProduct", form).subscribe((data) => { });
+    }
+
+    editProductInInventory(form) {
+        return this.http.put("/api/WarehouseApi/EditProductInInventory", form).subscribe((data) => { });
     }
 
     saveOrderEdits(form) {
@@ -150,12 +196,24 @@ export class DataService {
         return this.http.put("/api/WarehouseApi/EditProductInOrder", form).subscribe((data) => { });
     }
 
+    deleteInventory(inventoryID: string) {
+        return this.http.delete("/api/WarehouseApi/DeleteInventory/" + inventoryID).subscribe((data) => { });
+    }
+
     deleteProduct(productID: string) {
         return this.http.delete("/api/WarehouseApi/DeleteProductById/" + productID).subscribe((data) => { });
     }
 
     deleteOrder(orderID: string) {
         return this.http.delete("/api/WarehouseApi/DeleteOrderById/" + orderID).subscribe((data) => { });
+    }
+
+    deleteProductFromOrder(oID: string, pID: string) {
+        return this.http.delete("/api/WarehouseApi/DeleteProductFromOrder/" + oID + "/" + pID).subscribe((data) => { });
+    }
+
+    deleteProductFromInventory(iID: string, pID: string) {
+        return this.http.delete("/api/WarehouseApi/DeleteProductFromInventory/" + iID + "/" + pID).subscribe((data) => { });
     }
 
     removeFromStock(form) {

@@ -38,6 +38,17 @@ namespace Erp.Repository
         public async Task<int> Create(T entity, byte[] error)
         {
             int status = 0;
+
+            if (typeof(T) == typeof(Inventory))
+            {
+                Inventory inventory = (Inventory)(object)(entity);
+                status = await Task.Run(() => Warehouse_Wrapper.addInventory(inventory, error));
+            }
+            if (typeof(T) == typeof(ProductInInventory))
+            {
+                ProductInInventory product = (ProductInInventory)(object)(entity);
+                status = await Task.Run(() => Warehouse_Wrapper.addProductToInventory(product, error));
+            }
             if (typeof(T) == typeof(Product))
             {
                 Product product = (Product)(object)(entity);
@@ -113,14 +124,16 @@ namespace Erp.Repository
         {
             int status = 10;
 
+            if (typeof(T) == typeof(Inventory))
+            {
+                status = await Task.Run(() => Warehouse_Wrapper.deleteInventory(id, error));
+            }
             if (typeof(T) == typeof(Product))
             {
-
                 status = await Task.Run(() => Warehouse_Wrapper.deleteProduct(id, error));
             }
             if (typeof(T) == typeof(Order))
             {
-
                 status = await Task.Run(() => Warehouse_Wrapper.deleteOrder(id, error));
             }
             return status;
@@ -129,6 +142,28 @@ namespace Erp.Repository
 
         public async Task<List<T>> GetAll(byte[] error)
         {
+            if (typeof(T) == typeof(Inventory))
+            {
+                List<Inventory> inventories = new List<Inventory>();
+                IntPtr InventoryPtr;
+
+                await Task.Run(() =>
+                {
+                    int number_fields = Warehouse_Wrapper.showInventories(out InventoryPtr, error);
+                    IntPtr current = InventoryPtr;
+
+                    for (int i = 0; i < number_fields; ++i)
+                    {
+                        Inventory inventory = (Inventory)Marshal.PtrToStructure(current, typeof(Inventory));
+
+                        current = (IntPtr)((long)current + Marshal.SizeOf(inventory));
+                        inventories.Add(inventory);
+                    }
+                    Marshal.FreeCoTaskMem(InventoryPtr);
+                });
+                return (List<T>)(object)inventories;
+            }
+
             if (typeof(T) == typeof(Product))
             {
                 List<Product> products = new List<Product>();
@@ -174,6 +209,7 @@ namespace Erp.Repository
             }
             return null;
         }
+
         public async Task<List<T>> GetAll()
         {
             if (User.Identity.IsAuthenticated)

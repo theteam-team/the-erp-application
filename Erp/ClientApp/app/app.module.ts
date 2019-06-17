@@ -23,7 +23,7 @@ import { RouterModule, Routes, Router } from '@angular/router';
 import { WarehouseComponent } from './warehouse/warehouse.component';
 import { ProductsComponent } from './warehouse/products/products.component';
 import { OrdersComponent } from './warehouse/orders/orders.component';
-import { ConfigurationComponent } from './warehouse/configuration/configuration.component';
+import { InventoriesComponent } from './warehouse/inventories/inventories.component';
 import { ProductComponent } from './warehouse/product/product.component';
 import { OrderComponent } from './warehouse/order/order.component';
 import { AddProductComponent } from './warehouse/add-product/add-product.component';
@@ -31,6 +31,9 @@ import { AddOrderComponent } from './warehouse/add-order/add-order.component';
 import { AddProductsInOrderComponent } from './warehouse/add-products-in-order/add-products-in-order.component';
 import { SubmitOrderComponent } from './warehouse/submit-order/submit-order.component';
 import { EditOrderComponent } from './warehouse/edit-order/edit-order.component';
+import { InventoryComponent } from './warehouse/inventory/inventory.component';
+import { AddInventoryComponent } from './warehouse/add-inventory/add-inventory.component';
+import { AddProductToInventoryComponent } from './warehouse/add-product-to-inventory/add-product-to-inventory.component';
 
 
 import { CrmComponent } from './crm/crm.component';
@@ -51,18 +54,21 @@ import { CustomerCanDeactivateGuardService } from './crm/create-customer/custome
 
 let routes = [
 
-    { path: "", component: ModuleList }, 
+    { path: "", component: ModuleList },
     { path: "accounting", component: AccountingModule },
 
     { path: "warehouse", component: WarehouseComponent },
     { path: "warehouse/products", component: ProductsComponent },
     { path: "warehouse/orders", component: OrdersComponent },
-    { path: "warehouse/configuration", component: ConfigurationComponent },
+    { path: "warehouse/inventories", component: InventoriesComponent },
     { path: "warehouse/product/:productid", component: ProductComponent },
     { path: "warehouse/order/:orderid", component: OrderComponent },
+    { path: "warehouse/inventory/:inventoryid", component: InventoryComponent },
     { path: "warehouse/order/editOrder/:orderid", component: EditOrderComponent },
+    { path: "warehouse/addInventory", component: AddInventoryComponent },
     { path: "warehouse/addproduct", component: AddProductComponent },
     { path: "warehouse/addOrder", component: AddOrderComponent },
+    { path: "warehouse/inventory/addProduct/:inventoryid", component: AddProductToInventoryComponent },
     { path: "warehouse/addOrder/addProducts/:orderid", component: AddProductsInOrderComponent },
     { path: "warehouse/addOrder/submitOrder/:orderid", component: SubmitOrderComponent },
 
@@ -98,16 +104,19 @@ let routes = [
       AccountingSend,
       Invoice,
       Login,
+
       WarehouseComponent,
       ProductsComponent,
       OrdersComponent,
-      ConfigurationComponent,
+      InventoriesComponent,
       ProductComponent,
       OrderComponent,
-     
+      InventoryComponent,
+      AddInventoryComponent,
       AddProductComponent,
       AddOrderComponent,
       AddProductsInOrderComponent,
+      AddProductToInventoryComponent,
       SubmitOrderComponent,
       EditOrderComponent,
 

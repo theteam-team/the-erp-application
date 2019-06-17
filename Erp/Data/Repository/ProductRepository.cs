@@ -19,6 +19,28 @@ namespace Erp.Repository
 
         }
 
+        public async Task<List<Product>> SearchByCategory(string value, byte[] error)
+        {
+            List<Product> products = new List<Product>();
+            IntPtr ProductPtr;
+            await Task.Run(() =>
+            {
+
+                int number_fields = Warehouse_Wrapper.searchByCategory(out ProductPtr, value, error);
+
+                IntPtr current = ProductPtr;
+                for (int i = 0; i < number_fields; ++i)
+                {
+                    Product product = (Product)Marshal.PtrToStructure(current, typeof(Product));
+
+                    current = (IntPtr)((long)current + Marshal.SizeOf(product));
+                    products.Add(product);
+                }
+                Marshal.FreeCoTaskMem(ProductPtr);
+            });
+            return (List<Product>)(object)products;
+        }
+
         public async Task<List<Product>> SearchProducts(string key, string value, byte[] error)
         {
             List<Product> products = new List<Product>();

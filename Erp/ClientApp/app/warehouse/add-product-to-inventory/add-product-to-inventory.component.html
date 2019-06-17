@@ -1,0 +1,29 @@
+<app-warehouse></app-warehouse>
+
+<form #productForm="ngForm" (ngSubmit)="saveProduct(productForm)">
+    <div class="panel panel-primary col-md-9">
+        <div class="panel-heading">
+            <h3>Add New Product</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="col-md-6 offset-md-2" for="productID">Product ID</label>
+                <input class="form-control col-md-6 offset-md-2" id="productID" name="productID" [(ngModel)]="productID" type="text" placeholder="ID" />
+            </div>
+            <div class="form-group">
+                <label class="col-md-6 offset-md-2" for="position">Product Position</label>
+                <input class="form-control col-md-6 offset-md-2" id="position" name="position" [(ngModel)]="position" type="text" placeholder="Position" />
+            </div>
+            <div class="form-group">
+                <label class="col-md-6 offset-md-2" for="unitsInInventory">Number of units</label>
+                <input class="form-control col-md-6 offset-md-2" id="unitsInInventory" name="unitsInInventory" [(ngModel)]="unitsInInventory" type="text" placeholder="Units" />
+            </div>
+        </div>
+        <div class="panel-footer">
+            <button type="submit" class="btn btn-primary col-md-2 offset-md-4">Save</button>
+        </div>
+    </div>
+</form>
+<div>
+    <button class="btn2 col-md-2" type="button" (click)="goToInventory()">Cancel</button>
+</div>

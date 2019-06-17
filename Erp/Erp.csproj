@@ -104,7 +104,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\app\warehouse\" />
     <Folder Include="wwwroot\lib\" />
     <Folder Include="wwwroot\WorkFlows\" />
   </ItemGroup>

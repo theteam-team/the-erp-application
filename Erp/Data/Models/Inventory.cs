@@ -8,22 +8,15 @@ using System.Threading.Tasks;
 namespace Erp.Models
 {
     [StructLayout(LayoutKind.Sequential)]
-    public class Product
+    public class Inventory
     {
         [Required]
         public string id;
-        [Required]
-        public string name;
-        public string description;
-        [Required]
-        public double price;
-        public double weight;
+        public string governorate;
+        public string city;
+        public string street;
         public double length;
         public double width;
         public double height;
-        [Required]
-        public uint unitsInStock;
-        public uint sold;
-        public uint purchased;
     }
 }

@@ -44,17 +44,20 @@ export class ProductComponent implements OnInit {
         if (pForm.value.description) {
             this.productInfo.description = pForm.value.description;
         }
-        if (pForm.value.position) {
-            this.productInfo.position = pForm.value.position;
-        }
         if (pForm.value.price) {
             this.productInfo.price = pForm.value.price;
         }
-        if (pForm.value.size) {
-            this.productInfo.size = pForm.value.size;
-        }
         if (pForm.value.weight) {
             this.productInfo.weight = pForm.value.weight;
+        }
+        if (pForm.value.length) {
+            this.productInfo.length = pForm.value.length;
+        }
+        if (pForm.value.width) {
+            this.productInfo.width = pForm.value.width;
+        }
+        if (pForm.value.height) {
+            this.productInfo.height = pForm.value.height;
         }
         if (pForm.value.unitsInStock) {
             this.productInfo.unitsInStock = pForm.value.unitsInStock;
