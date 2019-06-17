@@ -1,0 +1,88 @@
+<app-crm></app-crm>
+<h2 style="color:darkcyan">Pipeline Analysis</h2>
+
+<div class="chart-diplay">
+    <div style="width: 70%; float:right">
+        <canvas id="bar"></canvas>
+    </div>
+</div>
+<div class="chart-diplay">
+    <div style="width: 70% ;float:right">
+        <canvas id="bar2"></canvas>
+    </div>
+</div>
+<div class="chart-diplay">
+    <div style="width: 50%">
+        <canvas id="doughnut"></canvas>
+    </div>
+</div>
+
+<table class="table table-dark" style="width:60%">
+    <thead>
+        <tr>
+            <th scope="col"> Opportunities</th>
+            <th scope="col">Expected Revenue</th>
+            <th scope="col">Prorated Revenue</th>
+            <th scope="col">Average Deal Size</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ totalOpportunities()}} </td>
+            <td>{{totalExpectedRevenue()}} $</td>
+            <td> Prorated revenue $</td>
+            <td>{{totalExpectedRevenue() / totalOpportunities() }} $</td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table table-dark" style="width:60%">
+    <thead>
+        <tr>
+            <th scope="col"> Customer </th>
+            <th scope="col"> New </th>
+            <th scope="col">Qualified </th>
+            <th scope="col">Proposition</th>
+            <th scope="col">Negotiation</th>
+            <th scope="col">Won</th>
+            <th scope="col">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let customer of customers">
+            <td>{{customer.name}}  </td>
+            <td>{{ CustomerNewER(customer.id) }}  $ </td>
+            <td>{{ CustomerQualifiedER(customer.id) }}  $ </td>
+            <td>{{ CustomerPropositionER(customer.id) }}  $ </td>
+            <td>{{ CustomerNegotiationER(customer.id) }}  $ </td>
+            <td>{{ CustomerWonER(customer.id) }}  $ </td>
+            <td>{{ CustomerTotalER(customer.id) }}  $ </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<table class="table table-dark" style="width:60%">
+    <thead>
+        <tr>
+            <th scope="col"> Customer </th>
+            <th scope="col"> New </th>
+            <th scope="col">Qualified </th>
+            <th scope="col">Proposition</th>
+            <th scope="col">Negotiation</th>
+            <th scope="col">Won</th>
+            <th scope="col">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let customer of customers">
+            <td>{{customer.name}}  </td>
+            <td>{{ CustomerNewCount(customer.id) }}   </td>
+            <td>{{ CustomerQualifiedCount(customer.id) }}   </td>
+            <td>{{ CustomerPropositionCount(customer.id) }}   </td>
+            <td>{{ CustomerNegotiationCount(customer.id) }}   </td>
+            <td>{{ CustomerWonCount(customer.id) }}   </td>
+            <td>{{ CustomerTotalCount(customer.id) }}   </td>
+        </tr>
+    </tbody>
+</table>

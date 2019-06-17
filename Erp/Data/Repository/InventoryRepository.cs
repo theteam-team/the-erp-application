@@ -9,11 +9,10 @@ using System.Runtime.InteropServices;
 using Erp.ModulesWrappers;
 using Erp.Data;
 using Microsoft.AspNetCore.Identity;
-using Erp.Data.Entities;
 
 namespace Erp.Repository
 {
-    public class InventoryRepository : Repository<Inventory, DataDbContext>, IInventoryRepository
+    public class InventoryRepository : Repository<Inventory>, IInventoryRepository
     {
         public InventoryRepository(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
         {
@@ -43,4 +42,3 @@ namespace Erp.Repository
         }
     }
 }
-
