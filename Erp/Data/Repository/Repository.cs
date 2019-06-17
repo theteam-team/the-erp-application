@@ -17,7 +17,7 @@ using System.Security.Claims;
 
 namespace Erp.Repository
 {
-    public  class Repository<T, C> : IRepository<T, C> where T : class where C : DbContext
+    public class Repository<T, C> : IRepository<T, C> where T : class where C : DbContext
     {
         private AccountDbContext _accountdbContext;
         private readonly UserManager<ApplicationUser> _usermanager;
@@ -286,7 +286,7 @@ namespace Erp.Repository
             return null;
 
         }
-        public virtual async Task<List<T>> GetAll()
+        /*public virtual async Task<List<T>> GetAll()
         {
             if (typeof(C) == typeof(DataDbContext))
             {
@@ -298,7 +298,7 @@ namespace Erp.Repository
                 return _datadbContext.Set<T>().ToList();
             }
             return null;
-        }
+        }*/
         public virtual async Task<T> GetById(object id)
         {
             if (typeof(C) == typeof(DataDbContext))
@@ -344,3 +344,4 @@ namespace Erp.Repository
         }
     }
 }
+
