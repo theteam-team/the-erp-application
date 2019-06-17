@@ -83,7 +83,7 @@
     <IntDir>$(SolutionDir)\bin\int\$(Configuration)\netcoreapp2.2\Modules\$(ProjectName)</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(ProjectDir)\..\..\bin\Debug\netcoreapp2.2\Modules\$(ProjectName)</OutDir>
+    <OutDir>$(ProjectDir)\..\modules_dll\$(ProjectName)</OutDir>
     <IntDir>$(ProjectDir)\..\..\bin\int\Debug\netcoreapp2.2\Modules\$(ProjectName)</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
