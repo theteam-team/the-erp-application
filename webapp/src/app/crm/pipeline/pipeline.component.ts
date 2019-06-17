@@ -3,7 +3,7 @@ import { Opportunity } from '../models/opportunityModel';
 import { customerService } from '../customers/customer.service';
 import { Router } from '@angular/router';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { OpportunityService } from '../create-opportunity/opportunity.service';
+import { OpportunityService } from '../services/opportunity.service';
 import { Customer } from '../models/customerModel';
  
 
@@ -43,7 +43,55 @@ export class PipelineComponent implements OnInit {
       moveItemInArray(this.opportunities, event.previousIndex, event.currentIndex);
     }
   }
-  
+
+  totalNew() {
+    let total = 0;
+    for (var i = 0; i < this.opportunities.length; i++) {
+      if (this.opportunities[i].status === 1) {
+        total += this.opportunities[i].expected_revenue;
+      }
+    }
+    return total;
+  }
+
+  totalQualified() {
+    let total = 0;
+    for (var i = 0; i < this.opportunities.length; i++) {
+      if (this.opportunities[i].status === 2) {
+        total += this.opportunities[i].expected_revenue;
+      }
+    }
+    return total;
+  }
+
+  totalProposition() {
+    let total = 0;
+    for (var i = 0; i < this.opportunities.length; i++) {
+      if (this.opportunities[i].status === 3) {
+        total += this.opportunities[i].expected_revenue;
+      }
+    }
+    return total;
+  }
+  totalNegotiation() {
+    let total = 0;
+    for (var i = 0; i < this.opportunities.length; i++) {
+      if (this.opportunities[i].status === 4) {
+        total += this.opportunities[i].expected_revenue;
+      }
+    }
+    return total;
+  }
+
+  totalWon() {
+    let total = 0;
+    for (var i = 0; i < this.opportunities.length; i++) {
+      if (this.opportunities[i].status === 5) {
+        total += this.opportunities[i].expected_revenue;
+      }
+    }
+    return total;
+  }
 }
 /*
 
@@ -53,52 +101,5 @@ ngOnInit() {
 }
 
 
-totalNew() {
-  let total = 0;
-  for (var i = 0; i < this.opportunities.length; i++) {
-    if (this.opportunities[i].status === 1) {
-      total += this.opportunities[i].expected_revenue;
-    }
-  }
-  return total;
-}
 
-totalQualified() {
-  let total = 0;
-  for (var i = 0; i < this.opportunities.length; i++) {
-    if (this.opportunities[i].status === 2) {
-      total += this.opportunities[i].expected_revenue;
-    }
-  }
-  return total;
-}
-
-totalProposition() {
-  let total = 0;
-  for (var i = 0; i < this.opportunities.length; i++) {
-    if (this.opportunities[i].status === 3) {
-      total += this.opportunities[i].expected_revenue;
-    }
-  }
-  return total;
-}
-totalNegotiation() {
-  let total = 0;
-  for (var i = 0; i < this.opportunities.length; i++) {
-    if (this.opportunities[i].status === 4) {
-      total += this.opportunities[i].expected_revenue;
-    }
-  }
-  return total;
-}
-
-totalWon() {
-  let total = 0;
-  for (var i = 0; i < this.opportunities.length; i++) {
-    if (this.opportunities[i].status === 5) {
-      total += this.opportunities[i].expected_revenue;
-    }
-  }
-  return total;
-}
 */

@@ -11,7 +11,9 @@ int qstate;
 
 #define SERVER "localhost"
 #define USER "root" //your username
-#define PASSWORD "root" //your password for mysql
+//#define PASSWORD "rana"//your password for mysql
+//#define PASSWORD "root" //your password for mysql
+#define PASSWORD "0198484014###"
 #define DATABASE "erp" //d	atabase name
 MYSQL* conn;
 MYSQL_ROW row;
@@ -89,9 +91,6 @@ extern "C"	ERP_API int AddEmployee(Employee* crm_employee, char* error)
 	}
 	return status;
 }
-
-
-
 extern "C"	ERP_API int AddOpportunity(Opportunity* opportunities, char* error)
 {
 	db_response::ConnectionFunction(error);
@@ -119,7 +118,6 @@ extern "C"	ERP_API int AddOpportunity(Opportunity* opportunities, char* error)
 	}
 	return status;
 }
-
 extern "C"	ERP_API int AddOpportunitie_detail(char* opportunity_id, char** product_id, int numOfProducts, char* error)
 {
 	db_response::ConnectionFunction(error);

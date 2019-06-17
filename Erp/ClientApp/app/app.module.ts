@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'
 import { MatCardModule, MatButtonModule } from '@angular/material';
 import { AppComponent } from './app.component';
-import { Login } from './login/login.component';
+//import { Login } from './login/login.component';
 import { Accounting } from './accountingSystem';
 import { ModuleList } from './services/moduleList.component';
 import { AccountingModule } from './accounting/accounting';
@@ -56,6 +56,12 @@ let routes = [
 
     { path: "", component: ModuleList },
     { path: "accounting", component: AccountingModule },
+    { path: "accounting/activity", component: AccountingActivity },
+    { path: "accounting/summary", component: AccountingSummary },
+    { path: "accounting/help", component: AccountingHelp},
+    { path: "accounting/offers", component: AccountingOffers},
+    { path: "accounting/sendrequest", component: AccountingSendRequest},
+    { path: "accounting/wallet", component: AccountingWallet },
 
     { path: "warehouse", component: WarehouseComponent },
     { path: "warehouse/products", component: ProductsComponent },
@@ -103,7 +109,6 @@ let routes = [
       AccountingHelp,
       AccountingSend,
       Invoice,
-      Login,
 
       WarehouseComponent,
       ProductsComponent,
@@ -154,7 +159,7 @@ let routes = [
        
     ],
 
-    bootstrap: [AppComponent, Accounting, Login]
+    bootstrap: [AppComponent, Accounting]//, Login]
     
 })
 

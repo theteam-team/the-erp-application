@@ -1,5 +1,5 @@
 ﻿using Erp.Data;
-using Erp.Repository;
+using Erp.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Erp.Interfaces
 {
-    public interface INodeLangRepository : IRepository<NodeLangWorkflow>
+    public interface INodeLangRepository : IRepository<NodeLangWorkflow, DataDbContext>
     {
         /*Task<List<WorkflowInstance>> GetRunningInstances(string WorkflowId);
         Task<int> GetRunningInstanceCount(string WorkflowId);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Erp.Interfaces
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<T, C> where T : class where C : DbContext
     {
         Task<List<T>> GetAll(byte[] error);
         ClaimsPrincipal User { get;  set; }        
@@ -19,5 +20,7 @@ namespace Erp.Interfaces
         Task<int> Create(T entity, byte[] error);
         Task Create(T entity); 
         Task<int> Delete(string id, byte[] error);
+        Task Update(T ob);
+        Task Insert(T ob);
     }
 }

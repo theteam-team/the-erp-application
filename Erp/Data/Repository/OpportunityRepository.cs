@@ -8,10 +8,11 @@ using Erp.Interfaces;
 using Erp.ViewModels.CRN_Tabels;
 using Erp.Data;
 using Microsoft.AspNetCore.Identity;
+using Erp.Data.Entities;
 
 namespace Erp.Repository
 {
-    public class OpportunityRepository : Repository<Opportunities_product>, IOpportunityRepository
+    public class OpportunityRepository : Repository<Opportunities_product, DataDbContext>, IOpportunityRepository
     {
         public OpportunityRepository(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
         {

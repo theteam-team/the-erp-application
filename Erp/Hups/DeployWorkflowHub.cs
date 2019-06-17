@@ -1,4 +1,4 @@
-﻿using Erp.Data.Entities;
+﻿
 using Microsoft.AspNetCore.SignalR;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Erp.Data;
 using Microsoft.AspNetCore.Identity;
+using Erp.Data.Entities;
 
 namespace Erp.Hubs
 {
@@ -51,6 +52,7 @@ namespace Erp.Hubs
         }
         public async Task updateDeployList(string Id, string name, string workflowStr)
         {
+            
             await Clients.Others.SendAsync("updateDeployList", Id, name, workflowStr);
             
         }

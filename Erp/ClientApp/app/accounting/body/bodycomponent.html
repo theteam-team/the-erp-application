@@ -1,23 +1,24 @@
 ﻿<nav class="navbar navbar-expand-md navbar-light bg-light">
     <!--justify-content-between-->
-    <a class="navbar-brand" routerLink="accounting">{{ title }}</a>
+    <a class="navbar-brand" routerLink="">Modules</a>
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <a style="color:#2A57BF;" class="nav-item nav-link active" data-toggle="tab" href="#nav-Summary">Summary</a>
-        <a style="color:#2A57BF;" class="nav-item nav-link " data-toggle="tab" href="#nav-Activity">Activity</a>
-        <a style="color:#2A57BF;" class="nav-item nav-link" data-toggle="tab" href="#nav-Send-Request">Send & Request</a>
-        <a style="color:#2A57BF;" class="nav-item nav-link" data-toggle="tab" href="#nav-Wallet">Wallet</a>
-        <a style="color:#2A57BF;" class="nav-item nav-link" data-toggle="tab" href="#nav-Offers">Offers</a>
-        <a style="color:#2A57BF;" class="nav-item nav-link" data-toggle="tab" href="#nav-Help">Help</a>
+        <a style="color:#2A57BF;" routerLink="/accounting/summary" class="nav-item nav-link" >Summary</a>
+        <a style="color:#2A57BF;" routerLink="/accounting/activity" class="nav-item nav-link">Activity</a>
+        <a style="color:#2A57BF;" routerLink="/accounting/sendrequest" class="nav-item nav-link" >Send & Request</a>
+        <a style="color:#2A57BF;" routerLink="/accounting/wallet" class="nav-item nav-link">Wallet</a>
+        <a style="color:#2A57BF;" routerLink="/accounting/offers" class="nav-item nav-link">Offers</a>
+        <a style="color:#2A57BF;" routerLink="/accounting/help" class="nav-item nav-link">Help</a>
     </div>
 </nav>
+<!--
 <div class="tab-content" id="nav-tabContent">
     <div class="tab-pane fade show active" id="nav-Summary" role="tabpanel" aria-labelledby="nav-home-tab">
         <accounting-summary></accounting-summary>
     </div>
-    <div class="tab-pane fade card card-body m-2 bg-light" id="nav-Activity" role="tabpanel" aria-labelledby="nav-profile-tab">
+    <div class="tab-pane fade m-2 " id="nav-Activity" role="tabpanel" aria-labelledby="nav-profile-tab">
         <accounting-activity></accounting-activity>
     </div>
-    <div class="tab-pane fade bg-dark" id="nav-Send-Request" role="tabpanel" aria-labelledby="nav-contact-tab">
+    <div class="tab-pane fade bg-white" id="nav-Send-Request" role="tabpanel" aria-labelledby="nav-contact-tab">
         <accounting-send-request></accounting-send-request>
     </div>
     <div class="tab-pane fade" id="nav-Wallet" role="tabpanel" aria-labelledby="nav-contact-tab">
@@ -30,3 +31,5 @@
         <accounting-help></accounting-help>
     </div>
 </div>
+    -->
+<router-outlet></router-outlet>

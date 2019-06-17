@@ -1,4 +1,5 @@
 ﻿using Erp.Data;
+using Erp.Data.Entities;
 using Erp.Interfaces;
 using Erp.Models;
 using Erp.ModulesWrappers;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Erp.Repository
 {
-    public class OrderRepository : Repository<Order> , IOrderRepository
+    public class OrderRepository : Repository<Order, DataDbContext> , IOrderRepository
     {
         public OrderRepository(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
         {

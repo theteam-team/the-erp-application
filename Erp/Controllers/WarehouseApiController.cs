@@ -1,5 +1,7 @@
 using Erp.Interfaces;
 using Erp.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -379,7 +381,8 @@ namespace Erp.Controllers
                 return BadRequest(y);
             }
         }
-
+      
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("ShowProducts")]
         public async Task<ActionResult<List<Product>>> ShowProducts()
         {

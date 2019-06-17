@@ -11,30 +11,7 @@ export class customerService {
 
   constructor(private httpClient: HttpClient) { }
 
-  private customers: Customer[] = [
-    {
-      id: 1,
-      name: 'menna',     
-      email: 'menna777@gmail.com',
-      phone_number: '01117572565',
-      company: 'none',
-      company_email: 'mmm@yahoo.com',
-      gender: 'female',
-      is_lead: true,
-      dateOfBirth: new Date('1996-1-31'),
-    },
-    {
-      id: 2,
-       name: 'ahmed',
-      email: 'menn6667@gmail.com',
-      phone_number: '01144472565',
-      company: 'none',
-      company_email: 'sss@yahoo.com',
-      gender: 'male',
-      is_lead: true,
-      dateOfBirth: new Date('1996-7-31'),
-    }
-  ];
+  private customers: Customer[];
 
   getCustomers(): Observable<Customer[]> {
    return this.httpClient.get<Customer[]>('http://localhost:3000/customers')

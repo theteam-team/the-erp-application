@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { map } from "rxjs/operators";
-import { Module } from './module';
+import { Module, Products, Invoice, Customer } from './module';
 
 @Injectable()
 export class DataService {
@@ -221,7 +221,7 @@ export class DataService {
     }
 
     //Accounting
-    public sold_products = [];
+    public sold_products: Products[] = [];
     loadSoldProducts(): Observable<boolean> {
         return this.http.get("/api/AccountingApi/GetSoldProduct")
             .pipe(
@@ -230,4 +230,25 @@ export class DataService {
                     return true;
                 }));
     }
+    
+    public invoice: Invoice[] = [];
+    loadInvoice(): Observable<boolean> {
+        return this.http.get("/api/AccountingApi/GetInvoice")
+            .pipe(
+                map((data: any[]) => {
+                    this.invoice = data;
+                    return true;
+                }));
+    }
+
+    public customer: Customer[];
+    loadCustomerByID(id: string): Observable<boolean> {
+        return this.http.get("/api/CrmApi/GetCustomer/" + id)
+            .pipe(
+                map((data: any[]) => {
+                    this.customer = data;
+                    return true;
+                }));
+    }
+    
 }

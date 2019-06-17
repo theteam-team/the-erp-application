@@ -166,7 +166,6 @@ int checkUnitsInStock(char* id, char* error) {
 	}
 	return status;
 }
-
 int deleteAll(char* id, char* error) {
 
 	status = 0;
@@ -183,8 +182,6 @@ int deleteAll(char* id, char* error) {
 	}
 	return status;
 }
-
-
 extern "C"	ERP_API int addToStock(char* id, int newUnits, char* error) {
 
 	int units = 0;
@@ -206,7 +203,6 @@ extern "C"	ERP_API int addToStock(char* id, int newUnits, char* error) {
 	}
 	return status;
 }
-
 extern "C"	ERP_API int removeFromStock(ProductInOrder* product, char* error) {
 
 	int units;
@@ -267,7 +263,6 @@ extern "C"	ERP_API int addProduct(Product* product, char* error)
 	}
 	return status;
 }
-
 extern "C"	ERP_API int addOrder(Order* order, char* error)
 {
 	status = 0;
@@ -284,7 +279,6 @@ extern "C"	ERP_API int addOrder(Order* order, char* error)
 	}
 	return status;
 }
-
 extern "C" ERP_API int addProductToOrder(ProductInOrder* product, char* error)
 {
 	status = 0;
@@ -341,7 +335,6 @@ extern "C" ERP_API int editProduct(Product* product, char* error)
 	}
 	return status;
 }
-
 extern "C" ERP_API int editOrder(Order* order, char* error)
 {
 	status = 0;
@@ -357,7 +350,6 @@ extern "C" ERP_API int editOrder(Order* order, char* error)
 	}
 	return status;
 }
-
 extern "C" ERP_API int editProductInOrder(ProductInOrder* product, char* error)
 {
 	status = 0;
@@ -420,6 +412,7 @@ extern "C"	ERP_API int deleteProduct(char* id, char* error) {
 	}
 	return status;
 }
+
 
 extern "C"	ERP_API int deleteOrder(char* id, char* error) {
 
@@ -588,6 +581,7 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 	return numberOfRows;
 }
 
+
  extern "C"	ERP_API int searchProducts(Product** product, char* key, char* value, char* error)
  {
 	 status = 0;
@@ -650,7 +644,6 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 	 }
 	 return numberOfRows;
  }
-
  extern "C"	ERP_API int searchOrders(Order** order, char* key, char* value, char* error)
  {
 	 status = 0;
@@ -813,7 +806,6 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 	}
 	return status;
 }
-
  extern "C"	ERP_API int getOrderInfo(char* id, Order** order, char* error) {
 
 	 status = 0;
@@ -865,8 +857,6 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 	 }
 	 return status;
  }
-
- 
  extern "C"	ERP_API int showProducts(Product** product, char* error) 
  {
 	 status = 0;
@@ -925,6 +915,7 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 	 }
 	 return numberOfRows;
 }
+
 
  extern "C"	ERP_API int showInventories(Inventory** inventory, char* error)
  {
@@ -1091,7 +1082,6 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 	 }
 	 return numberOfRows;
  }
-
  extern "C"	ERP_API int showCompletedOrders(Order** order, char* error) {
 
 	 status = 0;
@@ -1136,7 +1126,6 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 	 }
 	 return numberOfRows;
 }
- 
  extern "C"	ERP_API int showReadyOrders(Order** order, char* error) {
 
 	 status = 0;
@@ -1181,7 +1170,6 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 	 }
 	 return numberOfRows;
  }
-
  extern "C"	ERP_API int showOrdersInProgress(Order** order, char* error) {
 
 	 status = 0;
@@ -1226,7 +1214,6 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 	 }
 	 return numberOfRows;
 }
-
  extern "C"	ERP_API int showProductsInOrder(char* id, ProductInOrder** product, char* error) {
 
 	 status = 0;
@@ -1267,8 +1254,6 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 	 }
 	 return numberOfRows;
 }
-
-
 /*
  extern "C"	ERP_API double makeOrder(char* id, char *error) {
 

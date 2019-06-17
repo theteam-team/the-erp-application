@@ -5,12 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Erp.Data
+namespace Erp.Data.Entities
 {
     public class NodeLangWorkflow
     {
         [Key]
         public string Id { get; set; }
+
         public string Name { get; set; }
 
         public string WorkFlow { get; set;}

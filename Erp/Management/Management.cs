@@ -1,4 +1,5 @@
 ﻿using Erp.Data;
+using Erp.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;

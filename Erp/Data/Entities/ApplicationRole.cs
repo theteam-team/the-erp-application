@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Erp.Data
+namespace Erp.Data.Entities
 {
     /// <summary>
     /// used To discribe the Role of a specific user

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using System.Threading;
 
 namespace Erp.Controllers
 {
@@ -36,9 +37,10 @@ namespace Erp.Controllers
         [Authorize]
         public IActionResult System()
         {
-            HttpContext.Session.SetString("LastPageView", HttpContext.Request.Path);          
+            //HttpContext.Session.SetString("LastPageView", HttpContext.Request.Path);          
             ViewBag.CurrentBag = "system";
             ViewBag.Title = "System";
+            
             return View();
         }
         public IActionResult Modules()
@@ -47,7 +49,7 @@ namespace Erp.Controllers
            // ViewBag.CurrentView = "Modules";
             return View();
         }
-
+        [Authorize]
         public IActionResult Notification()
         {
             return View();

@@ -1,4 +1,6 @@
-﻿<div class="row container-fluid">
+﻿<accounting-body></accounting-body>
+
+<div class="row container-fluid">
     <div class="col-md-3 bg-light p-2">
         <form>
             <div class="col">
@@ -29,11 +31,39 @@
     </div>
 </div>
 
+
+<!--
 <div class="row container-fluid">
-    <div class="module-info col-md-4 well well-sm" *ngFor="let s of sold_products">
-        <div class="card bg-white m-1 p-2">
-            <div class="module-name">{{ s.name }}</div>
-            <button class="btn btn-success" (click)="onAccounting()">close</button>
+    <div class="col-md-4 well well-sm" *ngFor="let s of sold_products">
+        <div class="card bg-light m-1 p-2">
+            <div> Product ID : {{ s.productid }}</div>
+            <div> total Units in all orders : {{ s.unitsSold }}</div>
+            <div> profit : {{ s.profit }}</div>
+            <div> price: {{ s.price }}</div>
+            <div> cost: {{ s.cost }}</div>
+            <button class="btn btn-success">close</button>
         </div>
     </div>
 </div>
+    -->
+<div class="row container-fluid">
+    <div class="col-md-4 well well-sm" *ngFor="let i of invoice">
+        <div class="card bg-light m-1 p-2">
+            <div> suppId : {{ i.suppId }}</div>
+            <div> suppName : {{ i.suppName }}</div>
+            <div> suppPhone: {{ i.suppPhone }}</div>
+            <div> suppMail : {{ i.suppMail }}</div>
+            <div> method: {{ i.payment_method }}</div>
+            <div> pName: {{ i.productName }}</div>
+            <div> pCost: {{ i.productCost }}</div>
+            <div> units : {{ i.suppUnits }}</div>
+            <div> tCost: {{ i.totalCost }}</div>
+            <div> Paid : {{ i.totalPaid }}</div>
+            <div> depts : {{ i.depts }}</div>
+
+            <button class="btn btn-success">close</button>
+        </div>
+    </div>
+</div>
+
+

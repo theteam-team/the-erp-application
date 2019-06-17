@@ -9,10 +9,11 @@ using System.Runtime.InteropServices;
 using Erp.ModulesWrappers;
 using Erp.Data;
 using Microsoft.AspNetCore.Identity;
+using Erp.Data.Entities;
 
 namespace Erp.Repository
 {
-    public class ProductRepository : Repository<Product>, IProductRepository
+    public class ProductRepository : Repository<Product, DataDbContext>, IProductRepository
     {
         public ProductRepository(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
         {
@@ -83,9 +84,8 @@ namespace Erp.Repository
 
             await Task.Run(() =>
             {
-                int number_fields = Accounting_Wrapper.soldProducts(out ProductPtr, error);
+                int number_fields = Accounting_Wrapper.getProfit(out ProductPtr, error);
                 IntPtr current = ProductPtr;
-
                 for (int i = 0; i < number_fields; ++i)
                 {
                     ProductSold product = (ProductSold)Marshal.PtrToStructure(current, typeof(ProductSold));
@@ -98,6 +98,30 @@ namespace Erp.Repository
             return products;
 
         }
+
+        public async Task<List<Invoice>> getInvoice(byte[] error)
+        {
+            List<Invoice> invoices = new List<Invoice>();
+            IntPtr InvoicePtr;
+
+            await Task.Run(() =>
+            {
+                int number_fields = Accounting_Wrapper.getInvoice(out InvoicePtr, error);
+                IntPtr current = InvoicePtr;
+
+                for (int i = 0; i < number_fields; ++i)
+                {
+                    Invoice invoice = (Invoice)Marshal.PtrToStructure(current, typeof(Invoice));
+
+                    current = (IntPtr)((long)current + Marshal.SizeOf(invoice));
+                    invoices.Add(invoice);
+                }
+                Marshal.FreeCoTaskMem(InvoicePtr);
+            });
+            return invoices;
+
+        }
+
         //public async Task<int> updateProductInfo(string id, string key, string value, byte[] error)
         //{
         //    //byte[] id = Encoding.ASCII.GetBytes(id);

@@ -6,5 +6,38 @@
     price: number;
 } 
 export interface Products {
+    productid: string;
+    unitsSold: number;
+    cost: number;
+    price: number;
+    profit: number;
+    
+    
+}
+export interface Invoice {
+    suppId: string;
+    suppName: string;
+    suppPhone: number;
+    suppMail: string;
+    payment_method: string;
+    productName: string;
+    productCost: number;
+    suppUnits: number;
+    totalCost: number;
+    totalPaid: number;
+    depts: number;
+}
+
+export interface Customer {
+    customer_id: string;
     name: string;
+    phone_number: number;
+    email: string;
+    DateOfBirth: string;
+    gender: string;
+    loyality_points: number;
+    type: number;
+    company: string;
+    company_email: string;
+    is_lead: boolean;
 }

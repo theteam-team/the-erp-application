@@ -21,8 +21,7 @@ namespace Erp.BackgroundServices
             new ConcurrentQueue<Func<CancellationToken, Task>>();
         private SemaphoreSlim _signal = new SemaphoreSlim(0);
 
-        public void QueueBackgroundWorkItem(
-            Func<CancellationToken, Task> workItem)
+        public void QueueBackgroundWorkItem (Func<CancellationToken, Task> workItem)
         {
             if (workItem == null)
             {

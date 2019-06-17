@@ -9,10 +9,11 @@ using System.Runtime.InteropServices;
 using Erp.ModulesWrappers;
 using Erp.Data;
 using Microsoft.AspNetCore.Identity;
+using Erp.Data.Entities;
 
 namespace Erp.Repository
 {
-    public class OrderProductRepository : Repository<ProductInOrder>, IOrderProductRepository
+    public class OrderProductRepository : Repository<ProductInOrder, DataDbContext>, IOrderProductRepository
     {
         private AccountDbContext _accountdbContext;
         private readonly UserManager<ApplicationUser> _usermanager;

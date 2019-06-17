@@ -47,21 +47,22 @@
         </member>
         <member name="P:Erp.Data.DataDbContext.ConnectionString">
             this  proberty used to set the connection string to the database
+            
         </member>
         <member name="M:Erp.Data.DataDbContext.OnConfiguring(Microsoft.EntityFrameworkCore.DbContextOptionsBuilder)">
             ovrriding this method from the base class and pass to it an optionBuilder Containing the New _config to the database
         </member>
-        <member name="T:Erp.Data.ApplicationRole">
+        <member name="T:Erp.Data.Entities.ApplicationRole">
             <summary>
             used To discribe the Role of a specific user
             </summary>
         </member>
-        <member name="T:Erp.Data.ApplicationUser">
+        <member name="T:Erp.Data.Entities.ApplicationUser">
             <summary >   
              Represents The user Tabel in the Database, each proberty represents a column
              </summary>
         </member>
-        <member name="T:Erp.Data.Modules">
+        <member name="T:Erp.Data.Entities.Modules">
             <summary>
             A Class rebresents the Modules Tables in the database
             </summary>
@@ -80,10 +81,10 @@
             This class represents the management System which is used To Assign users roles, get users roles ... etc
             </summary>
         </member>
-        <member name="M:Erp.Management.#ctor(Erp.Data.AccountDbContext,Erp.Data.DataDbContext,Microsoft.AspNetCore.Identity.UserManager{Erp.Data.ApplicationUser},Microsoft.AspNetCore.Identity.RoleManager{Erp.Data.ApplicationRole})">
+        <member name="M:Erp.Management.#ctor(Erp.Data.AccountDbContext,Erp.Data.DataDbContext,Microsoft.AspNetCore.Identity.UserManager{Erp.Data.Entities.ApplicationUser},Microsoft.AspNetCore.Identity.RoleManager{Erp.Data.Entities.ApplicationRole})">
             this constructor parameters will be assigned using the dependancy injection
         </member>
-        <member name="M:Erp.Management.AddRoleToUserAsync(System.String,Erp.Data.ApplicationUser)">
+        <member name="M:Erp.Management.AddRoleToUserAsync(System.String,Erp.Data.Entities.ApplicationUser)">
             <summary>
             Add A Role to A specifc user. 
             This is an Async Mesthod and returns a Task so you must await it.
@@ -101,7 +102,7 @@
             <param name="roleName">The name of the Role to be created</param>
             <returns>Task</returns>
         </member>
-        <member name="M:Erp.Management.GetUserRoleAsync(Erp.Data.ApplicationUser)">
+        <member name="M:Erp.Management.GetUserRoleAsync(Erp.Data.Entities.ApplicationUser)">
             <summary>
             Returns a List of the roles assigned To a specific User
             </summary>
@@ -148,7 +149,7 @@
             </summary>
             <param name="services">The Services container </param>
         </member>
-        <member name="M:Erp.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment,Erp.Data.AccountDbContext)">
+        <member name="M:Erp.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment,Erp.Data.DataDbContext,Erp.Data.AccountDbContext)">
             This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         </member>
     </members>

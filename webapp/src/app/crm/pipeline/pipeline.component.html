@@ -14,7 +14,7 @@
     <div class="col" >
       <div>
         <h5>New</h5>
-        <h6 >Expected Revenues: $</h6>
+        <h6>Expected Revenues:{{  totalNew() }} $</h6>
       </div>
 
       
@@ -27,7 +27,7 @@
                   account_box
                 </i>
                 <div *ngFor="let customer of customers" style="display:inline">
-                  <h6 class="card-title" style="display:inline" *ngIf="opportunity.customer_id === customer.id"> {{ customer.name }} </h6>
+                  <h6 class="card-title" style="display:inline" *ngIf="opportunity.customer_id == customer.id"> {{ customer.name }} </h6>
                 </div>
               </div>
               <h6 class="card-title"> {{opportunity.expected_revenue}} $ </h6>
@@ -44,7 +44,7 @@
      
       <div>
         <h5> Qualified</h5>
-        <h6>Expected Revenues:  $</h6>
+        <h6>Expected Revenues: {{  totalQualified() }} $</h6>
       </div>
         
           <div #othertList="cdkDropList" cdkDropList [cdkDropListData]="opportunity"  [cdkDropListConnectedTo]="firstList" (cdkDropListDropped)="drop($event)">
@@ -55,7 +55,9 @@
                   <i class="material-icons" style="display:inline" X-large>
                     account_box
                   </i>
-
+                  <div *ngFor="let customer of customers" style="display:inline">
+                    <h6 class="card-title" style="display:inline" *ngIf="opportunity.customer_id == customer.id"> {{ customer.name }} </h6>
+                  </div>
                 </div>
                 <h6 class="card-title"> {{opportunity.expected_revenue}} $ </h6>
                 <div class="col-md-2" style="display:inline-flex">
@@ -70,7 +72,7 @@
     <div class="col  ">
       <div>
         <h5> Proposition</h5>
-        <h6>Expected Revenues:  $</h6>
+        <h6>Expected Revenues: {{  totalProposition() }} $</h6>
       </div>
 
       <div  >
@@ -96,7 +98,7 @@
     <div class="col  ">
       <div>
         <h5>Negotiation</h5>
-        <h6>Expected Revenues: $</h6>
+        <h6>Expected Revenues:{{  totalNegotiation() }} $</h6>
       </div>
 
       <div >
@@ -122,7 +124,7 @@
     <div class="col ">
       <div>
         <h5> Won</h5>
-        <h6>Expected Revenues:  $</h6>
+        <h6>Expected Revenues: {{  totalWon() }} $</h6>
       </div>
 
       <div  >

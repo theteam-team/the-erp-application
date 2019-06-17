@@ -1,5 +1,21 @@
-﻿<div class="container-fluid bg-light">
+﻿
+
+<div class="row container-fluid bg-light">
+    <accounting-body></accounting-body>
     <div class="col-md-12 m-2">
-        <h1 class="text-center">ما قولت لك مفيش حااجة</h1>
+        <h1 class="text-center">No thing for now..</h1>
+    </div>
+</div>
+    
+<div class="row container-fluid">
+    <div class="col-md-4 well well-sm" *ngFor="let s of sold_products">
+        <div class="card bg-light m-1 p-2">
+            <div> Product ID : {{ s.productid }}</div>
+            <div> total Units in all orders : {{ s.unitsSold }}</div>
+            <div> profit : {{ s.profit }}</div>
+            <div> price: {{ s.price }}</div>
+            <div> cost: {{ s.cost }}</div>
+            <button class="btn btn-success">close</button>
+        </div>
     </div>
 </div>

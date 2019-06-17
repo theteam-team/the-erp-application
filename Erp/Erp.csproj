@@ -9,8 +9,8 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
   	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>$(SolutionDir)\Erp\Erp.xml</DocumentationFile>
-    <OutputPath>$(SolutionDir)\bin\$(Configuration)\</OutputPath>
+    <DocumentationFile>.\..\bin\Debug\Erp.xml</DocumentationFile>
+    <OutputPath>.\..\bin\Debug\</OutputPath>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
@@ -61,6 +61,8 @@
 
   <ItemGroup>
    
+    <PackageReference Include="MailKit" Version="2.2.0" />
+   
     <PackageReference Include="Microsoft.AspNetCore.App" />
    
     <PackageReference Include="Microsoft.AspNetCore.WebSockets" Version="2.2.1" />
@@ -109,7 +111,7 @@
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="copy $(SolutionDir)\Erp\mysql_dll\libmysql.dll $(SolutionDir)\\bin\$(Configuration)\\netcoreapp2.2\libmysql.dll&#xD;&#xA;copy $(SolutionDir)\Erp\mysql_dll\libeay32.dll $(SolutionDir)\\bin\$(Configuration)\\netcoreapp2.2\libeay32.dll&#xD;&#xA;copy $(SolutionDir)\Erp\mysql_dll\ssleay32.dll $(SolutionDir)\\bin\$(Configuration)\\netcoreapp2.2\ssleay32.dll&#xD;&#xA;copy $(SolutionDir)\Erp\mysql_dll\mysqlcppconn8-1-vs14.dll $(SolutionDir)\\bin\$(Configuration)\\netcoreapp2.2\mysqlcppconn8-1-vs14.dll" />
+    <Exec Command="copy &quot;$(ProjectDir)mysql_dll\libmysql.dll&quot; &quot;$(ProjectDir)..\bin\$(Configuration)\netcoreapp2.2\libmysql.dll&quot;&#xD;&#xA;copy &quot;$(ProjectDir)mysql_dll\libeay32.dll&quot; &quot;$(ProjectDir)..\bin\$(Configuration)\netcoreapp2.2\libeay32.dll&quot;&#xD;&#xA;copy &quot;$(ProjectDir)mysql_dll\ssleay32.dll&quot; &quot;$(ProjectDir)..\bin\$(Configuration)\netcoreapp2.2\ssleay32.dll&quot;&#xD;&#xA;copy &quot;$(ProjectDir)mysql_dll\mysqlcppconn8-1-vs14.dll&quot; &quot;$(ProjectDir)..\bin\$(Configuration)\netcoreapp2.2\mysqlcppconn8-1-vs14.dll&quot;&#xD;&#xA;&#xD;&#xA;XCOPY &quot;$(ProjectDir)..\Modules\modules_dll&quot; &quot;$(ProjectDir)..\bin\$(Configuration)\netcoreapp2.2\Modules\&quot; /S /Y" />
   </Target>
 
 </Project>

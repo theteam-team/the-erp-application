@@ -1,4 +1,5 @@
 ﻿ using Erp.Data;
+using Erp.Data.Entities;
 using Erp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -74,6 +75,7 @@ namespace Erp.Controllers
                             true, false);
                     if (result.Succeeded)
                     {
+                      
 
                         var roles = await _userManager.GetRolesAsync(user);
 
@@ -115,7 +117,6 @@ namespace Erp.Controllers
 
             if (database != null)
             {
-
                 var user = new ApplicationUser
                 {
                     Email = registerModel.Email,
@@ -123,20 +124,13 @@ namespace Erp.Controllers
                     Country = registerModel.Country,
                     Language = registerModel.Language,
                     UserName = registerModel.UserName
-
                 };
                 var result = await _userManager.CreateAsync(user, registerModel.Password);
-
-
                 if (result.Succeeded)
                 {
-
                     var roleName = "Adminstrator";
-
                     await _management.AddRoleToUserAsync(roleName, user);
-
                     muserLogger.LogInformation("A user with a specifc roles : " + roleName + " has Been Created");
-
                     if (!CommonNeeds.checkdtb(mdataDbContext, registerModel.DataBaseName))
                     {
                         mdataDbContext.Database.EnsureCreated();
@@ -145,7 +139,6 @@ namespace Erp.Controllers
                         true, false);
                     if (res.Succeeded)
                     {
-
                         return RedirectToAction("System", "App");
                     }
 
@@ -265,7 +258,7 @@ namespace Erp.Controllers
                           _config["Tokens:Issuer"],
                           _config["Tokens:Audience"],
                           claims,
-                          expires: DateTime.Now.AddMinutes(100000000),
+                          expires: DateTime.Now.AddMinutes(1000),
                           signingCredentials: creds);
 
                         var results = new
