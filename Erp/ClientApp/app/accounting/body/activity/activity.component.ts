@@ -1,6 +1,8 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { DataService } from 'ClientApp/app/shared/dataService';
-import { Products, Invoice } from "ClientApp/app/shared/module";
+import { Invoice } from "ClientApp/app/shared/module";
+import { Route } from '@angular/compiler/src/core';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'accounting-activity',
@@ -10,7 +12,7 @@ import { Products, Invoice } from "ClientApp/app/shared/module";
 
 export class AccountingActivity implements OnInit{
     title = 'Accounting';
-    constructor(private data: DataService) {
+    constructor(private data: DataService, private router: Router) {
     }
 
     //trial
@@ -19,18 +21,10 @@ export class AccountingActivity implements OnInit{
         name: "hi"
     }];
     ngOnInit(): void {
-        this.getSoldProduct();
+        //this.getSoldProduct();
         this.getInvoice();
     }
-    public sold_products: Products[] = [];
-    getSoldProduct(): void{
-        this.data.loadSoldProducts()
-            .subscribe(success => {
-                if (success) {
-                    this.sold_products = this.data.sold_products;
-                }
-            });
-    }
+    
 
     public invoice: Invoice[] = [];
     getInvoice(): void {

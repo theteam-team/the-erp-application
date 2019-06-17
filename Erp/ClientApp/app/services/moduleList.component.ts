@@ -22,7 +22,7 @@ export class ModuleList implements OnInit {
                 }
             });
     }
-    
+    /*
     onAccounting() {
         if (this.data.loginRequired) {
             //force login
@@ -34,5 +34,5 @@ export class ModuleList implements OnInit {
 
         }
     }
-    
+    */
 }

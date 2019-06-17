@@ -53,6 +53,12 @@ let routes = [
 
     { path: "", component: ModuleList }, 
     { path: "accounting", component: AccountingModule },
+    { path: "accounting/activity", component: AccountingActivity },
+    { path: "accounting/summary", component: AccountingSummary },
+    { path: "accounting/help", component: AccountingHelp},
+    { path: "accounting/offers", component: AccountingOffers},
+    { path: "accounting/sendrequest", component: AccountingSendRequest},
+    { path: "accounting/wallet", component: AccountingWallet },
 
     { path: "warehouse", component: WarehouseComponent },
     { path: "warehouse/products", component: ProductsComponent },

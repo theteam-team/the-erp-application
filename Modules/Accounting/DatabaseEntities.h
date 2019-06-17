@@ -14,9 +14,9 @@ struct ProductSold
 {
 	char* id;
 	unsigned int unitsSold;
-	double profit;
-	double price;
 	double cost;
+	double price;
+	double profit;
 };
 struct Invoice
 {
@@ -48,4 +48,28 @@ struct ProductInOrder
 	char* productID;
 	unsigned int unitsOrdered;
 	unsigned int unitsDone;
+};
+
+struct OrderDetails {
+	char* orderID;
+	char* productID;
+	char* productName;
+	unsigned int unitsOrdered;
+	double productCost;
+	double totalCost;
+};
+
+struct Customer
+{
+	char* customer_id;
+	char* name;
+	unsigned int phone_number;
+	char *email;
+	char* dateOfBirth;
+	char* gender;
+	unsigned int loyality_points;
+	unsigned int type;
+	char* company;
+	char* company_email;
+	bool is_lead;
 };

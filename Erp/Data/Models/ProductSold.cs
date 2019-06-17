@@ -9,12 +9,10 @@ namespace Erp.Models
     [StructLayout(LayoutKind.Sequential)]
     public class ProductSold
     {
-       
             public string Productid;
             public uint unitsSold;
-            public double profit;
-            public double price;
             public double cost;
-
+            public double price;
+            public double profit;
     }
 }

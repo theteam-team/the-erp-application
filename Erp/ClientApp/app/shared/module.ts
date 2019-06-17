@@ -8,9 +8,11 @@
 export interface Products {
     productid: string;
     unitsSold: number;
-    profit: number;
-    price: number;
     cost: number;
+    price: number;
+    profit: number;
+    
+    
 }
 export interface Invoice {
     suppId: string;
@@ -24,4 +26,18 @@ export interface Invoice {
     totalCost: number;
     totalPaid: number;
     depts: number;
+}
+
+export interface Customer {
+    customer_id: string;
+    name: string;
+    phone_number: number;
+    email: string;
+    DateOfBirth: string;
+    gender: string;
+    loyality_points: number;
+    type: number;
+    company: string;
+    company_email: string;
+    is_lead: boolean;
 }
