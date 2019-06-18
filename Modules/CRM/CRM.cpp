@@ -9,12 +9,12 @@ int status;
 using namespace std;
 int qstate;
 
-#define SERVER "localhost"
-#define USER "root" //your username
+#define SERVER "mysqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com"
+#define USER "mySQLadmin" //your username
 //#define PASSWORD "rana"//your password for mysql
 //#define PASSWORD "root" //your password for mysql
-#define PASSWORD "0198484014###"
-#define DATABASE "erp" //d	atabase name
+#define PASSWORD "mySQLpass123"
+#define DATABASE "ERP" //d	atabase name
 MYSQL* conn;
 MYSQL_ROW row;
 MYSQL_RES* res;
