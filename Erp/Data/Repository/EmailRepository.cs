@@ -1,7 +1,10 @@
 ﻿using Erp.Data;
 using Erp.Data.Entities;
 using Erp.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +14,8 @@ namespace Erp.Repository
 {
     public class EmailRepository :Repository<Email, AccountDbContext>, IEmailRepository
     {
-        public EmailRepository(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
+        public EmailRepository(IConfiguration config, ILogger<EmailRepository> ilogger, IHttpContextAccessor httpContextAccessor, AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager)
+            : base(config, ilogger, httpContextAccessor, management, datadbContext, accountDbContext, userManager)
         {
 
         }
@@ -20,14 +24,15 @@ namespace Erp.Repository
     {
         private AccountDbContext _accountDbContext;
 
-        public EmailUserRepository(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
+        public EmailUserRepository(IConfiguration config, ILogger<EmailUserRepository> ilogger, IHttpContextAccessor httpContextAccessor, AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager)
+             : base(config, ilogger, httpContextAccessor, management, datadbContext, accountDbContext, userManager)
         {
             _accountDbContext = accountDbContext;
         }
 
         public async Task<List<UserHasEmail>> GetUnSentMails()
         {
-            InitiateConnection();
+            //InitiateConnection();
             List<UserHasEmail> userHasEmails = null;
 
             await Task.Run(()=> { userHasEmails = _accountDbContext.UserHasEmails.Where(u => u.IsSent == false).ToList(); });
@@ -37,7 +42,8 @@ namespace Erp.Repository
     }
     public class EmailTypeRepository :Repository<EmailType, AccountDbContext>, IEmailTypeRepository
     {
-        public EmailTypeRepository(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
+        public EmailTypeRepository(IConfiguration config, ILogger<EmailTypeRepository> ilogger, IHttpContextAccessor httpContextAccessor, AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager)
+              : base(config, ilogger, httpContextAccessor, management, datadbContext, accountDbContext, userManager)
         {
 
         }

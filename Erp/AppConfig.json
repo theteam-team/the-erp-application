@@ -1,7 +1,17 @@
 {
   "ConnectionStrings": {
     "DefaultConnection": "Server=(localdb)\\ProjectsV13;Database=Erp;Trusted_Connection=True;MultipleActiveResultSets=true",
-    "DataDbConnection": "Server=(localdb)\\ProjectsV13;Database=Data;Trusted_Connection=True;MultipleActiveResultSets=true"
+    "DataDbConnection": "Server=(localdb)\\ProjectsV13;Database=Data;Trusted_Connection=True;MultipleActiveResultSets=true",
+    "MySql": "server=mysqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com;userid=mySQLadmin;port=3306;password=mySQLpass123;Allow User Variables=True;",
+    "MySql_Local": "server=localhost;userid=root;port=3306;password=123456789pp;Allow User Variables=True;"
+  },
+  "Email": {
+    "Smtp": {
+      "Host": "smtp.gmail.com",
+      "Port": 25,
+      "Username": "mail_username",
+      "Password": "mail_password"
+    }
   },
   "Logging": {
     "LogLevel": {
@@ -13,13 +23,12 @@
     "Issuer": "http://localhost:8888",
     "Audience": "users"
   },
+  "MySqlC++": {
+    "server": "localhost",
+    "user": "root",
+    "password": "123456789pp",
+    "port": "3306"
 
-  "Email": {
-    "Smtp": {
-      "Host": "smtp.gmail.com",
-      "Port": 25,
-      "Username": "mail_username",
-      "Password": "mail_password"
-    }
   }
+ 
 }

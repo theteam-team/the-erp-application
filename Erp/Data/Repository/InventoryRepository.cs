@@ -10,13 +10,18 @@ using Erp.ModulesWrappers;
 using Erp.Data;
 using Microsoft.AspNetCore.Identity;
 using Erp.Data.Entities;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
 
 namespace Erp.Repository
 {
     public class InventoryRepository : Repository<Inventory, DataDbContext>, IInventoryRepository
     {
-        public InventoryRepository(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
+        public InventoryRepository(IConfiguration config, ILogger<InventoryRepository> ilogger, IHttpContextAccessor httpContextAccessor,  AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager)
+            : base(config, ilogger, httpContextAccessor, management, datadbContext, accountDbContext, userManager)
         {
+            Console.WriteLine("here" + httpContextAccessor.HttpContext.User.Identity.Name);
 
         }
 
@@ -27,7 +32,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.searchInventories(out InventoryPtr, key, value, error);
+                int number_fields = Warehouse_Wrapper.searchInventories(out InventoryPtr, key, value, error, _ConnectionString);
 
                 IntPtr current = InventoryPtr;
                 for (int i = 0; i < number_fields; ++i)

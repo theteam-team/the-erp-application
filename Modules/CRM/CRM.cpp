@@ -13,7 +13,7 @@ int qstate;
 #define USER "root" //your username
 //#define PASSWORD "rana"//your password for mysql
 //#define PASSWORD "root" //your password for mysql
-#define PASSWORD "0198484014###"
+#define PASSWORD "123456789pp"
 #define DATABASE "erp" //d	atabase name
 MYSQL* conn;
 MYSQL_ROW row;

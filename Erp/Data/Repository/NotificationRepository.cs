@@ -1,5 +1,4 @@
 ﻿using Erp.Data;
-using Erp.Hups;
 using Erp.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
@@ -10,6 +9,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Erp.Data.Entities;
+using Erp.Hubs;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace Erp.Repository
 {
@@ -19,7 +22,8 @@ namespace Erp.Repository
         private AccountDbContext _context;
         private Management _management;
 
-        public NotificationRepository(IHubContext<NotificationHub> hubContext, AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
+        public NotificationRepository(IConfiguration config, ILogger<NotificationRepository> ilogger, IHttpContextAccessor httpContextAccessor, IHubContext<NotificationHub> hubContext, AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager)
+            : base(config, ilogger, httpContextAccessor, management, datadbContext, accountDbContext, userManager)
         {
             _notificationHubContext = hubContext;
             _context = accountDbContext;
@@ -61,7 +65,8 @@ namespace Erp.Repository
         private AccountDbContext _context;
         private Management _management;
 
-        public NotificationResponseRepositroy(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
+        public NotificationResponseRepositroy(IConfiguration config, ILogger<NotificationResponseRepositroy> ilogger, IHttpContextAccessor httpContextAccessor, IHubContext<NotificationHub> hubContext, AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager)
+            : base(config, ilogger, httpContextAccessor, management, datadbContext, accountDbContext, userManager)
         {
             _context = accountDbContext;
             _management = management;

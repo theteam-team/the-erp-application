@@ -10,14 +10,17 @@ using Erp.ModulesWrappers;
 using Erp.Data;
 using Microsoft.AspNetCore.Identity;
 using Erp.Data.Entities;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
 
 namespace Erp.Repository
 {
     public class ProductRepository : Repository<Product, DataDbContext>, IProductRepository
     {
-        public ProductRepository(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
+        public ProductRepository(IConfiguration config, ILogger<Repository.Repository<Product, DataDbContext>> ilogger, IHttpContextAccessor httpContextAccessor, AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(config, ilogger, httpContextAccessor, management, datadbContext, accountDbContext, userManager)
         {
-
+           
         }
 
         public async Task<List<Product>> SearchByCategory(string value, byte[] error)
@@ -27,7 +30,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.searchByCategory(out ProductPtr, value, error);
+                int number_fields = Warehouse_Wrapper.searchByCategory(out ProductPtr, value, error, _ConnectionString);
 
                 IntPtr current = ProductPtr;
                 for (int i = 0; i < number_fields; ++i)
@@ -49,7 +52,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.searchProducts(out ProductPtr, key, value, error);
+                int number_fields = Warehouse_Wrapper.searchProducts(out ProductPtr, key, value, error, _ConnectionString);
 
                 IntPtr current = ProductPtr;
                 for (int i = 0; i < number_fields; ++i)
@@ -68,13 +71,13 @@ namespace Erp.Repository
         {
             int status = 0;
             Product product = (Product)(object)(entity);
-            status = await Task.Run(() => Warehouse_Wrapper.editProduct(product, error));
+            status = await Task.Run(() => Warehouse_Wrapper.editProduct(product, error, _ConnectionString));
             return status;
         }
 
         public async Task<int> addToStock(string id, int newUnits, byte[] error)
         {
-            return await Task.Run(() => Warehouse_Wrapper.addToStock(id, newUnits, error));
+            return await Task.Run(() => Warehouse_Wrapper.addToStock(id, newUnits, error, _ConnectionString));
         }
 
         public async Task<List<ProductSold>> getSoldProduct(byte[] error)

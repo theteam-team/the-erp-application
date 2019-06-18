@@ -1,3 +1,4 @@
+using Erp.Data;
 using Erp.Interfaces;
 using Erp.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -14,6 +15,7 @@ namespace Erp.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class WarehouseApiController : ControllerBase
     {
         private readonly IProductRepository _iProductRepository;
@@ -22,8 +24,9 @@ namespace Erp.Controllers
         private readonly IInventoryRepository _inventoryRepository;
         private readonly IInventoryProductRepository _inventoryProductRepository;
 
-        public WarehouseApiController(IProductRepository iProductRepository, IOrderRepository orderRepository, IOrderProductRepository orderProductRepository, IInventoryRepository inventoryRepository, IInventoryProductRepository inventoryProductRepository)
+        public WarehouseApiController(Test test , IProductRepository iProductRepository, IOrderRepository orderRepository, IOrderProductRepository orderProductRepository, IInventoryRepository inventoryRepository, IInventoryProductRepository inventoryProductRepository)
         {
+
             _iProductRepository = iProductRepository;
             _orderRepository = orderRepository;
             _orderProductRepository = orderProductRepository;
