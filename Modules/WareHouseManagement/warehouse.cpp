@@ -19,10 +19,10 @@ using namespace std;
 #define USER "root" //your username
 #define PASSWORD "rana" //your password for mysql
 #define DATABASE "erp" //database name*/
-#define SERVER "mysqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com"
+/*#define SERVER "mysqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com"
 #define USER "mySQLadmin" //your username
 #define PASSWORD "mySQLpass123" //your password for mysql
-#define DATABASE "ERP" //database name
+#define DATABASE "ERP" //database name*/
 
 int status;
 int qstate;
