@@ -1,3 +1,4 @@
+using Erp.Data;
 using Erp.Interfaces;
 using Erp.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -14,17 +15,40 @@ namespace Erp.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class WarehouseApiController : ControllerBase
     {
         private readonly IProductRepository _iProductRepository;
         private readonly IOrderRepository _orderRepository;
         private readonly IOrderProductRepository _orderProductRepository;
+        private readonly IInventoryRepository _inventoryRepository;
+        private readonly IInventoryProductRepository _inventoryProductRepository;
 
-        public WarehouseApiController(IProductRepository iProductRepository, IOrderRepository orderRepository, IOrderProductRepository orderProductRepository)
+        public WarehouseApiController(Test test , IProductRepository iProductRepository, IOrderRepository orderRepository, IOrderProductRepository orderProductRepository, IInventoryRepository inventoryRepository, IInventoryProductRepository inventoryProductRepository)
         {
+
             _iProductRepository = iProductRepository;
             _orderRepository = orderRepository;
             _orderProductRepository = orderProductRepository;
+            _inventoryRepository = inventoryRepository;
+            _inventoryProductRepository = inventoryProductRepository;
+        }
+
+        [HttpPost("AddInventory")]
+        public async Task<ActionResult<string>> AddInventory(Inventory inventory)
+        {
+            byte[] error = new byte[500];
+            int status = await _inventoryRepository.Create(inventory, error);
+            string z = System.Text.Encoding.ASCII.GetString(error);
+            if (status != 0)
+            {
+
+                return BadRequest(z.Remove(z.IndexOf('\0')));
+            }
+            else
+            {
+                return Ok("successfuly added");
+            }
         }
 
         [HttpPost("AddProduct")]
@@ -66,6 +90,23 @@ namespace Erp.Controllers
         {
             byte[] error = new byte[500];
             int status = await _orderProductRepository.Create(product, error);
+            string z = System.Text.Encoding.ASCII.GetString(error);
+            if (status != 0)
+            {
+
+                return BadRequest(z.Remove(z.IndexOf('\0')));
+            }
+            else
+            {
+                return Ok("successfuly added");
+            }
+        }
+
+        [HttpPost("AddProductToInventory")]
+        public async Task<ActionResult<string>> AddProductToInventory(ProductInInventory product)
+        {
+            byte[] error = new byte[500];
+            int status = await _inventoryProductRepository.Create(product, error);
             string z = System.Text.Encoding.ASCII.GetString(error);
             if (status != 0)
             {
@@ -129,6 +170,23 @@ namespace Erp.Controllers
             }
         }
 
+        [HttpPut("EditProductInInventory")]
+        public async Task<ActionResult<string>> EditProductInInventory(ProductInInventory product)
+        {
+            byte[] error = new byte[500];
+            int status = await _inventoryProductRepository.EditProductInInventory(product, error);
+            string z = System.Text.Encoding.ASCII.GetString(error);
+            if (status != 0)
+            {
+
+                return BadRequest(z.Remove(z.IndexOf('\0')));
+            }
+            else
+            {
+                return Ok("successfuly added");
+            }
+        }
+
         [HttpPut("AddToStock/{id}")]
         public async Task<ActionResult<int>> AddToStock(string id, int newUnits)
         {
@@ -162,6 +220,24 @@ namespace Erp.Controllers
             else
             {
                 return BadRequest(y);
+            }
+        }
+
+        [HttpDelete("DeleteInventory/{id}")]
+        public async Task<ActionResult<string>> DeleteInventory(string id)
+        {
+
+            byte[] error = new byte[500];
+            int status = await _inventoryRepository.Delete(id, error);
+            string z = System.Text.Encoding.ASCII.GetString(error);
+            if (status != 0)
+            {
+
+                return BadRequest(z.Remove(z.IndexOf('\0')));
+            }
+            else
+            {
+                return Ok("successfuly deleted");
             }
         }
 
@@ -219,6 +295,24 @@ namespace Erp.Controllers
             }
         }
 
+        [HttpDelete("DeleteProductFromInventory/{iid}/{pid}")]
+        public async Task<ActionResult<string>> DeleteProductFromInventory(string iID, string pID)
+        {
+
+            byte[] error = new byte[500];
+            int status = await _inventoryProductRepository.DeleteProductFromInventory(iID, pID, error);
+            string z = System.Text.Encoding.ASCII.GetString(error);
+            if (status != 0)
+            {
+
+                return BadRequest(z.Remove(z.IndexOf('\0')));
+            }
+            else
+            {
+                return Ok("successfuly deleted");
+            }
+        }
+
         [HttpGet("GetProductById/{id}")]
         public async Task<ActionResult<Product>> GetProduct(string id)
         {
@@ -248,6 +342,42 @@ namespace Erp.Controllers
             {
 
                 return Ok(order);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+
+        [HttpGet("ShowInventories")]
+        public async Task<ActionResult<List<Inventory>>> ShowInventories()
+        {
+            byte[] error = new byte[500];
+            List<Inventory> inventories = await _inventoryRepository.GetAll(error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(inventories);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+
+        [HttpGet("ShowProductsInInventory/{id}")]
+        public async Task<ActionResult<List<ProductInInventory>>> ShowProductsInInventory(string id)
+        {
+            byte[] error = new byte[500];
+            List<ProductInInventory> products = await _inventoryProductRepository.ShowProductsInInventory(id, error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(products);
             }
             else
             {
@@ -357,6 +487,42 @@ namespace Erp.Controllers
             {
 
                 return Ok(orders);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+
+        [HttpGet("SearchProducts/category/{value}")]
+        public async Task<ActionResult<List<Product>>> SearchByCategory(string value)
+        {
+            byte[] error = new byte[500];
+            List<Product> products = await _iProductRepository.SearchByCategory(value, error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(products);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+
+        [HttpGet("SearchInventories/{key}/{value}")]
+        public async Task<ActionResult<List<Product>>> SearchInventories(string key, string value)
+        {
+            byte[] error = new byte[500];
+            List<Inventory> inventories = await _inventoryRepository.SearchInventories(key, value, error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(inventories);
             }
             else
             {

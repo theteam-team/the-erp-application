@@ -1,7 +1,7 @@
 <app-warehouse></app-warehouse>
 
 <div class="row">
-    <button class="btn1 col-md-2 offset-md-3" type="button" (click)="addOrder()">Add Order</button>
+    <button class="btn1 col-md-2 offset-md-3" type="button" (click)="addOrder()">Create Order</button>
     <div class="col-md-6 offset-md-3">
         <div class="input-group" id="adv-search">
             <input type="text" class="form-control" placeholder="Search for Orders" />
@@ -52,9 +52,7 @@
         <tbody class="order-info" *ngFor="let o of orders">
             <tr>
                 <td style="width:70px">
-                    <button class="btn4" type="button" (click)="deleteOrder(o.id)">
-                        <span class="glyphicon glyphicon-remove"></span>
-                    </button>
+                    <button class="btn4" type="button" (click)="deleteOrder(o.id)">x</button>
                 </td>
                 <td><button class="btn4" type="button" (click)="onOrderClick(o.id)">{{ o.id }}</button></td>
                 <td>{{ o.customerID }}</td>

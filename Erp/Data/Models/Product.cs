@@ -15,8 +15,16 @@ namespace Erp.Models
         public uint unitsInOrder;
         public double price;
         public double totalPrice;
-
-
-
+        public string description;
+        [Required]
+//        public double price;
+        public double weight;
+        public double length;
+        public double width;
+        public double height;
+        [Required]
+        public uint unitsInStock;
+        public uint sold;
+        public uint purchased;
     }
 }

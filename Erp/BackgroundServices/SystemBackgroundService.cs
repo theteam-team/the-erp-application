@@ -47,7 +47,7 @@ namespace Erp.BackgroundServices
             {
                
                 await sendMail();
-                Thread.Sleep(2000);
+                Thread.Sleep(50000000);
 
             }
 

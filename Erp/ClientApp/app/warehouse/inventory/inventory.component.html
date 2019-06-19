@@ -1,0 +1,25 @@
+<app-warehouse></app-warehouse>
+
+<h3>Inventory {{ inventoryID }}</h3>
+
+<div class="row">
+    <div class="product-info col-md-3" *ngFor="let p of productsInInventory">
+        <div class="border rounded p-3">
+            <input type="image" class="image-upload" src="https://img.icons8.com/ios/50/000000/compact-camera.png" />
+            <!--<div class="js--image-preview"></div>
+    <!----<div class="upload-options">
+        <label>
+            <input type="file" class="image-upload" accept="image/*" />
+        </label>
+    </div>-->
+            <ul class="product-props">
+                <li><h3>{{ p.name }}</h3></li>
+                <li>Position: {{ p.position }}</li>
+                <li>Size: {{ p.length }}*{{ p.width }}*{{ p.height }}</li>
+            </ul>
+            <input #units type="text" id="units" name="units" value={{ p.unitsInInventory }}/>
+            <button class="btn2" type="button" (click)="onSave(p.id, units.value)">Save</button>
+            <button class="btn2" type="button" (click)="deleteProduct(p.id)">Delete</button>
+        </div>
+    </div>
+</div>

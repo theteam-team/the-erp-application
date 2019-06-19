@@ -10,24 +10,18 @@ using System;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Reflection;
 using System.IO;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Erp.Interfaces;
-using Erp.Models;
-
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Collections.Generic;
 using Erp.Hubs;
-using Erp.Hups;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Erp.BackgroundServices;
-using System.Net.Mail;
-using System.Net;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Erp.Repository;
 using Erp.Data.Entities;
+using Erp.Database_Builder;
+using Microsoft.AspNetCore.Http;
 
 namespace Erp
 {
@@ -59,27 +53,13 @@ namespace Erp
         /// <param name="services">The Services container </param>
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddHostedService<ConsumeScopedServiceHostedService>();
-            //services.AddScoped<IScopedProcessingService, ScopedProcessingService>();
-            //services.AddHostedService<QueuedHostedService>();
-            /*services.AddScoped<SmtpClient>((serviceProvider) =>
-            {
-                var config = serviceProvider.GetRequiredService<IConfiguration>();
-                return new SmtpClient()
-                {
-                    Host = config.GetValue<String>("Email:Smtp:Host"),
-                    Port = config.GetValue<int>("Email:Smtp:Port"),
-                    Credentials = new NetworkCredential(
-                            config.GetValue<String>("Email:Smtp:Username"),
-                            config.GetValue<String>("Email:Smtp:Password")
-                        )
-                };
-            });*/
 
+            services.AddHttpContextAccessor();
             services.AddHostedService<SystemBackgroundService>();
             services.AddHostedService<BmService>();
             services.AddSingleton<BmExectionQueue>();
-            //services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
+            services.AddSingleton<ModulesDatabaseBuilder>();
+            services.AddTransient<Test>();
             services.AddTransient<INodeLangRepository, NodeLangRepository>();
             services.AddSignalR();           
             services.AddTransient<ICustomerRepository, CustomerRepository>();
@@ -96,36 +76,44 @@ namespace Erp
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IOrderProductRepository, OrderProductRepository>();
+            services.AddTransient<IInventoryRepository, InventoryRepository>();
+            services.AddTransient<IInventoryProductRepository, InventoryProductRepository>();
             services.AddDbContext<AccountDbContext>(options =>
                 //options.UseLoggerFactory(MyLoggerFactory),
                 options.UseSqlServer(_config.GetConnectionString("DefaultConnection")));
-            services.AddDbContext<DataDbContext>(/*options =>
-                options.UseSqlServer(_config.GetConnectionString("DataDbConnection"))*/);
-            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
-            {
-                options.Password.RequiredLength = 5;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireDigit = false;
-            })
+            services.AddDbContext<DataDbContext>();
+            services.AddIdentity<ApplicationUser, ApplicationRole>(
+                options =>
+                    {
+                        options.Password.RequiredLength = 5;
+                        options.Password.RequireLowercase = false;
+                        options.Password.RequireUppercase = false;
+                        options.Password.RequireNonAlphanumeric = false;
+                        options.Password.RequireDigit = false;
+                    })
                 
                     .AddEntityFrameworkStores<AccountDbContext>()
                     .AddDefaultTokenProviders();
             services.AddAuthentication()                  
-                .AddCookie()
-                .AddJwtBearer(cfg => 
-                    {
-                        cfg.SaveToken = true;
-                        cfg.RequireHttpsMetadata = true;
-                        cfg.TokenValidationParameters = new TokenValidationParameters()
+                    .AddCookie()
+                    .AddJwtBearer(cfg => 
                         {
-                            ValidateIssuer = true,
-                            ValidIssuer = _config["Tokens:Issuer"],
-                            ValidAudience = _config["Tokens:Audience"],                       
-                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]))
-                        };
-                    });
+                            cfg.SaveToken = true;
+                            cfg.RequireHttpsMetadata = true;
+                            cfg.TokenValidationParameters = new TokenValidationParameters()
+                            {
+                                ValidateIssuer = true,
+                                ValidIssuer = _config["Tokens:Issuer"],
+                                ValidAudience = _config["Tokens:Audience"],                       
+                                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]))
+                            };
+                        });
+
+            //services.Configure<SecurityStampValidatorOptions>(options =>
+            //{
+            //    options.ValidationInterval = TimeSpan.FromMinutes(1);
+            //});
+           
             //add the management as a scoped service ,a new object per each new request, to the service Container to use it by the dependency injection 
             services.AddScoped<Management>();
             //enahance the management system by adding the policy-based-authorization
@@ -136,7 +124,7 @@ namespace Erp
             //add the session services to enable the store of the user data in memory beyond the http request life span
             services.AddSession();
             services.AddDistributedMemoryCache();
-
+            
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             //Configure the API info and description

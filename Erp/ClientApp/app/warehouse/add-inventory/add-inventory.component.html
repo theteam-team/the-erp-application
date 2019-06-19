@@ -1,0 +1,45 @@
+<app-warehouse></app-warehouse>
+
+<form #inventoryForm="ngForm" (ngSubmit)="saveInventory(inventoryForm)">
+    <div class="panel panel-primary col-md-9">
+        <div class="panel-heading">
+            <h3>Add New Inventory</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="col-md-6 offset-md-2" for="id">Inventory ID</label>
+                <input class="form-control col-md-6 offset-md-2" id="id" name="id" [(ngModel)]="id" type="text" placeholder="ID" />
+            </div>
+            <div class="form-group">
+                <label class="col-md-6 offset-md-2" for="governorate">Governorate</label>
+                <input class="form-control col-md-6 offset-md-2" id="governorate" name="governorate" [(ngModel)]="governorate" type="text" placeholder="Governorate" />
+            </div>
+            <div class="form-group">
+                <label class="col-md-6 offset-md-2" for="city">City</label>
+                <input class="form-control col-md-6 offset-md-2" id="city" name="city" [(ngModel)]="city" type="text" placeholder="City" />
+            </div>
+            <div class="form-group">
+                <label class="col-md-6 offset-md-2" for="street">Street</label>
+                <input class="form-control col-md-6 offset-md-2" id="street" name="street" [(ngModel)]="street" type="text" placeholder="Street" />
+            </div>
+            <div class="form-group">
+                <label class="col-md-6 offset-md-2" for="length">Inventory Length</label>
+                <input class="form-control col-md-6 offset-md-2" id="length" name="length" [(ngModel)]="length" type="text" placeholder="Length" />
+            </div>
+            <div class="form-group">
+                <label class="col-md-6 offset-md-2" for="width">Inventory Width</label>
+                <input class="form-control col-md-6 offset-md-2" id="width" name="width" [(ngModel)]="width" type="text" placeholder="Width" />
+            </div>
+            <div class="form-group">
+                <label class="col-md-6 offset-md-2" for="height">Inventory Height</label>
+                <input class="form-control col-md-6 offset-md-2" id="height" name="height" [(ngModel)]="height" type="text" placeholder="Height" />
+            </div>
+        </div>
+        <div class="panel-footer">
+            <button type="submit" class="btn btn-primary col-md-2 offset-md-4">Save</button>
+        </div>
+    </div>
+</form>
+<div>
+    <button class="btn2 col-md-2" type="button" (click)="goToInventories()">Cancel</button>
+</div>

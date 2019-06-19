@@ -8,6 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
 
 namespace Erp.Repository
 {
@@ -15,10 +18,12 @@ namespace Erp.Repository
     {
         private AccountDbContext _accountDbContext;
 
-        public ProcRequestRepo(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
+        public ProcRequestRepo(IConfiguration config, ILogger<ProcRequestRepo> ilogger, IHttpContextAccessor httpContextAccessor, AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(config, ilogger, httpContextAccessor, management, datadbContext, accountDbContext, userManager)
         {
             _accountDbContext = accountDbContext;
+            
         }
+       
         public override async Task<ProcRequest> GetById(object id)
         {
             string name = (string)id;

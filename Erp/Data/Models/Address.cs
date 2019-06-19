@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Erp.Models
 {
     [StructLayout(LayoutKind.Sequential)]
-    public unsafe class Address
+    public  class Address
     {
         public uint id;
         public string city;

@@ -10,17 +10,22 @@ using Erp.ModulesWrappers;
 using Erp.Data;
 using Microsoft.AspNetCore.Identity;
 using Erp.Data.Entities;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
 
 namespace Erp.Repository
 {
     public class CustomerRepository : Repository<Customer, DataDbContext>, ICustomerRepository
     {
-        public CustomerRepository(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
+        public CustomerRepository(IConfiguration config, ILogger<CustomerRepository> ilogger, IHttpContextAccessor httpContextAccessor, AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager)
+              : base(config, ilogger, httpContextAccessor, management, datadbContext, accountDbContext, userManager)
         {
 
         }
         public async Task<List<Customer>> getCustomerById(string id, byte[] error)
         {
+            Console.WriteLine("Hereeee");
             List<Customer> customers = new List<Customer>();
             IntPtr CustomerPtr;
             await Task.Run(() =>

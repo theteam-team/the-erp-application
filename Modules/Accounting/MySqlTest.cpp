@@ -11,10 +11,10 @@
 #include <mysql.h>
 #pragma warning(disable : 4996)
 using namespace std;
-#define SERVER "localhost"
-#define USER "root" //your username
-#define PASSWORD "0198484014###" //your password for mysql
-#define DATABASE "erp" //database name
+#define SERVER "mysqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com"
+#define USER "mySQLadmin" //your username
+#define PASSWORD "mySQLpass123" //your password for mysql
+#define DATABASE "ERP" //database name
 
 MYSQL* conn;
 MYSQL_ROW row;

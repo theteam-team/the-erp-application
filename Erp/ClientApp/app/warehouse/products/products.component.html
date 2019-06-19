@@ -1,7 +1,7 @@
 <app-warehouse></app-warehouse>
 
 <div class="row">
-    <button class="btn1 col-md-2 offset-md-3" type="button" (click)="addProduct()">Add Product</button>
+    <button class="btn1 col-md-2 offset-md-3" type="button" (click)="addProduct()">New Product</button>
     <div class="col-md-6 offset-md-3">
         <div class="input-group" id="adv-search">
             <input type="text" class="form-control" placeholder="Search for products" />
@@ -16,7 +16,6 @@
                                     <select class="form-control" id="sKey" name="sKey" [(ngModel)]="sKey">
                                         <option value="Product_ID" selected>ID</option>
                                         <option value="Product_Name">Name</option>
-                                        <option value="Product_Position">Position</option>
                                         <option value="Product_Price">Price</option>
                                     </select>
                                 </div>
@@ -32,6 +31,11 @@
             </div>
         </div>
     </div>
+</div>
+<div>
+    <button class="btn2" type="button" (click)="displayAllProducts()">All</button>
+    <button class="btn2" type="button" (click)="searchByCategory('1')">Sold</button>
+    <button class="btn2" type="button" (click)="searchByCategory('2')">Purchased</button>
 </div>
 <div class="row">
     <div class="product-info col-md-3" *ngFor="let p of products">

@@ -19,5 +19,6 @@ namespace Erp.Models
         public string customerID;
         public string paymentID;
         public double totalPrice;
+        public string shipmentID;
     }
 }

@@ -21,6 +21,7 @@ namespace Erp.Controllers
         private readonly ICustomerRepository _iCustomerRepository;
         public AccountingApiController(ICustomerRepository iCustomerRepository, IProductRepository iProductRepository, IOrderRepository orderRepository, IOrderProductRepository orderProductRepository)
         {
+            _iCustomerRepository = iCustomerRepository;
             _iProductRepository = iProductRepository;
             _orderRepository = orderRepository;
             _orderProductRepository = orderProductRepository;
@@ -66,18 +67,27 @@ namespace Erp.Controllers
         [HttpGet("GetCustomerById/{id}")]
         public async Task<ActionResult<List<Customer>>> getCustomerById(string id)
         {
-            byte[] error = new byte[500];
-            List<Customer> customer = await _iCustomerRepository.getCustomerById(id, error);
-            string z = Encoding.ASCII.GetString(error);
-            string y = z.Remove(z.IndexOf('\0'));
-            if (y == "")
+            try
             {
 
-                return Ok(customer);
+                byte[] error = new byte[500];
+                List<Customer> customer = await _iCustomerRepository.getCustomerById(id, error);
+                string z = Encoding.ASCII.GetString(error);
+                string y = z.Remove(z.IndexOf('\0'));
+                if (y == "")
+                {
+
+                    return Ok(customer);
+                }
+                else
+                {
+                    return BadRequest(y);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest(y);
+                return BadRequest(ex.Message);
+                throw;
             }
         }
 

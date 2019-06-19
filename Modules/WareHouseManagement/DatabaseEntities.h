@@ -1,14 +1,60 @@
 #pragma once
+
+struct Inventory
+{
+	char* id;
+	char* governorate;
+	char* city;
+	char* street;
+	double length;
+	double width;
+	double height;
+};
+struct ConnectionString
+{
+	char* SERVER;
+	char* USER;
+	char* PORT;
+	char* PASSWORD;
+	char* DATABASE;
+	
+};
+
+
 struct Product
 {
 	char* id;
 	char* name;
 	char* description;
-	char* position;
 	double price;
-	double size;
 	double weight;
+	double length;
+	double width;
+	double height;
 	unsigned int unitsInStock;
+	unsigned int sold;
+	unsigned int purchased;
+};
+
+struct ProductInInventory
+{
+	char* inventoryID;
+	char* productID;
+	char* name;
+	char* position;
+	double weight;
+	double length;
+	double width;
+	double height;
+	unsigned int unitsInInventory;
+};
+
+struct ProductInOrder
+{
+	char* orderID;
+	char* productID;
+	unsigned int unitsOrdered;
+	unsigned int unitsDone;
 };
 
 struct Order 
@@ -19,12 +65,5 @@ struct Order
 	char* orderStatus;
 	char* customerID;
 	char* paymentID;
-};
-
-struct ProductInOrder
-{
-	char* orderID;
-	char* productID;
-	unsigned int unitsOrdered;
-	unsigned int unitsDone;
+	char* shipmentID;
 };

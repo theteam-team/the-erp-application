@@ -37,6 +37,15 @@ export class ProductsComponent implements OnInit {
             })
     }
 
+    searchByCategory(value): void {
+        this.data.searchByCategory(value)
+            .subscribe(success => {
+                if (success) {
+                    this.products = this.data.products;
+                }
+            })
+    }
+
     searchProducts(sForm: NgForm): void {
         console.log(sForm.value);
         this.data.searchProducts(sForm.value.sKey, sForm.value.sValue)

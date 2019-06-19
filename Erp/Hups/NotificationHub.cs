@@ -8,7 +8,7 @@ using Erp.Interfaces;
 using Erp.Data;
 using Erp.Data.Entities;
 
-namespace Erp.Hups
+namespace Erp.Hubs
 {
     public class NotificationHub : Hub
     {
