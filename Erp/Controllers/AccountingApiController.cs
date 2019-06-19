@@ -19,11 +19,12 @@ namespace Erp.Controllers
         private readonly IOrderRepository _orderRepository;
         private readonly IOrderProductRepository _orderProductRepository;
         private readonly ICustomerRepository _iCustomerRepository;
-        public AccountingApiController(IProductRepository iProductRepository, IOrderRepository orderRepository, IOrderProductRepository orderProductRepository)
+        public AccountingApiController(ICustomerRepository iCustomerRepository, IProductRepository iProductRepository, IOrderRepository orderRepository, IOrderProductRepository orderProductRepository)
         {
             _iProductRepository = iProductRepository;
             _orderRepository = orderRepository;
             _orderProductRepository = orderProductRepository;
+            _iCustomerRepository = iCustomerRepository;
         }
 
         [HttpGet("GetSoldProduct")]
@@ -73,6 +74,42 @@ namespace Erp.Controllers
             {
 
                 return Ok(customer);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+
+        [HttpGet("getCustomerOrders/{id}")]
+        public async Task<ActionResult<List<Order>>> getCustomerOrders(string id)
+        {
+            byte[] error = new byte[500];
+            List<Order> order = await _iCustomerRepository.getCustomerOrders(id, error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(order);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+
+        [HttpGet("getOrderProducts/{id}")]
+        public async Task<ActionResult<List<Product>>> getOrderProducts(string id)
+        {
+            byte[] error = new byte[500];
+            List<Product> product = await _iProductRepository.getOrderProducts(id, error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(product);
             }
             else
             {

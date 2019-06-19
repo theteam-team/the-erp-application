@@ -1,31 +1,84 @@
 ﻿<div class="row container-fluid">
     <accounting-body></accounting-body>
+    <div class="row container-fluid">
+        <input class="col col-md-2" #newHero placeholder="Enter customer ID">
+        <button class="col col-md-3 form-control btn-outline-info" (click)="loadCustomerByID(newHero.value);showO = false;showP = false;">Search</button>
+    </div>
+</div>
 
-    <div class="col-md-4 bg-light m-2 p-2 card card-body">
-        <div class="row">
-            <h6 class="text-left col m-2 p-2"><strong>Your Balance</strong></h6>
-            <a class="text-right col m-2 p-2" data-toggle="tab" href="#nav-Wallet" style="color:DodgerBlue;">Details</a>
-        </div>
-        <p class="m-2 p-2" style="color:#566573;">You don't need a balance to shop or send payments</p>
-        <h6 class="text-left col m-2 p-2"><strong>Currencies</strong></h6>
-        <h6 class="text-center">{{money}} 0.00 EUR</h6>
-    </div>
-    <div class="col-md-7 bg-light m-2 p-2 card card-body">
-        <div class="row">
-            <a class="text-left col m-2 p-2" href="#nav-Activity" style="color:DodgerBlue;">Recent Activity</a>
-        </div>
-        <p class="m-2 p-2" style="color:#17202A;">
-            Keep track of your most recent stuff here when you shop, send, or receive payments.
-            Don’t see a past payment? Search by date in your <a href="#"></a><br />
-        </p>
-    </div>
+<div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th style="width:70px"></th>
+                <th>Customer_ID</th>
+                <th>Customer_Name</th>
+                
+            </tr>
+        </thead>
+        <tbody class="order-info" *ngFor="let c of customer">
+            <tr>
+                <td>{{c.customer_id}}</td>
+                <td>{{c.name}}</td>
+                
+                <td> <button class = "form-control btn-outline-info" (click)="loadCustomerOrders(c.customer_id); showO = true; showP = false"> show orders </button> </td>
+
+            </tr>
+        </tbody>
+    </table>
 </div>
-<div class="row container-fluid">
-    <div class="col-md-4 bg-light m-2 p-2 card card-body">
-        <div class="row">
-            <h6 class="text-left col m-2 p-2"><strong>Bank accounts and cards</strong></h6>
+<div class="row container-fluid" *ngIf="showO; else elseBlock">
+    <div class="col-md-4 well well-sm" *ngFor="let co of customer_orders">
+        <div class="card bg-light m-1 p-2">
+            <div> Order id : {{ co.id }}</div>
+            <div> requiredDate : {{ co.requiredDate }}</div>
+            <div> completedDate : {{ co.completedDate }}</div>
+            <div> orderStatus : {{ co.orderStatus }}</div>
+            <div> paymentID : {{ co.paymentID }}</div>
         </div>
-        <p class="m-2 p-2" style="color:#566573;">Add your card - we help keep your information more secure.</p>
-        <button type="button" class="btn btn-outline-info m-2 p-2"> Add a bank account</button>
+        <button class="form-control btn-outline-info mt-5" (click)="loadOrderProducts(co.id);showP = true">Show products</button>
     </div>
+    
 </div>
+<div class="row container-fluid mt-4" *ngIf="showP; else elseBlock">
+    <div  class="col-md-3 well well-sm" *ngFor="let op of order_products">
+        <div class="card bg-light m-1 p-2">
+            <div> Product id : {{ op.id }}</div>
+            <div> name : {{ op.name }}</div>
+            <div> units : {{ op.unitsInOrder }}</div>
+            <div> price : {{ op.price }}</div>
+          
+        </div>
+        
+    </div>
+    <button (click)="showO = false; showP = false" class="form-control btn-outline-info mt-5">close </button>
+</div>
+        <!--
+        <div class="col-md-4 bg-light m-2 p-2 card card-body">
+            <div class="row">
+                <h6 class="text-left col m-2 p-2"><strong>Your Balance</strong></h6>
+                <a class="text-right col m-2 p-2" data-toggle="tab" href="#nav-Wallet" style="color:DodgerBlue;">Details</a>
+            </div>
+            <p class="m-2 p-2" style="color:#566573;">You don't need a balance to shop or send payments</p>
+            <h6 class="text-left col m-2 p-2"><strong>Currencies</strong></h6>
+            <h6 class="text-center">{{money}} 0.00 EUR</h6>
+        </div>
+        <div class="col-md-7 bg-light m-2 p-2 card card-body">
+            <div class="row">
+                <a class="text-left col m-2 p-2" href="#nav-Activity" style="color:DodgerBlue;">Recent Activity</a>
+            </div>
+            <p class="m-2 p-2" style="color:#17202A;">
+                Keep track of your most recent stuff here when you shop, send, or receive payments.
+                Don’t see a past payment? Search by date in your <a href="#"></a><br />
+            </p>
+        </div>
+    </div>
+    <div class="row container-fluid">
+        <div class="col-md-4 bg-light m-2 p-2 card card-body">
+            <div class="row">
+                <h6 class="text-left col m-2 p-2"><strong>Bank accounts and cards</strong></h6>
+            </div>
+            <p class="m-2 p-2" style="color:#566573;">Add your card - we help keep your information more secure.</p>
+            <button type="button" class="btn btn-outline-info m-2 p-2"> Add a bank account</button>
+        </div>
+        -->

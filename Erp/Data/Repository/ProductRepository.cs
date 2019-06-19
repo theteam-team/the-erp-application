@@ -100,6 +100,25 @@ namespace Erp.Repository
 
         }
 
+        public async Task<List<Product>> getOrderProducts(string id, byte[] error)
+        {
+            List<Product> products = new List<Product>();
+            IntPtr OrderProductPtr;
+
+            await Task.Run(() =>
+            {
+                int number_fields = Accounting_Wrapper.getOrderProducts(id, out OrderProductPtr, error);
+                IntPtr current = OrderProductPtr;
+                for (int i = 0; i < number_fields; ++i)
+                {
+                    Product product = (Product)Marshal.PtrToStructure(current, typeof(Product));
+                    current = (IntPtr)((long)current + Marshal.SizeOf(product));
+                    products.Add(product);
+                }
+                Marshal.FreeCoTaskMem(OrderProductPtr);
+            });
+            return products;
+        }
         //public async Task<int> updateProductInfo(string id, string key, string value, byte[] error)
         //{
         //    //byte[] id = Encoding.ASCII.GetBytes(id);

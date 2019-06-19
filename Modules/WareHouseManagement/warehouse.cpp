@@ -95,7 +95,7 @@ int deleteAll(char* id, char* error) {
 	}
 	return status;
 }
-extern "C"	ERP_API int addToStock(char* id, int newUnits, char* error) {
+extern "C" ERP_API int addToStock(char* id, int newUnits, char* error) {
 
 	int units = 0;
 	status = 0;
@@ -116,7 +116,7 @@ extern "C"	ERP_API int addToStock(char* id, int newUnits, char* error) {
 	}
 	return status;
 }
-extern "C"	ERP_API int removeFromStock(ProductInOrder* product, char* error) {
+extern "C" ERP_API int removeFromStock(ProductInOrder* product, char* error) {
 
 	int units;
 	status = 0;
@@ -136,7 +136,7 @@ extern "C"	ERP_API int removeFromStock(ProductInOrder* product, char* error) {
 	}
 	return status;
 }
-extern "C"	ERP_API int addProduct(Product* product, char* error)
+extern "C" ERP_API int addProduct(Product* product, char* error)
 {
 	status = 0;
 	db_response::ConnectionFunction(error);
@@ -152,7 +152,7 @@ extern "C"	ERP_API int addProduct(Product* product, char* error)
 	}
 	return status;
 }
-extern "C"	ERP_API int addOrder(Order* order, char* error)
+extern "C" ERP_API int addOrder(Order* order, char* error)
 {
 	status = 0;
 	db_response::ConnectionFunction(error);
@@ -229,7 +229,7 @@ extern "C" ERP_API int editProductInOrder(ProductInOrder* product, char* error)
 	}
 	return status;
 }
-extern "C"	ERP_API int deleteProduct(char * id, char* error) {
+extern "C" ERP_API int deleteProduct(char * id, char* error) {
 	status = 0;
 	db_response::ConnectionFunction(error);
 
@@ -244,7 +244,7 @@ extern "C"	ERP_API int deleteProduct(char * id, char* error) {
 	}
 	return status;
 }
-extern "C"	ERP_API int deleteOrder(char * id, char* error) {
+extern "C" ERP_API int deleteOrder(char * id, char* error) {
 
 	deleteAll(id, error);
 
@@ -263,7 +263,7 @@ extern "C"	ERP_API int deleteOrder(char * id, char* error) {
 	}
 	return status;
 }
-extern "C"	ERP_API int deleteProductFromOrder(char * oID, char* pID, char* error) {
+extern "C" ERP_API int deleteProductFromOrder(char * oID, char* pID, char* error) {
 	status = 0;
 	db_response::ConnectionFunction(error);
 
@@ -278,7 +278,7 @@ extern "C"	ERP_API int deleteProductFromOrder(char * oID, char* pID, char* error
 	}
 	return status;
 }
- extern "C"	ERP_API int searchProducts(Product** product, char* key, char* value, char* error)
+extern "C" ERP_API int searchProducts(Product** product, char* key, char* value, char* error)
  {
 	 status = 0;
 	 int numberOfRows = 0;
@@ -332,7 +332,7 @@ extern "C"	ERP_API int deleteProductFromOrder(char * oID, char* pID, char* error
 	 }
 	 return numberOfRows;
  }
- extern "C"	ERP_API int searchOrders(Order** order, char* key, char* value, char* error)
+extern "C" ERP_API int searchOrders(Order** order, char* key, char* value, char* error)
  {
 	 status = 0;
 	 int numberOfRows = 0;
@@ -385,7 +385,7 @@ extern "C"	ERP_API int deleteProductFromOrder(char * oID, char* pID, char* error
 	 }
 	 return numberOfRows;
  }
- extern "C"	ERP_API int getAllProductInfo(char* id, Product** product, char* error) {
+extern "C" ERP_API int getAllProductInfo(char* id, Product** product, char* error) {
 
 	status = 0;
 	db_response::ConnectionFunction(error);
@@ -431,7 +431,7 @@ extern "C"	ERP_API int deleteProductFromOrder(char * oID, char* pID, char* error
 	}
 	return status;
 }
- extern "C"	ERP_API int getOrderInfo(char* id, Order** order, char* error) {
+extern "C" ERP_API int getOrderInfo(char* id, Order** order, char* error) {
 
 	 status = 0;
 	 db_response::ConnectionFunction(error);
@@ -481,7 +481,7 @@ extern "C"	ERP_API int deleteProductFromOrder(char * oID, char* pID, char* error
 	 }
 	 return status;
  }
- extern "C"	ERP_API int showProducts(Product** product, char* error) 
+extern "C" ERP_API int showProducts(Product** product, char* error) 
  {
 	 status = 0;
 	 int numberOfRows = 0;
@@ -529,7 +529,7 @@ extern "C"	ERP_API int deleteProductFromOrder(char * oID, char* pID, char* error
 	 }
 	 return numberOfRows;
 }
- extern "C"	ERP_API int showAllOrders(Order** order, char* error) {
+extern "C" ERP_API int showAllOrders(Order** order, char* error) {
 
 	 status = 0;
 	 int numberOfRows = 0;
@@ -571,7 +571,7 @@ extern "C"	ERP_API int deleteProductFromOrder(char * oID, char* pID, char* error
 	 }
 	 return numberOfRows;
  }
- extern "C"	ERP_API int showCompletedOrders(Order** order, char* error) {
+extern "C" ERP_API int showCompletedOrders(Order** order, char* error) {
 
 	 status = 0;
 	 int numberOfRows = 0;
@@ -614,7 +614,7 @@ extern "C"	ERP_API int deleteProductFromOrder(char * oID, char* pID, char* error
 	 }
 	 return numberOfRows;
 }
- extern "C"	ERP_API int showReadyOrders(Order** order, char* error) {
+extern "C" ERP_API int showReadyOrders(Order** order, char* error) {
 
 	 status = 0;
 	 int numberOfRows = 0;
@@ -657,7 +657,7 @@ extern "C"	ERP_API int deleteProductFromOrder(char * oID, char* pID, char* error
 	 }
 	 return numberOfRows;
  }
- extern "C"	ERP_API int showOrdersInProgress(Order** order, char* error) {
+extern "C" ERP_API int showOrdersInProgress(Order** order, char* error) {
 
 	 status = 0;
 	 int numberOfRows = 0;
@@ -700,7 +700,7 @@ extern "C"	ERP_API int deleteProductFromOrder(char * oID, char* pID, char* error
 	 }
 	 return numberOfRows;
 }
- extern "C"	ERP_API int showProductsInOrder(char* id, ProductInOrder** product, char* error) {
+extern "C" ERP_API int showProductsInOrder(char* id, ProductInOrder** product, char* error) {
 
 	 status = 0;
 	 int numberOfRows = 0;
@@ -793,7 +793,7 @@ extern "C"	ERP_API int deleteProductFromOrder(char * oID, char* pID, char* error
 }
 
 */
- bool checkQuery(int qstate,  char * error)
+bool checkQuery(int qstate,  char * error)
  {
 	 if (qstate)
 	 {

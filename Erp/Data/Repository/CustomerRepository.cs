@@ -32,13 +32,33 @@ namespace Erp.Repository
                 for (int i = 0; i < number_fields; ++i)
                 {
                     Customer customer = (Customer)Marshal.PtrToStructure(current, typeof(Customer));
-
                     current = (IntPtr)((long)current + Marshal.SizeOf(customer));
                     customers.Add(customer);
                 }
                 Marshal.FreeCoTaskMem(CustomerPtr);
             });
             return customers;
+        }
+
+        public async Task<List<Order>> getCustomerOrders(string id, byte[] error)
+        {
+            List<Order> orders = new List<Order>();
+            IntPtr OrderPtr;
+            await Task.Run(() =>
+            {
+
+                int number_fields = Accounting_Wrapper.getCustomerOrders(id, out OrderPtr, error);
+
+                IntPtr current = OrderPtr;
+                for (int i = 0; i < number_fields; ++i)
+                {
+                    Order order = (Order)Marshal.PtrToStructure(current, typeof(Order));
+                    current = (IntPtr)((long)current + Marshal.SizeOf(order));
+                    orders.Add(order);
+                }
+                Marshal.FreeCoTaskMem(OrderPtr);
+            });
+            return orders;
         }
     }
 }

@@ -10,20 +10,12 @@ namespace Erp.Models
     [StructLayout(LayoutKind.Sequential)]
     public class Product
     {
-        [Required]
         public string id;
-        [Required]
         public string name;
-        public string description;
-        [Required]
-        public string position;
-        [Required]
+        public uint unitsInOrder;
         public double price;
-        [Required]
-        public double size;
-        public double weight;
-        [Required]
-        public uint unitsInStock;
+        public double totalPrice;
+
 
 
     }

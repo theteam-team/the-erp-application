@@ -3,12 +3,9 @@ struct Product
 {
 	char* id;
 	char* name;
-	char* description;
-	char* position;
+	unsigned int unitsInOrder;
 	double price;
-	double size;
-	double weight;
-	unsigned int unitsInStock;
+	double totalPrice;
 };
 struct ProductSold
 {
@@ -40,6 +37,7 @@ struct Order
 	char* orderStatus;
 	char* customerID;
 	char* paymentID;
+	double totalPrice;
 };
 
 struct ProductInOrder
