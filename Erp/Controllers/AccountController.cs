@@ -71,19 +71,21 @@ namespace Erp.Controllers
             {
                 //if (CommonNeeds.checkdtb(mdataDbContext, signInModel.DatabaseName))
                 //{
-                    var result = await _signInManager.PasswordSignInAsync(signInModel.UserName, signInModel.Password,
-                            true, false);
-                    if (result.Succeeded)
-                    {                    
-                        var roles = await _userManager.GetRolesAsync(user);
-                        muserLogger.LogInformation("A user with a specifc roles : ");
-                        foreach (var el in roles)
-                        {
-                            Console.Write(" " + el);
-                        }
-                        Console.Write(" has logged int the system");
-                        return RedirectToAction("System", "App");
+                var result = await _signInManager.PasswordSignInAsync(signInModel.UserName, signInModel.Password,
+                        true, false);
+                if (result.Succeeded)
+                {
+
+                    await _userManager.AddClaimAsync(user, new Claim("database", user.DatabaseName));
+                    var roles = await _userManager.GetRolesAsync(user); 
+                    muserLogger.LogInformation("A user with a specifc roles : " + roles);
+                    /*foreach (var el in roles)
+                    {
+                        Console.Write(" " + el);
                     }
+                    Console.Write(" has logged int the system");*/
+                    return RedirectToAction("System", "App");
+                }
                 //}
                 //else
                 //    ModelState.AddModelError("", "database does not exist please contact system admin");
@@ -146,7 +148,6 @@ namespace Erp.Controllers
                 ModelState.AddModelError("", "This Database Name is used");
 
             return View();
-
         }
 
         [HttpPost]

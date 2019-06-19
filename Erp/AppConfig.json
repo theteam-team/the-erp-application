@@ -5,6 +5,7 @@
     "MySql": "server=mysqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com;userid=mySQLadmin;port=3306;password=mySQLpass123;Allow User Variables=True;",
     "MySql_Local": "server=localhost;userid=root;port=3306;password=123456789pp;Allow User Variables=True;"
   },
+
   "Email": {
     "Smtp": {
       "Host": "smtp.gmail.com",
