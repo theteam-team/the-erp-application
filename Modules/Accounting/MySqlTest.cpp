@@ -11,10 +11,11 @@
 #include <mysql.h>
 #pragma warning(disable : 4996)
 using namespace std;
-#define SERVER "mysqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com"
-#define USER "mySQLadmin" //your username
-#define PASSWORD "mySQLpass123" //your password for mysql
-#define DATABASE "ERP" //database name
+
+#define SERVER "localhost"
+#define USER "root" //your username
+#define PASSWORD "0198484014###" //your password for mysql
+#define DATABASE "company1" //database name
 
 MYSQL* conn;
 MYSQL_ROW row;
@@ -27,7 +28,6 @@ public:
 	static void ConnectionFunction(char* error) {
 
 		conn = mysql_init(0);
-
 		conn = mysql_real_connect(conn, SERVER, USER, PASSWORD, DATABASE, 3306, NULL, 0);
 		if (!conn) {
 
@@ -48,7 +48,7 @@ extern "C" ERP_API int getProfit(ProductSold** product, char* error) {
 	if (conn) {
 		mysql_free_result(res);
 		//for each sold product, calculate its profit --> Units_In_Order *( product_price - Produt_cost),,,,,, then get summation of all profits
-		query = "SELECT Product_ID, sum(Units_In_Order) as Units_In_Order, Product_Cost, Product_Price,sum(Units_In_Order * (Product_Price - Product_Cost)) AS Profit FROM erp.product, erp.order_has_product WHERE(erp.product.product_id = erp.order_has_product.Product_Product_ID) group by Product_ID";
+		query = "SELECT Product_ID, sum(Units_In_Order) as Units_In_Order, Product_Cost, Product_Price,sum(Units_In_Order * (Product_Price - Product_Cost)) AS Profit FROM product, order_has_product WHERE(product.product_id = order_has_product.Product_Product_ID) group by Product_ID";
 		qstate = mysql_query(conn, query.c_str());
 		cout << query << endl;
 		if (checkQuery(qstate, error)) {
@@ -88,7 +88,7 @@ extern "C" ERP_API int getInvoice(Invoice** invoice, char* error) {
 	if (conn) {
 		mysql_free_result(res);
 		//for each sold product, calculate its profit --> Units_In_Order *( product_price - Produt_cost),,,,,, then get summation of all profits
-		query = "SELECT  Supplier_ID, Supplier_Name,  Supplier_Phone_Number,Supplier_Email, Supplier_Payment_method, Product_Name,Product_Cost, Units_Supplied, (Units_Supplied * (select Product_Cost from erp.product where product_id = product_has_supplier.Product_Product_ID)) as total_cost,paid_up, (Units_Supplied * (select Product_Cost from erp.product where product_id = product_has_supplier.Product_Product_ID) - Paid_up) As depts from erp.supplier, erp.product_has_supplier, erp.product where (Supplier_ID = product_has_supplier.Supplier_Supplier_ID AND product_id = product_has_supplier.Product_Product_ID) order by supplier_id ";
+		query = "SELECT  Supplier_ID, Supplier_Name,  Supplier_Phone_Number,Supplier_Email, Supplier_Payment_method, Product_Name,Product_Cost, Units_Supplied, (Units_Supplied * (select Product_Cost from product where product_id = product_has_supplier.Product_Product_ID)) as total_cost,paid_up, (Units_Supplied * (select Product_Cost from product where product_id = product_has_supplier.Product_Product_ID) - Paid_up) As depts from supplier, product_has_supplier, product where (Supplier_ID = product_has_supplier.Supplier_Supplier_ID AND product_id = product_has_supplier.Product_Product_ID) order by supplier_id ";
 		qstate = mysql_query(conn, query.c_str());
 		cout << query << endl;
 		if (checkQuery(qstate, error)) {
@@ -125,48 +125,6 @@ extern "C" ERP_API int getInvoice(Invoice** invoice, char* error) {
 			else
 			{
 				string s = "No invoices Exist";
-				cout << s << endl;
-				strcpy_s(error, s.length() + 1, s.c_str());
-				status = 2;
-			}
-		}
-	}
-	return numberOfRows;
-}
-extern "C" ERP_API int getCustomerOrders(char* id ,Order** order, char* error) {
-	status = 0;
-	int numberOfRows = 0;
-	unsigned int numOfFields;
-	db_response::ConnectionFunction(error);
-	if (conn) {
-		mysql_free_result(res);
-		query = (string) "SELECT Order_ID,Order_Required_Date,Order_Completed_Date,Order_Status,Payment_Payment_ID,sum(Units_In_Order*(select product_price from erp.product where product_product_id = product_id)) as tP FROM  erp.order , erp.order_has_product where erp.order.Customer_Customer_id  = '"+ id +"' And order_id = order_order_id";
-		qstate = mysql_query(conn, query.c_str());
-		cout << query << endl;
-		if (checkQuery(qstate, error)) {
-			res = mysql_store_result(conn);
-			if (res->row_count > 0)
-			{
-				*order = (Order*)CoTaskMemAlloc((int)(res->row_count) * sizeof(Order));
-				cout << res->row_count << endl;
-				numOfFields = mysql_num_fields(res);
-				Order* _order = *order;
-				while (row = mysql_fetch_row(res)) {
-					_order->id = row[0];
-					row[1] ? _order->requiredDate = row[1] : _order->requiredDate = nullptr;
-					row[2] ? _order->completedDate = row[2] : _order->completedDate = "Not Completed";
-					row[3] ? _order->orderStatus = row[3] : _order->orderStatus = nullptr;
-					row[4] ? _order->customerID = row[4] : _order->customerID = nullptr;
-					row[5] ? _order->paymentID = row[5] : _order->paymentID = nullptr;
-					row[6] ? _order->totalPrice = stod(row[6]) : _order->totalPrice = 0;
-
-					numberOfRows++;
-					_order++;
-				}
-			}
-			else
-			{
-				string s = "No orders Exist for this customer";
 				cout << s << endl;
 				strcpy_s(error, s.length() + 1, s.c_str());
 				status = 2;
@@ -220,6 +178,48 @@ extern "C" ERP_API int getCustomerById(char* id, Customer** customer, char* erro
 	}
 	return numberOfRows;
 }
+extern "C" ERP_API int getCustomerOrders(char* id, Order** order, char* error) {
+	status = 0;
+	int numberOfRows = 0;
+	unsigned int numOfFields;
+	db_response::ConnectionFunction(error);
+	if (conn) {
+		mysql_free_result(res);
+		query = (string) "SELECT Order_ID,Order_Required_Date,Order_Completed_Date,Order_Status,Payment_Payment_ID,sum(Units_In_Order*(select product_price from product where product_product_id = product_id)) as tP FROM  order , order_has_product where order.Customer_Customer_id  = '" + id + "' And order_id = order_order_id";
+		qstate = mysql_query(conn, query.c_str());
+		cout << query << endl;
+		if (checkQuery(qstate, error)) {
+			res = mysql_store_result(conn);
+			if (res->row_count > 0)
+			{
+				*order = (Order*)CoTaskMemAlloc((int)(res->row_count) * sizeof(Order));
+				cout << res->row_count << endl;
+				numOfFields = mysql_num_fields(res);
+				Order* _order = *order;
+				while (row = mysql_fetch_row(res)) {
+					_order->id = row[0];
+					row[1] ? _order->requiredDate = row[1] : _order->requiredDate = nullptr;
+					row[2] ? _order->completedDate = row[2] : _order->completedDate = "Not Completed";
+					row[3] ? _order->orderStatus = row[3] : _order->orderStatus = nullptr;
+					row[4] ? _order->customerID = row[4] : _order->customerID = nullptr;
+					row[5] ? _order->paymentID = row[5] : _order->paymentID = nullptr;
+					row[6] ? _order->totalPrice = stod(row[6]) : _order->totalPrice = 0;
+
+					numberOfRows++;
+					_order++;
+				}
+			}
+			else
+			{
+				string s = "No orders Exist for this customer";
+				cout << s << endl;
+				strcpy_s(error, s.length() + 1, s.c_str());
+				status = 2;
+			}
+		}
+	}
+	return numberOfRows;
+}
 extern "C" ERP_API int getOrderProducts(char* id, Product** product_order, char* error) {
 	status = 0;
 	int numberOfRows = 0;
@@ -227,7 +227,7 @@ extern "C" ERP_API int getOrderProducts(char* id, Product** product_order, char*
 	db_response::ConnectionFunction(error);
 	if (conn) {
 		mysql_free_result(res);
-		query = (string) "select Product_Product_ID,Product_Name, Units_In_Order, Product_Price, (Product_Price*Units_In_Order) as Pcost from erp.order_has_product, erp.product where Order_Order_ID ='" + id + "'AND Product_Product_ID = Product_ID group by Product_Product_ID";
+		query = (string) "select Product_Product_ID,Product_Name, Units_In_Order, Product_Price, (Product_Price*Units_In_Order) as Pcost from order_has_product, product where Order_Order_ID ='" + id + "'AND Product_Product_ID = Product_ID group by Product_Product_ID";
 		qstate = mysql_query(conn, query.c_str());
 		cout << query << endl;
 		if (checkQuery(qstate, error)) {
