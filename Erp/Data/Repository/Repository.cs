@@ -51,12 +51,14 @@ namespace Erp.Repository
 
             if (httpContextAccessor.HttpContext!= null)
             {
-                Console.WriteLine(httpContextAccessor.HttpContext.User.Identity.Name);
-                ClaimsIdentity identity = (ClaimsIdentity)httpContextAccessor.HttpContext.User.Identity;
-                string databaseName = identity.FindFirst("database").Value;
-                //Console.WriteLine(databaseName);
                 User = httpContextAccessor.HttpContext.User;
-                setConnectionString(databaseName);
+                ClaimsIdentity identity = (ClaimsIdentity)User.Identity;
+                if (User.Identity.IsAuthenticated)
+                {
+                    string databaseName = identity.FindFirst("database").Value;                   
+                    User = httpContextAccessor.HttpContext.User;
+                    setConnectionString(databaseName);
+                }
             }
             
         }

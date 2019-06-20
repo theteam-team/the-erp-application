@@ -24,7 +24,7 @@ namespace Erp.Controllers
         private readonly IInventoryRepository _inventoryRepository;
         private readonly IInventoryProductRepository _inventoryProductRepository;
 
-        public WarehouseApiController(Test test , IProductRepository iProductRepository, IOrderRepository orderRepository, IOrderProductRepository orderProductRepository, IInventoryRepository inventoryRepository, IInventoryProductRepository inventoryProductRepository)
+        public WarehouseApiController(IProductRepository iProductRepository, IOrderRepository orderRepository, IOrderProductRepository orderProductRepository, IInventoryRepository inventoryRepository, IInventoryProductRepository inventoryProductRepository)
         {
 
             _iProductRepository = iProductRepository;

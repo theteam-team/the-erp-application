@@ -59,7 +59,7 @@ namespace Erp
             services.AddHostedService<BmService>();
             services.AddSingleton<BmExectionQueue>();
             services.AddSingleton<ModulesDatabaseBuilder>();
-            services.AddTransient<Test>();
+            
             services.AddTransient<INodeLangRepository, NodeLangRepository>();
             services.AddSignalR();           
             services.AddTransient<ICustomerRepository, CustomerRepository>();
