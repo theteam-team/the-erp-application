@@ -18,7 +18,7 @@ namespace Erp.Interfaces
         Task<List<ProductSold>> getSoldProduct(byte[] error);
         Task<List<Invoice>> getInvoice(byte[] error);
 
-        Task<List<Product>> getOrderProducts(string id, byte[] error);
+        Task<List<AProduct>> getOrderProducts(string id, byte[] error);
 
     }
 }

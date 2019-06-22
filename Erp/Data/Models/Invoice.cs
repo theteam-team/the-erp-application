@@ -14,7 +14,7 @@ namespace Erp.Models
         public string suppName;
         public uint suppPhone;
         public string suppMail;
-        public string payment_method;
+        //public string payment_method;
         public string productName;
         public double productCost;
         public uint suppUnits;

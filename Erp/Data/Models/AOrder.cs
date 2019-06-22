@@ -9,16 +9,14 @@ using System.Threading.Tasks;
 namespace Erp.Models
 {
     [StructLayout(LayoutKind.Sequential)]
-    public class Order
+    public class AOrder
     {
-       [Required]
+        [Required]
         public string id;
         public string requiredDate;
         public string completedDate;
         public string orderStatus;
-        //public string customerID;
         public string paymentID;
         public double totalPrice;
-        public string shipmentID;
     }
 }

@@ -45,9 +45,9 @@ namespace Erp.Repository
             return customers;
         }
 
-        public async Task<List<Order>> getCustomerOrders(string id, byte[] error)
+        public async Task<List<AOrder>> getCustomerOrders(string id, byte[] error)
         {
-            List<Order> orders = new List<Order>();
+            List<AOrder> orders = new List<AOrder>();
             IntPtr OrderPtr;
             await Task.Run(() =>
             {
@@ -57,7 +57,7 @@ namespace Erp.Repository
                 IntPtr current = OrderPtr;
                 for (int i = 0; i < number_fields; ++i)
                 {
-                    Order order = (Order)Marshal.PtrToStructure(current, typeof(Order));
+                    AOrder order = (AOrder)Marshal.PtrToStructure(current, typeof(AOrder));
                     current = (IntPtr)((long)current + Marshal.SizeOf(order));
                     orders.Add(order);
                 }

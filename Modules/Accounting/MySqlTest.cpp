@@ -88,7 +88,7 @@ extern "C" ERP_API int getInvoice(Invoice** invoice, char* error) {
 	if (conn) {
 		mysql_free_result(res);
 		//for each sold product, calculate its profit --> Units_In_Order *( product_price - Produt_cost),,,,,, then get summation of all profits
-		query = "SELECT  Supplier_ID, Supplier_Name,  Supplier_Phone_Number,Supplier_Email, Supplier_Payment_method, Product_Name,Product_Cost, Units_Supplied, (Units_Supplied * (select Product_Cost from product where product_id = product_has_supplier.Product_Product_ID)) as total_cost,paid_up, (Units_Supplied * (select Product_Cost from product where product_id = product_has_supplier.Product_Product_ID) - Paid_up) As depts from supplier, product_has_supplier, product where (Supplier_ID = product_has_supplier.Supplier_Supplier_ID AND product_id = product_has_supplier.Product_Product_ID) order by supplier_id ";
+		query = (string) "SELECT  Supplier_ID, Supplier_Name,  Supplier_Phone_Number,Supplier_Email, Product_Name,Product_Cost, Units_Supplied, (Units_Supplied * (select Product_Cost from "+ DATABASE +".product where product_id = product_has_supplier.Product_Product_ID)) as total_cost,paid_up, (Units_Supplied * (select Product_Cost from "+DATABASE+".product where product_id = product_has_supplier.Product_Product_ID) - Paid_up) As depts from "+DATABASE+".supplier, "+DATABASE+".product_has_supplier, "+DATABASE+".product where (Supplier_ID = product_has_supplier.Supplier_Supplier_ID AND product_id = product_has_supplier.Product_Product_ID) order by supplier_id ";
 		qstate = mysql_query(conn, query.c_str());
 		cout << query << endl;
 		if (checkQuery(qstate, error)) {
@@ -101,23 +101,16 @@ extern "C" ERP_API int getInvoice(Invoice** invoice, char* error) {
 				Invoice* _invoice = *invoice ;
 				while (row = mysql_fetch_row(res)) {
 					_invoice->suppId = row[0];
-					row[1] ? _invoice-> suppName = row[1] : _invoice->suppName = 0;
+					row[1] ? _invoice-> suppName = row[1] : _invoice->suppName = nullptr;
 					row[2] ? _invoice-> suppPhone = stoi(row[2]) : _invoice->suppPhone = 0;
 					row[3] ? _invoice->suppMail = row[3] : _invoice->suppMail = 0;
-					row[4] ? _invoice->payment_method = row[4] : _invoice->payment_method = 0;
-					row[5] ? _invoice->productName = row[5] : _invoice->productName = 0;
-					row[6] ? _invoice->productCost = stod(row[6]) : _invoice->productCost = 0;
-					row[7] ? _invoice->suppUnits = stoi(row[7]) : _invoice->suppUnits = 0;
-					row[8] ? _invoice->totalCost= stod(row[8]) : _invoice->totalCost = 0;
-					row[9] ? _invoice->totalPaid = stod(row[9]) : _invoice->totalPaid= 0;
-					row[10] ? _invoice->depts = stod(row[10]) : _invoice->depts = 0; 
-					/*row[1] ? _product->name = row[1] : _product->name = nullptr;
-					row[2] ? _product->description = row[2] : _product->description = nullptr;
-					row[3] ? _product->position = row[3] : _product->position = nullptr;
-					row[4] ? _product->price = stod(row[4]) : _product->price = 0;
-					row[5] ? _product->size = stod(row[5]) : _product->size = 0;
-					row[6] ? _product->weight = stod(row[6]) : _product->weight = 0;
-					row[7] ? _product->unitsInStock = stoi(row[7]) : _product->unitsInStock = 0;*/
+					//row[4] ? _invoice->payment_method = row[4] : _invoice->payment_method = 0;
+					row[4] ? _invoice->productName = row[4] : _invoice->productName = nullptr;
+					row[5] ? _invoice->productCost = stod(row[5]) : _invoice->productCost = 0;
+					row[6] ? _invoice->suppUnits = stoi(row[6]) : _invoice->suppUnits = 0;
+					row[7] ? _invoice->totalCost= stod(row[7]) : _invoice->totalCost = 0;
+					row[8] ? _invoice->totalPaid = stod(row[8]) : _invoice->totalPaid= 0;
+					row[9] ? _invoice->depts = stod(row[9]) : _invoice->depts = 0; 
 					numberOfRows++;
 					_invoice++;
 				}
@@ -178,33 +171,32 @@ extern "C" ERP_API int getCustomerById(char* id, Customer** customer, char* erro
 	}
 	return numberOfRows;
 }
-extern "C" ERP_API int getCustomerOrders(char* id, Order** order, char* error) {
+extern "C" ERP_API int getCustomerOrders(char* id, AOrder** order, char* error) {
 	status = 0;
 	int numberOfRows = 0;
 	unsigned int numOfFields;
 	db_response::ConnectionFunction(error);
 	if (conn) {
 		mysql_free_result(res);
-		query = (string) "SELECT Order_ID,Order_Required_Date,Order_Completed_Date,Order_Status,Payment_Payment_ID,sum(Units_In_Order*(select product_price from product where product_product_id = product_id)) as tP FROM  order , order_has_product where order.Customer_Customer_id  = '" + id + "' And order_id = order_order_id";
+		query = (string) "SELECT Order_ID, Order_Required_Date,Order_Completed_Date,Order_Status,Payment_Payment_ID,sum(Units_In_Order*(select product_price from "+DATABASE+".product where product_product_id = product_id)) as tP FROM " + DATABASE + ".order ,"+ DATABASE +".order_has_product where "+ DATABASE +".order.Customer_Customer_id  = '" + id + "'And order_id = order_order_id group by order_id ";
 		qstate = mysql_query(conn, query.c_str());
 		cout << query << endl;
 		if (checkQuery(qstate, error)) {
 			res = mysql_store_result(conn);
 			if (res->row_count > 0)
 			{
-				*order = (Order*)CoTaskMemAlloc((int)(res->row_count) * sizeof(Order));
+				*order = (AOrder*)CoTaskMemAlloc((int)(res->row_count) * sizeof(AOrder));
 				cout << res->row_count << endl;
 				numOfFields = mysql_num_fields(res);
-				Order* _order = *order;
+				AOrder* _order = *order;
 				while (row = mysql_fetch_row(res)) {
 					_order->id = row[0];
 					row[1] ? _order->requiredDate = row[1] : _order->requiredDate = nullptr;
 					row[2] ? _order->completedDate = row[2] : _order->completedDate = "Not Completed";
 					row[3] ? _order->orderStatus = row[3] : _order->orderStatus = nullptr;
-					row[4] ? _order->customerID = row[4] : _order->customerID = nullptr;
-					row[5] ? _order->paymentID = row[5] : _order->paymentID = nullptr;
-					row[6] ? _order->totalPrice = stod(row[6]) : _order->totalPrice = 0;
-
+					//row[4] ? _order->customerID = row[4] : _order->customerID = nullptr;
+					row[4] ? _order->paymentID = row[4] : _order->paymentID = nullptr;
+					row[5] ? _order->totalPrice = stod(row[5]) : _order->totalPrice = 0;
 					numberOfRows++;
 					_order++;
 				}
@@ -220,7 +212,7 @@ extern "C" ERP_API int getCustomerOrders(char* id, Order** order, char* error) {
 	}
 	return numberOfRows;
 }
-extern "C" ERP_API int getOrderProducts(char* id, Product** product_order, char* error) {
+extern "C" ERP_API int getOrderProducts(char* id, AProduct** product_order, char* error) {
 	status = 0;
 	int numberOfRows = 0;
 	unsigned int numOfFields;
@@ -234,10 +226,10 @@ extern "C" ERP_API int getOrderProducts(char* id, Product** product_order, char*
 			res = mysql_store_result(conn);
 			if (res->row_count > 0)
 			{
-				*product_order = (Product*)CoTaskMemAlloc((int)(res->row_count) * sizeof(Product));
+				*product_order = (AProduct*)CoTaskMemAlloc((int)(res->row_count) * sizeof(AProduct));
 				cout << res->row_count << endl;
 				numOfFields = mysql_num_fields(res);
-				Product* _product = *product_order;
+				AProduct* _product = *product_order;
 				while (row = mysql_fetch_row(res)) {
 					_product->id = row[0];
 					row[1] ? _product->name = row[1] : _product->name = nullptr;

@@ -2,7 +2,7 @@
 
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
 -- Schema ERP
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `ERP`.`Employee` (
   `Role_ID` VARCHAR(45) NOT NULL,
   `Employee_Department` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`Employee_ID`),
-  UNIQUE INDEX `id_UNIQUE` (`Employee_ID` ASC) VISIBLE)
+  UNIQUE INDEX `id_UNIQUE` (`Employee_ID` ASC))
 ENGINE = InnoDB;
 
 
@@ -65,9 +65,9 @@ CREATE TABLE IF NOT EXISTS `ERP`.`Opportunities` (
   `Customer_Customer_ID` VARCHAR(45) NOT NULL,
   `Employee_Employee_ID` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`Opportunity_ID`),
-  UNIQUE INDEX `opportunity_id_UNIQUE` (`Opportunity_ID` ASC) VISIBLE,
-  INDEX `fk_opportunities_Customer1_idx` (`Customer_Customer_ID` ASC) VISIBLE,
-  INDEX `fk_opportunities_Employee1_idx` (`Employee_Employee_ID` ASC) VISIBLE,
+  UNIQUE INDEX `opportunity_id_UNIQUE` (`Opportunity_ID` ASC),
+  INDEX `fk_opportunities_Customer1_idx` (`Customer_Customer_ID` ASC),
+  INDEX `fk_opportunities_Employee1_idx` (`Employee_Employee_ID` ASC),
   CONSTRAINT `fk_opportunities_Customer1`
     FOREIGN KEY (`Customer_Customer_ID`)
     REFERENCES `ERP`.`Customer` (`Customer_ID`)
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `ERP`.`Customer_Address` (
   `Zip_Code` INT NULL,
   `Customer_Customer_ID` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`Address_ID`, `Customer_Customer_ID`),
-  INDEX `fk_Address_Customer1_idx` (`Customer_Customer_ID` ASC) VISIBLE,
+  INDEX `fk_Address_Customer1_idx` (`Customer_Customer_ID` ASC),
   CONSTRAINT `fk_Address_Customer1`
     FOREIGN KEY (`Customer_Customer_ID`)
     REFERENCES `ERP`.`Customer` (`Customer_ID`)
@@ -126,6 +126,7 @@ CREATE TABLE IF NOT EXISTS `ERP`.`Product` (
   `width` DOUBLE NULL,
   `height` DOUBLE NULL,
   `Units_In_Stock` INT NULL,
+  `Product_Cost` DOUBLE NULL,
   PRIMARY KEY (`Product_ID`))
 ENGINE = InnoDB;
 
@@ -174,8 +175,8 @@ CREATE TABLE IF NOT EXISTS `ERP`.`Product_has_Supplier` (
   `Units_Supplied` INT NULL,
   `date` DATE NULL,
   PRIMARY KEY (`Product_Product_ID`, `Supplier_Supplier_ID`),
-  INDEX `fk_Product_has_Supplier1_Supplier1_idx` (`Supplier_Supplier_ID` ASC) VISIBLE,
-  INDEX `fk_Product_has_Supplier1_Product1_idx` (`Product_Product_ID` ASC) VISIBLE,
+  INDEX `fk_Product_has_Supplier1_Supplier1_idx` (`Supplier_Supplier_ID` ASC),
+  INDEX `fk_Product_has_Supplier1_Product1_idx` (`Product_Product_ID` ASC),
   CONSTRAINT `fk_Product_has_Supplier1_Product1`
     FOREIGN KEY (`Product_Product_ID`)
     REFERENCES `ERP`.`Product` (`Product_ID`)
@@ -196,8 +197,8 @@ CREATE TABLE IF NOT EXISTS `ERP`.`Product_has_Category` (
   `Product_Product_ID` VARCHAR(45) NOT NULL,
   `Category_Category_ID` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`Product_Product_ID`, `Category_Category_ID`),
-  INDEX `fk_Product_has_Category1_Category1_idx` (`Category_Category_ID` ASC) VISIBLE,
-  INDEX `fk_Product_has_Category1_Product1_idx` (`Product_Product_ID` ASC) VISIBLE,
+  INDEX `fk_Product_has_Category1_Category1_idx` (`Category_Category_ID` ASC),
+  INDEX `fk_Product_has_Category1_Product1_idx` (`Product_Product_ID` ASC),
   CONSTRAINT `fk_Product_has_Category1_Product1`
     FOREIGN KEY (`Product_Product_ID`)
     REFERENCES `ERP`.`Product` (`Product_ID`)
@@ -220,8 +221,8 @@ CREATE TABLE IF NOT EXISTS `ERP`.`Order_has_Product` (
   `Units_In_Order` INT NULL,
   `Units_Done` INT NULL,
   PRIMARY KEY (`Order_Order_ID`, `Product_Product_ID`),
-  INDEX `fk_Order_has_Product1_Product1_idx` (`Product_Product_ID` ASC) VISIBLE,
-  INDEX `fk_Order_has_Product1_Order1_idx` (`Order_Order_ID` ASC) VISIBLE,
+  INDEX `fk_Order_has_Product1_Product1_idx` (`Product_Product_ID` ASC),
+  INDEX `fk_Order_has_Product1_Order1_idx` (`Order_Order_ID` ASC),
   CONSTRAINT `fk_Order_has_Product1_Order1`
     FOREIGN KEY (`Order_Order_ID`)
     REFERENCES `ERP`.`Order` (`Order_ID`)
@@ -245,7 +246,7 @@ CREATE TABLE IF NOT EXISTS `ERP`.`Account` (
   `Account_Debt` DOUBLE NULL,
   `Customer_Customer_ID` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`Account_ID`, `Customer_Customer_ID`),
-  INDEX `fk_Account_Customer1_idx` (`Customer_Customer_ID` ASC) VISIBLE,
+  INDEX `fk_Account_Customer1_idx` (`Customer_Customer_ID` ASC),
   CONSTRAINT `fk_Account_Customer1`
     FOREIGN KEY (`Customer_Customer_ID`)
     REFERENCES `ERP`.`Customer` (`Customer_ID`)
@@ -263,8 +264,8 @@ CREATE TABLE IF NOT EXISTS `ERP`.`Product_has_Supplier` (
   `Units_Supplied` INT NULL,
   `date` DATE NULL,
   PRIMARY KEY (`Product_Product_ID`, `Supplier_Supplier_ID`),
-  INDEX `fk_Product_has_Supplier1_Supplier1_idx` (`Supplier_Supplier_ID` ASC) VISIBLE,
-  INDEX `fk_Product_has_Supplier1_Product1_idx` (`Product_Product_ID` ASC) VISIBLE,
+  INDEX `fk_Product_has_Supplier1_Supplier1_idx` (`Supplier_Supplier_ID` ASC),
+  INDEX `fk_Product_has_Supplier1_Product1_idx` (`Product_Product_ID` ASC),
   CONSTRAINT `fk_Product_has_Supplier1_Product1`
     FOREIGN KEY (`Product_Product_ID`)
     REFERENCES `ERP`.`Product` (`Product_ID`)
@@ -285,8 +286,8 @@ CREATE TABLE IF NOT EXISTS `ERP`.`Product_has_Category` (
   `Product_Product_ID` VARCHAR(45) NOT NULL,
   `Category_Category_ID` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`Product_Product_ID`, `Category_Category_ID`),
-  INDEX `fk_Product_has_Category1_Category1_idx` (`Category_Category_ID` ASC) VISIBLE,
-  INDEX `fk_Product_has_Category1_Product1_idx` (`Product_Product_ID` ASC) VISIBLE,
+  INDEX `fk_Product_has_Category1_Category1_idx` (`Category_Category_ID` ASC),
+  INDEX `fk_Product_has_Category1_Product1_idx` (`Product_Product_ID` ASC),
   CONSTRAINT `fk_Product_has_Category1_Product1`
     FOREIGN KEY (`Product_Product_ID`)
     REFERENCES `ERP`.`Product` (`Product_ID`)
@@ -307,7 +308,7 @@ CREATE TABLE IF NOT EXISTS `ERP`.`Interest` (
   `Interest_ID` INT NOT NULL,
   `Category_Category_ID` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`Interest_ID`, `Category_Category_ID`),
-  INDEX `fk_Interest_Category1_idx` (`Category_Category_ID` ASC) VISIBLE,
+  INDEX `fk_Interest_Category1_idx` (`Category_Category_ID` ASC),
   CONSTRAINT `fk_Interest_Category1`
     FOREIGN KEY (`Category_Category_ID`)
     REFERENCES `ERP`.`Category` (`Category_ID`)
@@ -323,7 +324,7 @@ CREATE TABLE IF NOT EXISTS `ERP`.`Customer_Interest` (
   `Level` INT NULL,
   `Customer_Customer_ID` VARCHAR(45) NOT NULL,
   `Interest_Interest_ID` INT NOT NULL,
-  INDEX `fk_Customer_Interest_Interest1_idx` (`Interest_Interest_ID` ASC) VISIBLE,
+  INDEX `fk_Customer_Interest_Interest1_idx` (`Interest_Interest_ID` ASC),
   PRIMARY KEY (`Interest_Interest_ID`, `Customer_Customer_ID`),
   CONSTRAINT `fk_Customer_Interest_Customer1`
     FOREIGN KEY (`Customer_Customer_ID`)
@@ -346,7 +347,7 @@ CREATE TABLE IF NOT EXISTS `ERP`.`Opportunity_Product` (
   `Product_Product_ID` VARCHAR(45) NOT NULL,
   `Units` INT NULL,
   PRIMARY KEY (`Opportunities_Opportunity_ID`, `Product_Product_ID`),
-  INDEX `fk_Opportunity_Product_Product1_idx` (`Product_Product_ID` ASC) VISIBLE,
+  INDEX `fk_Opportunity_Product_Product1_idx` (`Product_Product_ID` ASC),
   CONSTRAINT `fk_Opportunity_Product_Opportunities1`
     FOREIGN KEY (`Opportunities_Opportunity_ID`)
     REFERENCES `ERP`.`Opportunities` (`Opportunity_ID`)
@@ -374,9 +375,9 @@ CREATE TABLE IF NOT EXISTS `ERP`.`Order` (
   `Payment_Payment_ID` VARCHAR(45) NOT NULL,
   `Shipment_Shipment_ID` VARCHAR(45) NULL,
   PRIMARY KEY (`Order_ID`, `Customer_Customer_ID`, `Payment_Payment_ID`),
-  INDEX `fk_Order_Payment1_idx` (`Payment_Payment_ID` ASC) VISIBLE,
-  INDEX `fk_Order_Customer1_idx` (`Customer_Customer_ID` ASC) VISIBLE,
-  INDEX `fk_Order_Shipment1_idx` (`Shipment_Shipment_ID` ASC) VISIBLE,
+  INDEX `fk_Order_Payment1_idx` (`Payment_Payment_ID` ASC),
+  INDEX `fk_Order_Customer1_idx` (`Customer_Customer_ID` ASC),
+  INDEX `fk_Order_Shipment1_idx` (`Shipment_Shipment_ID` ASC),
   CONSTRAINT `fk_Order_Payment1`
     FOREIGN KEY (`Payment_Payment_ID`)
     REFERENCES `ERP`.`Payment` (`Payment_ID`)
@@ -404,8 +405,8 @@ CREATE TABLE IF NOT EXISTS `ERP`.`Order_has_Product` (
   `Units_In_Order` INT NULL,
   `Units_Done` INT NULL,
   PRIMARY KEY (`Order_Order_ID`, `Product_Product_ID`),
-  INDEX `fk_Order_has_Product1_Product1_idx` (`Product_Product_ID` ASC) VISIBLE,
-  INDEX `fk_Order_has_Product1_Order1_idx` (`Order_Order_ID` ASC) VISIBLE,
+  INDEX `fk_Order_has_Product1_Product1_idx` (`Product_Product_ID` ASC),
+  INDEX `fk_Order_has_Product1_Order1_idx` (`Order_Order_ID` ASC),
   CONSTRAINT `fk_Order_has_Product1_Order1`
     FOREIGN KEY (`Order_Order_ID`)
     REFERENCES `ERP`.`Order` (`Order_ID`)
@@ -443,8 +444,8 @@ CREATE TABLE IF NOT EXISTS `ERP`.`Inventory_has_Product` (
   `position` VARCHAR(45) NULL,
   `Units_In_Inventory` INT NULL,
   PRIMARY KEY (`Inventory_Inventory_ID`, `Product_Product_ID`),
-  INDEX `fk_Inventory_has_Product_Product1_idx` (`Product_Product_ID` ASC) VISIBLE,
-  INDEX `fk_Inventory_has_Product_Inventory1_idx` (`Inventory_Inventory_ID` ASC) VISIBLE,
+  INDEX `fk_Inventory_has_Product_Product1_idx` (`Product_Product_ID` ASC),
+  INDEX `fk_Inventory_has_Product_Inventory1_idx` (`Inventory_Inventory_ID` ASC),
   CONSTRAINT `fk_Inventory_has_Product_Inventory1`
     FOREIGN KEY (`Inventory_Inventory_ID`)
     REFERENCES `ERP`.`Inventory` (`Inventory_ID`)
@@ -469,7 +470,7 @@ CREATE TABLE IF NOT EXISTS `ERP`.`Employee_Address` (
   `Zip_Code` INT NULL,
   `Employee_Employee_ID` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`Address_ID`, `Employee_Employee_ID`),
-  INDEX `fk_Employee_Address_Employee1_idx` (`Employee_Employee_ID` ASC) VISIBLE,
+  INDEX `fk_Employee_Address_Employee1_idx` (`Employee_Employee_ID` ASC),
   CONSTRAINT `fk_Employee_Address_Employee1`
     FOREIGN KEY (`Employee_Employee_ID`)
     REFERENCES `ERP`.`Employee` (`Employee_ID`)
@@ -489,7 +490,7 @@ CREATE TABLE IF NOT EXISTS `ERP`.`Supplier_Address` (
   `Zip_Code` INT NULL,
   `Supplier_Supplier_ID` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`Address_ID`, `Supplier_Supplier_ID`),
-  INDEX `fk_Inventory_Address_Supplier1_idx` (`Supplier_Supplier_ID` ASC) VISIBLE,
+  INDEX `fk_Inventory_Address_Supplier1_idx` (`Supplier_Supplier_ID` ASC),
   CONSTRAINT `fk_Inventory_Address_Supplier1`
     FOREIGN KEY (`Supplier_Supplier_ID`)
     REFERENCES `ERP`.`Supplier` (`Supplier_ID`)

@@ -1,5 +1,5 @@
 #pragma once
-struct Product
+struct AProduct
 {
 	char* id;
 	char* name;
@@ -21,7 +21,7 @@ struct Invoice
 	char* suppName;
 	unsigned int suppPhone;
 	char* suppMail;
-	char* payment_method;
+	//char* payment_method;
 	char* productName;
 	double productCost;
 	unsigned int suppUnits;
@@ -29,13 +29,13 @@ struct Invoice
 	double totalPaid;
 	double depts;
 };
-struct Order 
+struct AOrder 
 {
 	char* id;
 	char* requiredDate;
 	char* completedDate;
 	char* orderStatus;
-	char* customerID;
+	//char* customerID;
 	char* paymentID;
 	double totalPrice;
 };

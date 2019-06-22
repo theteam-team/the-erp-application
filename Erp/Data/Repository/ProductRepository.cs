@@ -124,10 +124,10 @@ namespace Erp.Repository
             return invoices;
 
         }
-
-        public async Task<List<Product>> getOrderProducts(string id, byte[] error)
+        
+        public async Task<List<AProduct>> getOrderProducts(string id, byte[] error)
         {
-            List<Product> products = new List<Product>();
+            List<AProduct> products = new List<AProduct>();
             IntPtr OrderProductPtr;
 
             await Task.Run(() =>
@@ -136,7 +136,7 @@ namespace Erp.Repository
                 IntPtr current = OrderProductPtr;
                 for (int i = 0; i < number_fields; ++i)
                 {
-                    Product product = (Product)Marshal.PtrToStructure(current, typeof(Product));
+                    AProduct product = (AProduct)Marshal.PtrToStructure(current, typeof(AProduct));
                     current = (IntPtr)((long)current + Marshal.SizeOf(product));
                     products.Add(product);
                 }

@@ -92,10 +92,10 @@ namespace Erp.Controllers
         }
 
         [HttpGet("getCustomerOrders/{id}")]
-        public async Task<ActionResult<List<Order>>> getCustomerOrders(string id)
+        public async Task<ActionResult<List<AOrder>>> getCustomerOrders(string id)
         {
             byte[] error = new byte[500];
-            List<Order> order = await _iCustomerRepository.getCustomerOrders(id, error);
+            List<AOrder> order = await _iCustomerRepository.getCustomerOrders(id, error);
             string z = Encoding.ASCII.GetString(error);
             string y = z.Remove(z.IndexOf('\0'));
             if (y == "")
@@ -110,10 +110,10 @@ namespace Erp.Controllers
         }
 
         [HttpGet("getOrderProducts/{id}")]
-        public async Task<ActionResult<List<Product>>> getOrderProducts(string id)
+        public async Task<ActionResult<List<AProduct>>> getOrderProducts(string id)
         {
             byte[] error = new byte[500];
-            List<Product> product = await _iProductRepository.getOrderProducts(id, error);
+            List<AProduct> product = await _iProductRepository.getOrderProducts(id, error);
             string z = Encoding.ASCII.GetString(error);
             string y = z.Remove(z.IndexOf('\0'));
             if (y == "")
