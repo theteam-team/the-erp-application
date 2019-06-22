@@ -44,6 +44,7 @@ public:
 
 		conn = mysql_init(0);
 		cout << con.DATABASE;
+		cout << con.DATABASE;
 
 		conn = mysql_real_connect(conn, con.SERVER, con.USER, con.PASSWORD, con.DATABASE, 3306, NULL, 0);
 		if (!conn) {
