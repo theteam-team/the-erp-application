@@ -21,14 +21,18 @@ namespace Erp.Controllers
         private readonly IOrderProductRepository _orderProductRepository;
         private readonly IInventoryRepository _inventoryRepository;
         private readonly IInventoryProductRepository _inventoryProductRepository;
+        private readonly IReportRepository _reportRepository;
+        private readonly IProductMovesRepository _productMovesRepository;
 
-        public WarehouseApiController(IProductRepository iProductRepository, IOrderRepository orderRepository, IOrderProductRepository orderProductRepository, IInventoryRepository inventoryRepository, IInventoryProductRepository inventoryProductRepository)
+        public WarehouseApiController(IProductRepository iProductRepository, IOrderRepository orderRepository, IOrderProductRepository orderProductRepository, IInventoryRepository inventoryRepository, IInventoryProductRepository inventoryProductRepository, IReportRepository reportRepository, IProductMovesRepository iProductMovesRepository)
         {
             _iProductRepository = iProductRepository;
             _orderRepository = orderRepository;
             _orderProductRepository = orderProductRepository;
             _inventoryRepository = inventoryRepository;
             _inventoryProductRepository = inventoryProductRepository;
+            _reportRepository = reportRepository;
+            _productMovesRepository = iProductMovesRepository;
         }
 
         [HttpPost("AddInventory")]
@@ -310,6 +314,42 @@ namespace Erp.Controllers
             }
         }
 
+        [HttpGet("Reporting")]
+        public async Task<ActionResult<Report>> Reporting()
+        {
+            byte[] error = new byte[500];
+            Report report = await _reportRepository.Reporting(error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(report);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+
+        [HttpGet("GetProductsMoves")]
+        public async Task<ActionResult<List<ProductMoves>>> GetProductsMoves()
+        {
+            byte[] error = new byte[500];
+            List<ProductMoves> products = await _productMovesRepository.GetProductsMoves(error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(products);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+
         [HttpGet("GetProductById/{id}")]
         public async Task<ActionResult<Product>> GetProduct(string id)
         {
@@ -382,7 +422,7 @@ namespace Erp.Controllers
             }
         }
       
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("ShowProducts")]
         public async Task<ActionResult<List<Product>>> ShowProducts()
         {
@@ -401,11 +441,29 @@ namespace Erp.Controllers
             }
         }
 
-        [HttpGet("ShowAllOrders")]
+        [HttpGet("ShowDeliveries")]
         public async Task<ActionResult<List<Order>>> ShowAllOrders()
         {
             byte[] error = new byte[500];
-            List<Order> orders = await _orderRepository.GetAll(error);
+            List<Order> orders = await _orderRepository.ShowAllOrders(error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(orders);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+
+        [HttpGet("ShowReceipts")]
+        public async Task<ActionResult<List<Order>>> ShowReceipts()
+        {
+            byte[] error = new byte[500];
+            List<Order> orders = await _orderRepository.ShowReceipts(error);
             string z = Encoding.ASCII.GetString(error);
             string y = z.Remove(z.IndexOf('\0'));
             if (y == "")
@@ -455,11 +513,65 @@ namespace Erp.Controllers
             }
         }
 
+        [HttpGet("ShowCompletedReceipts")]
+        public async Task<ActionResult<List<Order>>> ShowCompletedReceipts()
+        {
+            byte[] error = new byte[500];
+            List<Order> orders = await _orderRepository.ShowCompletedReceipts(error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(orders);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+
         [HttpGet("ShowOrdersInProgress")]
         public async Task<ActionResult<List<Order>>> ShowOrdersInProgress()
         {
             byte[] error = new byte[500];
             List<Order> orders = await _orderRepository.ShowOrdersInProgress(error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(orders);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+
+        [HttpGet("ShowWaitingOrders")]
+        public async Task<ActionResult<List<Order>>> ShowWaitingOrders()
+        {
+            byte[] error = new byte[500];
+            List<Order> orders = await _orderRepository.ShowWaitingOrders(error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(orders);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+
+        [HttpGet("ShowWaitingReceipts")]
+        public async Task<ActionResult<List<Order>>> ShowWaitingReceiprs()
+        {
+            byte[] error = new byte[500];
+            List<Order> orders = await _orderRepository.ShowWaitingReceipts(error);
             string z = Encoding.ASCII.GetString(error);
             string y = z.Remove(z.IndexOf('\0'));
             if (y == "")

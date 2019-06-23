@@ -201,28 +201,6 @@ namespace Erp.Repository
                 });
                 return (List<T>)(object)products;
             }
-
-            if (typeof(T) == typeof(Order))
-            {
-                List<Order> orders = new List<Order>();
-                IntPtr OrderPtr;
-
-                await Task.Run(() =>
-                {
-                    int number_fields = Warehouse_Wrapper.showAllOrders(out OrderPtr, error);
-                    IntPtr current = OrderPtr;
-
-                    for (int i = 0; i < number_fields; ++i)
-                    {
-                        Order order = (Order)Marshal.PtrToStructure(current, typeof(Order));
-
-                        current = (IntPtr)((long)current + Marshal.SizeOf(order));
-                        orders.Add(order);
-                    }
-                    Marshal.FreeCoTaskMem(OrderPtr);
-                });
-                return (List<T>)(object)orders;
-            }
             return null;
         }
         public async Task<List<T>> GetAll()
@@ -286,7 +264,7 @@ namespace Erp.Repository
             return null;
 
         }
-        public virtual async Task<List<T>> GetAll()
+        /*public virtual async Task<List<T>> GetAll()
         {
             if (typeof(C) == typeof(DataDbContext))
             {
@@ -298,7 +276,7 @@ namespace Erp.Repository
                 return _datadbContext.Set<T>().ToList();
             }
             return null;
-        }
+        }*/
         public virtual async Task<T> GetById(object id)
         {
             if (typeof(C) == typeof(DataDbContext))

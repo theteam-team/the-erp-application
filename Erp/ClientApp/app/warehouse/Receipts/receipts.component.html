@@ -1,10 +1,10 @@
 <app-warehouse></app-warehouse>
 
 <div class="row">
-    <button class="btn1 col-md-2 offset-md-3" type="button" (click)="addOrder()">Create Order</button>
+    <button class="btn1 col-md-2 offset-md-3" type="button" (click)="addOrder()">Create Receipt</button>
     <div class="col-md-6 offset-md-3">
         <div class="input-group" id="adv-search">
-            <input type="text" class="form-control" placeholder="Search for Orders" />
+            <input type="text" class="form-control" placeholder="Search for Receipts" />
             <div class="input-group-btn">
                 <div class="btn-group" role="group">
                     <div class="dropdown dropdown-lg">
@@ -16,7 +16,7 @@
                                     <select class="form-control" id="sKey" name="sKey" [(ngModel)]="sKey">
                                         <option value="Order_ID" selected>ID</option>
                                         <option value="Required_Date">Date</option>
-                                        <option value="Customer_Customer_ID">Customer</option>
+                                        <option value="Supplier_Supplier_ID">Supplier</option>
                                         <option value="Payment_Payment_ID">Payment</option>
                                     </select>
                                 </div>
@@ -36,9 +36,7 @@
 <div class="row">
     <button class="btn2" type="button" (click)="displayAllOrders()">All</button>
     <button class="btn2" type="button" (click)="displayCompletedOrders()">Done</button>
-    <button class="btn2" type="button" (click)="displayReadyOrders()">Ready</button>
-    <button class="btn2" type="button" (click)="displayOrdersInProgress()">In Progress</button>
-    <button class="btn2" type="button" (click)="displayWaitingOrders()">Waiting</button>
+    <button class="btn2" type="button" (click)="displayWaitingOrders()">Wating</button>
 </div>
 <div>
     <table class="table table-hover">
@@ -46,7 +44,7 @@
             <tr>
                 <th style="width:70px"></th>
                 <th>ID</th>
-                <th>Customer</th>
+                <th>Supplier</th>
                 <th>Status</th>
             </tr>
         </thead>
@@ -56,7 +54,7 @@
                     <button class="btn4" type="button" (click)="deleteOrder(o.id)">x</button>
                 </td>
                 <td><button class="btn4" type="button" (click)="onOrderClick(o.id)">{{ o.id }}</button></td>
-                <td>{{ o.customerID }}</td>
+                <td>{{ o.supplierID }}</td>
                 <td>{{ o.orderStatus }}</td>
             </tr>
         </tbody>

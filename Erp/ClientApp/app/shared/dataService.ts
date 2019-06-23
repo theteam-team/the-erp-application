@@ -103,6 +103,26 @@ export class DataService {
                 }));
     }
 
+    public report;
+    reporting(): Observable<boolean> {
+        return this.http.get("/api/WarehouseApi/Reporting")
+            .pipe(
+                map((data: any[]) => {
+                    this.report = data;
+                    return true;
+                }));
+    }
+
+    public productsMoves = [];
+    getProductsMoves(): Observable<boolean> {
+        return this.http.get("/api/WarehouseApi/GetProductsMoves")
+            .pipe(
+                map((data: any[]) => {
+                this.productsMoves = data;
+                    return true;
+                }));
+    }
+
     public productInfo;
     loadProductInfo(productID: string): Observable<boolean> {
         return this.http.get("/api/WarehouseApi/GetProductById/" + productID)
@@ -115,7 +135,16 @@ export class DataService {
 
     public orders = [];
     loadAllOrders(): Observable<boolean> {
-        return this.http.get("/api/WarehouseApi/ShowAllOrders")
+        return this.http.get("/api/WarehouseApi/ShowDeliveries")
+            .pipe(
+                map((data: any[]) => {
+                    this.orders = data;
+                    return true;
+                }));
+    }
+
+    loadReceipts(): Observable<boolean> {
+        return this.http.get("/api/WarehouseApi/ShowReceipts")
             .pipe(
                 map((data: any[]) => {
                     this.orders = data;
@@ -125,6 +154,15 @@ export class DataService {
 
     loadCompletedOrders(): Observable<boolean> {
         return this.http.get("/api/WarehouseApi/ShowCompletedOrders")
+            .pipe(
+                map((data: any[]) => {
+                    this.orders = data;
+                    return true;
+                }));
+    }
+
+    loadCompletedReceipts(): Observable<boolean> {
+        return this.http.get("/api/WarehouseApi/ShowCompletedReceipts")
             .pipe(
                 map((data: any[]) => {
                     this.orders = data;
@@ -143,6 +181,24 @@ export class DataService {
 
     loadReadyOrders(): Observable<boolean> {
         return this.http.get("/api/WarehouseApi/ShowReadyOrders")
+            .pipe(
+                map((data: any[]) => {
+                    this.orders = data;
+                    return true;
+                }));
+    }
+
+    loadWaitingOrders(): Observable<boolean> {
+        return this.http.get("/api/WarehouseApi/ShowWaitingOrders")
+            .pipe(
+                map((data: any[]) => {
+                    this.orders = data;
+                    return true;
+                }));
+    }
+
+    loadWaitingReceipts(): Observable<boolean> {
+        return this.http.get("/api/WarehouseApi/ShowWaitingReceipts")
             .pipe(
                 map((data: any[]) => {
                     this.orders = data;

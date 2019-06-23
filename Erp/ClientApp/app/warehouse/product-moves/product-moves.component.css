@@ -1,0 +1,16 @@
+tr {
+    color: black;
+}
+
+    tr:hover {
+        color: black;
+    }
+
+.border {
+    background-color: #d1d1e0;
+}
+
+.product-props {
+    list-style-type: none;
+    margin: 5px 5px 5px 5px;
+}

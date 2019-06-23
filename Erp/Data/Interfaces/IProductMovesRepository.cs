@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Erp.Interfaces
 {
-    public interface IInventoryRepository : IRepository<Inventory, DataDbContext>
+    public interface IProductMovesRepository : IRepository<ProductMoves, DataDbContext>
     {
-        Task<List<Inventory>> SearchInventories(string key, string value, byte[] error);
+        Task<List<ProductMoves>> GetProductsMoves(byte[] error);
     }
 }

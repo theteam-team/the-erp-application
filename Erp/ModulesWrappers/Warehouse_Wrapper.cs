@@ -59,9 +59,6 @@ namespace Erp.ModulesWrappers
         public static extern int removeFromStock(ProductInOrder product, byte[] error);
 
         [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        public static extern int getAllProductInfo(string id, out IntPtr productPtr, byte[] error);
-
-        [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern int showInventories(out IntPtr Inventory, byte[] error);
 
         [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
@@ -80,19 +77,40 @@ namespace Erp.ModulesWrappers
         public static extern int searchOrders(out IntPtr Order, string key, string value, byte[] error);
 
         [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern int reporting(out IntPtr reportPtr, byte[] error);
+
+        [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern int getProductsMoves(out IntPtr ProductMoves, byte[] error);
+
+        [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern int getAllProductInfo(string id, out IntPtr productPtr, byte[] error);
+
+        [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern  int getOrderInfo(string id, out IntPtr orderPtr, byte[] error);
 
         [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern int showAllOrders(out IntPtr order, byte[] error);
 
         [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern int showReceipts(out IntPtr order, byte[] error);
+
+        [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern  int showCompletedOrders(out IntPtr order, byte[] error);
+
+        [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern int showCompletedReceipts(out IntPtr order, byte[] error);
 
         [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern int showReadyOrders(out IntPtr order, byte[] error);
 
         [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern  int showOrdersInProgress(out IntPtr order, byte[] error);
+
+        [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern int showWaitingOrders(out IntPtr order, byte[] error);
+
+        [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern int showWaitingReceipts(out IntPtr order, byte[] error);
 
         [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern  int showProductsInOrder(string id, out IntPtr productInOrder, byte[] error);

@@ -1,9 +1,9 @@
 tr {
-    color: white;
+    color: black;
 }
 
     tr:hover {
-        color: white;
+        color: black;
     }
 
 .border {

@@ -11,6 +11,8 @@
 #include <mysql.h>
 #include <vector>
 #include <map>
+#include <time.h>
+#include <algorithm>
 
 #pragma warning(disable : 4996)
 using namespace std;
@@ -36,7 +38,7 @@ MYSQL_RES* tempRes2;
 class db_response {
 
 public:
-	static void ConnectionFunction(char * error) {
+	static void ConnectionFunction(char* error) {
 
 		conn = mysql_init(0);
 
@@ -50,6 +52,389 @@ public:
 		}
 	}
 };
+
+
+int calculateDeliveriesCycleTime(char* error) {
+
+	vector<int> daysDiff;
+	int total = 0, avg;
+	int y1, y2, m1, m2, d1, d2;
+	int increment[12] = { 1, -2, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1 };
+
+	db_response::ConnectionFunction(error);
+
+	if (conn)
+	{
+		mysql_free_result(res);
+
+		string query = (string)"select Order_Required_Date, Order_Completed_Date from erp.order where outgoing = 1 and Order_Status = 'Done'";
+		cout << query << endl;
+		char const *q = query.c_str();
+		qstate = mysql_query(conn, q);
+
+		if (checkQuery(qstate, error)) {
+			res = mysql_store_result(conn);
+
+			if (res->row_count > 0)
+			{
+				cout << res->row_count << endl;
+				unsigned int i = 0;
+				char* str1;
+				char* str2;
+
+				while (row = mysql_fetch_row(res)) {
+
+					str1 = row[0];
+					str2 = row[1];
+
+					replace(str1, str1 + strlen(str1), '-', ' ');
+					istringstream(str1) >> y1 >> m1 >> d1;
+
+					replace(str2, str2 + strlen(str2), '-', ' ');
+					istringstream(str2) >> y2 >> m2 >> d2;
+
+					int daysInc = 0;
+					if (d2 - d1 < 0)
+					{
+						int month = m2 - 2; // -1 from zero, -1 previous month.
+						if (month < 0)
+							month = 11; // Previous month is December.
+						daysInc = increment[month];
+						if ((month == 1) && (y2 % 4 == 0))
+							daysInc++; // Increment days for leap year.
+					}
+
+					int total1 = y1 * 360 + m1 * 30 + d1;
+					int total2 = y2 * 360 + m2 * 30 + d2;
+					int diff = total2 - total1;
+					int years = diff / 360;
+					int months = (diff - years * 360) / 30;
+					int days = diff - years * 360 - months * 30 + daysInc;
+
+					// Extra calculation when we can pass one month instead of 30 days.
+					if (d1 == 1 && d2 == 31) {
+						months--;
+						days = 30;
+					}
+
+					daysDiff.push_back(days);
+				}
+			}
+			else
+			{
+				string s = "No Deliveries";
+				cout << s << endl;
+				status = 2;
+			}
+		}
+		mysql_close(conn);
+	}
+
+	for (unsigned int i = 0; i < daysDiff.size(); i++)
+		total += daysDiff[i];
+
+	avg = total / daysDiff.size();
+
+	return avg;
+}
+
+int calculateReceiptsCycleTime(char* error) {
+
+	vector<int> daysDiff;
+	int total = 0, avg;
+	int y1, y2, m1, m2, d1, d2;
+	int increment[12] = { 1, -2, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1 };
+
+	db_response::ConnectionFunction(error);
+
+	if (conn)
+	{
+		mysql_free_result(res);
+
+		string query = (string)"select Order_Required_Date, Order_Completed_Date from erp.order where incoming = 1 and Order_Status = 'Done'";
+		cout << query << endl;
+		char const *q = query.c_str();
+		qstate = mysql_query(conn, q);
+
+		if (checkQuery(qstate, error)) {
+			res = mysql_store_result(conn);
+
+			if (res->row_count > 0)
+			{
+				cout << res->row_count << endl;
+				unsigned int i = 0;
+				char* str1;
+				char* str2;
+
+				while (row = mysql_fetch_row(res)) {
+
+					str1 = row[0];
+					str2 = row[1];
+
+					replace(str1, str1 + strlen(str1), '-', ' ');
+					istringstream(str1) >> y1 >> m1 >> d1;
+
+					replace(str2, str2 + strlen(str2), '-', ' ');
+					istringstream(str2) >> y2 >> m2 >> d2;
+
+					int daysInc = 0;
+					if (d2 - d1 < 0)
+					{
+						int month = m2 - 2; // -1 from zero, -1 previous month.
+						if (month < 0)
+							month = 11; // Previous month is December.
+						daysInc = increment[month];
+						if ((month == 1) && (y2 % 4 == 0))
+							daysInc++; // Increment days for leap year.
+					}
+
+					int total1 = y1 * 360 + m1 * 30 + d1;
+					int total2 = y2 * 360 + m2 * 30 + d2;
+					int diff = total2 - total1;
+					int years = diff / 360;
+					int months = (diff - years * 360) / 30;
+					int days = diff - years * 360 - months * 30 + daysInc;
+
+					// Extra calculation when we can pass one month instead of 30 days.
+					if (d1 == 1 && d2 == 31) {
+						months--;
+						days = 30;
+					}
+
+					daysDiff.push_back(days);
+				}
+			}
+			else
+			{
+				string s = "No Receipts";
+				cout << s << endl;
+				status = 2;
+			}
+		}
+		mysql_close(conn);
+	}
+
+	for (unsigned int i = 0; i < daysDiff.size(); i++)
+		total += daysDiff[i];
+
+	avg = total / daysDiff.size();
+
+	return avg;
+}
+
+double calculateInventoryValue(char* error) {
+
+	int total = 0;
+
+	db_response::ConnectionFunction(error);
+
+	if (conn)
+	{
+		mysql_free_result(res);
+
+		string query = (string)"select Product_Price, Units_In_Stock from product";
+		cout << query << endl;
+		char const *q = query.c_str();
+		qstate = mysql_query(conn, q);
+
+		if (checkQuery(qstate, error)) {
+			res = mysql_store_result(conn);
+
+			if (res->row_count > 0)
+			{
+				cout << res->row_count << endl;
+
+				while (row = mysql_fetch_row(res))
+					total += stod(row[0])*stoi(row[1]);
+			}
+			else
+			{
+				string s = "Inventory is empty";
+				cout << s << endl;
+				status = 2;
+			}
+		}
+		mysql_close(conn);
+	}
+	return total;
+}
+
+
+double calculateOutgoingValue(char* error) {
+
+	double total = 0;
+
+	db_response::ConnectionFunction(error);
+
+	if (conn)
+	{
+		mysql_free_result(res);
+
+		string query = (string)"select Order_ID from erp.order where outgoing = 1";
+		cout << query << endl;
+		char const *q = query.c_str();
+		qstate = mysql_query(conn, q);
+
+		if (checkQuery(qstate, error)) {
+			res = mysql_store_result(conn);
+
+			if (res->row_count > 0)
+			{
+				cout << res->row_count << endl;
+
+				while (row = mysql_fetch_row(res)) {
+
+					mysql_free_result(tempRes);
+
+					string query = (string)"select Product_Product_ID, Units_In_Order from order_has_product where Order_Order_ID = '" + row[0] + "'";
+					cout << query << endl;
+					char const *q = query.c_str();
+					qstate = mysql_query(conn, q);
+
+					if (checkQuery(qstate, error)) {
+						tempRes = mysql_store_result(conn);
+
+						if (tempRes->row_count > 0)
+						{
+							cout << tempRes->row_count << endl;
+
+							while (tempRow = mysql_fetch_row(tempRes)) {
+
+								mysql_free_result(tempRes2);
+
+								query = (string)"select Product_Price from product where Product_ID = '" + tempRow[0] + "'";
+								cout << query << endl;
+								char const *q = query.c_str();
+								qstate = mysql_query(conn, q);
+
+								if (checkQuery(qstate, error)) {
+									tempRes2 = mysql_store_result(conn);
+
+									if (tempRes2->row_count > 0)
+									{
+										tempRow2 = mysql_fetch_row(tempRes2);
+
+										total += stoi(tempRow[1])*stod(tempRow2[0]);
+									}
+									else
+									{
+										string s = "No Products Found";
+										cout << s << endl;
+										status = 2;
+									}
+								}
+							}
+						}
+						else
+						{
+							string s = "No Products Found";
+							cout << s << endl;
+							status = 2;
+						}
+					}
+				}
+			}
+			else
+			{
+				string s = "No outgoig Orders";
+				cout << s << endl;
+				status = 2;
+			}
+		}
+		mysql_close(conn);
+	}
+
+	return total;
+}
+
+
+double calculateIncomingValue(char* error) {
+
+	double total = 0;
+
+	db_response::ConnectionFunction(error);
+
+	if (conn)
+	{
+		mysql_free_result(res);
+
+		string query = (string)"select Order_ID from erp.order where incoming = 1";
+		cout << query << endl;
+		char const *q = query.c_str();
+		qstate = mysql_query(conn, q);
+
+		if (checkQuery(qstate, error)) {
+			res = mysql_store_result(conn);
+
+			if (res->row_count > 0)
+			{
+				cout << res->row_count << endl;
+
+				while (row = mysql_fetch_row(res)) {
+
+					mysql_free_result(tempRes);
+
+					string query = (string)"select Product_Product_ID, Units_In_Order from order_has_product where Order_Order_ID = '" + row[0] + "'";
+					cout << query << endl;
+					char const *q = query.c_str();
+					qstate = mysql_query(conn, q);
+
+					if (checkQuery(qstate, error)) {
+						tempRes = mysql_store_result(conn);
+
+						if (tempRes->row_count > 0)
+						{
+							cout << tempRes->row_count << endl;
+
+							while (tempRow = mysql_fetch_row(tempRes)) {
+
+								mysql_free_result(tempRes2);
+
+								query = (string)"select Product_Price from product where Product_ID = '" + tempRow[0] + "'";
+								cout << query << endl;
+								char const *q = query.c_str();
+								qstate = mysql_query(conn, q);
+
+								if (checkQuery(qstate, error)) {
+									tempRes2 = mysql_store_result(conn);
+
+									if (tempRes2->row_count > 0)
+									{
+										tempRow2 = mysql_fetch_row(tempRes2);
+
+										total += stoi(tempRow[1])*stod(tempRow2[0]);
+									}
+									else
+									{
+										string s = "No Products Found";
+										cout << s << endl;
+										status = 2;
+									}
+								}
+							}
+						}
+						else
+						{
+							string s = "No Products Found";
+							cout << s << endl;
+							status = 2;
+						}
+					}
+				}
+			}
+			else
+			{
+				string s = "No outgoig Orders";
+				cout << s << endl;
+				status = 2;
+			}
+		}
+		mysql_close(conn);
+	}
+
+	return total;
+}
+
 
 int addToCategory(char* pid, char* cid, char* error) {
 
@@ -270,7 +655,7 @@ extern "C"	ERP_API int addOrder(Order* order, char* error)
 
 	if (conn) {
 
-		string query = (string) "insert into erp.order values ('" + order->id + "', '" + order->requiredDate + "', '" + order->completedDate + "', '" + order->orderStatus + "', '" + order->customerID + "', '" + order->paymentID + "')";
+		string query = (string) "insert into erp.order values ('" + order->id + "', " + to_string(order->incoming) + ", " + to_string(order->outgoing) + ", '" + order->requiredDate + "', '" + order->completedDate + "', '" + order->orderStatus + "', '" + order->customerID + "', '" + order->supplierID + "','" + order->paymentID + "', '" + order->shipmentID + "')";
 		cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
@@ -341,7 +726,7 @@ extern "C" ERP_API int editOrder(Order* order, char* error)
 	db_response::ConnectionFunction(error);
 
 	if (conn) {
-		string query = (string) "update erp.order set Order_Required_Date = '" + order->requiredDate + "', Order_Status = '" + order->orderStatus + "', Customer_Customer_ID = '" + order->customerID + "', Payment_Payment_ID = '" + order->paymentID + "' where Order_ID = '" + order->id + "'";
+		string query = (string) "update erp.order set incoming = " + to_string(order->incoming) + ", outgoing = " + to_string(order->outgoing) + ", Order_Required_Date = '" + order->requiredDate + "', Order_Status = '" + order->orderStatus + "', Customer_Customer_ID = '" + order->customerID + "', Supplier_Supplier_ID = " + order->supplierID + "', Payment_Payment_ID = '" + order->paymentID + "', Shipment_Shipment_ID = '" + order->shipmentID + "' where Order_ID = '" + order->id + "'";
 		cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
@@ -416,10 +801,10 @@ extern "C"	ERP_API int deleteProduct(char* id, char* error) {
 
 extern "C"	ERP_API int deleteOrder(char* id, char* error) {
 
-	//deleteAll(id, error);
+	deleteAll(id, error);
 
 	status = 0;
-	/*db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error);
 
 	if (conn)
 	{
@@ -430,7 +815,7 @@ extern "C"	ERP_API int deleteOrder(char* id, char* error) {
 		checkQuery(qstate, error);
 		mysql_close(conn);
 
-	}*/
+	}
 	return status;
 }
 
@@ -676,12 +1061,15 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 				 while (row = mysql_fetch_row(res)) {
 
 					 _order->id = row[0];
-					 row[1] ? _order->requiredDate = row[1] : _order->requiredDate = nullptr;
-					 row[2] ? _order->completedDate = row[2] : _order->completedDate = "Not Completed";
-					 row[3] ? _order->orderStatus = row[3] : _order->orderStatus = nullptr;
-					 row[4] ? _order->customerID = row[4] : _order->customerID = nullptr;
-					 row[5] ? _order->paymentID = row[5] : _order->paymentID = nullptr;
-					 row[6] ? _order->shipmentID = row[6] : _order->shipmentID = nullptr;
+					 row[1] ? _order->incoming = stoi(row[1]) : _order->incoming = 2;
+					 row[2] ? _order->outgoing = stoi(row[2]) : _order->outgoing = 2;
+					 row[3] ? _order->requiredDate = row[3] : _order->requiredDate = nullptr;
+					 row[4] ? _order->completedDate = row[4] : _order->completedDate = nullptr;
+					 row[5] ? _order->orderStatus = row[5] : _order->orderStatus = nullptr;
+					 row[6] ? _order->customerID = row[6] : _order->customerID = nullptr;
+					 row[7] ? _order->supplierID = row[7] : _order->supplierID = nullptr;
+					 row[8] ? _order->paymentID = row[8] : _order->paymentID = nullptr;
+					 row[9] ? _order->shipmentID = row[9] : _order->shipmentID = nullptr;
 
 					 numberOfRows++;
 					 _order++;
@@ -731,12 +1119,12 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 				 while (row = mysql_fetch_row(res)) {
 
 					 _inventory->id = row[0];
-					 row[2] ? _inventory->governorate = row[2] : _inventory->governorate = 0;
-					 row[3] ? _inventory->city = row[3] : _inventory->city = 0;
-					 row[4] ? _inventory->street = row[4] : _inventory->street = 0;
-					 row[5] ? _inventory->length = stod(row[5]) : _inventory->length = 0;
-					 row[6] ? _inventory->width = stod(row[6]) : _inventory->width = 0;
-					 row[7] ? _inventory->height = stod(row[7]) : _inventory->height = 0;
+					 row[1] ? _inventory->governorate = row[1] : _inventory->governorate = 0;
+					 row[2] ? _inventory->city = row[2] : _inventory->city = 0;
+					 row[3] ? _inventory->street = row[3] : _inventory->street = 0;
+					 row[4] ? _inventory->length = stod(row[4]) : _inventory->length = 0;
+					 row[5] ? _inventory->width = stod(row[5]) : _inventory->width = 0;
+					 row[6] ? _inventory->height = stod(row[6]) : _inventory->height = 0;
 
 					 numberOfRows++;
 					 _inventory++;
@@ -754,6 +1142,124 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 	 return numberOfRows;
  }
 
+
+ extern "C"	ERP_API int reporting(Report** report, char* error) {
+
+	 int status = 0;
+	 double a, b, c, d, e, f;
+	 *report = (Report*)CoTaskMemAlloc(sizeof(Report));
+	 Report *_report = *report;
+
+	 a = calculateDeliveriesCycleTime(error);
+	 b = calculateReceiptsCycleTime(error);
+	 c = calculateInventoryValue(error);
+	 d = calculateOutgoingValue(error);
+	 e = calculateIncomingValue(error);
+	 f = d / c;
+	 
+	 _report->deliveriesCycleTime = a;
+	 _report->receiptsCycleTime = b;
+	 _report->inventoryValue = c;
+	 _report->outgoingValue = d;
+	 _report->incomingValue = e;
+	 _report->inventoryTurnover = f;
+
+	 return status;
+ }
+
+ extern "C"	ERP_API int getProductsMoves(ProductMoves** product, char* error) {
+
+	 status = 0;
+	 int numberOfRows = 0;
+	 db_response::ConnectionFunction(error);
+
+	 if (conn)
+	 {
+		 unsigned int numOfFields;
+		 string query = (string)"select * from order_has_product";
+		 cout << query << endl;
+		 char const *q = query.c_str();
+
+		 mysql_free_result(res);
+		 qstate = mysql_query(conn, q);
+
+		 if (checkQuery(qstate, error)) {
+
+			 res = mysql_store_result(conn);
+
+			 if (res->row_count > 0)
+			 {
+				 cout << res->row_count << endl;
+				 status = 0;
+				 numOfFields = mysql_num_fields(res);
+				 
+				 *product = (ProductMoves*)CoTaskMemAlloc((int)(res->row_count) * sizeof(ProductMoves));
+				 ProductMoves *_product = *product;
+
+				 while (row = mysql_fetch_row(res)) {
+
+					 _product->id = row[1];
+					 _product->quantity = stoi(row[2]);
+
+					 query = (string)"select Product_Name from product where Product_ID = '" + row[1] + "'";
+					 cout << query << endl;
+					 q = query.c_str();
+
+					 mysql_free_result(tempRes);
+					 qstate = mysql_query(conn, q);
+
+					 if (checkQuery(qstate, error)) {
+
+						 tempRes = mysql_store_result(conn);
+
+						 if (tempRes->row_count > 0)
+						 {
+							 tempRow = mysql_fetch_row(tempRes);
+							 _product->name = tempRow[0];
+						 }
+					 }
+
+					 query = (string)"select incoming, Order_Completed_Date from erp.order where Order_ID = '" + row[0] + "'";
+					 cout << query << endl;
+					 q = query.c_str();
+
+					 mysql_free_result(tempRes2);
+					 qstate = mysql_query(conn, q);
+
+					 if (checkQuery(qstate, error)) {
+
+						 tempRes2 = mysql_store_result(conn);
+
+						 if (tempRes2->row_count > 0)
+						 {
+							 tempRow2 = mysql_fetch_row(tempRes2);
+
+							 if (stoi(tempRow2[0]) == 1) {
+								 _product->status = "Incoming";
+							 }
+							 else {
+								 _product->status = "Outgoing";
+							 }
+							 
+							 _product->time = tempRow2[1];
+						 }
+					 }
+
+					 numberOfRows++;
+					 _product++;
+				 }
+			 }
+			 else
+			 {
+				 string s = "No product Moves";
+				 cout << s << endl;
+				 strcpy_s(error, s.length() + 1, s.c_str());
+				 status = 2;
+			 }
+		 }
+	 }
+	 return numberOfRows;
+ }
 
  extern "C"	ERP_API int getAllProductInfo(char* id, Product** product, char* error) {
 
@@ -806,6 +1312,7 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 	}
 	return status;
 }
+
  extern "C"	ERP_API int getOrderInfo(char* id, Order** order, char* error) {
 
 	 status = 0;
@@ -835,12 +1342,15 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 				 Order *_order = *order;
 
 				 _order->id = row[0];
-				 row[1] ? _order->requiredDate = row[1] : _order->requiredDate = nullptr;
-				 row[2] ? _order->completedDate = row[2] : _order->completedDate = "Not Completed";
-				 row[3] ? _order->orderStatus = row[3] : _order->orderStatus = nullptr;
-				 row[4] ? _order->customerID = row[4] : _order->customerID = nullptr;
-				 row[5] ? _order->paymentID = row[5] : _order->paymentID = nullptr;
-				 row[6] ? _order->shipmentID = row[6] : _order->shipmentID = nullptr;
+				 row[1] ? _order->incoming = stoi(row[1]) : _order->incoming = 2;
+				 row[2] ? _order->outgoing = stoi(row[2]) : _order->outgoing = 2;
+				 row[3] ? _order->requiredDate = row[3] : _order->requiredDate = nullptr;
+				 row[4] ? _order->completedDate = row[4] : _order->completedDate = nullptr;
+				 row[5] ? _order->orderStatus = row[5] : _order->orderStatus = nullptr;
+				 row[6] ? _order->customerID = row[6] : _order->customerID = nullptr;
+				 row[7] ? _order->supplierID = row[7] : _order->supplierID = nullptr;
+				 row[8] ? _order->paymentID = row[8] : _order->paymentID = nullptr;
+				 row[9] ? _order->shipmentID = row[9] : _order->shipmentID = nullptr;
 
 				 cout << "here" << endl;
 
@@ -1049,7 +1559,7 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 
 		 mysql_free_result(res);
 
-		 qstate = mysql_query(conn, "select * from erp.order");
+		 qstate = mysql_query(conn, "select * from erp.order where incoming = 1");
 		 cout << "select * from erp.order" << endl;
 		 if (checkQuery(qstate, error))
 		 {
@@ -1066,12 +1576,15 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 				 while (row = mysql_fetch_row(res)) {
 
 					 _order->id = row[0];
-					 row[1] ? _order->requiredDate = row[1] : _order->requiredDate = nullptr;
-					 row[2] ? _order->completedDate = row[2] : _order->completedDate = nullptr;
-					 row[3] ? _order->orderStatus = row[3] : _order->orderStatus = nullptr;
-					 row[4] ? _order->customerID = row[4] : _order->customerID = nullptr;
-					 row[5] ? _order->paymentID = row[5] : _order->paymentID = nullptr;
-					 row[6] ? _order->shipmentID = row[6] : _order->shipmentID = nullptr;
+					 row[1] ? _order->incoming = stoi(row[1]) : _order->incoming = 2;
+					 row[2] ? _order->outgoing = stoi(row[2]) : _order->outgoing = 2;
+					 row[3] ? _order->requiredDate = row[3] : _order->requiredDate = nullptr;
+					 row[4] ? _order->completedDate = row[4] : _order->completedDate = nullptr;
+					 row[5] ? _order->orderStatus = row[5] : _order->orderStatus = nullptr;
+					 row[6] ? _order->customerID = row[6] : _order->customerID = nullptr;
+					 row[7] ? _order->supplierID = row[7] : _order->supplierID = nullptr;
+					 row[8] ? _order->paymentID = row[8] : _order->paymentID = nullptr;
+					 row[9] ? _order->shipmentID = row[9] : _order->shipmentID = nullptr;
 
 					 numberOfRows++;
 					 _order++; 
@@ -1082,7 +1595,8 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 	 }
 	 return numberOfRows;
  }
- extern "C"	ERP_API int showCompletedOrders(Order** order, char* error) {
+
+ extern "C"	ERP_API int showReceipts(Order** order, char* error) {
 
 	 status = 0;
 	 int numberOfRows = 0;
@@ -1092,8 +1606,54 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 
 		 mysql_free_result(res);
 
-		 qstate = mysql_query(conn, "select * from erp.order where Order_Status = \"Done\"");
-		 cout << "select * from erp.order where Order_Status = \"Done\"" << endl;
+		 qstate = mysql_query(conn, "select * from erp.order where outgoing = 1");
+		 cout << "select * from erp.order" << endl;
+		 if (checkQuery(qstate, error))
+		 {
+			 res = mysql_store_result(conn);
+
+			 if (res->row_count > 0)
+			 {
+				 *order = (Order*)CoTaskMemAlloc((int)(res->row_count) * sizeof(Order));
+				 numOfFields = mysql_num_fields(res);
+				 cout << res->row_count << endl;
+
+				 Order *_order = *order;
+
+				 while (row = mysql_fetch_row(res)) {
+
+					 _order->id = row[0];
+					 row[1] ? _order->incoming = stoi(row[1]) : _order->incoming = 2;
+					 row[2] ? _order->outgoing = stoi(row[2]) : _order->outgoing = 2;
+					 row[3] ? _order->requiredDate = row[3] : _order->requiredDate = nullptr;
+					 row[4] ? _order->completedDate = row[4] : _order->completedDate = nullptr;
+					 row[5] ? _order->orderStatus = row[5] : _order->orderStatus = nullptr;
+					 row[6] ? _order->customerID = row[6] : _order->customerID = nullptr;
+					 row[7] ? _order->supplierID = row[7] : _order->supplierID = nullptr;
+					 row[8] ? _order->paymentID = row[8] : _order->paymentID = nullptr;
+					 row[9] ? _order->shipmentID = row[9] : _order->shipmentID = nullptr;
+
+					 numberOfRows++;
+					 _order++;
+				 }
+				 cout << "here" << endl;
+			 }
+		 }
+	 }
+	 return numberOfRows;
+ }
+
+ extern "C"	ERP_API int showCompletedOrders(Order** order, char* error) {
+
+	 status = 0;
+	 int numberOfRows = 0;
+	 unsigned int numOfFields;
+	 db_response::ConnectionFunction(error);
+	 if (conn) {
+
+		 mysql_free_result(res);
+		 qstate = mysql_query(conn, "select * from erp.order where Order_Status = 'Done' and incoming = 1");
+		 cout << "select * from erp.order where Order_Status = 'Done' and incoming = 1" << endl;
 
 		 if (checkQuery(qstate, error))
 		 {
@@ -1110,12 +1670,15 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 				 while (row = mysql_fetch_row(res)) {
 
 					 _order->id = row[0];
-					 row[1] ? _order->requiredDate = row[1] : _order->requiredDate = nullptr;
-					 row[2] ? _order->completedDate = row[2] : _order->completedDate = "Not Completed";
-					 row[3] ? _order->orderStatus = row[3] : _order->orderStatus = nullptr;
-					 row[4] ? _order->customerID = row[4] : _order->customerID = nullptr;
-					 row[5] ? _order->paymentID = row[5] : _order->paymentID = nullptr;
-					 row[6] ? _order->shipmentID = row[6] : _order->shipmentID = nullptr;
+					 row[1] ? _order->incoming = stoi(row[1]) : _order->incoming = 2;
+					 row[2] ? _order->outgoing = stoi(row[2]) : _order->outgoing = 2;
+					 row[3] ? _order->requiredDate = row[3] : _order->requiredDate = nullptr;
+					 row[4] ? _order->completedDate = row[4] : _order->completedDate = nullptr;
+					 row[5] ? _order->orderStatus = row[5] : _order->orderStatus = nullptr;
+					 row[6] ? _order->customerID = row[6] : _order->customerID = nullptr;
+					 row[7] ? _order->supplierID = row[7] : _order->supplierID = nullptr;
+					 row[8] ? _order->paymentID = row[8] : _order->paymentID = nullptr;
+					 row[9] ? _order->shipmentID = row[9] : _order->shipmentID = nullptr;
 
 					 numberOfRows++;
 					 _order++;
@@ -1126,6 +1689,54 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 	 }
 	 return numberOfRows;
 }
+
+ extern "C"	ERP_API int showCompletedReceipts(Order** order, char* error) {
+
+	 status = 0;
+	 int numberOfRows = 0;
+	 unsigned int numOfFields;
+	 db_response::ConnectionFunction(error);
+	 if (conn) {
+
+		 mysql_free_result(res);
+		 qstate = mysql_query(conn, "select * from erp.order where Order_Status = 'Done' and outgoing = 1");
+		 cout << "select * from erp.order where Order_Status = 'Done' and outgoing = 1" << endl;
+
+		 if (checkQuery(qstate, error))
+		 {
+			 res = mysql_store_result(conn);
+
+			 if (res->row_count > 0)
+			 {
+				 *order = (Order*)CoTaskMemAlloc((int)(res->row_count) * sizeof(Order));
+				 numOfFields = mysql_num_fields(res);
+				 cout << res->row_count << endl;
+
+				 Order *_order = *order;
+
+				 while (row = mysql_fetch_row(res)) {
+
+					 _order->id = row[0];
+					 row[1] ? _order->incoming = stoi(row[1]) : _order->incoming = 2;
+					 row[2] ? _order->outgoing = stoi(row[2]) : _order->outgoing = 2;
+					 row[3] ? _order->requiredDate = row[3] : _order->requiredDate = nullptr;
+					 row[4] ? _order->completedDate = row[4] : _order->completedDate = nullptr;
+					 row[5] ? _order->orderStatus = row[5] : _order->orderStatus = nullptr;
+					 row[6] ? _order->customerID = row[6] : _order->customerID = nullptr;
+					 row[7] ? _order->supplierID = row[7] : _order->supplierID = nullptr;
+					 row[8] ? _order->paymentID = row[8] : _order->paymentID = nullptr;
+					 row[9] ? _order->shipmentID = row[9] : _order->shipmentID = nullptr;
+
+					 numberOfRows++;
+					 _order++;
+				 }
+				 cout << "here" << endl;
+			 }
+		 }
+	 }
+	 return numberOfRows;
+ }
+
  extern "C"	ERP_API int showReadyOrders(Order** order, char* error) {
 
 	 status = 0;
@@ -1154,12 +1765,15 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 				 while (row = mysql_fetch_row(res)) {
 
 					 _order->id = row[0];
-					 row[1] ? _order->requiredDate = row[1] : _order->requiredDate = nullptr;
-					 row[2] ? _order->completedDate = row[2] : _order->completedDate = "Not Completed";
-					 row[3] ? _order->orderStatus = row[3] : _order->orderStatus = nullptr;
-					 row[4] ? _order->customerID = row[4] : _order->customerID = nullptr;
-					 row[5] ? _order->paymentID = row[5] : _order->paymentID = nullptr;
-					 row[6] ? _order->shipmentID = row[6] : _order->shipmentID = nullptr;
+					 row[1] ? _order->incoming = stoi(row[1]) : _order->incoming = 2;
+					 row[2] ? _order->outgoing = stoi(row[2]) : _order->outgoing = 2;
+					 row[3] ? _order->requiredDate = row[3] : _order->requiredDate = nullptr;
+					 row[4] ? _order->completedDate = row[4] : _order->completedDate = nullptr;
+					 row[5] ? _order->orderStatus = row[5] : _order->orderStatus = nullptr;
+					 row[6] ? _order->customerID = row[6] : _order->customerID = nullptr;
+					 row[7] ? _order->supplierID = row[7] : _order->supplierID = nullptr;
+					 row[8] ? _order->paymentID = row[8] : _order->paymentID = nullptr;
+					 row[9] ? _order->shipmentID = row[9] : _order->shipmentID = nullptr;
 
 					 numberOfRows++;
 					 _order++;
@@ -1170,6 +1784,7 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 	 }
 	 return numberOfRows;
  }
+
  extern "C"	ERP_API int showOrdersInProgress(Order** order, char* error) {
 
 	 status = 0;
@@ -1198,12 +1813,15 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 				 while (row = mysql_fetch_row(res)) {
 
 					 _order->id = row[0];
-					 row[1] ? _order->requiredDate = row[1] : _order->requiredDate = nullptr;
-					 row[2] ? _order->completedDate = row[2] : _order->completedDate = "Not Completed";
-					 row[3] ? _order->orderStatus = row[3] : _order->orderStatus = nullptr;
-					 row[4] ? _order->customerID = row[4] : _order->customerID = nullptr;
-					 row[5] ? _order->paymentID = row[5] : _order->paymentID = nullptr;
-					 row[6] ? _order->shipmentID = row[6] : _order->shipmentID = nullptr;
+					 row[1] ? _order->incoming = stoi(row[1]) : _order->incoming = 2;
+					 row[2] ? _order->outgoing = stoi(row[2]) : _order->outgoing = 2;
+					 row[3] ? _order->requiredDate = row[3] : _order->requiredDate = nullptr;
+					 row[4] ? _order->completedDate = row[4] : _order->completedDate = nullptr;
+					 row[5] ? _order->orderStatus = row[5] : _order->orderStatus = nullptr;
+					 row[6] ? _order->customerID = row[6] : _order->customerID = nullptr;
+					 row[7] ? _order->supplierID = row[7] : _order->supplierID = nullptr;
+					 row[8] ? _order->paymentID = row[8] : _order->paymentID = nullptr;
+					 row[9] ? _order->shipmentID = row[9] : _order->shipmentID = nullptr;
 
 					 numberOfRows++;
 					 _order++;
@@ -1214,6 +1832,101 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 	 }
 	 return numberOfRows;
 }
+
+ extern "C"	ERP_API int showWaitingOrders(Order** order, char* error) {
+
+	 status = 0;
+	 int numberOfRows = 0;
+	 unsigned int numOfFields;
+	 db_response::ConnectionFunction(error);
+	 if (conn) {
+
+		 mysql_free_result(res);
+		 qstate = mysql_query(conn, "select * from erp.order where Order_Status = 'Waiting' and incoming = 1");
+		 cout << "select * from erp.order where Order_Status = 'Waiting' and incoming = 1" << endl;
+
+		 if (checkQuery(qstate, error))
+		 {
+			 res = mysql_store_result(conn);
+
+			 if (res->row_count > 0)
+			 {
+				 *order = (Order*)CoTaskMemAlloc((int)(res->row_count) * sizeof(Order));
+				 numOfFields = mysql_num_fields(res);
+				 cout << res->row_count << endl;
+
+				 Order *_order = *order;
+
+				 while (row = mysql_fetch_row(res)) {
+
+					 _order->id = row[0];
+					 row[1] ? _order->incoming = stoi(row[1]) : _order->incoming = 2;
+					 row[2] ? _order->outgoing = stoi(row[2]) : _order->outgoing = 2;
+					 row[3] ? _order->requiredDate = row[3] : _order->requiredDate = nullptr;
+					 row[4] ? _order->completedDate = row[4] : _order->completedDate = nullptr;
+					 row[5] ? _order->orderStatus = row[5] : _order->orderStatus = nullptr;
+					 row[6] ? _order->customerID = row[6] : _order->customerID = nullptr;
+					 row[7] ? _order->supplierID = row[7] : _order->supplierID = nullptr;
+					 row[8] ? _order->paymentID = row[8] : _order->paymentID = nullptr;
+					 row[9] ? _order->shipmentID = row[9] : _order->shipmentID = nullptr;
+
+					 numberOfRows++;
+					 _order++;
+				 }
+				 cout << "here" << endl;
+			 }
+		 }
+	 }
+	 return numberOfRows;
+ }
+
+ extern "C"	ERP_API int showWaitingReceipts(Order** order, char* error) {
+
+	 status = 0;
+	 int numberOfRows = 0;
+	 unsigned int numOfFields;
+	 db_response::ConnectionFunction(error);
+	 if (conn) {
+
+		 mysql_free_result(res);
+		 qstate = mysql_query(conn, "select * from erp.order where Order_Status = 'Waiting' and outgoing = 1");
+		 cout << "select * from erp.order where Order_Status = 'Waiting' and outgoing = 1" << endl;
+
+		 if (checkQuery(qstate, error))
+		 {
+			 res = mysql_store_result(conn);
+
+			 if (res->row_count > 0)
+			 {
+				 *order = (Order*)CoTaskMemAlloc((int)(res->row_count) * sizeof(Order));
+				 numOfFields = mysql_num_fields(res);
+				 cout << res->row_count << endl;
+
+				 Order *_order = *order;
+
+				 while (row = mysql_fetch_row(res)) {
+
+					 _order->id = row[0];
+					 row[1] ? _order->incoming = stoi(row[1]) : _order->incoming = 2;
+					 row[2] ? _order->outgoing = stoi(row[2]) : _order->outgoing = 2;
+					 row[3] ? _order->requiredDate = row[3] : _order->requiredDate = nullptr;
+					 row[4] ? _order->completedDate = row[4] : _order->completedDate = nullptr;
+					 row[5] ? _order->orderStatus = row[5] : _order->orderStatus = nullptr;
+					 row[6] ? _order->customerID = row[6] : _order->customerID = nullptr;
+					 row[7] ? _order->supplierID = row[7] : _order->supplierID = nullptr;
+					 row[8] ? _order->paymentID = row[8] : _order->paymentID = nullptr;
+					 row[9] ? _order->shipmentID = row[9] : _order->shipmentID = nullptr;
+
+					 numberOfRows++;
+					 _order++;
+				 }
+				 cout << "here" << endl;
+			 }
+		 }
+	 }
+	 return numberOfRows;
+ }
+
  extern "C"	ERP_API int showProductsInOrder(char* id, ProductInOrder** product, char* error) {
 
 	 status = 0;
@@ -1300,7 +2013,7 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 }
 
 */
- bool checkQuery(int qstate,  char * error)
+ bool checkQuery(int qstate,  char* error)
  {
 	 if (qstate)
 	 {

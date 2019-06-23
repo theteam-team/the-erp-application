@@ -6,12 +6,12 @@ import { NgForm } from '@angular/forms';
 import { DataService } from 'ClientApp/app/shared/dataService';
 
 @Component({
-  selector: 'app-orders',
-  templateUrl: './orders.component.html',
-  styleUrls: ['./orders.component.css']
+  selector: 'app-receipts',
+  templateUrl: './receipts.component.html',
+  styleUrls: ['./receipts.component.css']
 })
 
-export class OrdersComponent implements OnInit {
+export class ReceiptsComponent implements OnInit {
 
     constructor(private data: DataService, private router: Router, private location: Location) {
     }
@@ -19,7 +19,7 @@ export class OrdersComponent implements OnInit {
     public orders = [];
 
     ngOnInit(): void {
-        this.displayAllOrders();
+        this.displayReceipts();
     }
 
     reloadComponent(): void {
@@ -30,8 +30,8 @@ export class OrdersComponent implements OnInit {
         this.router.navigate(["warehouse/order", orderid]);
     }
 
-    displayAllOrders(): void {
-        this.data.loadAllOrders()
+    displayReceipts(): void {
+        this.data.loadReceipts()
             .subscribe(success => {
                 if (success) {
                     this.orders = this.data.orders;
@@ -40,7 +40,7 @@ export class OrdersComponent implements OnInit {
     }
 
     displayCompletedOrders(): void{
-        this.data.loadCompletedOrders()
+        this.data.loadCompletedReceipts()
             .subscribe(success => {
                 if (success) {
                     this.orders = this.data.orders;
@@ -48,26 +48,9 @@ export class OrdersComponent implements OnInit {
             })
     }
 
-    displayOrdersInProgress(): void {
-        this.data.loadOrdersInProgress()
-            .subscribe(success => {
-                if (success) {
-                    this.orders = this.data.orders;
-                }
-            })
-    }
-
-    displayReadyOrders(): void {
-        this.data.loadReadyOrders()
-            .subscribe(success => {
-                if (success) {
-                    this.orders = this.data.orders;
-                }
-            })
-    }
 
     displayWaitingOrders(): void {
-        this.data.loadWaitingOrders()
+        this.data.loadWaitingReceipts()
             .subscribe(success => {
                 if (success) {
                     this.orders = this.data.orders;
