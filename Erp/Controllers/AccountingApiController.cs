@@ -126,5 +126,23 @@ namespace Erp.Controllers
                 return BadRequest(y);
             }
         }
+
+        [HttpGet("GetCustomerAccount/{id}")]
+        public async Task<ActionResult<List<Account>>> getCustomerAccount(string id)
+        {
+            byte[] error = new byte[500];
+            List<Account> account = await _iCustomerRepository.getCustomerAccount(id, error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(account);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
     }
 }

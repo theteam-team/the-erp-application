@@ -26,5 +26,8 @@ namespace Erp.ModulesWrappers
 
         [DllImport("Modules//Accounting//Accounting.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern int getOrderProducts(string id, out IntPtr OrderProductPtr, byte[] error);
+
+        [DllImport("Modules//Accounting//Accounting.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern int getCustomerAccount(string id, out IntPtr AccountPtr, byte[] error);
     }
 }

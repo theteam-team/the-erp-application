@@ -88,7 +88,7 @@ extern "C" ERP_API int getInvoice(Invoice** invoice, char* error) {
 	if (conn) {
 		mysql_free_result(res);
 		//for each sold product, calculate its profit --> Units_In_Order *( product_price - Produt_cost),,,,,, then get summation of all profits
-		query = (string) "SELECT  Supplier_ID, Supplier_Name,  Supplier_Phone_Number,Supplier_Email, Product_Name,Product_Cost, Units_Supplied, (Units_Supplied * (select Product_Cost from "+ DATABASE +".product where product_id = product_has_supplier.Product_Product_ID)) as total_cost,paid_up, (Units_Supplied * (select Product_Cost from "+DATABASE+".product where product_id = product_has_supplier.Product_Product_ID) - Paid_up) As depts from "+DATABASE+".supplier, "+DATABASE+".product_has_supplier, "+DATABASE+".product where (Supplier_ID = product_has_supplier.Supplier_Supplier_ID AND product_id = product_has_supplier.Product_Product_ID) order by supplier_id ";
+		query = (string) "SELECT  Supplier_ID, Supplier_Name,  Supplier_Phone_Number,Supplier_Email, Product_Name,Product_Cost, Units_Supplied, (Units_Supplied * (select Product_Cost from "+ DATABASE +".product where product_id = product_has_supplier.Product_Product_ID)) as total_cost,paid_up, (Units_Supplied * (select Product_Cost from "+DATABASE+".product where product_id = product_has_supplier.Product_Product_ID) - Paid_up) As debts from "+DATABASE+".supplier, "+DATABASE+".product_has_supplier, "+DATABASE+".product where (Supplier_ID = product_has_supplier.Supplier_Supplier_ID AND product_id = product_has_supplier.Product_Product_ID) order by supplier_id ";
 		qstate = mysql_query(conn, query.c_str());
 		cout << query << endl;
 		if (checkQuery(qstate, error)) {
@@ -110,7 +110,7 @@ extern "C" ERP_API int getInvoice(Invoice** invoice, char* error) {
 					row[6] ? _invoice->suppUnits = stoi(row[6]) : _invoice->suppUnits = 0;
 					row[7] ? _invoice->totalCost= stod(row[7]) : _invoice->totalCost = 0;
 					row[8] ? _invoice->totalPaid = stod(row[8]) : _invoice->totalPaid= 0;
-					row[9] ? _invoice->depts = stod(row[9]) : _invoice->depts = 0; 
+					row[9] ? _invoice->debts = stod(row[9]) : _invoice->debts = 0; 
 					numberOfRows++;
 					_invoice++;
 				}
@@ -243,6 +243,44 @@ extern "C" ERP_API int getOrderProducts(char* id, AProduct** product_order, char
 			else
 			{
 				string s = "No Product Exist";
+				cout << s << endl;
+				strcpy_s(error, s.length() + 1, s.c_str());
+				status = 2;
+			}
+		}
+	}
+	return numberOfRows;
+}
+extern "C" ERP_API int getCustomerAccount(char* id, Account** customer_account, char* error) {
+	status = 0;
+	int numberOfRows = 0;
+	unsigned int numOfFields;
+	db_response::ConnectionFunction(error);
+	if (conn) {
+		mysql_free_result(res);
+		query = (string) "SELECT Account_ID, Account_Money, Account_Creation_Date, Account_Debt FROM " + DATABASE + ".account where Customer_Customer_id  = '" + id + "' ";
+		qstate = mysql_query(conn, query.c_str());
+		cout << query << endl;
+		if (checkQuery(qstate, error)) {
+			res = mysql_store_result(conn);
+			if (res->row_count > 0)
+			{
+				*customer_account = (Account*)CoTaskMemAlloc((int)(res->row_count) * sizeof(Account));
+				cout << res->row_count << endl;
+				numOfFields = mysql_num_fields(res);
+				Account* _account = *customer_account;
+				while (row = mysql_fetch_row(res)) {
+					_account->account_id = row[0];
+					row[1] ? _account->account_money = stod(row[1]) : _account->account_money = 0;
+					row[2] ? _account->creation_date = row[2] : _account->creation_date = nullptr;
+					row[3] ? _account->account_debts = stod(row[3]) : _account->account_debts = 0.0;
+					numberOfRows++;
+					_account++;
+				}
+			}
+			else
+			{
+				string s = "No Account Exist";
 				cout << s << endl;
 				strcpy_s(error, s.length() + 1, s.c_str());
 				status = 2;

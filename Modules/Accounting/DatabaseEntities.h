@@ -27,7 +27,7 @@ struct Invoice
 	unsigned int suppUnits;
 	double totalCost;
 	double totalPaid;
-	double depts;
+	double debts;
 };
 struct AOrder 
 {
@@ -39,7 +39,6 @@ struct AOrder
 	char* paymentID;
 	double totalPrice;
 };
-
 struct ProductInOrder
 {
 	char* orderID;
@@ -47,7 +46,6 @@ struct ProductInOrder
 	unsigned int unitsOrdered;
 	unsigned int unitsDone;
 };
-
 struct OrderDetails {
 	char* orderID;
 	char* productID;
@@ -56,7 +54,6 @@ struct OrderDetails {
 	double productCost;
 	double totalCost;
 };
-
 struct Customer
 {
 	char* customer_id;
@@ -70,4 +67,10 @@ struct Customer
 	char* company;
 	char* company_email;
 	bool is_lead;
+};
+struct Account {
+	char* account_id;
+	double account_money;
+	char* creation_date;
+	double account_debts;
 };

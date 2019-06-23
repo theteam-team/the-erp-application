@@ -20,6 +20,6 @@ namespace Erp.Models
         public uint suppUnits;
         public double totalCost;
         public double totalPaid;
-        public double depts;
+        public double debts;
     }
 }

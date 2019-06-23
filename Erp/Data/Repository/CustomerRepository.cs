@@ -65,5 +65,27 @@ namespace Erp.Repository
             });
             return orders;
         }
+        public async Task<List<Account>> getCustomerAccount(string id, byte[] error)
+        {
+            List<Account> accounts = new List<Account>();
+            IntPtr AccountPtr;
+            await Task.Run(() =>
+            {
+
+                int number_fields = Accounting_Wrapper.getCustomerAccount(id, out AccountPtr, error);
+
+                IntPtr current = AccountPtr;
+                for (int i = 0; i < number_fields; ++i)
+                {
+                    Account account = (Account)Marshal.PtrToStructure(current, typeof(Account));
+                    current = (IntPtr)((long)current + Marshal.SizeOf(account));
+                    accounts.Add(account);
+                }
+                Marshal.FreeCoTaskMem(AccountPtr);
+            });
+            return accounts;
+        }
+
+
     }
 }
