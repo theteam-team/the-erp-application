@@ -1,1 +1,0 @@
-XCOPY "$(ProjectDir)..\Modules\modules_dll" "$(ProjectDir)..\bin\$(Configuration)\netcoreapp2.2\Modules\" /S /Y
