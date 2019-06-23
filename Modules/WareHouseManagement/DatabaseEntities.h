@@ -1,5 +1,15 @@
 #pragma once
 
+struct ConnectionString
+{
+	char* SERVER;
+	char* USER;
+	char* PORT;
+	char* PASSWORD;
+	char* DATABASE;
+
+};
+
 struct Inventory
 {
 	char* id;
