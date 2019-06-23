@@ -1,10 +1,12 @@
 ﻿using Erp.Data;
 using Erp.Data.Entities;
-using Erp.Hups;
+using Erp.Hubs;
 using Erp.Interfaces;
-
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,8 +20,8 @@ namespace Erp.Repository
         private AccountDbContext _context;
         private Management _management;
 
-        public NotificationUserRepository(IHubContext<NotificationHub> hubContext, AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager)
-            : base(management, datadbContext, accountDbContext, userManager)
+        public NotificationUserRepository(IConfiguration config, ILogger<NotificationUserRepository> ilogger, IHttpContextAccessor httpContextAccessor, IHubContext<NotificationHub> hubContext, AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager)
+            : base(config, ilogger, httpContextAccessor ,management, datadbContext, accountDbContext, userManager)
         {
             _notificationHubContext = hubContext;
             _context = accountDbContext;

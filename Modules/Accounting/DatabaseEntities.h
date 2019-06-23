@@ -1,14 +1,11 @@
 #pragma once
-struct Product
+struct AProduct
 {
 	char* id;
 	char* name;
-	char* description;
-	char* position;
+	unsigned int unitsInOrder;
 	double price;
-	double size;
-	double weight;
-	unsigned int unitsInStock;
+	double totalPrice;
 };
 struct ProductSold
 {
@@ -24,24 +21,24 @@ struct Invoice
 	char* suppName;
 	unsigned int suppPhone;
 	char* suppMail;
-	char* payment_method;
+	//char* payment_method;
 	char* productName;
 	double productCost;
 	unsigned int suppUnits;
 	double totalCost;
 	double totalPaid;
-	double depts;
+	double debts;
 };
-struct Order 
+struct AOrder 
 {
 	char* id;
 	char* requiredDate;
 	char* completedDate;
 	char* orderStatus;
-	char* customerID;
+	//char* customerID;
 	char* paymentID;
+	double totalPrice;
 };
-
 struct ProductInOrder
 {
 	char* orderID;
@@ -49,7 +46,6 @@ struct ProductInOrder
 	unsigned int unitsOrdered;
 	unsigned int unitsDone;
 };
-
 struct OrderDetails {
 	char* orderID;
 	char* productID;
@@ -58,7 +54,6 @@ struct OrderDetails {
 	double productCost;
 	double totalCost;
 };
-
 struct Customer
 {
 	char* customer_id;
@@ -72,4 +67,10 @@ struct Customer
 	char* company;
 	char* company_email;
 	bool is_lead;
+};
+struct Account {
+	char* account_id;
+	double account_money;
+	char* creation_date;
+	double account_debts;
 };

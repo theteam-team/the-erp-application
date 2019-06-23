@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Erp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Erp.ViewModels;
 
-using Erp.Models;
 namespace Erp.ModulesWrappers
 {
     public class Accounting_Wrapper
@@ -20,5 +20,14 @@ namespace Erp.ModulesWrappers
 
         [DllImport("Modules//Accounting//Accounting.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern int getCustomerById(string id,  out IntPtr CustomerPtr,  byte[] error);
+
+        [DllImport("Modules//Accounting//Accounting.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern int getCustomerOrders(string id, out IntPtr OrderPtr, byte[] error);
+
+        [DllImport("Modules//Accounting//Accounting.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern int getOrderProducts(string id, out IntPtr OrderProductPtr, byte[] error);
+
+        [DllImport("Modules//Accounting//Accounting.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern int getCustomerAccount(string id, out IntPtr AccountPtr, byte[] error);
     }
 }

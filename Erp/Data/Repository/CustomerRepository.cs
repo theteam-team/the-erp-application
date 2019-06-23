@@ -10,17 +10,22 @@ using Erp.ModulesWrappers;
 using Erp.Data;
 using Microsoft.AspNetCore.Identity;
 using Erp.Data.Entities;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
 
 namespace Erp.Repository
 {
     public class CustomerRepository : Repository<Customer, DataDbContext>, ICustomerRepository
     {
-        public CustomerRepository(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
+        public CustomerRepository(IConfiguration config, ILogger<CustomerRepository> ilogger, IHttpContextAccessor httpContextAccessor, AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager)
+              : base(config, ilogger, httpContextAccessor, management, datadbContext, accountDbContext, userManager)
         {
 
         }
         public async Task<List<Customer>> getCustomerById(string id, byte[] error)
         {
+            Console.WriteLine("Hereeee");
             List<Customer> customers = new List<Customer>();
             IntPtr CustomerPtr;
             await Task.Run(() =>
@@ -32,7 +37,6 @@ namespace Erp.Repository
                 for (int i = 0; i < number_fields; ++i)
                 {
                     Customer customer = (Customer)Marshal.PtrToStructure(current, typeof(Customer));
-
                     current = (IntPtr)((long)current + Marshal.SizeOf(customer));
                     customers.Add(customer);
                 }
@@ -40,5 +44,48 @@ namespace Erp.Repository
             });
             return customers;
         }
+
+        public async Task<List<AOrder>> getCustomerOrders(string id, byte[] error)
+        {
+            List<AOrder> orders = new List<AOrder>();
+            IntPtr OrderPtr;
+            await Task.Run(() =>
+            {
+
+                int number_fields = Accounting_Wrapper.getCustomerOrders(id, out OrderPtr, error);
+
+                IntPtr current = OrderPtr;
+                for (int i = 0; i < number_fields; ++i)
+                {
+                    AOrder order = (AOrder)Marshal.PtrToStructure(current, typeof(AOrder));
+                    current = (IntPtr)((long)current + Marshal.SizeOf(order));
+                    orders.Add(order);
+                }
+                Marshal.FreeCoTaskMem(OrderPtr);
+            });
+            return orders;
+        }
+        public async Task<List<Account>> getCustomerAccount(string id, byte[] error)
+        {
+            List<Account> accounts = new List<Account>();
+            IntPtr AccountPtr;
+            await Task.Run(() =>
+            {
+
+                int number_fields = Accounting_Wrapper.getCustomerAccount(id, out AccountPtr, error);
+
+                IntPtr current = AccountPtr;
+                for (int i = 0; i < number_fields; ++i)
+                {
+                    Account account = (Account)Marshal.PtrToStructure(current, typeof(Account));
+                    current = (IntPtr)((long)current + Marshal.SizeOf(account));
+                    accounts.Add(account);
+                }
+                Marshal.FreeCoTaskMem(AccountPtr);
+            });
+            return accounts;
+        }
+
+
     }
 }

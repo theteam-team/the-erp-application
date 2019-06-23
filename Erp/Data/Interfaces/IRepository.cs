@@ -9,8 +9,7 @@ namespace Erp.Interfaces
 {
     public interface IRepository<T, C> where T : class where C : DbContext
     {
-        Task<List<T>> GetAll(byte[] error);
-        ClaimsPrincipal User { get;  set; }        
+        Task<List<T>> GetAll(byte[] error);               
         Task<List<T>> GetAll();
 
         //IEnumerable<T> Find(Func<T, bool> predicate);
@@ -22,5 +21,7 @@ namespace Erp.Interfaces
         Task<int> Delete(string id, byte[] error);
         Task Update(T ob);
         Task Insert(T ob);
+
+        ClaimsPrincipal User { get; set; }
     }
 }

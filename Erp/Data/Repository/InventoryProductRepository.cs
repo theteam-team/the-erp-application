@@ -10,6 +10,9 @@ using Erp.ModulesWrappers;
 using Erp.Data;
 using Microsoft.AspNetCore.Identity;
 using Erp.Data.Entities;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
 
 namespace Erp.Repository
 {
@@ -20,9 +23,10 @@ namespace Erp.Repository
         private readonly DataDbContext _datadbContext;
         private Management _managment;
 
-        public InventoryProductRepository(AccountDbContext accountdbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountdbContext, userManager)
+        public InventoryProductRepository(IConfiguration config, ILogger<InventoryProductRepository> ilogger, IHttpContextAccessor httpContextAccessor, AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager)
+            : base(config, ilogger, httpContextAccessor, management, datadbContext, accountDbContext, userManager)
         {
-            _accountdbContext = accountdbContext;
+            _accountdbContext = accountDbContext;
             _usermanager = userManager;
             _datadbContext = datadbContext;
             _managment = management;
@@ -35,7 +39,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.showProductsInInventory(id, out ProductPtr, error);
+                int number_fields = Warehouse_Wrapper.showProductsInInventory(id, out ProductPtr, error, _ConnectionString);
 
                 IntPtr current = ProductPtr;
                 for (int i = 0; i < number_fields; ++i)
@@ -51,11 +55,11 @@ namespace Erp.Repository
         }
         public async Task<List<ProductInInventory>> ShowProductsInInventory()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                await Task.Run(() => InitiateConnection());
-                return _datadbContext.Set<ProductInInventory>().ToList();
-            }
+            //if (User.Identity.IsAuthenticated)
+            //{
+            //    await Task.Run(() => InitiateConnection());
+            //    return _datadbContext.Set<ProductInInventory>().ToList();
+            //}
             return null;
         }
 
@@ -63,16 +67,22 @@ namespace Erp.Repository
         {
             int status = 0;
             ProductInInventory product = (ProductInInventory)(object)(entity);
-            status = await Task.Run(() => Warehouse_Wrapper.editProductInInventory(product, error));
+            status = await Task.Run(() => Warehouse_Wrapper.editProductInInventory(product, error, _ConnectionString));
             return status;
         }
 
         public async Task<int> DeleteProductFromInventory(string iID, string pID, byte[] error)
         {
             int status = 10;
-            status = await Task.Run(() => Warehouse_Wrapper.deleteProductFromInventory(iID, pID, error));
+            status = await Task.Run(() => Warehouse_Wrapper.deleteProductFromInventory(iID, pID, error, _ConnectionString));
             return status;
         }
 
     }
 }
+
+
+
+
+
+

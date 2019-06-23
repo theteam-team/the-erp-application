@@ -8,32 +8,75 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using Erp.ViewModels.CRN_Tabels;
-using System.Text;
 using Erp.Data;
 using Erp.Data.Entities;
-
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
 
 namespace Erp.Repository
 {
-    public  class Repository<T, C> : IRepository<T, C> where T : class where C : DbContext
+    public class Repository<T, C> : IRepository<T, C> where T : class where C : DbContext
     {
         private AccountDbContext _accountdbContext;
         private readonly UserManager<ApplicationUser> _usermanager;
         private readonly DataDbContext _datadbContext;
         private Management _managment;
+        protected ConnectionString _ConnectionString;
+        private IConfiguration _config;
+        private IHttpContextAccessor _httpContextAccessor;
+        private IConfiguration config;
+        private ILogger<InventoryRepository> ilogger;
+        private IHttpContextAccessor httpContextAccessor;
+        private Management management;
+        private DataDbContext datadbContext;
+        private AccountDbContext accountDbContext;
+        private UserManager<ApplicationUser> userManager;
 
         public ClaimsPrincipal User { get; set; }
 
 
-        public Repository(Management management, DataDbContext datadbContext, AccountDbContext accountdbContext
+        public Repository(IConfiguration config , ILogger<Repository.Repository<T,C>> ilogger, IHttpContextAccessor httpContextAccessor, Management management, DataDbContext datadbContext, AccountDbContext accountdbContext
             , UserManager<ApplicationUser> userManager)
         {
+
+            _config = config;
+            _httpContextAccessor = httpContextAccessor;
             _accountdbContext = accountdbContext;
             _usermanager = userManager;
             _datadbContext = datadbContext;
             _managment = management;
+
+            if (httpContextAccessor.HttpContext!= null)
+            {
+                User = httpContextAccessor.HttpContext.User;
+                ClaimsIdentity identity = (ClaimsIdentity)User.Identity;
+                if (User.Identity.IsAuthenticated)
+                {
+                    string databaseName = identity.FindFirst("database").Value;                   
+                    User = httpContextAccessor.HttpContext.User;
+                    setConnectionString(databaseName);
+                }
+            }
+            
+        }
+
+        
+
+        public async void setConnectionString(string databaseName)
+        {
+            
+            _ConnectionString = new ConnectionString()
+            {
+                SERVER = _config["MySqlC++:server"],
+                USER = _config["MySqlC++:user"],
+                PORT = _config["MySqlC++:port"],
+                PASSWORD = _config["MySqlC++:password"],
+                DATABASE = databaseName,
+            };
+            
         }
 
         public async Task<int> Create(T entity, byte[] error)
@@ -43,29 +86,30 @@ namespace Erp.Repository
             if (typeof(T) == typeof(Inventory))
             {
                 Inventory inventory = (Inventory)(object)(entity);
-                status = await Task.Run(() => Warehouse_Wrapper.addInventory(inventory, error));
+                //Console.WriteLine(_ConnectionString.DATABASE);
+                status = await Task.Run(() => Warehouse_Wrapper.addInventory(inventory, error, _ConnectionString));
             }
             if (typeof(T) == typeof(ProductInInventory))
             {
                 ProductInInventory product = (ProductInInventory)(object)(entity);
-                status = await Task.Run(() => Warehouse_Wrapper.addProductToInventory(product, error));
+                status = await Task.Run(() => Warehouse_Wrapper.addProductToInventory(product, error, _ConnectionString));
             }
             if (typeof(T) == typeof(Product))
             {
                 Product product = (Product)(object)(entity);
-                status = await Task.Run(() => Warehouse_Wrapper.addProduct(product, error));
+                status = await Task.Run(() => Warehouse_Wrapper.addProduct(product, error, _ConnectionString));
             }
 
             if (typeof(T) == typeof(Order))
             {
                 Order order = (Order)(object)(entity);
-                status = await Task.Run(() => Warehouse_Wrapper.addOrder(order, error));
+                status = await Task.Run(() => Warehouse_Wrapper.addOrder(order, error, _ConnectionString));
             }
 
             if (typeof(T) == typeof(ProductInOrder))
             {
                 ProductInOrder product = (ProductInOrder)(object)(entity);
-                status = await Task.Run(() => Warehouse_Wrapper.addProductToOrder(product, error));
+                status = await Task.Run(() => Warehouse_Wrapper.addProductToOrder(product, error, _ConnectionString));
             }
 
             if (typeof(T) == typeof(Customer))
@@ -105,7 +149,7 @@ namespace Erp.Repository
             return status;
         }
 
-        protected void InitiateConnection()
+        /*protected void InitiateConnection()
         {
             string username = "admin";
             if (User != null)
@@ -118,19 +162,14 @@ namespace Erp.Repository
                     throw new Exception("Error Please DataBase Does Not Exist");
                 }
             }
-        }
+        }*/
 
         public async Task Create(T entity)
         {
-            if (typeof(C) == (typeof(DataDbContext)))
-            {
-                await Task.Run(() => InitiateConnection());
-                _datadbContext.Add(entity);
-                _datadbContext.SaveChanges();
-            }
+            
             if (typeof(C) == (typeof(AccountDbContext)))
             {
-                await Task.Run(() => InitiateConnection());
+                //await Task.Run(() => InitiateConnection());
                 _accountdbContext.Add(entity);
                 _accountdbContext.SaveChanges();
             }
@@ -142,15 +181,15 @@ namespace Erp.Repository
 
             if (typeof(T) == typeof(Inventory))
             {
-                status = await Task.Run(() => Warehouse_Wrapper.deleteInventory(id, error));
+                status = await Task.Run(() => Warehouse_Wrapper.deleteInventory(id, error, _ConnectionString));
             }
             if (typeof(T) == typeof(Product))
             {
-                status = await Task.Run(() => Warehouse_Wrapper.deleteProduct(id, error));
+                status = await Task.Run(() => Warehouse_Wrapper.deleteProduct(id, error, _ConnectionString));
             }
             if (typeof(T) == typeof(Order))
             {
-                status = await Task.Run(() => Warehouse_Wrapper.deleteOrder(id, error));
+                status = await Task.Run(() => Warehouse_Wrapper.deleteOrder(id, error, _ConnectionString));
             }
             return status;
 
@@ -165,7 +204,7 @@ namespace Erp.Repository
 
                 await Task.Run(() =>
                 {
-                    int number_fields = Warehouse_Wrapper.showInventories(out InventoryPtr, error);
+                    int number_fields = Warehouse_Wrapper.showInventories(out InventoryPtr, error, _ConnectionString);
                     IntPtr current = InventoryPtr;
 
                     for (int i = 0; i < number_fields; ++i)
@@ -187,7 +226,7 @@ namespace Erp.Repository
 
                 await Task.Run(() =>
                 {
-                    int number_fields = Warehouse_Wrapper.showProducts(out ProductPtr, error);
+                    int number_fields = Warehouse_Wrapper.showProducts(out ProductPtr, error, _ConnectionString);
                     IntPtr current = ProductPtr;
 
                     for (int i = 0; i < number_fields; ++i)
@@ -201,14 +240,36 @@ namespace Erp.Repository
                 });
                 return (List<T>)(object)products;
             }
+
+            if (typeof(T) == typeof(Order))
+            {
+                List<Order> orders = new List<Order>();
+                IntPtr OrderPtr;
+
+                await Task.Run(() =>
+                {
+                    int number_fields = Warehouse_Wrapper.showAllOrders(out OrderPtr, error, _ConnectionString);
+                    IntPtr current = OrderPtr;
+
+                    for (int i = 0; i < number_fields; ++i)
+                    {
+                        Order order = (Order)Marshal.PtrToStructure(current, typeof(Order));
+
+                        current = (IntPtr)((long)current + Marshal.SizeOf(order));
+                        orders.Add(order);
+                    }
+                    Marshal.FreeCoTaskMem(OrderPtr);
+                });
+                return (List<T>)(object)orders;
+            }
             return null;
         }
         public async Task<List<T>> GetAll()
         {
-            if (User.Identity.IsAuthenticated)
+            if (typeof(C) == (typeof(AccountDbContext)))
             {
-                await Task.Run(() => InitiateConnection());
-                return _datadbContext.Set<T>().ToList();
+                //await Task.Run(() => InitiateConnection());
+                return _accountdbContext.Set<T>().ToList();
             }
             return null;
         }
@@ -238,7 +299,7 @@ namespace Erp.Repository
 
                 await Task.Run(() =>
                 {
-                    status = Warehouse_Wrapper.getOrderInfo(id, out orderPtr, error);
+                    status = Warehouse_Wrapper.getOrderInfo(id, out orderPtr, error, _ConnectionString);
                     order = (Order)Marshal.PtrToStructure(orderPtr, typeof(Order));
                     Marshal.FreeCoTaskMem(orderPtr);
                 });
@@ -254,7 +315,7 @@ namespace Erp.Repository
 
                 await Task.Run(() =>
                 {
-                    status = Warehouse_Wrapper.getAllProductInfo(id, out prodductPtr, error);
+                    status = Warehouse_Wrapper.getAllProductInfo(id, out prodductPtr, error, _ConnectionString );
                     product = (Product)Marshal.PtrToStructure(prodductPtr, typeof(Product));
                     Marshal.FreeCoTaskMem(prodductPtr);
                 });
@@ -279,11 +340,6 @@ namespace Erp.Repository
         }*/
         public virtual async Task<T> GetById(object id)
         {
-            if (typeof(C) == typeof(DataDbContext))
-            {
-                await Task.Run(() => InitiateConnection());
-                return _datadbContext.Find<T>(id);
-            }
             if (typeof(C) == typeof(AccountDbContext))
             {
                 return _accountdbContext.Find<T>(id);
@@ -293,12 +349,12 @@ namespace Erp.Repository
 
         public virtual async Task Update(T ob)
         {
-            if (typeof(C) == typeof(DataDbContext))
-            {
-                await Task.Run(() => InitiateConnection());
-                _datadbContext.Update<T>(ob);
-                _datadbContext.SaveChanges();
-            }
+            //if (typeof(C) == typeof(DataDbContext))
+            //{
+            //    //await Task.Run(() => InitiateConnection());
+            //    _datadbContext.Update<T>(ob);
+            //    _datadbContext.SaveChanges();
+            //}
             if (typeof(C) == typeof(AccountDbContext))
             {
                 _accountdbContext.Update<T>(ob);
@@ -308,12 +364,12 @@ namespace Erp.Repository
 
         public virtual async Task Insert(T ob)
         {
-            if (typeof(C) == typeof(DataDbContext))
-            {
-                await Task.Run(() => InitiateConnection());
-                _datadbContext.Add(ob);
-                _datadbContext.SaveChanges();
-            }
+            //if (typeof(C) == typeof(DataDbContext))
+            //{
+            //    //await Task.Run(() => InitiateConnection());
+            //    _datadbContext.Add(ob);
+            //    _datadbContext.SaveChanges();
+            //}
             if (typeof(C) == typeof(AccountDbContext))
             {
                 _accountdbContext.Add(ob);
@@ -322,3 +378,4 @@ namespace Erp.Repository
         }
     }
 }
+

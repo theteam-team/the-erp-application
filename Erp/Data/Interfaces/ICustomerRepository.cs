@@ -11,5 +11,7 @@ namespace Erp.Interfaces
     public interface ICustomerRepository : IRepository<Customer, DataDbContext>
     {
         Task<List<Customer>> getCustomerById(string id, byte[] error);
+        Task<List<AOrder>> getCustomerOrders(string id, byte[] error);
+        Task<List<Account>> getCustomerAccount(string id, byte[] error);
     }
 }

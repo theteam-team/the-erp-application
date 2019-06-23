@@ -10,6 +10,16 @@ struct Inventory
 	double width;
 	double height;
 };
+struct ConnectionString
+{
+	char* SERVER;
+	char* USER;
+	char* PORT;
+	char* PASSWORD;
+	char* DATABASE;
+	
+};
+
 
 struct Product
 {

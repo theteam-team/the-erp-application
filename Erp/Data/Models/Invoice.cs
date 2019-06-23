@@ -14,12 +14,12 @@ namespace Erp.Models
         public string suppName;
         public uint suppPhone;
         public string suppMail;
-        public string payment_method;
+        //public string payment_method;
         public string productName;
         public double productCost;
         public uint suppUnits;
         public double totalCost;
         public double totalPaid;
-        public double depts;
+        public double debts;
     }
 }

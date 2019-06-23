@@ -15,10 +15,12 @@ namespace Erp.Controllers
     /// </summary>
     public class AppController : Controller
     {
+        
         private AccountDbContext mcontext;
 
         public AppController(AccountDbContext context)
         {
+          
             mcontext = context;
         }
         [HttpGet("/")]

@@ -19,11 +19,13 @@ namespace Erp.Controllers
         private readonly IOrderRepository _orderRepository;
         private readonly IOrderProductRepository _orderProductRepository;
         private readonly ICustomerRepository _iCustomerRepository;
-        public AccountingApiController(IProductRepository iProductRepository, IOrderRepository orderRepository, IOrderProductRepository orderProductRepository)
+        public AccountingApiController(ICustomerRepository iCustomerRepository, IProductRepository iProductRepository, IOrderRepository orderRepository, IOrderProductRepository orderProductRepository)
         {
+            _iCustomerRepository = iCustomerRepository;
             _iProductRepository = iProductRepository;
             _orderRepository = orderRepository;
             _orderProductRepository = orderProductRepository;
+            _iCustomerRepository = iCustomerRepository;
         }
 
         [HttpGet("GetSoldProduct")]
@@ -65,14 +67,77 @@ namespace Erp.Controllers
         [HttpGet("GetCustomerById/{id}")]
         public async Task<ActionResult<List<Customer>>> getCustomerById(string id)
         {
+            try
+            {
+
+                byte[] error = new byte[500];
+                List<Customer> customer = await _iCustomerRepository.getCustomerById(id, error);
+                string z = Encoding.ASCII.GetString(error);
+                string y = z.Remove(z.IndexOf('\0'));
+                if (y == "")
+                {
+
+                    return Ok(customer);
+                }
+                else
+                {
+                    return BadRequest(y);
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+                throw;
+            }
+        }
+
+        [HttpGet("getCustomerOrders/{id}")]
+        public async Task<ActionResult<List<AOrder>>> getCustomerOrders(string id)
+        {
             byte[] error = new byte[500];
-            List<Customer> customer = await _iCustomerRepository.getCustomerById(id, error);
+            List<AOrder> order = await _iCustomerRepository.getCustomerOrders(id, error);
             string z = Encoding.ASCII.GetString(error);
             string y = z.Remove(z.IndexOf('\0'));
             if (y == "")
             {
 
-                return Ok(customer);
+                return Ok(order);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+
+        [HttpGet("getOrderProducts/{id}")]
+        public async Task<ActionResult<List<AProduct>>> getOrderProducts(string id)
+        {
+            byte[] error = new byte[500];
+            List<AProduct> product = await _iProductRepository.getOrderProducts(id, error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(product);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+
+        [HttpGet("GetCustomerAccount/{id}")]
+        public async Task<ActionResult<List<Account>>> getCustomerAccount(string id)
+        {
+            byte[] error = new byte[500];
+            List<Account> account = await _iCustomerRepository.getCustomerAccount(id, error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(account);
             }
             else
             {

@@ -3,7 +3,10 @@ using Erp.Data.Entities;
 using Erp.Interfaces;
 using Erp.Models;
 using Erp.ModulesWrappers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +18,9 @@ namespace Erp.Repository
 {
     public class OrderRepository : Repository<Order, DataDbContext> , IOrderRepository
     {
-        public OrderRepository(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
+        public OrderRepository(IConfiguration config, ILogger<Repository.Repository<Order, DataDbContext>> ilogger, IHttpContextAccessor httpContextAccessor, AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(config, ilogger, httpContextAccessor, management, datadbContext, accountDbContext, userManager)
         {
-
+           
         }
 
         public async Task<List<Order>> SearchOrders(string key, string value, byte[] error)
@@ -27,7 +30,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.searchOrders(out OrderPtr, key, value, error);
+                int number_fields = Warehouse_Wrapper.searchOrders(out OrderPtr, key, value, error, _ConnectionString);
 
                 IntPtr current = OrderPtr;
                 for (int i = 0; i < number_fields; ++i)
@@ -46,7 +49,7 @@ namespace Erp.Repository
         {
             int status = 0;
             Order order = (Order)(object)(entity);
-            status = await Task.Run(() => Warehouse_Wrapper.editOrder(order, error));
+            status = await Task.Run(() => Warehouse_Wrapper.editOrder(order, error, _ConnectionString));
             return status;
         }
 
@@ -103,7 +106,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.showCompletedOrders(out ProductPtr, error);
+                int number_fields = Warehouse_Wrapper.showCompletedOrders(out ProductPtr, error, _ConnectionString);
 
                 IntPtr current = ProductPtr;
                 for (int i = 0; i < number_fields; ++i)
@@ -149,7 +152,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.showReadyOrders(out ProductPtr, error);
+                int number_fields = Warehouse_Wrapper.showReadyOrders(out ProductPtr, error, _ConnectionString);
 
                 IntPtr current = ProductPtr;
                 for (int i = 0; i < number_fields; ++i)
@@ -172,7 +175,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.showOrdersInProgress(out ProductPtr, error);
+                int number_fields = Warehouse_Wrapper.showOrdersInProgress(out ProductPtr, error, _ConnectionString);
 
                 IntPtr current = ProductPtr;
                 for (int i = 0; i < number_fields; ++i)
