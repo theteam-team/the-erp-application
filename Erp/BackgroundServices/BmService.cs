@@ -18,68 +18,79 @@ namespace Erp.BackgroundServices
     {
         private readonly ILogger<BmService> _logger;
         private Timer _timer;
-        private BmExectionQueue _bmExectionQueue;
-
+        private TaskExectionQueue _bmExectionQueue;
+        public List<Task> tasks = new List<Task>();
         public IServiceProvider Services { get; }
 
         public BmService(
-            ILoggerFactory loggerFactory, IServiceProvider services, BmExectionQueue bmExectionQueue)
+            ILoggerFactory loggerFactory, IServiceProvider services, TaskExectionQueue bmExectionQueue)
         {
-            _bmExectionQueue = bmExectionQueue;
-            //_email = email;
-            Services = services;
-            //_emailUser = emailUser;
-
-
-            //TaskQueue = taskQueue;
+            _bmExectionQueue = bmExectionQueue;           
+            Services = services;               
             _logger = loggerFactory.CreateLogger<BmService>();
         }
         protected async override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation("Bpm Hosted Service is starting.");
+
+            //await Task.Yield();
+                await loadWork(stoppingToken);
             while (!stoppingToken.IsCancellationRequested)
             {
+                await TestExecution(stoppingToken);
 
-                await loadWork(stoppingToken);
+
                 Thread.Sleep(2000);
 
             }
 
             _logger.LogInformation("Bpm Hosted Service is stopping.");
-            
+            //return Task.CompletedTask;
 
+            // Task.WhenAll(tasks);
         }
-        async Task loadWork(CancellationToken stoppingToken)
-        {
-            using (var scope = Services.CreateScope())
-            {
-                var _paramRepo = scope.ServiceProvider.GetRequiredService<IBmpParmRepo>();
-                var _requsetRepo = scope.ServiceProvider.GetRequiredService<IProcRequestRepo>();
-                var _accountDbContext = scope.ServiceProvider.GetRequiredService<AccountDbContext>();
-                string request = await _bmExectionQueue.DequeueAsync(stoppingToken);
-                if (request != null)
-                {
-                    var workflow = await _requsetRepo.GetById(request);
-                    var workflowName = workflow.BpmWorkflowName;
-                    using (var _httpclient = new HttpClient())
-                    {
-                        Console.WriteLine("here");
-                        try
-                        {
-                            var x = JsonConvert.SerializeObject(workflow.WorkflowParameters, Formatting.Indented);
-                            _logger.LogInformation("sending to " + "http://localhost:8090/engine/api/workflow?name=" + workflowName + " data : " + x);
-                            await _httpclient.PostAsJsonAsync("http://localhost:8090/engine/api/workflow?name=" + workflowName, workflow.WorkflowParameters);
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex.Message);
-                            
-                        }
-                        
-                    }
-                }
 
-            }
+        public async Task TestExecution(CancellationToken stoppingToken)
+        {
+            await Task.Yield();
+                Console.WriteLine("Executing");
+       
+            
+        }
+        public async Task loadWork(CancellationToken stoppingToken)
+        {
+           
+                using (var scope = Services.CreateScope())
+                {
+                    var _paramRepo = scope.ServiceProvider.GetRequiredService<IBmpParmRepo>();
+                    var _requsetRepo = scope.ServiceProvider.GetRequiredService<IProcRequestRepo>();
+                    var _accountDbContext = scope.ServiceProvider.GetRequiredService<AccountDbContext>();
+                    string request = null;// = 
+                    await _bmExectionQueue.DequeueAsync(stoppingToken);
+                    if (request != null)
+                    {
+                        var workflow = await _requsetRepo.GetById(request);
+                        var workflowName = workflow.BpmWorkflowName;
+                        using (var _httpclient = new HttpClient())
+                        {
+                            Console.WriteLine("here");
+                            try
+                            {
+                                var x = JsonConvert.SerializeObject(workflow.WorkflowParameters, Formatting.Indented);
+                                _logger.LogInformation("sending to " + "http://localhost:8090/engine/api/workflow?name=" + workflowName + " data : " + x);
+                                await _httpclient.PostAsJsonAsync("http://localhost:8090/engine/api/workflow?name=" + workflowName, workflow.WorkflowParameters);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+
+                            }
+
+                        }
+                    }
+
+               }
+            
         }
     }
 }

@@ -55,11 +55,11 @@ namespace Erp
         {
 
             services.AddHttpContextAccessor();
-            services.AddHostedService<SystemBackgroundService>();
-            services.AddHostedService<BmService>();
-            services.AddSingleton<BmExectionQueue>();
-            services.AddSingleton<ModulesDatabaseBuilder>();
-            
+            //services.AddHostedService<SystemBackgroundService>();
+            //services.AddHostedService<BmService>();
+            //services.AddHostedService<TimedService>();
+            services.AddSingleton<TaskExectionQueue>();
+            services.AddSingleton<ModulesDatabaseBuilder>();           
             services.AddTransient<INodeLangRepository, NodeLangRepository>();
             services.AddSignalR();           
             services.AddTransient<ICustomerRepository, CustomerRepository>();
@@ -109,11 +109,11 @@ namespace Erp
                             };
                         });
 
-            //services.Configure<SecurityStampValidatorOptions>(options =>
-            //{
-            //    options.ValidationInterval = TimeSpan.FromMinutes(1);
-            //});
-           
+            services.Configure<SecurityStampValidatorOptions>(options =>
+            {
+                options.ValidationInterval = TimeSpan.FromMinutes(1);
+            });
+
             //add the management as a scoped service ,a new object per each new request, to the service Container to use it by the dependency injection 
             services.AddScoped<Management>();
             //enahance the management system by adding the policy-based-authorization
