@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Erp.BackgroundServices.Entities;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Erp.BackgroundServices
 {
-    public class BmExectionQueue
+    public class TaskExectionQueue
     {
-        private ConcurrentQueue<string> _workItems = new ConcurrentQueue<string>();
+        private ConcurrentQueue<BpmTask> _workItems = new ConcurrentQueue<BpmTask>();
         private SemaphoreSlim _signal = new SemaphoreSlim(0);
-        public void QueueExection(string workItem)
+        public void QueueExection(BpmTask workItem)
         {
             if (workItem == null)
             {
@@ -23,11 +24,14 @@ namespace Erp.BackgroundServices
             _signal.Release();
         }
 
-        public async Task<string> DequeueAsync(CancellationToken cancellationToken)  {
+        public async Task<BpmTask> DequeueAsync(CancellationToken cancellationToken) {
             await _signal.WaitAsync(cancellationToken);
             _workItems.TryDequeue(out var workItem);
 
             return workItem;
         }
+
+        
+   
     }
 }

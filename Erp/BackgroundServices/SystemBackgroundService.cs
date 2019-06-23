@@ -16,8 +16,6 @@ namespace Erp.BackgroundServices
 {
     public class SystemBackgroundService : BackgroundService
     {
-        //private readonly IEmailRepository _email;
-        //private readonly IEmailUserRepository _emailUser;
      
        
         private readonly ILogger<SystemBackgroundService> _logger;
@@ -28,12 +26,8 @@ namespace Erp.BackgroundServices
         public SystemBackgroundService(
             ILoggerFactory loggerFactory, IServiceProvider services)
         {
-            //_email = email;
-            Services = services;
-            //_emailUser = emailUser;
           
-           
-            //TaskQueue = taskQueue;
+            Services = services;                                   
             _logger = loggerFactory.CreateLogger<SystemBackgroundService>();
         }
 
@@ -47,11 +41,12 @@ namespace Erp.BackgroundServices
             {
                
                 await sendMail();
-                Thread.Sleep(50000000);
+                Thread.Sleep(1000);
 
             }
 
             _logger.LogInformation("Queued sender Hosted Service is stopping.");
+            
         }
 
 
@@ -106,7 +101,7 @@ namespace Erp.BackgroundServices
                 }
                 else
                 {
-                    //_logger.LogInformation("No Mail To Send");
+                    _logger.LogInformation("No Mail To Send");
                 }
             }
         }
