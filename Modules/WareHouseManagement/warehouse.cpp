@@ -15,14 +15,10 @@
 #include <algorithm>
 #pragma warning(disable : 4996)
 
-#define SERVER "mysqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com"
-#define USER "mySQLadmin" //your username
-#define PASSWORD "mySQLpass123" //your password for mysql
-#define DATABASE "ERP" //database name
-
 using namespace std;
 int status;
 int qstate;
+
 MYSQL* conn;
 MYSQL_ROW row;
 MYSQL_RES *res;
@@ -44,7 +40,7 @@ public:
 		if (!conn) {
 
 			cout << "Failed To Connect!" << mysql_errno(conn) << endl;
-			string err = (string)"Connection to database has failed!" + mysql_error(conn);;
+			string err = (string)"Connection to database has failed!" + mysql_error(conn);
 			strcpy_s(error, err.length() + 1, err.c_str());
 			status = 3;
 		}
