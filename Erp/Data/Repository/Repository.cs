@@ -57,7 +57,7 @@ namespace Erp.Repository
                 {
                     string databaseName = identity.FindFirst("database").Value;                   
                     User = httpContextAccessor.HttpContext.User;
-                    setConnectionString(databaseName);
+                     setConnectionString(databaseName);
                 }
             }
             
@@ -65,7 +65,7 @@ namespace Erp.Repository
 
         
 
-        public async void setConnectionString(string databaseName)
+        public  void setConnectionString(string databaseName)
         {
             
             _ConnectionString = new ConnectionString()

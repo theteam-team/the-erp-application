@@ -22,6 +22,7 @@ using Erp.Repository;
 using Erp.Data.Entities;
 using Erp.Database_Builder;
 using Microsoft.AspNetCore.Http;
+using Erp.Microservices;
 
 namespace Erp
 {
@@ -53,12 +54,14 @@ namespace Erp
         /// <param name="services">The Services container </param>
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddTransient<SystemServices>();
             services.AddHttpContextAccessor();
             //services.AddHostedService<SystemBackgroundService>();
-            //services.AddHostedService<BmService>();
+            //services.AddHostedService<TaskExecutionEngine>();
+            //services.AddHostedService<TaskResponseEngine>();
             //services.AddHostedService<TimedService>();
             services.AddSingleton<TaskExectionQueue>();
+            services.AddSingleton<TaskResponseQueue>();
             services.AddSingleton<ModulesDatabaseBuilder>();           
             services.AddTransient<INodeLangRepository, NodeLangRepository>();
             services.AddSignalR();           
@@ -128,7 +131,9 @@ namespace Erp
             services.AddDistributedMemoryCache();
             
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc()
+                .AddControllersAsServices()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             //Configure the API info and description
             services.AddSwaggerGen(c =>
             {

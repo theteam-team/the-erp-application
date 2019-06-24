@@ -23,7 +23,7 @@ namespace Erp.Controllers
     [ApiController]
     public class CrmApiController : ControllerBase
     {
-        private ICustomerRepository _customeRepository;
+        public ICustomerRepository _customeRepository { get; set; }
         private IOpportunityRepository _opportunityRepository;
         private IEmployeeRepository _employeeRepository;
 

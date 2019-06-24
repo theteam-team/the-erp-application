@@ -21,7 +21,7 @@ namespace Erp.Interfaces
         Task<int> Delete(string id, byte[] error);
         Task Update(T ob);
         Task Insert(T ob);
-
+        void setConnectionString(string databaseName);
         ClaimsPrincipal User { get; set; }
     }
 }
