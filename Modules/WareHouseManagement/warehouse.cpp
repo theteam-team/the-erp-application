@@ -13,15 +13,11 @@
 #include <map>
 #include <time.h>
 #include <algorithm>
-
 #pragma warning(disable : 4996)
+
 using namespace std;
-
-
-
 int status;
 int qstate;
-
 MYSQL* conn;
 MYSQL_ROW row;
 MYSQL_RES *res;
