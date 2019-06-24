@@ -87,29 +87,29 @@ namespace Erp.Repository
             {
                 Inventory inventory = (Inventory)(object)(entity);
                 //Console.WriteLine(_ConnectionString.DATABASE);
-                status = await Task.Run(() => Warehouse_Wrapper.addInventory(inventory, error, _ConnectionString));
+                status = await Task.Run(() => Warehouse_Wrapper.addInventory(inventory, error));
             }
             if (typeof(T) == typeof(ProductInInventory))
             {
                 ProductInInventory product = (ProductInInventory)(object)(entity);
-                status = await Task.Run(() => Warehouse_Wrapper.addProductToInventory(product, error, _ConnectionString));
+                status = await Task.Run(() => Warehouse_Wrapper.addProductToInventory(product, error));
             }
             if (typeof(T) == typeof(Product))
             {
                 Product product = (Product)(object)(entity);
-                status = await Task.Run(() => Warehouse_Wrapper.addProduct(product, error, _ConnectionString));
+                status = await Task.Run(() => Warehouse_Wrapper.addProduct(product, error));
             }
 
             if (typeof(T) == typeof(Order))
             {
                 Order order = (Order)(object)(entity);
-                status = await Task.Run(() => Warehouse_Wrapper.addOrder(order, error, _ConnectionString));
+                status = await Task.Run(() => Warehouse_Wrapper.addOrder(order, error));
             }
 
             if (typeof(T) == typeof(ProductInOrder))
             {
                 ProductInOrder product = (ProductInOrder)(object)(entity);
-                status = await Task.Run(() => Warehouse_Wrapper.addProductToOrder(product, error, _ConnectionString));
+                status = await Task.Run(() => Warehouse_Wrapper.addProductToOrder(product, error));
             }
 
             if (typeof(T) == typeof(Customer))
@@ -181,15 +181,15 @@ namespace Erp.Repository
 
             if (typeof(T) == typeof(Inventory))
             {
-                status = await Task.Run(() => Warehouse_Wrapper.deleteInventory(id, error, _ConnectionString));
+                status = await Task.Run(() => Warehouse_Wrapper.deleteInventory(id, error));
             }
             if (typeof(T) == typeof(Product))
             {
-                status = await Task.Run(() => Warehouse_Wrapper.deleteProduct(id, error, _ConnectionString));
+                status = await Task.Run(() => Warehouse_Wrapper.deleteProduct(id, error));
             }
             if (typeof(T) == typeof(Order))
             {
-                status = await Task.Run(() => Warehouse_Wrapper.deleteOrder(id, error, _ConnectionString));
+                status = await Task.Run(() => Warehouse_Wrapper.deleteOrder(id, error));
             }
             return status;
 
@@ -204,7 +204,7 @@ namespace Erp.Repository
 
                 await Task.Run(() =>
                 {
-                    int number_fields = Warehouse_Wrapper.showInventories(out InventoryPtr, error, _ConnectionString);
+                    int number_fields = Warehouse_Wrapper.showInventories(out InventoryPtr, error);
                     IntPtr current = InventoryPtr;
 
                     for (int i = 0; i < number_fields; ++i)
@@ -226,7 +226,7 @@ namespace Erp.Repository
 
                 await Task.Run(() =>
                 {
-                    int number_fields = Warehouse_Wrapper.showProducts(out ProductPtr, error, _ConnectionString);
+                    int number_fields = Warehouse_Wrapper.showProducts(out ProductPtr, error);
                     IntPtr current = ProductPtr;
 
                     for (int i = 0; i < number_fields; ++i)
@@ -248,7 +248,7 @@ namespace Erp.Repository
 
                 await Task.Run(() =>
                 {
-                    int number_fields = Warehouse_Wrapper.showAllOrders(out OrderPtr, error, _ConnectionString);
+                    int number_fields = Warehouse_Wrapper.showAllOrders(out OrderPtr, error);
                     IntPtr current = OrderPtr;
 
                     for (int i = 0; i < number_fields; ++i)
@@ -299,7 +299,7 @@ namespace Erp.Repository
 
                 await Task.Run(() =>
                 {
-                    status = Warehouse_Wrapper.getOrderInfo(id, out orderPtr, error, _ConnectionString);
+                    status = Warehouse_Wrapper.getOrderInfo(id, out orderPtr, error);
                     order = (Order)Marshal.PtrToStructure(orderPtr, typeof(Order));
                     Marshal.FreeCoTaskMem(orderPtr);
                 });
@@ -315,7 +315,7 @@ namespace Erp.Repository
 
                 await Task.Run(() =>
                 {
-                    status = Warehouse_Wrapper.getAllProductInfo(id, out prodductPtr, error, _ConnectionString );
+                    status = Warehouse_Wrapper.getAllProductInfo(id, out prodductPtr, error);
                     product = (Product)Marshal.PtrToStructure(prodductPtr, typeof(Product));
                     Marshal.FreeCoTaskMem(prodductPtr);
                 });

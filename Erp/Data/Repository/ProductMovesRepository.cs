@@ -1,21 +1,24 @@
-﻿using Erp.Interfaces;
+﻿using Erp.Data;
+using Erp.Data.Entities;
+using Erp.Interfaces;
 using Erp.Models;
+using Erp.ModulesWrappers;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Runtime.InteropServices;
-using Erp.ModulesWrappers;
-using Erp.Data;
-using Microsoft.AspNetCore.Identity;
-using Erp.Data.Entities;
 
 namespace Erp.Repository
 {
     public class ProductMovesRepository : Repository<ProductMoves, DataDbContext>, IProductMovesRepository
     {
-        public ProductMovesRepository(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
+        public ProductMovesRepository(IConfiguration config, ILogger<Repository.Repository<ProductMoves, DataDbContext>> ilogger, IHttpContextAccessor httpContextAccessor, AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(config, ilogger, httpContextAccessor, management, datadbContext, accountDbContext, userManager)
         {
 
         }

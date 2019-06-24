@@ -30,7 +30,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.searchByCategory(out ProductPtr, value, error, _ConnectionString);
+                int number_fields = Warehouse_Wrapper.searchByCategory(out ProductPtr, value, error);
 
                 IntPtr current = ProductPtr;
                 for (int i = 0; i < number_fields; ++i)
@@ -52,7 +52,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.searchProducts(out ProductPtr, key, value, error, _ConnectionString);
+                int number_fields = Warehouse_Wrapper.searchProducts(out ProductPtr, key, value, error);
 
                 IntPtr current = ProductPtr;
                 for (int i = 0; i < number_fields; ++i)
@@ -71,13 +71,13 @@ namespace Erp.Repository
         {
             int status = 0;
             Product product = (Product)(object)(entity);
-            status = await Task.Run(() => Warehouse_Wrapper.editProduct(product, error, _ConnectionString));
+            status = await Task.Run(() => Warehouse_Wrapper.editProduct(product, error));
             return status;
         }
 
         public async Task<int> addToStock(string id, int newUnits, byte[] error)
         {
-            return await Task.Run(() => Warehouse_Wrapper.addToStock(id, newUnits, error, _ConnectionString));
+            return await Task.Run(() => Warehouse_Wrapper.addToStock(id, newUnits, error));
         }
 
         public async Task<List<ProductSold>> getSoldProduct(byte[] error)

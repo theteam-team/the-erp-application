@@ -32,7 +32,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.searchInventories(out InventoryPtr, key, value, error, _ConnectionString);
+                int number_fields = Warehouse_Wrapper.searchInventories(out InventoryPtr, key, value, error);
 
                 IntPtr current = InventoryPtr;
                 for (int i = 0; i < number_fields; ++i)
