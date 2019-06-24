@@ -13,19 +13,16 @@
 #include <map>
 #include <time.h>
 #include <algorithm>
-
 #pragma warning(disable : 4996)
-using namespace std;
-
 
 #define SERVER "mysqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com"
 #define USER "mySQLadmin" //your username
 #define PASSWORD "mySQLpass123" //your password for mysql
 #define DATABASE "ERP" //database name
 
+using namespace std;
 int status;
 int qstate;
-
 MYSQL* conn;
 MYSQL_ROW row;
 MYSQL_RES *res;

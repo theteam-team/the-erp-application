@@ -78,8 +78,6 @@ namespace Erp
             services.AddTransient<IOrderProductRepository, OrderProductRepository>();
             services.AddTransient<IInventoryRepository, InventoryRepository>();
             services.AddTransient<IInventoryProductRepository, InventoryProductRepository>();
-            services.AddTransient<IReportRepository, ReportRepository>();
-            services.AddTransient<IProductMovesRepository, ProductMovesRepository>();
             services.AddDbContext<AccountDbContext>(options =>
                 //options.UseLoggerFactory(MyLoggerFactory),
                 options.UseSqlServer(_config.GetConnectionString("DefaultConnection")));
