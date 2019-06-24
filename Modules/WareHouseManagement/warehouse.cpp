@@ -18,14 +18,6 @@
 using namespace std;
 
 
-#define SERVER "mysqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com"
-#define USER "mySQLadmin" //your username
-#define PASSWORD "mySQLpass123" //your password for mysql
-#define DATABASE "ERP" //database name
-/*#define SERVER "localhost"
-#define USER "root" //your username
-#define PASSWORD "rana" //your password for mysql
-#define DATABASE "erp" //database name*/
 
 int status;
 int qstate;
