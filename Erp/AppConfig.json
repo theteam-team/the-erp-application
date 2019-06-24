@@ -3,7 +3,7 @@
     "DefaultConnection": "Server=(localdb)\\ProjectsV13;Database=Erp;Trusted_Connection=True;MultipleActiveResultSets=true",
     "DataDbConnection": "Server=(localdb)\\ProjectsV13;Database=Data;Trusted_Connection=True;MultipleActiveResultSets=true",
     "MySql": "server=mysqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com;userid=mySQLadmin;port=3306;password=mySQLpass123;Allow User Variables=True;",
-    "MySql_Local": "server=localhost;userid=root;port=3306;password=0198484014###;Allow User Variables=True;"
+    "MySql_Local": "server=localhost;userid=root;port=3306;password=rana;Allow User Variables=True;"
   },
 
   "Email": {
@@ -27,7 +27,7 @@
   "MySqlC++": {
     "server": "localhost",
     "user": "root",
-    "password": "0198484014###",
+    "password": "rana",
     "port": "3306"
   }
  
