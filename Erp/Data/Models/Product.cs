@@ -12,9 +12,6 @@ namespace Erp.Models
     {
         public string id;
         public string name;
-        public uint unitsInOrder;
-//        public double price;
-        public double totalPrice;
         public string description;
         [Required]
         public double price;

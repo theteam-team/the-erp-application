@@ -87,7 +87,7 @@ namespace Erp.Repository
 
             await Task.Run(() =>
             {
-                int number_fields = Accounting_Wrapper.getProfit(out ProductPtr, error);
+                int number_fields = Accounting_Wrapper.getProfit(out ProductPtr, error, _ConnectionString);
                 IntPtr current = ProductPtr;
                 for (int i = 0; i < number_fields; ++i)
                 {
@@ -109,7 +109,7 @@ namespace Erp.Repository
 
             await Task.Run(() =>
             {
-                int number_fields = Accounting_Wrapper.getInvoice(out InvoicePtr, error);
+                int number_fields = Accounting_Wrapper.getInvoice(out InvoicePtr, error, _ConnectionString);
                 IntPtr current = InvoicePtr;
 
                 for (int i = 0; i < number_fields; ++i)
@@ -132,7 +132,7 @@ namespace Erp.Repository
 
             await Task.Run(() =>
             {
-                int number_fields = Accounting_Wrapper.getOrderProducts(id, out OrderProductPtr, error);
+                int number_fields = Accounting_Wrapper.getOrderProducts(id, out OrderProductPtr, error, _ConnectionString);
                 IntPtr current = OrderProductPtr;
                 for (int i = 0; i < number_fields; ++i)
                 {

@@ -13,21 +13,21 @@ namespace Erp.ModulesWrappers
     {
 
         [DllImport("Modules//Accounting//Accounting.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        public static extern int getProfit(out IntPtr Product, byte[] error);
+        public static extern int getProfit(out IntPtr Product, byte[] error, ConnectionString connection);
 
         [DllImport("Modules//Accounting//Accounting.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        public static extern int getInvoice(out IntPtr Invoice, byte[] error);
+        public static extern int getInvoice(out IntPtr Invoice, byte[] error, ConnectionString connection);
 
         [DllImport("Modules//Accounting//Accounting.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        public static extern int getCustomerById(string id,  out IntPtr CustomerPtr,  byte[] error);
+        public static extern int getCustomerById(string id,  out IntPtr CustomerPtr,  byte[] error, ConnectionString connection);
 
         [DllImport("Modules//Accounting//Accounting.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        public static extern int getCustomerOrders(string id, out IntPtr OrderPtr, byte[] error);
+        public static extern int getCustomerOrders(string id, out IntPtr OrderPtr, byte[] error, ConnectionString connection);
 
         [DllImport("Modules//Accounting//Accounting.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        public static extern int getOrderProducts(string id, out IntPtr OrderProductPtr, byte[] error);
+        public static extern int getOrderProducts(string id, out IntPtr OrderProductPtr, byte[] error, ConnectionString connection);
 
         [DllImport("Modules//Accounting//Accounting.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        public static extern int getCustomerAccount(string id, out IntPtr AccountPtr, byte[] error);
+        public static extern int getCustomerAccount(string id, out IntPtr AccountPtr, byte[] error, ConnectionString connection);
     }
 }

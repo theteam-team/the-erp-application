@@ -74,3 +74,12 @@ struct Account {
 	char* creation_date;
 	double account_debts;
 };
+struct ConnectionString
+{
+	char* SERVER;
+	char* USER;
+	char* PORT;
+	char* PASSWORD;
+	char* DATABASE;
+
+};

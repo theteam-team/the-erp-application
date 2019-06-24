@@ -2,22 +2,22 @@
 
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema First
+-- Schema kemo
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema First
+-- Schema kemo
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `First` DEFAULT CHARACTER SET utf8 ;
-USE `First` ;
+CREATE SCHEMA IF NOT EXISTS `kemo` DEFAULT CHARACTER SET utf8 ;
+USE `kemo` ;
 
 -- -----------------------------------------------------
--- Table `First`.`Employee`
+-- Table `kemo`.`Employee`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `First`.`Employee` (
+CREATE TABLE IF NOT EXISTS `kemo`.`Employee` (
   `Employee_ID` VARCHAR(50) NOT NULL,
   `Employee_Name` VARCHAR(45) NULL,
   `Employee_Phone_Number` DECIMAL NULL,
@@ -29,14 +29,14 @@ CREATE TABLE IF NOT EXISTS `First`.`Employee` (
   `Role_ID` VARCHAR(45) NOT NULL,
   `Employee_Department` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`Employee_ID`),
-  UNIQUE INDEX `id_UNIQUE` (`Employee_ID` ASC) VISIBLE)
+  UNIQUE INDEX `id_UNIQUE` (`Employee_ID` ASC))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `First`.`Customer`
+-- Table `kemo`.`Customer`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `First`.`Customer` (
+CREATE TABLE IF NOT EXISTS `kemo`.`Customer` (
   `Customer_ID` VARCHAR(45) NOT NULL,
   `Customer_Name` VARCHAR(45) NULL,
   `Customer_Phone_Number` DECIMAL NULL,
@@ -53,9 +53,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `First`.`Opportunities`
+-- Table `kemo`.`Opportunities`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `First`.`Opportunities` (
+CREATE TABLE IF NOT EXISTS `kemo`.`Opportunities` (
   `Opportunity_ID` VARCHAR(45) NOT NULL,
   `Opportunity_Status` INT NULL,
   `Opportunity_Expected_Revenue` DECIMAL NULL,
@@ -65,26 +65,26 @@ CREATE TABLE IF NOT EXISTS `First`.`Opportunities` (
   `Customer_Customer_ID` VARCHAR(45) NOT NULL,
   `Employee_Employee_ID` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`Opportunity_ID`),
-  UNIQUE INDEX `opportunity_id_UNIQUE` (`Opportunity_ID` ASC) VISIBLE,
-  INDEX `fk_opportunities_Customer1_idx` (`Customer_Customer_ID` ASC) VISIBLE,
-  INDEX `fk_opportunities_Employee1_idx` (`Employee_Employee_ID` ASC) VISIBLE,
+  UNIQUE INDEX `opportunity_id_UNIQUE` (`Opportunity_ID` ASC),
+  INDEX `fk_opportunities_Customer1_idx` (`Customer_Customer_ID` ASC),
+  INDEX `fk_opportunities_Employee1_idx` (`Employee_Employee_ID` ASC),
   CONSTRAINT `fk_opportunities_Customer1`
     FOREIGN KEY (`Customer_Customer_ID`)
-    REFERENCES `First`.`Customer` (`Customer_ID`)
+    REFERENCES `kemo`.`Customer` (`Customer_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_opportunities_Employee1`
     FOREIGN KEY (`Employee_Employee_ID`)
-    REFERENCES `First`.`Employee` (`Employee_ID`)
+    REFERENCES `kemo`.`Employee` (`Employee_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `First`.`Customer_Address`
+-- Table `kemo`.`Customer_Address`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `First`.`Customer_Address` (
+CREATE TABLE IF NOT EXISTS `kemo`.`Customer_Address` (
   `Address_ID` VARCHAR(45) NOT NULL,
   `City` VARCHAR(45) NULL,
   `Governate` VARCHAR(45) NULL,
@@ -92,19 +92,19 @@ CREATE TABLE IF NOT EXISTS `First`.`Customer_Address` (
   `Zip_Code` INT NULL,
   `Customer_Customer_ID` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`Address_ID`, `Customer_Customer_ID`),
-  INDEX `fk_Address_Customer1_idx` (`Customer_Customer_ID` ASC) VISIBLE,
+  INDEX `fk_Address_Customer1_idx` (`Customer_Customer_ID` ASC),
   CONSTRAINT `fk_Address_Customer1`
     FOREIGN KEY (`Customer_Customer_ID`)
-    REFERENCES `First`.`Customer` (`Customer_ID`)
+    REFERENCES `kemo`.`Customer` (`Customer_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `First`.`Supplier`
+-- Table `kemo`.`Supplier`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `First`.`Supplier` (
+CREATE TABLE IF NOT EXISTS `kemo`.`Supplier` (
   `Supplier_ID` VARCHAR(45) NOT NULL,
   `Supplier_Name` VARCHAR(45) NULL,
   `Supplier_Phone_Number` DECIMAL NULL,
@@ -114,9 +114,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `First`.`Product`
+-- Table `kemo`.`Product`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `First`.`Product` (
+CREATE TABLE IF NOT EXISTS `kemo`.`Product` (
   `Product_ID` VARCHAR(45) NOT NULL,
   `Product_Name` VARCHAR(45) NULL,
   `Product_Description` VARCHAR(200) NULL,
@@ -126,14 +126,15 @@ CREATE TABLE IF NOT EXISTS `First`.`Product` (
   `width` DOUBLE NULL,
   `height` DOUBLE NULL,
   `Units_In_Stock` INT NULL,
+  `Product_Cost` DOUBLE NULL,
   PRIMARY KEY (`Product_ID`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `First`.`Shipment`
+-- Table `kemo`.`Shipment`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `First`.`Shipment` (
+CREATE TABLE IF NOT EXISTS `kemo`.`Shipment` (
   `Shipment_ID` VARCHAR(45) NOT NULL,
   `Shipment_Method` VARCHAR(45) NULL,
   `Shipment_Start` DATETIME NULL,
@@ -143,9 +144,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `First`.`Payment`
+-- Table `kemo`.`Payment`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `First`.`Payment` (
+CREATE TABLE IF NOT EXISTS `kemo`.`Payment` (
   `Payment_ID` VARCHAR(45) NOT NULL,
   `Payment_Method` VARCHAR(45) NULL,
   `Payment_Date` DATETIME NULL,
@@ -155,9 +156,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `First`.`Category`
+-- Table `kemo`.`Category`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `First`.`Category` (
+CREATE TABLE IF NOT EXISTS `kemo`.`Category` (
   `Category_ID` VARCHAR(45) NOT NULL,
   `Category_Name` VARCHAR(45) NULL,
   `Category_Description` VARCHAR(200) NULL,
@@ -166,204 +167,204 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `First`.`Product_has_Supplier`
+-- Table `kemo`.`Product_has_Supplier`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `First`.`Product_has_Supplier` (
+CREATE TABLE IF NOT EXISTS `kemo`.`Product_has_Supplier` (
   `Product_Product_ID` VARCHAR(45) NOT NULL,
   `Supplier_Supplier_ID` VARCHAR(45) NOT NULL,
   `Units_Supplied` INT NULL,
   `date` DATE NULL,
   PRIMARY KEY (`Product_Product_ID`, `Supplier_Supplier_ID`),
-  INDEX `fk_Product_has_Supplier1_Supplier1_idx` (`Supplier_Supplier_ID` ASC) VISIBLE,
-  INDEX `fk_Product_has_Supplier1_Product1_idx` (`Product_Product_ID` ASC) VISIBLE,
+  INDEX `fk_Product_has_Supplier1_Supplier1_idx` (`Supplier_Supplier_ID` ASC),
+  INDEX `fk_Product_has_Supplier1_Product1_idx` (`Product_Product_ID` ASC),
   CONSTRAINT `fk_Product_has_Supplier1_Product1`
     FOREIGN KEY (`Product_Product_ID`)
-    REFERENCES `First`.`Product` (`Product_ID`)
+    REFERENCES `kemo`.`Product` (`Product_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Product_has_Supplier1_Supplier1`
     FOREIGN KEY (`Supplier_Supplier_ID`)
-    REFERENCES `First`.`Supplier` (`Supplier_ID`)
+    REFERENCES `kemo`.`Supplier` (`Supplier_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `First`.`Product_has_Category`
+-- Table `kemo`.`Product_has_Category`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `First`.`Product_has_Category` (
+CREATE TABLE IF NOT EXISTS `kemo`.`Product_has_Category` (
   `Product_Product_ID` VARCHAR(45) NOT NULL,
   `Category_Category_ID` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`Product_Product_ID`, `Category_Category_ID`),
-  INDEX `fk_Product_has_Category1_Category1_idx` (`Category_Category_ID` ASC) VISIBLE,
-  INDEX `fk_Product_has_Category1_Product1_idx` (`Product_Product_ID` ASC) VISIBLE,
+  INDEX `fk_Product_has_Category1_Category1_idx` (`Category_Category_ID` ASC),
+  INDEX `fk_Product_has_Category1_Product1_idx` (`Product_Product_ID` ASC),
   CONSTRAINT `fk_Product_has_Category1_Product1`
     FOREIGN KEY (`Product_Product_ID`)
-    REFERENCES `First`.`Product` (`Product_ID`)
+    REFERENCES `kemo`.`Product` (`Product_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Product_has_Category1_Category1`
     FOREIGN KEY (`Category_Category_ID`)
-    REFERENCES `First`.`Category` (`Category_ID`)
+    REFERENCES `kemo`.`Category` (`Category_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `First`.`Order_has_Product`
+-- Table `kemo`.`Order_has_Product`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `First`.`Order_has_Product` (
+CREATE TABLE IF NOT EXISTS `kemo`.`Order_has_Product` (
   `Order_Order_ID` VARCHAR(45) NOT NULL,
   `Product_Product_ID` VARCHAR(45) NOT NULL,
   `Units_In_Order` INT NULL,
   `Units_Done` INT NULL,
   PRIMARY KEY (`Order_Order_ID`, `Product_Product_ID`),
-  INDEX `fk_Order_has_Product1_Product1_idx` (`Product_Product_ID` ASC) VISIBLE,
-  INDEX `fk_Order_has_Product1_Order1_idx` (`Order_Order_ID` ASC) VISIBLE,
+  INDEX `fk_Order_has_Product1_Product1_idx` (`Product_Product_ID` ASC),
+  INDEX `fk_Order_has_Product1_Order1_idx` (`Order_Order_ID` ASC),
   CONSTRAINT `fk_Order_has_Product1_Order1`
     FOREIGN KEY (`Order_Order_ID`)
-    REFERENCES `First`.`Order` (`Order_ID`)
+    REFERENCES `kemo`.`Order` (`Order_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Order_has_Product1_Product1`
     FOREIGN KEY (`Product_Product_ID`)
-    REFERENCES `First`.`Product` (`Product_ID`)
+    REFERENCES `kemo`.`Product` (`Product_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `First`.`Account`
+-- Table `kemo`.`Account`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `First`.`Account` (
+CREATE TABLE IF NOT EXISTS `kemo`.`Account` (
   `Account_ID` VARCHAR(45) NOT NULL,
   `Account_Money` DOUBLE NULL,
   `Account_Creation_Date` DATETIME NULL,
   `Account_Debt` DOUBLE NULL,
   `Customer_Customer_ID` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`Account_ID`, `Customer_Customer_ID`),
-  INDEX `fk_Account_Customer1_idx` (`Customer_Customer_ID` ASC) VISIBLE,
+  INDEX `fk_Account_Customer1_idx` (`Customer_Customer_ID` ASC),
   CONSTRAINT `fk_Account_Customer1`
     FOREIGN KEY (`Customer_Customer_ID`)
-    REFERENCES `First`.`Customer` (`Customer_ID`)
+    REFERENCES `kemo`.`Customer` (`Customer_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `First`.`Product_has_Supplier`
+-- Table `kemo`.`Product_has_Supplier`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `First`.`Product_has_Supplier` (
+CREATE TABLE IF NOT EXISTS `kemo`.`Product_has_Supplier` (
   `Product_Product_ID` VARCHAR(45) NOT NULL,
   `Supplier_Supplier_ID` VARCHAR(45) NOT NULL,
   `Units_Supplied` INT NULL,
   `date` DATE NULL,
   PRIMARY KEY (`Product_Product_ID`, `Supplier_Supplier_ID`),
-  INDEX `fk_Product_has_Supplier1_Supplier1_idx` (`Supplier_Supplier_ID` ASC) VISIBLE,
-  INDEX `fk_Product_has_Supplier1_Product1_idx` (`Product_Product_ID` ASC) VISIBLE,
+  INDEX `fk_Product_has_Supplier1_Supplier1_idx` (`Supplier_Supplier_ID` ASC),
+  INDEX `fk_Product_has_Supplier1_Product1_idx` (`Product_Product_ID` ASC),
   CONSTRAINT `fk_Product_has_Supplier1_Product1`
     FOREIGN KEY (`Product_Product_ID`)
-    REFERENCES `First`.`Product` (`Product_ID`)
+    REFERENCES `kemo`.`Product` (`Product_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Product_has_Supplier1_Supplier1`
     FOREIGN KEY (`Supplier_Supplier_ID`)
-    REFERENCES `First`.`Supplier` (`Supplier_ID`)
+    REFERENCES `kemo`.`Supplier` (`Supplier_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `First`.`Product_has_Category`
+-- Table `kemo`.`Product_has_Category`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `First`.`Product_has_Category` (
+CREATE TABLE IF NOT EXISTS `kemo`.`Product_has_Category` (
   `Product_Product_ID` VARCHAR(45) NOT NULL,
   `Category_Category_ID` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`Product_Product_ID`, `Category_Category_ID`),
-  INDEX `fk_Product_has_Category1_Category1_idx` (`Category_Category_ID` ASC) VISIBLE,
-  INDEX `fk_Product_has_Category1_Product1_idx` (`Product_Product_ID` ASC) VISIBLE,
+  INDEX `fk_Product_has_Category1_Category1_idx` (`Category_Category_ID` ASC),
+  INDEX `fk_Product_has_Category1_Product1_idx` (`Product_Product_ID` ASC),
   CONSTRAINT `fk_Product_has_Category1_Product1`
     FOREIGN KEY (`Product_Product_ID`)
-    REFERENCES `First`.`Product` (`Product_ID`)
+    REFERENCES `kemo`.`Product` (`Product_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Product_has_Category1_Category1`
     FOREIGN KEY (`Category_Category_ID`)
-    REFERENCES `First`.`Category` (`Category_ID`)
+    REFERENCES `kemo`.`Category` (`Category_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `First`.`Interest`
+-- Table `kemo`.`Interest`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `First`.`Interest` (
+CREATE TABLE IF NOT EXISTS `kemo`.`Interest` (
   `Interest_ID` INT NOT NULL,
   `Category_Category_ID` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`Interest_ID`, `Category_Category_ID`),
-  INDEX `fk_Interest_Category1_idx` (`Category_Category_ID` ASC) VISIBLE,
+  INDEX `fk_Interest_Category1_idx` (`Category_Category_ID` ASC),
   CONSTRAINT `fk_Interest_Category1`
     FOREIGN KEY (`Category_Category_ID`)
-    REFERENCES `First`.`Category` (`Category_ID`)
+    REFERENCES `kemo`.`Category` (`Category_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `First`.`Customer_Interest`
+-- Table `kemo`.`Customer_Interest`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `First`.`Customer_Interest` (
+CREATE TABLE IF NOT EXISTS `kemo`.`Customer_Interest` (
   `Level` INT NULL,
   `Customer_Customer_ID` VARCHAR(45) NOT NULL,
   `Interest_Interest_ID` INT NOT NULL,
-  INDEX `fk_Customer_Interest_Interest1_idx` (`Interest_Interest_ID` ASC) VISIBLE,
+  INDEX `fk_Customer_Interest_Interest1_idx` (`Interest_Interest_ID` ASC),
   PRIMARY KEY (`Interest_Interest_ID`, `Customer_Customer_ID`),
   CONSTRAINT `fk_Customer_Interest_Customer1`
     FOREIGN KEY (`Customer_Customer_ID`)
-    REFERENCES `First`.`Customer` (`Customer_ID`)
+    REFERENCES `kemo`.`Customer` (`Customer_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Customer_Interest_Interest1`
     FOREIGN KEY (`Interest_Interest_ID`)
-    REFERENCES `First`.`Interest` (`Interest_ID`)
+    REFERENCES `kemo`.`Interest` (`Interest_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `First`.`Opportunity_Product`
+-- Table `kemo`.`Opportunity_Product`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `First`.`Opportunity_Product` (
+CREATE TABLE IF NOT EXISTS `kemo`.`Opportunity_Product` (
   `Opportunities_Opportunity_ID` VARCHAR(45) NOT NULL,
   `Product_Product_ID` VARCHAR(45) NOT NULL,
   `Units` INT NULL,
   PRIMARY KEY (`Opportunities_Opportunity_ID`, `Product_Product_ID`),
-  INDEX `fk_Opportunity_Product_Product1_idx` (`Product_Product_ID` ASC) VISIBLE,
+  INDEX `fk_Opportunity_Product_Product1_idx` (`Product_Product_ID` ASC),
   CONSTRAINT `fk_Opportunity_Product_Opportunities1`
     FOREIGN KEY (`Opportunities_Opportunity_ID`)
-    REFERENCES `First`.`Opportunities` (`Opportunity_ID`)
+    REFERENCES `kemo`.`Opportunities` (`Opportunity_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Opportunity_Product_Product1`
     FOREIGN KEY (`Product_Product_ID`)
-    REFERENCES `First`.`Product` (`Product_ID`)
+    REFERENCES `kemo`.`Product` (`Product_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `First`.`Order`
+-- Table `kemo`.`Order`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `First`.`Order` (
+CREATE TABLE IF NOT EXISTS `kemo`.`Order` (
   `Order_ID` VARCHAR(45) NOT NULL,
   `incoming` INT NULL,
   `outgoing` INT NULL,
@@ -374,55 +375,55 @@ CREATE TABLE IF NOT EXISTS `First`.`Order` (
   `Payment_Payment_ID` VARCHAR(45) NOT NULL,
   `Shipment_Shipment_ID` VARCHAR(45) NULL,
   PRIMARY KEY (`Order_ID`, `Customer_Customer_ID`, `Payment_Payment_ID`),
-  INDEX `fk_Order_Payment1_idx` (`Payment_Payment_ID` ASC) VISIBLE,
-  INDEX `fk_Order_Customer1_idx` (`Customer_Customer_ID` ASC) VISIBLE,
-  INDEX `fk_Order_Shipment1_idx` (`Shipment_Shipment_ID` ASC) VISIBLE,
+  INDEX `fk_Order_Payment1_idx` (`Payment_Payment_ID` ASC),
+  INDEX `fk_Order_Customer1_idx` (`Customer_Customer_ID` ASC),
+  INDEX `fk_Order_Shipment1_idx` (`Shipment_Shipment_ID` ASC),
   CONSTRAINT `fk_Order_Payment1`
     FOREIGN KEY (`Payment_Payment_ID`)
-    REFERENCES `First`.`Payment` (`Payment_ID`)
+    REFERENCES `kemo`.`Payment` (`Payment_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Order_Customer1`
     FOREIGN KEY (`Customer_Customer_ID`)
-    REFERENCES `First`.`Customer` (`Customer_ID`)
+    REFERENCES `kemo`.`Customer` (`Customer_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Order_Shipment1`
     FOREIGN KEY (`Shipment_Shipment_ID`)
-    REFERENCES `First`.`Shipment` (`Shipment_ID`)
+    REFERENCES `kemo`.`Shipment` (`Shipment_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `First`.`Order_has_Product`
+-- Table `kemo`.`Order_has_Product`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `First`.`Order_has_Product` (
+CREATE TABLE IF NOT EXISTS `kemo`.`Order_has_Product` (
   `Order_Order_ID` VARCHAR(45) NOT NULL,
   `Product_Product_ID` VARCHAR(45) NOT NULL,
   `Units_In_Order` INT NULL,
   `Units_Done` INT NULL,
   PRIMARY KEY (`Order_Order_ID`, `Product_Product_ID`),
-  INDEX `fk_Order_has_Product1_Product1_idx` (`Product_Product_ID` ASC) VISIBLE,
-  INDEX `fk_Order_has_Product1_Order1_idx` (`Order_Order_ID` ASC) VISIBLE,
+  INDEX `fk_Order_has_Product1_Product1_idx` (`Product_Product_ID` ASC),
+  INDEX `fk_Order_has_Product1_Order1_idx` (`Order_Order_ID` ASC),
   CONSTRAINT `fk_Order_has_Product1_Order1`
     FOREIGN KEY (`Order_Order_ID`)
-    REFERENCES `First`.`Order` (`Order_ID`)
+    REFERENCES `kemo`.`Order` (`Order_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Order_has_Product1_Product1`
     FOREIGN KEY (`Product_Product_ID`)
-    REFERENCES `First`.`Product` (`Product_ID`)
+    REFERENCES `kemo`.`Product` (`Product_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `First`.`Inventory`
+-- Table `kemo`.`Inventory`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `First`.`Inventory` (
+CREATE TABLE IF NOT EXISTS `kemo`.`Inventory` (
   `Inventory_ID` VARCHAR(45) NOT NULL,
   `Governorate` VARCHAR(20) NULL,
   `City` VARCHAR(20) NULL,
@@ -435,33 +436,33 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `First`.`Inventory_has_Product`
+-- Table `kemo`.`Inventory_has_Product`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `First`.`Inventory_has_Product` (
+CREATE TABLE IF NOT EXISTS `kemo`.`Inventory_has_Product` (
   `Inventory_Inventory_ID` VARCHAR(45) NOT NULL,
   `Product_Product_ID` VARCHAR(45) NOT NULL,
   `position` VARCHAR(45) NULL,
   `Units_In_Inventory` INT NULL,
   PRIMARY KEY (`Inventory_Inventory_ID`, `Product_Product_ID`),
-  INDEX `fk_Inventory_has_Product_Product1_idx` (`Product_Product_ID` ASC) VISIBLE,
-  INDEX `fk_Inventory_has_Product_Inventory1_idx` (`Inventory_Inventory_ID` ASC) VISIBLE,
+  INDEX `fk_Inventory_has_Product_Product1_idx` (`Product_Product_ID` ASC),
+  INDEX `fk_Inventory_has_Product_Inventory1_idx` (`Inventory_Inventory_ID` ASC),
   CONSTRAINT `fk_Inventory_has_Product_Inventory1`
     FOREIGN KEY (`Inventory_Inventory_ID`)
-    REFERENCES `First`.`Inventory` (`Inventory_ID`)
+    REFERENCES `kemo`.`Inventory` (`Inventory_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Inventory_has_Product_Product1`
     FOREIGN KEY (`Product_Product_ID`)
-    REFERENCES `First`.`Product` (`Product_ID`)
+    REFERENCES `kemo`.`Product` (`Product_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `First`.`Employee_Address`
+-- Table `kemo`.`Employee_Address`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `First`.`Employee_Address` (
+CREATE TABLE IF NOT EXISTS `kemo`.`Employee_Address` (
   `Address_ID` VARCHAR(45) NOT NULL,
   `City` VARCHAR(45) NULL,
   `Governate` VARCHAR(45) NULL,
@@ -469,19 +470,19 @@ CREATE TABLE IF NOT EXISTS `First`.`Employee_Address` (
   `Zip_Code` INT NULL,
   `Employee_Employee_ID` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`Address_ID`, `Employee_Employee_ID`),
-  INDEX `fk_Employee_Address_Employee1_idx` (`Employee_Employee_ID` ASC) VISIBLE,
+  INDEX `fk_Employee_Address_Employee1_idx` (`Employee_Employee_ID` ASC),
   CONSTRAINT `fk_Employee_Address_Employee1`
     FOREIGN KEY (`Employee_Employee_ID`)
-    REFERENCES `First`.`Employee` (`Employee_ID`)
+    REFERENCES `kemo`.`Employee` (`Employee_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `First`.`Supplier_Address`
+-- Table `kemo`.`Supplier_Address`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `First`.`Supplier_Address` (
+CREATE TABLE IF NOT EXISTS `kemo`.`Supplier_Address` (
   `Address_ID` VARCHAR(45) NOT NULL,
   `City` VARCHAR(45) NULL,
   `Governate` VARCHAR(45) NULL,
@@ -489,10 +490,10 @@ CREATE TABLE IF NOT EXISTS `First`.`Supplier_Address` (
   `Zip_Code` INT NULL,
   `Supplier_Supplier_ID` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`Address_ID`, `Supplier_Supplier_ID`),
-  INDEX `fk_Inventory_Address_Supplier1_idx` (`Supplier_Supplier_ID` ASC) VISIBLE,
+  INDEX `fk_Inventory_Address_Supplier1_idx` (`Supplier_Supplier_ID` ASC),
   CONSTRAINT `fk_Inventory_Address_Supplier1`
     FOREIGN KEY (`Supplier_Supplier_ID`)
-    REFERENCES `First`.`Supplier` (`Supplier_ID`)
+    REFERENCES `kemo`.`Supplier` (`Supplier_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

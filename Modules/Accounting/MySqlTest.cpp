@@ -11,12 +11,6 @@
 #include <mysql.h>
 #pragma warning(disable : 4996)
 using namespace std;
-
-#define SERVER "localhost"
-#define USER "root" //your username
-#define PASSWORD "0198484014###" //your password for mysql
-#define DATABASE "company1" //database name
-
 MYSQL* conn;
 MYSQL_ROW row;
 MYSQL_RES *res;
@@ -25,10 +19,11 @@ int qstate;
 class db_response {
 
 public:
-	static void ConnectionFunction(char* error) {
+
+	static void ConnectionFunction(char* error, ConnectionString con) {
 
 		conn = mysql_init(0);
-		conn = mysql_real_connect(conn, SERVER, USER, PASSWORD, DATABASE, 3306, NULL, 0);
+		conn = mysql_real_connect(conn, con.SERVER, con.USER, con.PASSWORD, con.DATABASE, 3306, NULL, 0);
 		if (!conn) {
 
 			cout << "Failed To Connect!" << mysql_errno(conn) << endl;
@@ -40,11 +35,11 @@ public:
 };
 string query;
 
-extern "C" ERP_API int getProfit(ProductSold** product, char* error) {
+extern "C" ERP_API int getProfit(ProductSold** product, char* error, ConnectionString con) {
 	status = 0;
 	int numberOfRows = 0;
 	unsigned int numOfFields;
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 	if (conn) {
 		mysql_free_result(res);
 		//for each sold product, calculate its profit --> Units_In_Order *( product_price - Produt_cost),,,,,, then get summation of all profits
@@ -80,15 +75,15 @@ extern "C" ERP_API int getProfit(ProductSold** product, char* error) {
 	}
 	return numberOfRows;
 }
-extern "C" ERP_API int getInvoice(Invoice** invoice, char* error) {
+extern "C" ERP_API int getInvoice(Invoice** invoice, char* error, ConnectionString con) {
 	status = 0;
 	int numberOfRows = 0;
 	unsigned int numOfFields;
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 	if (conn) {
 		mysql_free_result(res);
 		//for each sold product, calculate its profit --> Units_In_Order *( product_price - Produt_cost),,,,,, then get summation of all profits
-		query = (string) "SELECT  Supplier_ID, Supplier_Name,  Supplier_Phone_Number,Supplier_Email, Product_Name,Product_Cost, Units_Supplied, (Units_Supplied * (select Product_Cost from "+ DATABASE +".product where product_id = product_has_supplier.Product_Product_ID)) as total_cost,paid_up, (Units_Supplied * (select Product_Cost from "+DATABASE+".product where product_id = product_has_supplier.Product_Product_ID) - Paid_up) As debts from "+DATABASE+".supplier, "+DATABASE+".product_has_supplier, "+DATABASE+".product where (Supplier_ID = product_has_supplier.Supplier_Supplier_ID AND product_id = product_has_supplier.Product_Product_ID) order by supplier_id ";
+		query = (string) "SELECT  Supplier_ID, Supplier_Name,  Supplier_Phone_Number,Supplier_Email, Product_Name,Product_Cost, Units_Supplied, (Units_Supplied * (select Product_Cost from "+ con.DATABASE +".product where product_id = product_has_supplier.Product_Product_ID)) as total_cost,paid_up, (Units_Supplied * (select Product_Cost from "+con.DATABASE+".product where product_id = product_has_supplier.Product_Product_ID) - Paid_up) As debts from "+con.DATABASE+".supplier, "+con.DATABASE+".product_has_supplier, "+con.DATABASE+".product where (Supplier_ID = product_has_supplier.Supplier_Supplier_ID AND product_id = product_has_supplier.Product_Product_ID) order by supplier_id ";
 		qstate = mysql_query(conn, query.c_str());
 		cout << query << endl;
 		if (checkQuery(qstate, error)) {
@@ -126,11 +121,11 @@ extern "C" ERP_API int getInvoice(Invoice** invoice, char* error) {
 	}
 	return numberOfRows;
 }
-extern "C" ERP_API int getCustomerById(char* id, Customer** customer, char* error) {
+extern "C" ERP_API int getCustomerById(char* id, Customer** customer, char* error, ConnectionString con) {
 	status = 0;
 	int numberOfRows = 0;
 	unsigned int numOfFields;
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 	if (conn) {
 		mysql_free_result(res);
 		string query = (string)"select * from customer where customer_ID = '" + id + "'";
@@ -171,14 +166,14 @@ extern "C" ERP_API int getCustomerById(char* id, Customer** customer, char* erro
 	}
 	return numberOfRows;
 }
-extern "C" ERP_API int getCustomerOrders(char* id, AOrder** order, char* error) {
+extern "C" ERP_API int getCustomerOrders(char* id, AOrder** order, char* error, ConnectionString con) {
 	status = 0;
 	int numberOfRows = 0;
 	unsigned int numOfFields;
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 	if (conn) {
 		mysql_free_result(res);
-		query = (string) "SELECT Order_ID, Order_Required_Date,Order_Completed_Date,Order_Status,Payment_Payment_ID,sum(Units_In_Order*(select product_price from "+DATABASE+".product where product_product_id = product_id)) as tP FROM " + DATABASE + ".order ,"+ DATABASE +".order_has_product where "+ DATABASE +".order.Customer_Customer_id  = '" + id + "'And order_id = order_order_id group by order_id ";
+		query = (string) "SELECT Order_ID, Order_Required_Date,Order_Completed_Date,Order_Status,Payment_Payment_ID,sum(Units_In_Order*(select product_price from "+con.DATABASE+".product where product_product_id = product_id)) as tP FROM " + con.DATABASE + ".order_table ,"+ con.DATABASE +".order_has_product where "+ con.DATABASE +".order_table.Customer_Customer_id  = '" + id + "'And order_id = order_order_id group by order_id ";
 		qstate = mysql_query(conn, query.c_str());
 		cout << query << endl;
 		if (checkQuery(qstate, error)) {
@@ -212,11 +207,11 @@ extern "C" ERP_API int getCustomerOrders(char* id, AOrder** order, char* error) 
 	}
 	return numberOfRows;
 }
-extern "C" ERP_API int getOrderProducts(char* id, AProduct** product_order, char* error) {
+extern "C" ERP_API int getOrderProducts(char* id, AProduct** product_order, char* error, ConnectionString con) {
 	status = 0;
 	int numberOfRows = 0;
 	unsigned int numOfFields;
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 	if (conn) {
 		mysql_free_result(res);
 		query = (string) "select Product_Product_ID,Product_Name, Units_In_Order, Product_Price, (Product_Price*Units_In_Order) as Pcost from order_has_product, product where Order_Order_ID ='" + id + "'AND Product_Product_ID = Product_ID group by Product_Product_ID";
@@ -251,14 +246,14 @@ extern "C" ERP_API int getOrderProducts(char* id, AProduct** product_order, char
 	}
 	return numberOfRows;
 }
-extern "C" ERP_API int getCustomerAccount(char* id, Account** customer_account, char* error) {
+extern "C" ERP_API int getCustomerAccount(char* id, Account** customer_account, char* error, ConnectionString con) {
 	status = 0;
 	int numberOfRows = 0;
 	unsigned int numOfFields;
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error,con);
 	if (conn) {
 		mysql_free_result(res);
-		query = (string) "SELECT Account_ID, Account_Money, Account_Creation_Date, Account_Debt FROM " + DATABASE + ".account where Customer_Customer_id  = '" + id + "' ";
+		query = (string) "SELECT Account_ID, Account_Money, Account_Creation_Date, Account_Debt FROM " + con.DATABASE + ".account where Customer_Customer_id  = '" + id + "' ";
 		qstate = mysql_query(conn, query.c_str());
 		cout << query << endl;
 		if (checkQuery(qstate, error)) {

@@ -60,7 +60,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.showAllOrders(out ProductPtr, error);
+                int number_fields = Warehouse_Wrapper.showAllOrders(out ProductPtr, error, _ConnectionString);
 
                 IntPtr current = ProductPtr;
                 for (int i = 0; i < number_fields; ++i)
@@ -83,7 +83,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.showReceipts(out ProductPtr, error);
+                int number_fields = Warehouse_Wrapper.showReceipts(out ProductPtr, error, _ConnectionString);
 
                 IntPtr current = ProductPtr;
                 for (int i = 0; i < number_fields; ++i)
@@ -129,7 +129,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.showCompletedReceipts(out ProductPtr, error);
+                int number_fields = Warehouse_Wrapper.showCompletedReceipts(out ProductPtr, error, _ConnectionString);
 
                 IntPtr current = ProductPtr;
                 for (int i = 0; i < number_fields; ++i)
@@ -197,7 +197,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.showWaitingOrders(out ProductPtr, error);
+                int number_fields = Warehouse_Wrapper.showWaitingOrders(out ProductPtr, error, _ConnectionString);
 
                 IntPtr current = ProductPtr;
                 for (int i = 0; i < number_fields; ++i)
@@ -219,7 +219,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.showWaitingReceipts(out ProductPtr, error);
+                int number_fields = Warehouse_Wrapper.showWaitingReceipts(out ProductPtr, error, _ConnectionString);
 
                 IntPtr current = ProductPtr;
                 for (int i = 0; i < number_fields; ++i)

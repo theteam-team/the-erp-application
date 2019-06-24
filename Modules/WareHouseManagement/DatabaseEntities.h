@@ -1,15 +1,5 @@
 #pragma once
 
-struct ConnectionString
-{
-	char* SERVER;
-	char* USER;
-	char* PORT;
-	char* PASSWORD;
-	char* DATABASE;
-
-};
-
 struct Inventory
 {
 	char* id;
@@ -20,16 +10,6 @@ struct Inventory
 	double width;
 	double height;
 };
-struct ConnectionString
-{
-	char* SERVER;
-	char* USER;
-	char* PORT;
-	char* PASSWORD;
-	char* DATABASE;
-	
-};
-
 
 struct Product
 {
@@ -98,4 +78,14 @@ struct ProductMoves
 	char* name;
 	char* status;
 	unsigned int quantity;
+};
+
+struct ConnectionString
+{
+	char* SERVER;
+	char* USER;
+	char* PORT;
+	char* PASSWORD;
+	char* DATABASE;
+
 };
