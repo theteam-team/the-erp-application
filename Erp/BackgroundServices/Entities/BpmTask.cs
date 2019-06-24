@@ -8,8 +8,10 @@ namespace Erp.BackgroundServices.Entities
 {
     public class BpmTask
     {
-        public string TaskId { get; set; }
-        public string TaskType { get; set; }
+        public string Type { get; set; }
+        public string WorkflowName { get; set; }
+        public string instanceID { get; set; }
+        public string taskID { get; set; }
         public string TaskName { get; set; }
         public string TaskParam { get; set; }
     }

@@ -214,30 +214,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ERP`.`Order_has_Product`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ERP`.`Order_has_Product` (
-  `Order_Order_ID` VARCHAR(45) NOT NULL,
-  `Product_Product_ID` VARCHAR(45) NOT NULL,
-  `Units_In_Order` INT NULL,
-  `Units_Done` INT NULL,
-  PRIMARY KEY (`Order_Order_ID`, `Product_Product_ID`),
-  INDEX `fk_Order_has_Product1_Product1_idx` (`Product_Product_ID` ASC) VISIBLE,
-  INDEX `fk_Order_has_Product1_Order1_idx` (`Order_Order_ID` ASC) VISIBLE,
-  CONSTRAINT `fk_Order_has_Product1_Order1`
-    FOREIGN KEY (`Order_Order_ID`)
-    REFERENCES `ERP`.`order_table` (`Order_ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Order_has_Product1_Product1`
-    FOREIGN KEY (`Product_Product_ID`)
-    REFERENCES `ERP`.`Product` (`Product_ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `ERP`.`Account`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ERP`.`Account` (

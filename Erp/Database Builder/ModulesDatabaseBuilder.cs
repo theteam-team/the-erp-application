@@ -83,7 +83,7 @@ namespace Erp.Database_Builder
         {
             string path = _env.ContentRootPath;
             path = Path.GetFullPath(Path.Combine(path, @"..\"));
-            path = Path.GetFullPath(Path.Combine(path, @"DatabaseTables"));
+            path = Path.GetFullPath(Path.Combine(path, @"Database Tables"));
             return path;
         
         }
