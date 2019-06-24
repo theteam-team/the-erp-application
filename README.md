@@ -8,10 +8,9 @@ An EPR System for Medium Businesses and Start-Ups
 * mysql server
 
 ## Database
-* 
 * In *Erp\AppConfig.json*  change the Connection String to yours in  `Connectionstring["MysqL_Local"]` and `Mysql_c++`
 ## Build
-*`Build your c++ modules`
+* `Build your c++ modules`
 * In Command line, type `ng build`
 * `cd Erp`
 * `npm install`
@@ -23,7 +22,6 @@ An EPR System for Medium Businesses and Start-Ups
    1. Right click on *SQL Server* => *Add SQL Server*
    2. In *Server Name* type **(localdb)\ProjectsV13** and click **Connect**
 * From *Solution Explorer* right click on each module => *Build*
-
 * Run from VS using **f5** or form comandLine **dotnet run** at Erp/ directory
 
 
