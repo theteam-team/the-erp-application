@@ -31,7 +31,7 @@ namespace Erp.Repository
 
             await Task.Run(() =>
             {
-                status = Warehouse_Wrapper.reporting(out reportPtr, error);
+                status = Warehouse_Wrapper.reporting(out reportPtr, error, _ConnectionString);
                 report = (Report)Marshal.PtrToStructure(reportPtr, typeof(Report));
                 Marshal.FreeCoTaskMem(reportPtr);
             });

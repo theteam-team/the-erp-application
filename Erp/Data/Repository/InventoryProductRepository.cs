@@ -39,7 +39,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.showProductsInInventory(id, out ProductPtr, error);
+                int number_fields = Warehouse_Wrapper.showProductsInInventory(id, out ProductPtr, error, _ConnectionString);
 
                 IntPtr current = ProductPtr;
                 for (int i = 0; i < number_fields; ++i)
@@ -67,14 +67,14 @@ namespace Erp.Repository
         {
             int status = 0;
             ProductInInventory product = (ProductInInventory)(object)(entity);
-            status = await Task.Run(() => Warehouse_Wrapper.editProductInInventory(product, error));
+            status = await Task.Run(() => Warehouse_Wrapper.editProductInInventory(product, error, _ConnectionString));
             return status;
         }
 
         public async Task<int> DeleteProductFromInventory(string iID, string pID, byte[] error)
         {
             int status = 10;
-            status = await Task.Run(() => Warehouse_Wrapper.deleteProductFromInventory(iID, pID, error));
+            status = await Task.Run(() => Warehouse_Wrapper.deleteProductFromInventory(iID, pID, error, _ConnectionString));
             return status;
         }
 

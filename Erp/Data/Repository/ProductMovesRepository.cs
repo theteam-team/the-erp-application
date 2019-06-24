@@ -30,7 +30,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.getProductsMoves(out ProductPtr, error);
+                int number_fields = Warehouse_Wrapper.getProductsMoves(out ProductPtr, error, _ConnectionString);
 
                 IntPtr current = ProductPtr;
                 for (int i = 0; i < number_fields; ++i)

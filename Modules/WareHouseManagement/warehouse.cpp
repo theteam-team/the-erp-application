@@ -17,16 +17,6 @@
 #pragma warning(disable : 4996)
 using namespace std;
 
-/*#define SERVER "mysqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com"
-#define USER "mySQLadmin" //your username
-#define PASSWORD "mySQLpass123" //your password for mysql
-#define DATABASE "ERP" //database name*/
-#define SERVER "localhost"
-#define USER "root" //your username
-#define PASSWORD "rana" //your password for mysql
-#define DATABASE "erp" //database name
-
-
 int status;
 int qstate;
 
@@ -44,10 +34,10 @@ class db_response {
 
 public:
 
-	static void ConnectionFunction(char* error) {
+	static void ConnectionFunction(char* error, ConnectionString con) {
 
 		conn = mysql_init(0);
-		conn = mysql_real_connect(conn, SERVER, USER, PASSWORD, DATABASE, 3306, NULL, 0);
+		conn = mysql_real_connect(conn, con.SERVER, con.USER, con.PASSWORD, con.DATABASE, 3306, NULL, 0);
 		if (!conn) {
 
 			cout << "Failed To Connect!" << mysql_errno(conn) << endl;
@@ -59,14 +49,14 @@ public:
 };
 
 
-int calculateDeliveriesCycleTime(char* error) {
+int calculateDeliveriesCycleTime(char* error, ConnectionString con) {
 
 	vector<int> daysDiff;
 	int total = 0, avg;
 	int y1, y2, m1, m2, d1, d2;
 	int increment[12] = { 1, -2, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1 };
 
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (conn)
 	{
@@ -143,14 +133,14 @@ int calculateDeliveriesCycleTime(char* error) {
 	return avg;
 }
 
-int calculateReceiptsCycleTime(char* error) {
+int calculateReceiptsCycleTime(char* error, ConnectionString con) {
 
 	vector<int> daysDiff;
 	int total = 0, avg;
 	int y1, y2, m1, m2, d1, d2;
 	int increment[12] = { 1, -2, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1 };
 
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (conn)
 	{
@@ -227,11 +217,11 @@ int calculateReceiptsCycleTime(char* error) {
 	return avg;
 }
 
-double calculateInventoryValue(char* error) {
+double calculateInventoryValue(char* error, ConnectionString con) {
 
 	int total = 0;
 
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (conn)
 	{
@@ -265,11 +255,11 @@ double calculateInventoryValue(char* error) {
 }
 
 
-double calculateOutgoingValue(char* error) {
+double calculateOutgoingValue(char* error, ConnectionString con) {
 
 	double total = 0;
 
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (conn)
 	{
@@ -353,11 +343,11 @@ double calculateOutgoingValue(char* error) {
 }
 
 
-double calculateIncomingValue(char* error) {
+double calculateIncomingValue(char* error, ConnectionString con) {
 
 	double total = 0;
 
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (conn)
 	{
@@ -441,10 +431,10 @@ double calculateIncomingValue(char* error) {
 }
 
 
-int addToCategory(char* pid, char* cid, char* error) {
+int addToCategory(char* pid, char* cid, char* error, ConnectionString con) {
 
 	status = 0;
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (conn)
 	{
@@ -458,10 +448,10 @@ int addToCategory(char* pid, char* cid, char* error) {
 	return status;
 }
 
-int deleteFromCategory(char* pid, char* error) {
+int deleteFromCategory(char* pid, char* error, ConnectionString con) {
 
 	status = 0;
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (conn)
 	{
@@ -522,10 +512,10 @@ map<char*, int> checkCategory(char* pid, char* error) {
 	return categories;
 }
 
-int checkUnitsInStock(char* id, char* error) {
+int checkUnitsInStock(char* id, char* error, ConnectionString con) {
 
 	status = 0;
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (conn)
 	{
@@ -557,10 +547,10 @@ int checkUnitsInStock(char* id, char* error) {
 	return status;
 }
 
-int deleteAll(char* id, char* error) {
+int deleteAll(char* id, char* error, ConnectionString con) {
 
 	status = 0;
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (conn)
 	{
@@ -574,14 +564,14 @@ int deleteAll(char* id, char* error) {
 	return status;
 }
 
-extern "C"	ERP_API int addToStock(char* id, int newUnits, char* error) {
+extern "C"	ERP_API int addToStock(char* id, int newUnits, char* error, ConnectionString con) {
 
 	
 	int units = 0;
 	status = 0;
-	units = checkUnitsInStock(id, error);
+	units = checkUnitsInStock(id, error, con);
 
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (status == 0)
 	{
@@ -597,13 +587,13 @@ extern "C"	ERP_API int addToStock(char* id, int newUnits, char* error) {
 	return status;
 }
 
-extern "C"	ERP_API int removeFromStock(ProductInOrder* product, char* error) {
+extern "C"	ERP_API int removeFromStock(ProductInOrder* product, char* error, ConnectionString con) {
 	int units;
 	status = 0;
-	units = checkUnitsInStock(product->productID, error);
+	units = checkUnitsInStock(product->productID, error, con);
 	units -= product->unitsOrdered;
 
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 	
 	if (status == 0)
 	{
@@ -617,10 +607,10 @@ extern "C"	ERP_API int removeFromStock(ProductInOrder* product, char* error) {
 	return status;
 }
 
-extern "C"	ERP_API int addInventory(Inventory* inventory, char* error)
+extern "C"	ERP_API int addInventory(Inventory* inventory, char* error, ConnectionString con)
 {
 	status = 0;
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (conn) {
 
@@ -634,10 +624,10 @@ extern "C"	ERP_API int addInventory(Inventory* inventory, char* error)
 	return status;
 }
 
-extern "C"	ERP_API int addProduct(Product* product, char* error)
+extern "C"	ERP_API int addProduct(Product* product, char* error, ConnectionString con)
 {
 	status = 0;
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (conn) {
 		
@@ -649,17 +639,17 @@ extern "C"	ERP_API int addProduct(Product* product, char* error)
 		mysql_close(conn);
 
 		if (product->sold == 1)
-			addToCategory(product->id, "1", error);
+			addToCategory(product->id, "1", error, con);
 		if (product->purchased == 1)
-			addToCategory(product->id, "2", error);
+			addToCategory(product->id, "2", error, con);
 	}
 	return status;
 }
 
-extern "C"	ERP_API int addOrder(Order* order, char* error)
+extern "C"	ERP_API int addOrder(Order* order, char* error, ConnectionString con)
 {
 	status = 0;
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (conn) {
 
@@ -673,10 +663,10 @@ extern "C"	ERP_API int addOrder(Order* order, char* error)
 	return status;
 }
 
-extern "C" ERP_API int addProductToOrder(ProductInOrder* product, char* error)
+extern "C" ERP_API int addProductToOrder(ProductInOrder* product, char* error, ConnectionString con)
 {
 	status = 0;
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (conn) {
 
@@ -690,10 +680,10 @@ extern "C" ERP_API int addProductToOrder(ProductInOrder* product, char* error)
 	return status;
 }
 
-extern "C" ERP_API int addProductToInventory(ProductInInventory* product, char* error)
+extern "C" ERP_API int addProductToInventory(ProductInInventory* product, char* error, ConnectionString con)
 {
 	status = 0;
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (conn) {
 
@@ -707,10 +697,10 @@ extern "C" ERP_API int addProductToInventory(ProductInInventory* product, char* 
 	return status;
 }
 
-extern "C" ERP_API int editProduct(Product* product, char* error)
+extern "C" ERP_API int editProduct(Product* product, char* error, ConnectionString con)
 {
 	status = 0;
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (conn) {
         string query = (string) "update product set Product_Name = '" + product->name + "', Product_Description = '" + product->description + "', " + "', Product_Price = " + to_string(product->price) + ", Product_Weight = " + to_string(product->weight) + ", length = " + to_string(product->length) + ", width = " + to_string(product->width) + ", Product_height = " + to_string(product->height) + ", Units_In_Stock = " + to_string(product->unitsInStock) + " where Product_ID = '" + product->id + "'";
@@ -720,19 +710,19 @@ extern "C" ERP_API int editProduct(Product* product, char* error)
 		checkQuery(qstate, error);
 		mysql_close(conn);
 
-		deleteFromCategory(product->id, error);
+		deleteFromCategory(product->id, error, con);
 		if (product->sold == 1)
-			addToCategory(product->id, "1", error);
+			addToCategory(product->id, "1", error, con);
 		if (product->purchased == 1)
-			addToCategory(product->id, "2", error);
+			addToCategory(product->id, "2", error, con);
 	}
 	return status;
 }
 
-extern "C" ERP_API int editOrder(Order* order, char* error)
+extern "C" ERP_API int editOrder(Order* order, char* error, ConnectionString con)
 {
 	status = 0;
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (conn) {
 		string query = (string) "update order_table set incoming = " + to_string(order->incoming) + ", outgoing = " + to_string(order->outgoing) + ", Order_Required_Date = '" + order->requiredDate + "', Order_Status = '" + order->orderStatus + "', Customer_Customer_ID = '" + order->customerID + "', Supplier_Supplier_ID = " + order->supplierID + "', Payment_Payment_ID = '" + order->paymentID + "', Shipment_Shipment_ID = '" + order->shipmentID + "' where Order_ID = '" + order->id + "'";
@@ -745,10 +735,10 @@ extern "C" ERP_API int editOrder(Order* order, char* error)
 	return status;
 }
 
-extern "C" ERP_API int editProductInOrder(ProductInOrder* product, char* error)
+extern "C" ERP_API int editProductInOrder(ProductInOrder* product, char* error, ConnectionString con)
 {
 	status = 0;
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (conn) {
 		string query = (string) "update order_has_product set Units_In_Order = " + to_string(product->unitsOrdered) + ", Units_Done = " + to_string(product->unitsDone)  + " where Order_Order_ID = '" + product->orderID + "' and Product_Product_ID = '" + product->productID + "'";
@@ -761,10 +751,10 @@ extern "C" ERP_API int editProductInOrder(ProductInOrder* product, char* error)
 	return status;
 }
 
-extern "C" ERP_API int editProductInInventory(ProductInInventory* product, char* error)
+extern "C" ERP_API int editProductInInventory(ProductInInventory* product, char* error, ConnectionString con)
 {
 	status = 0;
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (conn) {
 		string query = (string) "update inventory_has_product set Units_In_Inventory = " + to_string(product->unitsInInventory) + " where Product_Product_ID = '" + product->productID + "'";
@@ -777,11 +767,11 @@ extern "C" ERP_API int editProductInInventory(ProductInInventory* product, char*
 	return status;
 }
 
-extern "C"	ERP_API int deleteProduct(char* id, char* error) {
+extern "C"	ERP_API int deleteProduct(char* id, char* error, ConnectionString con) {
 	status = 0;
-	deleteFromCategory(id, error);
+	deleteFromCategory(id, error, con);
 
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (conn)
 	{
@@ -793,7 +783,7 @@ extern "C"	ERP_API int deleteProduct(char* id, char* error) {
 		mysql_close(conn);
 	}
 
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (conn) 
 	{
@@ -807,12 +797,12 @@ extern "C"	ERP_API int deleteProduct(char* id, char* error) {
 	return status;
 }
 
-extern "C"	ERP_API int deleteOrder(char* id, char* error) {
+extern "C"	ERP_API int deleteOrder(char* id, char* error, ConnectionString con) {
 
-	deleteAll(id, error);
+	deleteAll(id, error, con);
 
 	status = 0;
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (conn)
 	{
@@ -827,10 +817,10 @@ extern "C"	ERP_API int deleteOrder(char* id, char* error) {
 	return status;
 }
 
-extern "C"	ERP_API int deleteInventory(char* id, char* error) {
+extern "C"	ERP_API int deleteInventory(char* id, char* error, ConnectionString con) {
 
 	status = 0;
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (conn)
 	{
@@ -843,7 +833,7 @@ extern "C"	ERP_API int deleteInventory(char* id, char* error) {
 	}
 
 	status = 0;
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (conn)
 	{
@@ -858,9 +848,9 @@ extern "C"	ERP_API int deleteInventory(char* id, char* error) {
 	return status;
 }
 
-extern "C"	ERP_API int deleteProductFromOrder(char* oID, char* pID, char* error) {
+extern "C"	ERP_API int deleteProductFromOrder(char* oID, char* pID, char* error, ConnectionString con) {
 	status = 0;
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (conn)
 	{
@@ -874,9 +864,9 @@ extern "C"	ERP_API int deleteProductFromOrder(char* oID, char* pID, char* error)
 	return status;
 }
 
-extern "C"	ERP_API int deleteProductFromInventory(char* iID, char* pID, char* error) {
+extern "C"	ERP_API int deleteProductFromInventory(char* iID, char* pID, char* error, ConnectionString con) {
 	status = 0;
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (conn)
 	{
@@ -890,14 +880,14 @@ extern "C"	ERP_API int deleteProductFromInventory(char* iID, char* pID, char* er
 	return status;
 }
 
-extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error)
+extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error, ConnectionString con)
 {
 	status = 0;
 	int numberOfRows = 0;
 	unsigned int numOfFields;
 	//vector<string> ids;
 
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 
 	if (conn) {
 
@@ -973,13 +963,13 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 	return numberOfRows;
 }
 
-extern "C"	ERP_API int searchProducts(Product** product, char* key, char* value, char* error)
+extern "C"	ERP_API int searchProducts(Product** product, char* key, char* value, char* error, ConnectionString con)
  {
 	 status = 0;
 	 int numberOfRows = 0;
 	 unsigned int numOfFields;
 
-	 db_response::ConnectionFunction(error);
+	 db_response::ConnectionFunction(error, con);
 
 	 if (conn) {
 
@@ -1036,14 +1026,14 @@ extern "C"	ERP_API int searchProducts(Product** product, char* key, char* value,
 	 return numberOfRows;
  }
 
-extern "C"	ERP_API int searchOrders(Order** order, char* key, char* value, char* error)
+extern "C"	ERP_API int searchOrders(Order** order, char* key, char* value, char* error, ConnectionString con)
 
  {
 	 status = 0;
 	 int numberOfRows = 0;
 	 unsigned int numOfFields;
 
-	 db_response::ConnectionFunction(error);
+	 db_response::ConnectionFunction(error, con);
 
 	 if (conn) {
 
@@ -1095,13 +1085,13 @@ extern "C"	ERP_API int searchOrders(Order** order, char* key, char* value, char*
 	 return numberOfRows;
  }
 
-extern "C"	ERP_API int searchInventories(Inventory** inventory, char* key, char* value, char* error)
+extern "C"	ERP_API int searchInventories(Inventory** inventory, char* key, char* value, char* error, ConnectionString con)
  {
 	 status = 0;
 	 int numberOfRows = 0;
 	 unsigned int numOfFields;
 
-	 db_response::ConnectionFunction(error);
+	 db_response::ConnectionFunction(error, con);
 
 	 if (conn) {
 
@@ -1151,18 +1141,18 @@ extern "C"	ERP_API int searchInventories(Inventory** inventory, char* key, char*
  }
 
 
- extern "C"	ERP_API int reporting(Report** report, char* error) {
+ extern "C"	ERP_API int reporting(Report** report, char* error, ConnectionString con) {
 
 	 int status = 0;
 	 double a, b, c, d, e, f;
 	 *report = (Report*)CoTaskMemAlloc(sizeof(Report));
 	 Report *_report = *report;
 
-	 a = calculateDeliveriesCycleTime(error);
-	 b = calculateReceiptsCycleTime(error);
-	 c = calculateInventoryValue(error);
-	 d = calculateOutgoingValue(error);
-	 e = calculateIncomingValue(error);
+	 a = calculateDeliveriesCycleTime(error, con);
+	 b = calculateReceiptsCycleTime(error, con);
+	 c = calculateInventoryValue(error, con);
+	 d = calculateOutgoingValue(error, con);
+	 e = calculateIncomingValue(error, con);
 	 f = d / c;
 	 
 	 _report->deliveriesCycleTime = a;
@@ -1175,11 +1165,11 @@ extern "C"	ERP_API int searchInventories(Inventory** inventory, char* key, char*
 	 return status;
  }
 
- extern "C"	ERP_API int getProductsMoves(ProductMoves** product, char* error) {
+ extern "C"	ERP_API int getProductsMoves(ProductMoves** product, char* error, ConnectionString con) {
 
 	 status = 0;
 	 int numberOfRows = 0;
-	 db_response::ConnectionFunction(error);
+	 db_response::ConnectionFunction(error, con);
 
 	 if (conn)
 	 {
@@ -1270,10 +1260,10 @@ extern "C"	ERP_API int searchInventories(Inventory** inventory, char* key, char*
  }
 
 
-extern "C"	ERP_API int getAllProductInfo(char* id, Product** product, char* error) {
+extern "C"	ERP_API int getAllProductInfo(char* id, Product** product, char* error, ConnectionString con) {
 
 	status = 0;
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 	if (conn)
 	{
 		unsigned int numOfFields;
@@ -1323,10 +1313,10 @@ extern "C"	ERP_API int getAllProductInfo(char* id, Product** product, char* erro
 }
 
 
-extern "C"	ERP_API int getOrderInfo(char* id, Order** order, char* error) {
+extern "C"	ERP_API int getOrderInfo(char* id, Order** order, char* error, ConnectionString con) {
 
 	 status = 0;
-	 db_response::ConnectionFunction(error);
+	 db_response::ConnectionFunction(error, con);
 	 if (conn)
 	 {
 		 unsigned int numOfFields;
@@ -1378,13 +1368,13 @@ extern "C"	ERP_API int getOrderInfo(char* id, Order** order, char* error) {
 	 return status;
  }
 
-extern "C"	ERP_API int showProducts(Product** product, char* error)
+extern "C"	ERP_API int showProducts(Product** product, char* error, ConnectionString con)
  {
 	 status = 0;
 	 int numberOfRows = 0;
 	 unsigned int numOfFields;
 
-	 db_response::ConnectionFunction(error);
+	 db_response::ConnectionFunction(error, con);
 
 	 if (conn) {
 
@@ -1437,12 +1427,12 @@ extern "C"	ERP_API int showProducts(Product** product, char* error)
 	 return numberOfRows;
 }
 
-extern "C"	ERP_API int showInventories(Inventory** inventory, char* error)
+extern "C"	ERP_API int showInventories(Inventory** inventory, char* error, ConnectionString con)
  {
 	 status = 0;
 	 int numberOfRows = 0;
 	 unsigned int numOfFields;
-	 db_response::ConnectionFunction(error);
+	 db_response::ConnectionFunction(error, con);
 
 	 if (conn) {
 
@@ -1488,13 +1478,13 @@ extern "C"	ERP_API int showInventories(Inventory** inventory, char* error)
 	 return numberOfRows;
  }
 
-extern "C"	ERP_API int showProductsInInventory(char* id, ProductInInventory** product, char* error) {
+extern "C"	ERP_API int showProductsInInventory(char* id, ProductInInventory** product, char* error, ConnectionString con) {
 
 	 status = 0;
 	 int numberOfRows = 0;
 	 unsigned int numOfFields;
 
-	 db_response::ConnectionFunction(error);
+	 db_response::ConnectionFunction(error, con);
 
 	 if (conn) {
 
@@ -1559,12 +1549,12 @@ extern "C"	ERP_API int showProductsInInventory(char* id, ProductInInventory** pr
 	 return numberOfRows;
  }
 
-extern "C"	ERP_API int showAllOrders(Order** order, char* error) {
+extern "C"	ERP_API int showAllOrders(Order** order, char* error, ConnectionString con) {
 
 	 status = 0;
 	 int numberOfRows = 0;
 	 unsigned int numOfFields;
-	 db_response::ConnectionFunction(error);
+	 db_response::ConnectionFunction(error, con);
 	 if (conn) {
 
 		 mysql_free_result(res);
@@ -1609,19 +1599,19 @@ extern "C"	ERP_API int showAllOrders(Order** order, char* error) {
 	 return numberOfRows;
  }
 
- extern "C"	ERP_API int showCompletedOrders(Order** order, char* error) {
+ extern "C"	ERP_API int showCompletedOrders(Order** order, char* error, ConnectionString con) {
 
 	 status = 0;
 	 int numberOfRows = 0;
 	 unsigned int numOfFields;
-	 db_response::ConnectionFunction(error);
+	 db_response::ConnectionFunction(error, con);
 	 if (conn) {
 
 		 mysql_free_result(res);
 		 string query = (string)"select * from order_table where Order_Status = 'Done' and incoming = 1";
 		 const char* q = query.c_str();
 		 qstate = mysql_query(conn, q);
-		 cout << "select * from erp.order where Order_Status = 'Done' and incoming = 1" << endl;
+		 //cout << "select * from "+con.DATABASE+".order where Order_Status = 'Done' and incoming = 1" << endl;
 
 		 if (checkQuery(qstate, error))
 		 {
@@ -1658,17 +1648,17 @@ extern "C"	ERP_API int showAllOrders(Order** order, char* error) {
 	 return numberOfRows;
 }
 
- extern "C"	ERP_API int showCompletedReceipts(Order** order, char* error) {
+ extern "C"	ERP_API int showCompletedReceipts(Order** order, char* error, ConnectionString con) {
 
 	 status = 0;
 	 int numberOfRows = 0;
 	 unsigned int numOfFields;
-	 db_response::ConnectionFunction(error);
+	 db_response::ConnectionFunction(error, con);
 	 if (conn) {
 
 		 mysql_free_result(res);
 		 qstate = mysql_query(conn, "select * from order_table where Order_Status = 'Done' and outgoing = 1");
-		 cout << "select * from erp.order where Order_Status = 'Done' and outgoing = 1" << endl;
+		 //cout << "select * from erp.order where Order_Status = 'Done' and outgoing = 1" << endl;
 
 		 if (checkQuery(qstate, error))
 		 {
@@ -1705,12 +1695,12 @@ extern "C"	ERP_API int showAllOrders(Order** order, char* error) {
 	 return numberOfRows;
  }
 
-extern "C"	ERP_API int showReadyOrders(Order** order, char* error) {
+extern "C"	ERP_API int showReadyOrders(Order** order, char* error, ConnectionString con) {
 
 	 status = 0;
 	 int numberOfRows = 0;
 	 unsigned int numOfFields;
-	 db_response::ConnectionFunction(error);
+	 db_response::ConnectionFunction(error, con);
 	 if (conn) {
 
 		 mysql_free_result(res);
@@ -1754,12 +1744,12 @@ extern "C"	ERP_API int showReadyOrders(Order** order, char* error) {
 	 return numberOfRows;
  }
 
-extern "C"	ERP_API int showOrdersInProgress(Order** order, char* error) {
+extern "C"	ERP_API int showOrdersInProgress(Order** order, char* error, ConnectionString con) {
 
 	 status = 0;
 	 int numberOfRows = 0;
 	 unsigned int numOfFields;
-	 db_response::ConnectionFunction(error);
+	 db_response::ConnectionFunction(error, con);
 	 if (conn) {
 
 		 mysql_free_result(res);
@@ -1803,17 +1793,17 @@ extern "C"	ERP_API int showOrdersInProgress(Order** order, char* error) {
 	 return numberOfRows;
 }
 
- extern "C"	ERP_API int showWaitingOrders(Order** order, char* error) {
+ extern "C"	ERP_API int showWaitingOrders(Order** order, char* error, ConnectionString con) {
 
 	 status = 0;
 	 int numberOfRows = 0;
 	 unsigned int numOfFields;
-	 db_response::ConnectionFunction(error);
+	 db_response::ConnectionFunction(error, con);
 	 if (conn) {
 
 		 mysql_free_result(res);
 		 qstate = mysql_query(conn, "select * from order_table where Order_Status = 'Waiting' and incoming = 1");
-		 cout << "select * from erp.order where Order_Status = 'Waiting' and incoming = 1" << endl;
+		 //cout << "select * from erp.order where Order_Status = 'Waiting' and incoming = 1" << endl;
 
 		 if (checkQuery(qstate, error))
 		 {
@@ -1850,17 +1840,17 @@ extern "C"	ERP_API int showOrdersInProgress(Order** order, char* error) {
 	 return numberOfRows;
  }
 
- extern "C"	ERP_API int showWaitingReceipts(Order** order, char* error) {
+ extern "C"	ERP_API int showWaitingReceipts(Order** order, char* error, ConnectionString con) {
 
 	 status = 0;
 	 int numberOfRows = 0;
 	 unsigned int numOfFields;
-	 db_response::ConnectionFunction(error);
+	 db_response::ConnectionFunction(error, con);
 	 if (conn) {
 
 		 mysql_free_result(res);
 		 qstate = mysql_query(conn, "select * from order_table where Order_Status = 'Waiting' and outgoing = 1");
-		 cout << "select * from erp.order where Order_Status = 'Waiting' and outgoing = 1" << endl;
+		 //cout << "select * from erp.order where Order_Status = 'Waiting' and outgoing = 1" << endl;
 
 		 if (checkQuery(qstate, error))
 		 {
@@ -1897,13 +1887,13 @@ extern "C"	ERP_API int showOrdersInProgress(Order** order, char* error) {
 	 return numberOfRows;
  }
 
-extern "C"	ERP_API int showProductsInOrder(char* id, ProductInOrder** product, char* error) {
+extern "C"	ERP_API int showProductsInOrder(char* id, ProductInOrder** product, char* error, ConnectionString con) {
 
 	 status = 0;
 	 int numberOfRows = 0;
 	 unsigned int numOfFields;
 
-	 db_response::ConnectionFunction(error);
+	 db_response::ConnectionFunction(error, con);
 	 if (conn) {
 
 		 mysql_free_result(res);

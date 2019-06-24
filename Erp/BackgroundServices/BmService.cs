@@ -33,12 +33,11 @@ namespace Erp.BackgroundServices
         {
             _logger.LogInformation("Bpm Hosted Service is starting.");
 
-            //await Task.Yield();
-                await loadWork(stoppingToken);
+            
             while (!stoppingToken.IsCancellationRequested)
             {
-                await TestExecution(stoppingToken);
 
+                await _bmExectionQueue.DequeueAsync(stoppingToken);
 
                 Thread.Sleep(2000);
 
@@ -50,14 +49,8 @@ namespace Erp.BackgroundServices
             // Task.WhenAll(tasks);
         }
 
-        public async Task TestExecution(CancellationToken stoppingToken)
-        {
-            await Task.Yield();
-                Console.WriteLine("Executing");
-       
-            
-        }
-        public async Task loadWork(CancellationToken stoppingToken)
+      
+        public async Task loadWork()
         {
            
                 using (var scope = Services.CreateScope())
@@ -66,7 +59,7 @@ namespace Erp.BackgroundServices
                     var _requsetRepo = scope.ServiceProvider.GetRequiredService<IProcRequestRepo>();
                     var _accountDbContext = scope.ServiceProvider.GetRequiredService<AccountDbContext>();
                     string request = null;// = 
-                    await _bmExectionQueue.DequeueAsync(stoppingToken);
+                    
                     if (request != null)
                     {
                         var workflow = await _requsetRepo.GetById(request);
