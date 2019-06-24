@@ -23,12 +23,12 @@ namespace Erp
         /// <param name="dataDbContext">The Database Context used to manage the database connection</param>
         /// <param name="DatabaseName">the Database Name</param>
         /// <returns></returns>
-        public static bool checkdtb(DataDbContext dataDbContext ,string DatabaseName)
+        /*public static bool checkdtb(DataDbContext dataDbContext ,string DatabaseName)
         {
             dataDbContext.ConnectionString = "Server=(localdb)\\ProjectsV13;Database="
                     + DatabaseName + ";Trusted_Connection=True;MultipleActiveResultSets=true";
             return (dataDbContext.Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists();
-        }
+        }*/
      
     }
 }

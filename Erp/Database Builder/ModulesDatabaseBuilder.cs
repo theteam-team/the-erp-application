@@ -30,15 +30,19 @@ namespace Erp.Database_Builder
         {
             string sqlCode;
             string path = GetTablesPath();
+            string mainDbpath = Path.Combine(path, @"Main System");
+            string companyPath = Path.Combine(path, @"Companies/" + name);
             _logger.LogInformation(path);
-            using (var fileStream = new FileStream(Path.GetFullPath(Path.Combine(path, @"Erp.sql")), FileMode.Open, FileAccess.ReadWrite))
+            using (var fileStream = new FileStream(Path.Combine(mainDbpath, @"Erp.sql"), FileMode.Open, FileAccess.ReadWrite))
             {
                 BinaryReader br = new BinaryReader(fileStream);
                 byte[] filByte = br.ReadBytes((int)fileStream.Length);
                 string mnSql = Encoding.ASCII.GetString(filByte);
                 //var stream = new FileStream(Path.Combine(path, @"\"+name+".sql"), FileMode.Open, FileAccess.ReadWrite);
                 sqlCode = mnSql.Replace("ERP", name);
-                File.WriteAllText(Path.GetFullPath(Path.Combine(path, @"" + name + ".sql")), sqlCode);
+                
+                Directory.CreateDirectory(companyPath);
+                File.WriteAllText(Path.GetFullPath(Path.Combine(companyPath,  @""+name+".sql")), sqlCode);
                 
 
             }

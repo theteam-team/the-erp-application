@@ -79,3 +79,13 @@ struct ProductMoves
 	char* status;
 	unsigned int quantity;
 };
+
+struct ConnectionString
+{
+	char* SERVER;
+	char* USER;
+	char* PORT;
+	char* PASSWORD;
+	char* DATABASE;
+
+};

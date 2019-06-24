@@ -30,7 +30,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.searchOrders(out OrderPtr, key, value, error);
+                int number_fields = Warehouse_Wrapper.searchOrders(out OrderPtr, key, value, error, _ConnectionString);
 
                 IntPtr current = OrderPtr;
                 for (int i = 0; i < number_fields; ++i)
@@ -49,7 +49,7 @@ namespace Erp.Repository
         {
             int status = 0;
             Order order = (Order)(object)(entity);
-            status = await Task.Run(() => Warehouse_Wrapper.editOrder(order, error));
+            status = await Task.Run(() => Warehouse_Wrapper.editOrder(order, error, _ConnectionString));
             return status;
         }
 
@@ -60,7 +60,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.showAllOrders(out ProductPtr, error);
+                int number_fields = Warehouse_Wrapper.showAllOrders(out ProductPtr, error, _ConnectionString);
 
                 IntPtr current = ProductPtr;
                 for (int i = 0; i < number_fields; ++i)
@@ -83,7 +83,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.showReceipts(out ProductPtr, error);
+                int number_fields = Warehouse_Wrapper.showReceipts(out ProductPtr, error, _ConnectionString);
 
                 IntPtr current = ProductPtr;
                 for (int i = 0; i < number_fields; ++i)
@@ -106,7 +106,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.showCompletedOrders(out ProductPtr, error);
+                int number_fields = Warehouse_Wrapper.showCompletedOrders(out ProductPtr, error, _ConnectionString);
 
                 IntPtr current = ProductPtr;
                 for (int i = 0; i < number_fields; ++i)
@@ -129,7 +129,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.showCompletedReceipts(out ProductPtr, error);
+                int number_fields = Warehouse_Wrapper.showCompletedReceipts(out ProductPtr, error, _ConnectionString);
 
                 IntPtr current = ProductPtr;
                 for (int i = 0; i < number_fields; ++i)
@@ -152,7 +152,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.showReadyOrders(out ProductPtr, error);
+                int number_fields = Warehouse_Wrapper.showReadyOrders(out ProductPtr, error, _ConnectionString);
 
                 IntPtr current = ProductPtr;
                 for (int i = 0; i < number_fields; ++i)
@@ -175,7 +175,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.showOrdersInProgress(out ProductPtr, error);
+                int number_fields = Warehouse_Wrapper.showOrdersInProgress(out ProductPtr, error, _ConnectionString);
 
                 IntPtr current = ProductPtr;
                 for (int i = 0; i < number_fields; ++i)
@@ -197,7 +197,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.showWaitingOrders(out ProductPtr, error);
+                int number_fields = Warehouse_Wrapper.showWaitingOrders(out ProductPtr, error, _ConnectionString);
 
                 IntPtr current = ProductPtr;
                 for (int i = 0; i < number_fields; ++i)
@@ -219,7 +219,7 @@ namespace Erp.Repository
             await Task.Run(() =>
             {
 
-                int number_fields = Warehouse_Wrapper.showWaitingReceipts(out ProductPtr, error);
+                int number_fields = Warehouse_Wrapper.showWaitingReceipts(out ProductPtr, error, _ConnectionString);
 
                 IntPtr current = ProductPtr;
                 for (int i = 0; i < number_fields; ++i)
