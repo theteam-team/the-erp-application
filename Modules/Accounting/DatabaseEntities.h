@@ -83,3 +83,9 @@ struct ConnectionString
 	char* DATABASE;
 
 };
+struct Out{
+	char* payment_id;
+	char* payment_method;
+	//char* payment_date;
+	double payment_amount;
+};

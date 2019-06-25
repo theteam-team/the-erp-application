@@ -284,6 +284,59 @@ extern "C" ERP_API int getCustomerAccount(char* id, Account** customer_account, 
 	}
 	return numberOfRows;
 }
+extern "C" ERP_API int reporting(Out** out, char* error, ConnectionString con) {
+	status = 0;
+	int numberOfRows = 0;
+	unsigned int numOfFields;
+	db_response::ConnectionFunction(error, con);
+	if (conn) {
+		mysql_free_result(res);
+		query = (string) "SELECT Payment_ID, Payment_Method, Payment_Amount FROM " + con.DATABASE + ".payment";
+		qstate = mysql_query(conn, query.c_str());
+		cout << query << endl;
+		if (checkQuery(qstate, error)) {
+			res = mysql_store_result(conn);
+			if (res->row_count > 0)
+			{
+				*out = (Out*)CoTaskMemAlloc((int)(res->row_count) * sizeof(Out));
+				cout << res->row_count << endl;
+				numOfFields = mysql_num_fields(res);
+				Out* _out = *out;
+				while (row = mysql_fetch_row(res)) {
+					/*
+					_account->account_id = row[0];
+					row[1] ? _account->account_money = stod(row[1]) : _account->account_money = 0;
+					row[2] ? _account->creation_date = row[2] : _account->creation_date = nullptr;
+					row[3] ? _account->account_debts = stod(row[3]) : _account->account_debts = 0.0;
+					*/
+					if(stod(row[3]) > 2000){
+						break;
+						cout << "I'm 1" << endl;
+						_out->payment_id = row[0];
+						row[1] ? _out->payment_method = row[1] : _out->payment_method = nullptr;
+						//row[2] ? _out->payment_date = row[2] : _out->payment_date = nullptr;
+						row[2] ? _out->payment_amount = stod(row[2]) : _out->payment_amount = 0;
+					}
+					else{
+						cout << "I'm 2" << endl;
+						
+					}
+					
+					numberOfRows++;
+					_out++;
+				}
+			}
+			else
+			{
+				string s = "fail";
+				cout << s << endl;
+				strcpy_s(error, s.length() + 1, s.c_str());
+				status = 2;
+			}
+		}
+	}
+	return numberOfRows;
+}
 bool checkQuery(int qstate, char* error)
 {
 	if (qstate)

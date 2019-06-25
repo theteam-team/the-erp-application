@@ -18,4 +18,4 @@ bin/*
 *.pdb
 npm-debug.log
 package-lock.json
-
+AppConfig.json

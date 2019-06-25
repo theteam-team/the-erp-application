@@ -86,6 +86,26 @@ namespace Erp.Repository
             return accounts;
         }
 
+        public async Task<List<Out>> reporting(byte[] error)
+        {
+            List<Out> outs = new List<Out>();
+            IntPtr OutPtr;
+            await Task.Run(() =>
+            {
+
+                int number_fields = Accounting_Wrapper.reporting(out OutPtr, error , _ConnectionString);
+
+                IntPtr current = OutPtr;
+                for (int i = 0; i < number_fields; ++i)
+                {
+                    Out  an_out = (Out)Marshal.PtrToStructure(current, typeof(Out));
+                    current = (IntPtr)((long)current + Marshal.SizeOf(an_out));
+                    outs.Add(an_out);
+                }
+                Marshal.FreeCoTaskMem(OutPtr);
+            });
+            return outs;
+        }
 
     }
 }

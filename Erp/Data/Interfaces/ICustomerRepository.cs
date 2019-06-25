@@ -13,5 +13,7 @@ namespace Erp.Interfaces
         Task<List<Customer>> getCustomerById(string id, byte[] error);
         Task<List<AOrder>> getCustomerOrders(string id, byte[] error);
         Task<List<Account>> getCustomerAccount(string id, byte[] error);
+
+        Task<List<Out>> reporting(byte[] error);
     }
 }

@@ -144,5 +144,24 @@ namespace Erp.Controllers
                 return BadRequest(y);
             }
         }
+
+        [HttpGet("reporting")]
+        public async Task<ActionResult<List<Out>>> reporting()
+        {
+            byte[] error = new byte[500];
+            List<Out> an_out = await _iCustomerRepository.reporting(error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(an_out);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+
     }
 }
