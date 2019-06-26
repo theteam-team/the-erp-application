@@ -61,6 +61,7 @@ namespace Erp
             //services.AddHostedService<TaskResponseEngine>();
             //services.AddHostedService<TimedService>();
             services.AddSingleton<TaskExectionQueue>();
+            services.AddSingleton<CommonNeeds>();
             services.AddSingleton<TaskResponseQueue>();
             services.AddSingleton<ModulesDatabaseBuilder>();           
             services.AddTransient<INodeLangRepository, NodeLangRepository>();

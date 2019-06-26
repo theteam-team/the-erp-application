@@ -15,6 +15,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
+using System.Threading;
 
 namespace Erp.Repository
 {
@@ -38,10 +39,10 @@ namespace Erp.Repository
         public ClaimsPrincipal User { get; set; }
 
 
-        public Repository(IConfiguration config , ILogger<Repository.Repository<T,C>> ilogger, IHttpContextAccessor httpContextAccessor, Management management, DataDbContext datadbContext, AccountDbContext accountdbContext
+        public Repository(IConfiguration config , ILogger<Repository<T,C>> ilogger, IHttpContextAccessor httpContextAccessor, Management management, DataDbContext datadbContext, AccountDbContext accountdbContext
             , UserManager<ApplicationUser> userManager)
         {
-
+           
             _config = config;
             _httpContextAccessor = httpContextAccessor;
             _accountdbContext = accountdbContext;
@@ -49,25 +50,29 @@ namespace Erp.Repository
             _datadbContext = datadbContext;
             _managment = management;
 
-            if (httpContextAccessor.HttpContext!= null)
+            if (httpContextAccessor.HttpContext != null)
             {
                 User = httpContextAccessor.HttpContext.User;
                 ClaimsIdentity identity = (ClaimsIdentity)User.Identity;
+                
                 if (User.Identity.IsAuthenticated)
                 {
-                    string databaseName = identity.FindFirst("database").Value;                   
+                    string databaseName = identity.FindFirst("database").Value;
                     User = httpContextAccessor.HttpContext.User;
-                     setConnectionString(databaseName);
+                    setConnectionString(databaseName);
                 }
+
             }
-            
+          
+           
+
         }
 
         
 
-        public  void setConnectionString(string databaseName)
+        public async void setConnectionString(string databaseName)
         {
-            
+            Console.WriteLine("aadsad");
             _ConnectionString = new ConnectionString()
             {
                 SERVER = _config["MySqlC++:server"],
@@ -115,7 +120,8 @@ namespace Erp.Repository
             if (typeof(T) == typeof(Customer))
             {
                 Customer customer = (Customer)(object)entity;
-                status = await Task.Run(() => Crm_Wrapper.AddCustomer(customer, error, _ConnectionString));
+                if(_ConnectionString != null)
+                    status = await Task.Run(() => Crm_Wrapper.AddCustomer(customer, error, _ConnectionString));
             }
 
             if (typeof(T) == typeof(Employee))

@@ -60,8 +60,10 @@ namespace Erp.BackgroundServices
                 using (var scope = Services.CreateScope())
                 {
                     var _sysServices = scope.ServiceProvider.GetRequiredService<SystemServices>();
-                    MethodInfo method = _sysServices.GetType().GetMethod(bpmTask.TaskName);
-                    method.Invoke(_sysServices, new object[] { bpmTask});
+
+                    await  _sysServices.findServiceAsync(bpmTask, scope);
+                    /*MethodInfo method = _sysServices.GetType().GetMethod(bpmTask.TaskName);
+                    method.Invoke(_sysServices, new object[] { bpmTask});*/
                }
             
         }

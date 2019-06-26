@@ -24,8 +24,8 @@ namespace Erp.Controllers
     public class CrmApiController : ControllerBase
     {
         public ICustomerRepository _customeRepository { get; set; }
-        private IOpportunityRepository _opportunityRepository;
-        private IEmployeeRepository _employeeRepository;
+        public IOpportunityRepository _opportunityRepository { get; set; }
+        public IEmployeeRepository _employeeRepository { get; set; }
 
         public CrmApiController ( ICustomerRepository customerepository , IOpportunityRepository opportunityRepository, 
             IEmployeeRepository employeeRepository)
@@ -41,7 +41,7 @@ namespace Erp.Controllers
         [HttpPost("AddCustomer")]
         public  async Task<ActionResult<string>> AddCustomer(Customer customer)
         {
-            
+            Console.WriteLine("customer  "+customer.customer_id);
             byte[] error = new byte[100];
             int status = await _customeRepository.Create(customer, error);
             string z = System.Text.Encoding.ASCII.GetString(error);
@@ -94,6 +94,7 @@ namespace Erp.Controllers
         [HttpGet("GetCustomer/{id}")]
         public async Task<ActionResult<Customer>> GetCustomer(string id)
         {
+            Console.WriteLine(id);
             byte[] err = new byte[100];
             Customer customer =  await _customeRepository.GetById(id, err);
             string z = System.Text.Encoding.ASCII.GetString(err);

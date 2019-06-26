@@ -17,7 +17,7 @@ namespace Erp.BackgroundServices.Entities
         public string WorkflowName { get; set; }
         public string instanceID { get; set; }
         public string taskID { get; set; }
-        public string TaskName { get; set; }
-        public object TaskParam { get; set; }
+        public string TaskName { get; set; }   
+        public object[] TaskParam { get; set; }
     }
 }
