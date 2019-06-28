@@ -1426,6 +1426,72 @@ extern "C"	ERP_API int showProducts(Product** product, char* error, ConnectionSt
 	 return numberOfRows;
 }
 
+extern "C"	ERP_API int showAvailableProducts(Product** product, char* error, ConnectionString con)
+{
+	status = 0;
+	int numberOfRows = 0;
+	unsigned int numOfFields;
+
+	db_response::ConnectionFunction(error, con);
+
+	if (conn) {
+
+		mysql_free_result(res);
+
+		qstate = mysql_query(conn, "select Product_Product_ID from product_has_category where Category_Category_ID = '1'");
+
+		if (checkQuery(qstate, error)) {
+
+			res = mysql_store_result(conn);
+
+			if (res->row_count > 0)
+			{
+				*product = (Product*)CoTaskMemAlloc((int)(res->row_count) * sizeof(Product));
+				cout << res->row_count << endl;
+				numOfFields = mysql_num_fields(res);
+
+				Product *_product = *product;
+
+				while (row = mysql_fetch_row(res)) {
+
+					mysql_free_result(tempRes);
+
+					string query = (string)"select * from product where Product_ID = '" + row[0] + "'";
+					const char* q = query.c_str();
+					qstate = mysql_query(conn, q);
+
+					tempRes = mysql_store_result(conn);
+					tempRow = mysql_fetch_row(tempRes);
+
+					_product->id = row[0];
+					tempRow[1] ? _product->name = tempRow[1] : _product->name = nullptr;
+					tempRow[2] ? _product->description = tempRow[2] : _product->description = nullptr;
+					tempRow[3] ? _product->price = stod(tempRow[3]) : _product->price = 0;
+					tempRow[4] ? _product->weight = stod(tempRow[4]) : _product->weight = 0;
+					tempRow[5] ? _product->length = stod(tempRow[5]) : _product->length = 0;
+					tempRow[6] ? _product->width = stod(tempRow[6]) : _product->width = 0;
+					tempRow[7] ? _product->height = stod(tempRow[7]) : _product->height = 0;
+					tempRow[8] ? _product->unitsInStock = stoi(tempRow[8]) : _product->unitsInStock = 0;
+
+					_product->sold = 1;
+					_product->purchased = 0;
+
+					numberOfRows++;
+					_product++;
+				}
+			}
+			else
+			{
+				string s = "No Products Found";
+				cout << s << endl;
+				strcpy_s(error, s.length() + 1, s.c_str());
+				status = 2;
+			}
+		}
+	}
+	return numberOfRows;
+}
+
 extern "C"	ERP_API int showInventories(Inventory** inventory, char* error, ConnectionString con)
  {
 	 status = 0;

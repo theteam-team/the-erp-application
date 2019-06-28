@@ -65,6 +65,9 @@ namespace Erp.ModulesWrappers
          public static extern  int showProducts(out IntPtr Product, byte[] error, ConnectionString connectionString);
 
         [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern int showAvailableProducts(out IntPtr Product, byte[] error, ConnectionString connectionString);
+
+        [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern int searchByCategory(out IntPtr Product, string value, byte[] error, ConnectionString connectionString);
 
         [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
