@@ -63,12 +63,10 @@ namespace Erp.Controllers
             if (User.Identity.IsAuthenticated)
             {
 
-                /*if (HttpContext.Session.GetString("LastPageView") != null)
-                    return Redirect(HttpContext.Session.GetString("LastPageView"));*/
                 return RedirectToAction("System", "App");
             }
             ViewBag.CurrentView = "login";
-            //HttpContext.Session.SetString("LastPageView", HttpContext.Request.Path);
+      
             return View();
         }
 
@@ -79,8 +77,7 @@ namespace Erp.Controllers
             var user = await _userManager.FindByNameAsync(signInModel.UserName);
             if (user != null && signInModel.DatabaseName == user.DatabaseName)
             {
-                //if (CommonNeeds.checkdtb(mdataDbContext, signInModel.DatabaseName))
-                //{
+                
                 var result = await _signInManager.PasswordSignInAsync(signInModel.UserName, signInModel.Password,
                         true, false);
                 if (result.Succeeded)
@@ -89,16 +86,10 @@ namespace Erp.Controllers
                     await _userManager.AddClaimAsync(user, new Claim("database", user.DatabaseName));
                     var roles = await _userManager.GetRolesAsync(user); 
                     muserLogger.LogInformation("A user with a specifc roles : " + roles);
-                    /*foreach (var el in roles)
-                    {
-                        Console.Write(" " + el);
-                    }
-                    Console.Write(" has logged int the system");*/
+               
                     return RedirectToAction("System", "App");
                 }
-                //}
-                //else
-                //    ModelState.AddModelError("", "database does not exist please contact system admin");
+         
             }
             else
                 ModelState.AddModelError("", "Wrong Entry");
