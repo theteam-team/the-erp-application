@@ -57,8 +57,8 @@ namespace Erp
             services.AddTransient<SystemServices>();
             services.AddHttpContextAccessor();
             //services.AddHostedService<SystemBackgroundService>();
-            //services.AddHostedService<TaskExecutionEngine>();
-            //services.AddHostedService<TaskResponseEngine>();
+            services.AddHostedService<TaskExecutionEngine>();
+            services.AddHostedService<TaskResponseEngine>();
             //services.AddHostedService<TimedService>();
             services.AddSingleton<TaskExectionQueue>();
             services.AddSingleton<CommonNeeds>();
@@ -67,6 +67,7 @@ namespace Erp
             services.AddTransient<INodeLangRepository, NodeLangRepository>();
             services.AddSignalR();           
             services.AddTransient<ICustomerRepository, CustomerRepository>();
+            services.AddTransient<IUserTaskRepository, UserTaskRepository>();
             services.AddTransient<IBmpParmRepo, BmpParmRepo>();
             services.AddTransient<IProcRequestRepo, ProcRequestRepo>();
             services.AddTransient<IEmailRepository, EmailRepository>();

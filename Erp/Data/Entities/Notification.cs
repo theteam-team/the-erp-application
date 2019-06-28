@@ -10,6 +10,7 @@ namespace Erp.Data.Entities
 {
     public class Notification
     {
+        [JsonIgnore]
         [Key]
         public long Id { get; set; }
 

@@ -8,7 +8,11 @@ namespace Erp.Data
 {
     public class AccountDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
+
         public DbSet<ApplicationUser> ErpUsers { get; set; }
+        public DbSet<UserTask> UserTasks { get; set; }
+        public DbSet<BpmWorker> BpmWorkers { get; set; }
+        public DbSet<UserTaskParameters> UserTaskParameters { get; set; }
         public DbSet<Email> Emails { get; set; }
         public DbSet<EmailType> EmailTypes { get; set; }
         public DbSet<UserHasEmail> UserHasEmails { get; set; }

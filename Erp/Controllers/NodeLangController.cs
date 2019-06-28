@@ -105,7 +105,7 @@ namespace Erp.Controllers
                            
                             Console.WriteLine(idstr);
                             _nodeLangRepository.User = User;
-                            await _nodeLangRepository.Create(new NodeLangWorkflow
+                            await _nodeLangRepository.Insert(new NodeLangWorkflow
                             {
                                 Id = workFlowId,
                                 Name = WorkFlowName,

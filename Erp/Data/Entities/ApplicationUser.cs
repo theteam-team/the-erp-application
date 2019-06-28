@@ -22,6 +22,7 @@ namespace Erp.Data.Entities
         public string Language { get; set; }    
         
         public IList<UserHasEmail> Emails { get; set; }
+        public IList<UserTask> UserTasks{ get; set; }
 
     }
 }

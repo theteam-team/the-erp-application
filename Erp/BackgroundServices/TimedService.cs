@@ -27,8 +27,6 @@ namespace Erp.BackgroundServices
 
         private void DoWork(object state)
         {
-
-            
             _logger.LogInformation("Doing Work");
         }
 
