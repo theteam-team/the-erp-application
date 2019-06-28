@@ -444,6 +444,24 @@ namespace Erp.Controllers
             }
         }
 
+        [HttpGet("ShowAvailableProducts")]
+        public async Task<ActionResult<List<Product>>> ShowAvailableProducts()
+        {
+            byte[] error = new byte[500];
+            List<Product> products = await _iProductRepository.ShowAvailableProducts(error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(products);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+
         [HttpGet("ShowDeliveries")]
         public async Task<ActionResult<List<Order>>> ShowAllOrders()
         {
