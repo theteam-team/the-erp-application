@@ -9,6 +9,8 @@ using Erp.Data.Entities;
 using Erp.Interfaces;
 using Erp.Models;
 using Erp.ViewModels;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -48,6 +50,8 @@ namespace Erp.Controllers
             _signInManager = signInManager;
         }
         [HttpGet]
+        [Authorize(AuthenticationSchemes = "CustomerSchema")]
+        [AllowAnonymous]
         public async Task<ActionResult> Store()
         {
             string OrganizationName = (string)RouteData.Values["OrganizationName"];
@@ -78,22 +82,36 @@ namespace Erp.Controllers
             {
                 LoginModel signInModel = loginModel;
                 var user = await _userManager.FindByNameAsync(signInModel.UserName);
-                if (user != null && signInModel.DatabaseName == user.DatabaseName)
+                if (user != null && orgExist.Name == user.DatabaseName)
                 {
-                    if ((await _management.GetUserRoleAsync(user)).Contains("Customer"))
+                    string hashProvider = _userManager.PasswordHasher.HashPassword(user, loginModel.Password);
+                    var result =  _userManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, signInModel.Password);
+                    if (result == PasswordVerificationResult.Success)
                     {
-                        var result = await _signInManager.PasswordSignInAsync(signInModel.UserName, signInModel.Password,
-                                loginModel.RememberMe, false);
-                        if (result.Succeeded)
+                        if ((await _management.GetUserRoleAsync(user)).Contains("Customer"))
                         {
+                            var roleCustomer = "Customer";
+                            var claims = new List<Claim>
+                        {
+                            new Claim(ClaimTypes.Name, user.UserName),
+                            new Claim(ClaimTypes.NameIdentifier, user.Id),
+                            new Claim(ClaimTypes.Role, roleCustomer),
+                            new Claim("organization", orgExist.Name),
+                        };
+                            var claimsIdentity = new ClaimsIdentity(claims, "CustomerSchema");
+                            var authProperties = new AuthenticationProperties();
 
-                            await _userManager.AddClaimAsync(user, new Claim("organization", user.DatabaseName));
-                            await _userManager.AddClaimAsync(user, new Claim("organizationId", user.OrganizationId));
+
+                            await Task.WhenAll(
+                                new Task[]{
+                                HttpContext.SignInAsync("CustomerSchema", new ClaimsPrincipal(claimsIdentity), authProperties)
+                                });
 
                             var roles = await _userManager.GetRolesAsync(user);
                             muserLogger.LogInformation("A user with a specifc roles : " + roles);
 
                             return LocalRedirect("~/Store/" + orgExist.Name);
+
                         }
                     }
 
@@ -157,20 +175,27 @@ namespace Erp.Controllers
                 if (result.Succeeded)
                 {
                     var roleCustomer = "Customer";
-              
-                    await _management.AddRoleToUserAsync(roleCustomer, user);
-                   
-                    await _userManager.AddClaimAsync(user, new Claim("organization", user.DatabaseName));
-                    await _userManager.AddClaimAsync(user, new Claim("organizationId", user.OrganizationId));
-                   
-                    var res = await _signInManager.PasswordSignInAsync(user.UserName, customerRegister.Password,
-                        true, false);
-
-                    muserLogger.LogInformation("A user with a specifc roles : " + roleCustomer + " has Been Created");
-                    if (res.Succeeded)
+                    var claims = new List<Claim>
                     {
-                        return LocalRedirect("~/Store/"+orgExist.Name);
-                    }
+                      new Claim(ClaimTypes.Name, user.UserName),
+                      new Claim(ClaimTypes.NameIdentifier, user.Id),
+                      new Claim(ClaimTypes.Role, roleCustomer),
+                      new Claim("organization", orgExist.Name),
+                    };
+
+
+                    var claimsIdentity = new ClaimsIdentity(claims, "CustomerSchema");
+                    var authProperties = new AuthenticationProperties();
+
+
+                    await Task.WhenAll(
+                        new Task[]{
+                        _management.AddRoleToUserAsync(roleCustomer, user),
+                        HttpContext.SignInAsync("CustomerSchema", new ClaimsPrincipal(claimsIdentity), authProperties)
+                        });
+                    
+                    muserLogger.LogInformation("A user with a specifc roles : " + roleCustomer + " has Been Created");
+                    return LocalRedirect("~/Store/"+orgExist.Name);
 
                 }
                 var errors = result.Errors.ToList();
@@ -188,22 +213,24 @@ namespace Erp.Controllers
         [HttpGet("Logout")]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
-            string OrganizationName = (string)RouteData.Values["OrganizationName"];
-            Organization orgExist = await _organizationRepository.OraganizationExist(OrganizationName);
+           await HttpContext.SignOutAsync("CustomerSchema");
+           string OrganizationName = (string)RouteData.Values["OrganizationName"];
+           Organization orgExist = await _organizationRepository.OraganizationExist(OrganizationName);
 
             return LocalRedirect("~/Store/" + orgExist.Name);
         }
         [HttpGet("GetProductStore")]
         [Authorize(Roles ="Customer")]
+        [Authorize(AuthenticationSchemes = "CustomerSchema")]
         public async Task<ActionResult<List<Product>>> GetProductStore()
         {
+
             string OrganizationName = (string)RouteData.Values["OrganizationName"];
             Organization orgExist = await _organizationRepository.OraganizationExist(OrganizationName);
             if (orgExist != null)
             {
                 _productRepository.setConnectionString(OrganizationName);
-                Console.WriteLine(OrganizationName);
+                Console.WriteLine(User.Identity.IsAuthenticated);
 
                 byte[] error = new byte[500];
                 List<Product> product = await _productRepository.GetAll(error);

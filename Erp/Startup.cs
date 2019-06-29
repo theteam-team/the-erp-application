@@ -22,6 +22,7 @@ using Erp.Repository;
 using Erp.Data.Entities;
 using Erp.Database_Builder;
 using Erp.Microservices;
+using Microsoft.AspNetCore.Http;
 
 namespace Erp
 {
@@ -101,8 +102,14 @@ namespace Erp
                 
                     .AddEntityFrameworkStores<AccountDbContext>()
                     .AddDefaultTokenProviders();
-            services.AddAuthentication()                  
-                    .AddCookie()
+            services.AddAuthentication()
+                     .AddCookie("CustomerSchema", o => // scheme1
+                     {
+                         o.ExpireTimeSpan = TimeSpan.FromHours(1);
+                         o.LoginPath = new PathString("/store/{OrganizationName}");
+                         o.Cookie.Name = "CustomerCookie";
+                         o.SlidingExpiration = true;
+                     })
                     .AddJwtBearer(cfg => 
                         {
                             cfg.SaveToken = true;
