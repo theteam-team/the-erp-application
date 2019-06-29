@@ -3,11 +3,14 @@ using Erp.Data.Entities;
 using Erp.Database_Builder;
 using Erp.Interfaces;
 using Erp.ViewModels;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -24,7 +27,8 @@ namespace Erp.Controllers
    /// </summary>
     public class AccountController : Controller
     {
-        private int x = 10;
+        private IAuthenticationSchemeProvider _authenticationProvider;
+        private IServiceProvider _service;
         private IOrganizationRepository _organizationRepository;
         private ModulesDatabaseBuilder _databaseBuilder;
         private IConfiguration _config;
@@ -34,11 +38,13 @@ namespace Erp.Controllers
         private AccountDbContext mContext;   // this object used as an entry to the database creaded to store Accounts information.      
         private UserManager<ApplicationUser> _userManager;  //used to manage the user stored in the database according to an API.
         private SignInManager<ApplicationUser> _signInManager; //used To sign in the user according to an Api.
-        public AccountController(IOrganizationRepository organizationRepository, AccountDbContext context, DataDbContext dataDbContext,
+        public AccountController(IAuthenticationSchemeProvider authenticationProvider, IServiceProvider service, IOrganizationRepository organizationRepository, AccountDbContext context, DataDbContext dataDbContext,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<ApplicationUser> userlogger, ModulesDatabaseBuilder databaseBuilder ,Management management, IConfiguration config)
         {
+            _authenticationProvider = authenticationProvider;
+            _service = service;
             _organizationRepository = organizationRepository;
             _databaseBuilder = databaseBuilder;
             _config = config;
@@ -124,6 +130,22 @@ namespace Erp.Controllers
                 };
 
                 _databaseBuilder.createModulesDatabase(registerModel.DatabaseName);
+
+                _authenticationProvider.AddScheme(new AuthenticationScheme(registerModel.DatabaseName, registerModel.DatabaseName, typeof(CookieAuthenticationHandler)));
+
+                using (var scope = _service.CreateScope())
+                {
+                    var _sysServices = scope.ServiceProvider.GetRequiredService<IServiceCollection>();
+                    var shema = _sysServices.AddAuthentication()
+                     .AddCookie(registerModel.DatabaseName, o =>
+                     {
+                         o.ExpireTimeSpan = TimeSpan.FromHours(1);
+                         o.LoginPath = new PathString("/store/{OrganizationName}");
+                         o.Cookie.Name = registerModel.DatabaseName + " CustomerCookie";
+                         o.SlidingExpiration = true;
+                     });
+
+                }
                 var result = await _userManager.CreateAsync(user, registerModel.Password);
                 if (result.Succeeded)
                 {

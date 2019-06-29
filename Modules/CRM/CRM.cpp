@@ -36,6 +36,7 @@ extern "C"	ERP_API int AddCustomer(Customer* customer, char* error, ConnectionSt
 	db_response::ConnectionFunction(error, con);
 	if (conn) {
 		puts("Successful connection to database!");
+		puts(customer->customer_id);
 		string query = "INSERT INTO Customer VALUES";
 		query += "('";
 		query += customer->customer_id;
