@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 using Erp.BackgroundServices;
 using Erp.BackgroundServices.Entities;
 using System.Security.Claims;
+using Erp.Data.Entities;
+using Erp.Data;
 
 namespace Erp.Controllers
 {
@@ -18,11 +20,13 @@ namespace Erp.Controllers
     [Authorize]
     public class TestController : ControllerBase
     {
+        private AccountDbContext _accountDbContext;
         private ModulesDatabaseBuilder _databaseBuilder;
         private TaskExectionQueue _exectionQueue;
 
-        public TestController(ModulesDatabaseBuilder databaseBuilder, TaskExectionQueue exectionQueue)
+        public TestController(AccountDbContext accounDbContext , ModulesDatabaseBuilder databaseBuilder, TaskExectionQueue exectionQueue)
         {
+            _accountDbContext = accounDbContext;
             _databaseBuilder = databaseBuilder;
             _exectionQueue = exectionQueue;
         }
@@ -35,6 +39,16 @@ namespace Erp.Controllers
         [HttpPost("RunTask")]
         public ActionResult RunTask(BpmTask bpmTask)
         {
+            var bpmWorker = new BpmWorker
+            {
+                instanceID = bpmTask.instanceID,
+                WorkflowName = bpmTask.WorkflowName,
+                taskID = bpmTask.taskID
+            };
+            _accountDbContext.BpmWorkers.Add(bpmWorker);
+            _accountDbContext.SaveChanges();
+            bpmTask.InvokerId = bpmWorker.Id;
+
             bpmTask.databaseName = ((ClaimsIdentity)HttpContext.User.Identity).FindFirst("database").Value;
             _exectionQueue.QueueExection(bpmTask);
             return Ok();
@@ -45,5 +59,7 @@ namespace Erp.Controllers
             _databaseBuilder.createNewModule(database, moduleName);
             return Ok();
         }
+
+       
     }
 }

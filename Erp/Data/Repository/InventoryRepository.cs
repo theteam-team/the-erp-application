@@ -21,7 +21,7 @@ namespace Erp.Repository
         public InventoryRepository(IConfiguration config, ILogger<InventoryRepository> ilogger, IHttpContextAccessor httpContextAccessor,  AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager)
             : base(config, ilogger, httpContextAccessor, management, datadbContext, accountDbContext, userManager)
         {
-            Console.WriteLine("here" + httpContextAccessor.HttpContext.User.Identity.Name);
+            
 
         }
 

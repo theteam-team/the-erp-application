@@ -11,5 +11,6 @@ namespace Erp.ViewModels
        
         public LoginModel LoginModel { get; set; }
         public Register Register { get; set; }
+        
     }
 }

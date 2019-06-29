@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
 using Erp.Data.Entities;
+using System.Security.Claims;
 
 namespace Erp.Controllers
 {
@@ -18,18 +19,22 @@ namespace Erp.Controllers
     [ApiController]
     public class ServicesApiController : ControllerBase
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IEmailRepository _email;
-        private readonly IEmailTypeRepository _emailType;
-        private readonly IEmailUserRepository _emailUser;
-        private readonly DataDbContext _dataDbContext;
-        private readonly AccountDbContext _accountDbContext;
-        private readonly ILogger<ServicesApiController> _logger;
+        public  Management _management { get; }
+        public  IUserTaskRepository _userTaskRepository { get; }
+        public  UserManager<ApplicationUser> _userManager { get; }
+        public  IEmailRepository _email { get; }
+        public  IEmailTypeRepository _emailType { get; }
+        public  IEmailUserRepository _emailUser { get; }
+        public  DataDbContext _dataDbContext { get; }
+        public  AccountDbContext _accountDbContext { get; }
+        public  ILogger<ServicesApiController> _logger { get; }
 
 
-        public ServicesApiController(IEmailUserRepository emailUser, IEmailRepository email, IEmailTypeRepository emailType,
+        public ServicesApiController(Management management, IUserTaskRepository userTaskRepository, IEmailUserRepository emailUser, IEmailRepository email, IEmailTypeRepository emailType,
            UserManager<ApplicationUser> userManager, ILoggerFactory loggerFactory)
         {
+            _management = management;
+            _userTaskRepository = userTaskRepository;
             _userManager = userManager;
             _email = email;
             _emailType = emailType;
@@ -37,6 +42,27 @@ namespace Erp.Controllers
             
             //TaskQueue = taskQueue;
             _logger = loggerFactory.CreateLogger<ServicesApiController>();
+        }
+
+        [HttpPost("AssignUserTask")]
+        public async Task<ActionResult> AssignUserTask([FromBody] UserTaskViewModel userTaskView)
+        {
+            Console.WriteLine("Assigne " + userTaskView.IsBpmEngine);
+            if (!userTaskView.IsBpmEngine)
+            {
+                userTaskView.InvokerId = ((ClaimsIdentity) HttpContext.User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
+            }
+            string roleId = await _management.getRoleIdAsync(userTaskView.RoleName);
+            var userTask = new UserTask
+            {
+                ApplicationRoleId = roleId,
+                UserTaskParameters = userTaskView.UserTaskParameters,
+                Title = userTaskView.Title,
+                InvokerID = userTaskView.InvokerId
+                
+            };
+            await _userTaskRepository.AssigneUserTask(userTask);
+            return Ok();
         }
 
         [HttpPost("SendEmail")]
@@ -67,29 +93,7 @@ namespace Erp.Controllers
             _email.Insert(email);
             return Ok();
 
-            //try
-            //{
-
-            //    //var emailUser = new UserHasEmail()
-            //    //{
-            //    //    EmailId = email.Id,
-            //    //    //Email = e,
-            //    //    ApplicationUserId = userId,
-            //    //    //ApplicationUser = user,
-            //    //    EmailTypeId = emailType.Id,
-            //    //   // EmailType = eT
-
-
-            //    //};
-
-            //    //_accountDbContext.UserHasEmails.Add(emailUser);
-            //    //_accountDbContext.SaveChanges();
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    return BadRequest(ex.Message);
-            //}
+           
         }
 
         [HttpPost("AddEmailTypes")]
@@ -97,7 +101,7 @@ namespace Erp.Controllers
         {
             foreach (var item in emailTypes)
             {
-                _emailType.Insert(new EmailType { Id = item.Id, Type = item.Type });
+                await _emailType.Insert(new EmailType { Id = item.Id, Type = item.Type });
             }
             return Ok();
         }

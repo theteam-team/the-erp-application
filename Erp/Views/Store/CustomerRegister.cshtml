@@ -1,0 +1,67 @@
+﻿@model CustomerRegister
+@{
+    ViewBag.Title = "customer Register";
+    ViewBag.CurrentView = "customer register";
+}
+@section Scripts
+ {
+    <script src="~/node_modules/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+}
+@{
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+<div>
+    <div class="text-center">
+        <label id="registerToggle">Register</label>
+    </div>
+    <div class="col-md-6 offset-md-3">
+        <div id="register-div" class="card card-body bg-light">
+            <form class="popup-form" id="register-form" action="/store/@ViewBag.Organization/register" method="post">
+                <div asp-validation-summary="ModelOnly"></div>
+                <div class="form-group">
+                    <label asp-for=" name" class="fa fa-database"> Full Name:</label>
+                    <input asp-for="name" class="form-control" />
+                    <span asp-validation-for="name" class="text-danger"></span>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label asp-for="Email" class="fa fa-envelope">Email:</label>
+                    <input type="email" asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label asp-for="UserName" class="fa fa-user">User Name</label>
+                    <input type="text" asp-for="UserName" class="form-control" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label asp-for="Password" class="fa fa-lock">Password</label>
+                    <br />
+                    <input type="password" asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                    <br />
+                </div>
+                <br />
+                <div class="form-group">
+                    <label asp-for="DateOfBirth" class="fa fa-language">Date of Birth:</label>
+                    <input type="datetime" asp-for="DateOfBirth">
+                    <span asp-validation-for="DateOfBirth"></span>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label asp-for="phoneNumber" class="fa fa-language">Phone Number:</label>
+                    <input type="number" asp-for="phoneNumber">
+                    <span asp-validation-for="phoneNumber"></span>
+                </div>
+                <br />
+
+                <input type="submit" value="Register" class="btn btn-primary" />
+            </form>
+        </div>
+    </div>
+</div>
+

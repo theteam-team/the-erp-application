@@ -21,8 +21,8 @@ using Microsoft.Extensions.Logging.Console;
 using Erp.Repository;
 using Erp.Data.Entities;
 using Erp.Database_Builder;
-using Microsoft.AspNetCore.Http;
 using Erp.Microservices;
+using Microsoft.AspNetCore.Http;
 
 namespace Erp
 {
@@ -57,8 +57,8 @@ namespace Erp
             services.AddTransient<SystemServices>();
             services.AddHttpContextAccessor();
             //services.AddHostedService<SystemBackgroundService>();
-            //services.AddHostedService<TaskExecutionEngine>();
-            //services.AddHostedService<TaskResponseEngine>();
+            services.AddHostedService<TaskExecutionEngine>();
+            services.AddHostedService<TaskResponseEngine>();
             //services.AddHostedService<TimedService>();
             services.AddSingleton<TaskExectionQueue>();
             services.AddSingleton<CommonNeeds>();
@@ -67,6 +67,8 @@ namespace Erp
             services.AddTransient<INodeLangRepository, NodeLangRepository>();
             services.AddSignalR();           
             services.AddTransient<ICustomerRepository, CustomerRepository>();
+            services.AddTransient<IOrganizationRepository, OrganizationRepository>();
+            services.AddTransient<IUserTaskRepository, UserTaskRepository>();
             services.AddTransient<IBmpParmRepo, BmpParmRepo>();
             services.AddTransient<IProcRequestRepo, ProcRequestRepo>();
             services.AddTransient<IEmailRepository, EmailRepository>();
@@ -100,8 +102,14 @@ namespace Erp
                 
                     .AddEntityFrameworkStores<AccountDbContext>()
                     .AddDefaultTokenProviders();
-            services.AddAuthentication()                  
-                    .AddCookie()
+            services.AddAuthentication()
+                     .AddCookie("CustomerSchema", o => // scheme1
+                     {
+                         o.ExpireTimeSpan = TimeSpan.FromHours(1);
+                         o.LoginPath = new PathString("/store/{OrganizationName}");
+                         o.Cookie.Name = "CustomerCookie";
+                         o.SlidingExpiration = true;
+                     })
                     .AddJwtBearer(cfg => 
                         {
                             cfg.SaveToken = true;
@@ -127,7 +135,7 @@ namespace Erp
             {
                 options.AddPolicy("CreateUsers", policy => policy.RequireRole("Adminstrator"));
             });
-            //add the session services to enable the store of the user data in memory beyond the http request life span
+            //add the session services to enable the store of the user data in memory beyond the http request life time span
             services.AddSession();
             services.AddDistributedMemoryCache();
             

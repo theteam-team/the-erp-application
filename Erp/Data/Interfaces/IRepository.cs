@@ -17,8 +17,8 @@ namespace Erp.Interfaces
         Task<T> GetById(object id);
         Task<T> GetById(string id, byte[] error);
         Task<int> Create(T entity, byte[] error);
-        Task Create(T entity); 
         Task<int> Delete(string id, byte[] error);
+        //Task Create(T entity); 
         Task Update(T ob);
         Task Insert(T ob);
         void setConnectionString(string databaseName);

@@ -1,5 +1,9 @@
 ﻿using Erp.BackgroundServices;
 using Erp.BackgroundServices.Entities;
+using Erp.Controllers;
+using Erp.Data;
+using Erp.Data.Entities;
+using Erp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -22,18 +26,21 @@ namespace Erp.Microservices
         private TaskResponseQueue _responseQueue;
         private readonly CommonNeeds _common;
         private readonly IActionDescriptorCollectionProvider _actionDescriptorCollectionProvider;
+        private readonly AccountDbContext _accountDbContext;
+        private readonly CrmApiController _crmApiController;
         public IServiceProvider Services { get; }
 
-        public SystemServices( CommonNeeds common, IActionDescriptorCollectionProvider actionDescriptorCollectionProvider, TaskResponseQueue responseQueue)
+        public SystemServices(AccountDbContext accountDbContext ,CommonNeeds common, IActionDescriptorCollectionProvider actionDescriptorCollectionProvider, TaskResponseQueue responseQueue)
         {
             _common = common;
             _actionDescriptorCollectionProvider = actionDescriptorCollectionProvider;
-          
+            _accountDbContext = accountDbContext;
             _responseQueue = responseQueue;
         }
 
         public async Task findServiceAsync(BpmTask bpmTask, IServiceScope serviceScope)
         {
+            Console.WriteLine(bpmTask.TaskName);
             var controllers = _actionDescriptorCollectionProvider
                 .ActionDescriptors
                 .Items
@@ -41,6 +48,7 @@ namespace Erp.Microservices
                 .Where(a => a.ActionName == bpmTask.TaskName);          
             foreach (var item in controllers)
             {
+                Console.WriteLine(bpmTask.TaskName);
                 try
                 {
                     var id = new ClaimsIdentity();
@@ -50,41 +58,27 @@ namespace Erp.Microservices
                     List<object> methodeParam = new List<object>();
                     if (parameters.Count == bpmTask.TaskParam.Length)
                     {
-                        Console.WriteLine("here");
-                        if (httpMethode != "POST")
+                        for (int i = 0; i < parameters.Count; ++i)
                         {
-                            for (int i = 0; i < parameters.Count; ++i)
+                            var taskParameterobj = bpmTask.TaskParam[i];
+                            string json = JsonConvert.SerializeObject(taskParameterobj);
+                            JObject jsonOb = JObject.Parse(json);
+                            var jsonObProperties = jsonOb.Properties();
+                            Type methodParamtype = parameters[i].ParameterType;
+                            bool isClass = checkedClassType(methodParamtype);
+                            if (isClass)
                             {
-                                var taskParameterobj = bpmTask.TaskParam[i];
-                                string json = JsonConvert.SerializeObject(taskParameterobj);
-                                JObject ob = JObject.Parse(json);                                                     
-                                methodeParam.Add(Convert.ChangeType(ob.Properties().FirstOrDefault().Value, parameters[i].ParameterType));
 
+                                methodeParam.Add(JsonConvert.DeserializeObject(json, methodParamtype));
                             }
-                        }
-                        else
-                        {
-                            for (int i = 0; i < parameters.Count; ++i)
+                            else if(jsonObProperties.Count() == 1)
                             {
-                                var taskParameterobj = bpmTask.TaskParam[i];
-                                string json = JsonConvert.SerializeObject(taskParameterobj);
-                                JObject ob = JObject.Parse(json);
-                                Type mytype = parameters[0].ParameterType;
-                                if (ob.Properties().Count()> 1)
-                                {                                   
-                                    methodeParam.Add(JsonConvert.DeserializeObject(json, mytype));
-                                }
-                                else
-                                {
-                                    methodeParam.Add(Convert.ChangeType(ob.Properties().FirstOrDefault().Value, parameters[i].ParameterType));
-                                }
-                                
+                                methodeParam.Add(Convert.ChangeType(jsonObProperties.FirstOrDefault().Value, parameters[i].ParameterType));                              
                             }
-                        }
+                        }                      
                         var controller = (ControllerBase)serviceScope.ServiceProvider.GetService(item.ControllerTypeInfo);
-                        var properties = controller.GetType().GetProperties().ToList();
-                        Console.WriteLine("Count " + properties.Count);
-                        foreach (var property in properties)
+                        var contProperties = controller.GetType().GetProperties().ToList();                         
+                        foreach (var property in contProperties)
                         {
                             try
                             {
@@ -93,77 +87,132 @@ namespace Erp.Microservices
                                 {
                                     MethodInfo _methodInfo = proType.GetMethod("setConnectionString");
                                     if (_methodInfo != null)
-                                    {
-                                        Console.WriteLine(property.GetValue(controller));
+                                    {                                       
                                         var result = _methodInfo.Invoke(property.GetValue(controller), new object[] {bpmTask.databaseName });
                                     }
                                 }
                             }
-                            catch
+                            catch(Exception ex)
                             {
+                               
                                 continue;
                             }
                         }
+                        if (bpmTask.Type == "UserTask")
+                        {
+                            var IsBpmEngine = methodeParam[0].GetType().GetProperty("IsBpmEngine");
+                            IsBpmEngine.SetValue(methodeParam[0], true);
+                            var InvokerId = methodeParam[0].GetType().GetProperty("InvokerId");
+                            InvokerId.SetValue(methodeParam[0], bpmTask.InvokerId);
+                        }
+                        var resutlt = await (dynamic)methodInfo.Invoke(controller, methodeParam.ToArray());
+                        if (bpmTask.Type != "UserTask")
+                        {
+                            var prop = resutlt.GetType().GetProperty("Result");
+                            if (prop != null)
+                            {
+                                var action = prop.GetValue(resutlt);
+                                createResponse((ActionResult)action, bpmTask);
+                            }
+                            else
+                            {
+                                createResponse((ActionResult)(resutlt), bpmTask);
+                            }
+                        }
 
-
-                        Console.WriteLine("here");
-                        var resutlt = methodInfo.Invoke(controller,  methodeParam.ToArray() );
+                    }
+                    else
+                    {
+                        createFailedResponse("Parameter Don't match service Parameter", bpmTask);
                     }
             
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
-                    continue;
-                    throw;
+                    createFailedResponse("Problem has occurred while Trying to execute this Task", bpmTask);
+
+
                 }
             }
 
         }
-       /* public async void AddCustomer(BpmTask bpmTask)
+
+      
+      
+        private void createResponse(ActionResult result, BpmTask bpmTask)
         {
-            Console.WriteLine("Hereee");
-            //await findServiceAsync(bpmTask);
-            string json = JsonConvert.SerializeObject(bpmTask.TaskParam);
-            //string json = ((JObject[])bpmTask.TaskParam)[0].ToString(Formatting.None);
-            Customer customer = JsonConvert.DeserializeObject<List<Customer>>(json)[0];
-            _crmApiController._customeRepository.setConnectionString(bpmTask.databaseName);
-            var result = await _crmApiController.AddCustomer(customer);
             try
             {
-                OkObjectResult x = (OkObjectResult)result.Result;
-                BpmResponse bpmResponse = new BpmResponse
-                {
-                    databaseName = bpmTask.databaseName,
-                    status = "success",
-                    WorkflowName = bpmTask.WorkflowName,
-                    instanceID = bpmTask.instanceID,
-                    taskID = bpmTask.taskID,
-                    Type = bpmTask.Type,
-                    ResponseParam = x.Value
-
-                };
-                _responseQueue.QueueExection(bpmResponse);
-                Console.WriteLine((string)x.Value);
+                OkObjectResult x = (OkObjectResult)result;
+                createSuccessResponse(new object[] { x.Value }, bpmTask);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                createFailedResponse(ex.Message, bpmTask);
                 Console.WriteLine(ex.Message);
-                BpmResponse bpmResponse = new BpmResponse
-                {
-                    databaseName = bpmTask.databaseName,
-                    status = "Failed",
-                    WorkflowName = bpmTask.WorkflowName,
-                    instanceID = bpmTask.instanceID,
-                    taskID = bpmTask.taskID,
-                    Type = bpmTask.Type,
-                  
-
-                };
-                _responseQueue.QueueExection(bpmResponse);           
+                
             }
+        }
 
-        }*/
+        private void createSuccessResponse(object[] param, BpmTask bpmTask)
+        {
+            BpmResponse bpmResponse = new BpmResponse
+            {
+                databaseName = bpmTask.databaseName,
+                status = "success",
+                WorkflowName = bpmTask.WorkflowName,
+                instanceID = bpmTask.instanceID,
+                taskID = bpmTask.taskID,
+                Type = bpmTask.Type,
+                ResponseParam = param
+
+            };
+            _responseQueue.QueueExection(bpmResponse);
+        
+        }
+        private void createFailedResponse(string message, BpmTask bpmTask)
+        {
+            BpmResponse bpmResponse = new BpmResponse
+            {
+                databaseName = bpmTask.databaseName,
+                status = "Failed",
+                WorkflowName = bpmTask.WorkflowName,
+                instanceID = bpmTask.instanceID,
+                taskID = bpmTask.taskID,
+                Type = bpmTask.Type,
+
+
+            };
+            _responseQueue.QueueExection(bpmResponse);
+        }
+
+        private bool checkedClassType(Type parmtype)
+        {
+
+
+            if (parmtype.IsValueType || parmtype == typeof(string))
+            {
+                return false;
+            }
+            else
+                return true;
+        }
+
+
+
+       //public async void AddCustomer(BpmTask bpmTask)
+       // {
+       //     Console.WriteLine("Hereee");
+       //     //await findServiceAsync(bpmTask);
+       //     string json = JsonConvert.SerializeObject(bpmTask.TaskParam);
+       //     //string json = ((JObject[])bpmTask.TaskParam)[0].ToString(Formatting.None);
+       //     Customer customer = JsonConvert.DeserializeObject<List<Customer>>(json)[0];
+       //     _crmApiController._customeRepository.setConnectionString(bpmTask.databaseName);
+       //     var result = await _crmApiController.AddCustomer(customer);
+       //     ActionResult action = result.Result;
+            
+
+       // }
 
     }
 }

@@ -1,11 +1,15 @@
 ﻿@model IndexViewModel
 @{
-    ViewBag.Title = "Login Page";
+    ViewBag.Title = "customer Login";
+    ViewBag.CurrentView = "customer Login";
 }
 @section Scripts
-    {
+{
     <script src="~/node_modules/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+}
+@{
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
 }
 <div class="col-md-12">
     <section class="container">
@@ -14,7 +18,7 @@
         </div>
         <div class="col-md-6 offset-md-3">
             <div id="signIn-div" class="card card-body bg-light">
-                <form class="popup-form" id="signIn-form" asp-controller="Account" asp-action="Login" method="post">
+                <form class="popup-form" id="signIn-form" action="/store/@ViewBag.Organization/login" method="post">
                     <div asp-validation-summary="ModelOnly"></div>
                     <div>
                         <label asp-for="LoginModel.UserName" class="fa fa-user"> Username</label>
@@ -27,29 +31,9 @@
                         <input type="password" asp-for="LoginModel.Password" class="form-control" />
                         <span asp-validation-for="LoginModel.Password" class="text-danger"></span>
                     </div>
-                    <br>
-                    @* Adds The Database Names to the Login Form (Subject To change) *@
-                    @{
-                        List<string> list = new List<string>();
-
-                        var Admins = mcontext.Organizations;
-
-                        @foreach (var el in Admins)
-                        {
-                            list.Add(el.Name);
-                        }
-                    }
-                    <div>
-                        <label asp-for="LoginModel.DatabaseName" class="fa fa-database">Organization Name</label>
-                        <select asp-for="LoginModel.DatabaseName" asp-items="@(new SelectList(list))" class="form-control">
-                            <option value="">Please choose a Database</option>
-                        </select>
-                        <span asp-validation-for="LoginModel.DatabaseName"></span>
-                    </div>
-                    <br>
                     <div>
                         <label>Remember Me?</label>
-                        <input type="checkbox" />
+                        <input type="checkbox" asp-for="LoginModel.RememberMe" />
                     </div>
                     <div>
                         <i class="fa fa-sign-in"></i>
