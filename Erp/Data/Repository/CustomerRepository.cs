@@ -13,16 +13,23 @@ using Erp.Data.Entities;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
+using System.Threading;
 
 namespace Erp.Repository
 {
     public class CustomerRepository : Repository<Customer, DataDbContext>, ICustomerRepository
     {
-        public CustomerRepository(IConfiguration config, ILogger<CustomerRepository> ilogger, IHttpContextAccessor httpContextAccessor, AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager)
+        private IConfiguration _config;
+        private CommonNeeds _common;
+
+        public CustomerRepository(CommonNeeds common , IConfiguration config, ILogger<CustomerRepository> ilogger, IHttpContextAccessor httpContextAccessor, AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager)
               : base(config, ilogger, httpContextAccessor, management, datadbContext, accountDbContext, userManager)
         {
-
+            _config = config;
+            _common = common;
+          
         }
+      
         public async Task<List<Customer>> getCustomerById(string id, byte[] error)
         {
             Console.WriteLine("Hereeee");

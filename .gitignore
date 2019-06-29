@@ -3,7 +3,8 @@ Modules/modules_dll/*
 Erp/obj/*
 Erp/bin/*
 */node_modules/*
-Erp/wwwroot/clientapp*
+Erp/wwwroot/clientapp/*
+Erp/wwwroot/ProductManager/*
 *[Dd]ebug.*
 bin/*
 */bin/*

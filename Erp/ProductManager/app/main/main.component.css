@@ -1,0 +1,12 @@
+.border {
+    background-color: #262626;
+}
+
+.product-info {
+    margin: 10px;
+}
+
+.product-props {
+    list-style-type: none;
+    color: white;
+}

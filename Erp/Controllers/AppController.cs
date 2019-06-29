@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading;
 
 namespace Erp.Controllers
@@ -27,16 +28,16 @@ namespace Erp.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult Home()
         {
-            if (User.Identity.IsAuthenticated)
+            if (User.IsInRole("Employee"))
                 return RedirectToAction("System", "App");
-
+           
             if (mcontext.Users.Any())
                 return RedirectToAction("Login", "Account");
             else
                 return RedirectToAction("Register", "Account");
             
         }
-        [Authorize]
+        [Authorize(Roles ="Employee")]
         public IActionResult System()
         {
             //HttpContext.Session.SetString("LastPageView", HttpContext.Request.Path);          
@@ -45,13 +46,13 @@ namespace Erp.Controllers
             
             return View();
         }
+        [Authorize(Roles = "Employee")]
         public IActionResult Modules()
         {
-           // ViewBag.CurrentPath = HttpContext.Request.Path;
-           // ViewBag.CurrentView = "Modules";
+           
             return View();
         }
-        [Authorize]
+        [Authorize(Roles = "Employee")]
         public IActionResult Notification()
         {
             return View();

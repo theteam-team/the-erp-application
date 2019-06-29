@@ -10,6 +10,7 @@ namespace Erp.Interfaces
 {
     public interface IProductRepository :IRepository<Product, DataDbContext>
     {
+        Task<List<Product>> ShowAvailableProducts(byte[] error);
         Task<List<Product>> SearchProducts(string key, string value, byte[] error);
         Task<List<Product>> SearchByCategory(string value, byte[] error);
         Task<int> EditProduct(Product entity, byte[] error);

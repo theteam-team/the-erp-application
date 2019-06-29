@@ -1,6 +1,7 @@
 ﻿ using Erp.Data;
 using Erp.Data.Entities;
 using Erp.Database_Builder;
+using Erp.Interfaces;
 using Erp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -24,6 +25,7 @@ namespace Erp.Controllers
     public class AccountController : Controller
     {
         private int x = 10;
+        private IOrganizationRepository _organizationRepository;
         private ModulesDatabaseBuilder _databaseBuilder;
         private IConfiguration _config;
         private Management _management;  // This object used to integrate the management system with this Controller.
@@ -32,11 +34,12 @@ namespace Erp.Controllers
         private AccountDbContext mContext;   // this object used as an entry to the database creaded to store Accounts information.      
         private UserManager<ApplicationUser> _userManager;  //used to manage the user stored in the database according to an API.
         private SignInManager<ApplicationUser> _signInManager; //used To sign in the user according to an Api.
-        public AccountController(AccountDbContext context, DataDbContext dataDbContext,
+        public AccountController(IOrganizationRepository organizationRepository, AccountDbContext context, DataDbContext dataDbContext,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<ApplicationUser> userlogger, ModulesDatabaseBuilder databaseBuilder ,Management management, IConfiguration config)
         {
+            _organizationRepository = organizationRepository;
             _databaseBuilder = databaseBuilder;
             _config = config;
             _management = management;
@@ -47,18 +50,26 @@ namespace Erp.Controllers
             _signInManager = signInManager;
         }
 
+
+        [HttpGet]
+        public IActionResult ProductManager()
+        {
+
+            ViewBag.CurrentView = "Product Manager";
+            return View();
+        }
+
+
         [HttpGet]
         public IActionResult Login()
         {
-            if (User.Identity.IsAuthenticated)
+            if (User.IsInRole("Employee"))
             {
 
-                /*if (HttpContext.Session.GetString("LastPageView") != null)
-                    return Redirect(HttpContext.Session.GetString("LastPageView"));*/
                 return RedirectToAction("System", "App");
             }
             ViewBag.CurrentView = "login";
-            //HttpContext.Session.SetString("LastPageView", HttpContext.Request.Path);
+      
             return View();
         }
 
@@ -69,26 +80,22 @@ namespace Erp.Controllers
             var user = await _userManager.FindByNameAsync(signInModel.UserName);
             if (user != null && signInModel.DatabaseName == user.DatabaseName)
             {
-                //if (CommonNeeds.checkdtb(mdataDbContext, signInModel.DatabaseName))
-                //{
-                var result = await _signInManager.PasswordSignInAsync(signInModel.UserName, signInModel.Password,
-                        true, false);
-                if (result.Succeeded)
+                if ((await _management.GetUserRoleAsync(user)).Contains("Employee"))
                 {
-
-                    await _userManager.AddClaimAsync(user, new Claim("database", user.DatabaseName));
-                    var roles = await _userManager.GetRolesAsync(user); 
-                    muserLogger.LogInformation("A user with a specifc roles : " + roles);
-                    /*foreach (var el in roles)
+                    var result = await _signInManager.PasswordSignInAsync(signInModel.UserName, signInModel.Password,
+                        true, false);
+                    if (result.Succeeded)
                     {
-                        Console.Write(" " + el);
+
+                        await _userManager.AddClaimAsync(user, new Claim("organization", user.DatabaseName));
+                        await _userManager.AddClaimAsync(user, new Claim("organizationId", user.OrganizationId));
+
+                        var roles = await _userManager.GetRolesAsync(user);
+                        muserLogger.LogInformation("A user with a specifc roles : " + roles);
+
+                        return RedirectToAction("System", "App");
                     }
-                    Console.Write(" has logged int the system");*/
-                    return RedirectToAction("System", "App");
                 }
-                //}
-                //else
-                //    ModelState.AddModelError("", "database does not exist please contact system admin");
             }
             else
                 ModelState.AddModelError("", "Wrong Entry");
@@ -107,29 +114,36 @@ namespace Erp.Controllers
         public async Task<IActionResult> Register(IndexViewModel mod)
         {
             Register registerModel = mod.Register;
-            var database = mContext.ErpUsers.Where(dt => dt.DatabaseName == registerModel.DataBaseName).FirstOrDefault();
-            if (database == null)
+            Organization organizationExist = await _organizationRepository.OraganizationExist(registerModel.DatabaseName);            
+            if (organizationExist == null)
             {
                 var user = new ApplicationUser
                 {
                     Email = registerModel.Email,
-                    DatabaseName = registerModel.DataBaseName,
+                    DatabaseName = registerModel.DatabaseName,
                     Country = registerModel.Country,
                     Language = registerModel.Language,
-                    UserName = registerModel.UserName
+                    UserName = registerModel.UserName,
+                    Organization = new Organization {
+                        Name = registerModel.DatabaseName,
+                        Email = registerModel.Email
+
+                    }
+                    
                 };
 
-                _databaseBuilder.createModulesDatabase(registerModel.DataBaseName);
+                _databaseBuilder.createModulesDatabase(registerModel.DatabaseName);
                 var result = await _userManager.CreateAsync(user, registerModel.Password);
                 if (result.Succeeded)
                 {
-                    var roleName = "Adminstrator";
-                    await _management.AddRoleToUserAsync(roleName, user);
-                    await _userManager.AddClaimAsync(user, new Claim("database", user.DatabaseName));
-                    muserLogger.LogInformation("A user with a specifc roles : " + roleName + " has Been Created");
-                    
-                   
-                    
+                    var roleAdmin = "Adminstrator";
+                    var roleEmployee = "Employee";
+                    await _management.AddRoleToUserAsync(roleAdmin, user);
+                    await _management.AddRoleToUserAsync(roleEmployee, user);
+                    await _userManager.AddClaimAsync(user, new Claim("organization", user.DatabaseName));
+                    await _userManager.AddClaimAsync(user, new Claim("organizationId", user.OrganizationId));
+                    muserLogger.LogInformation("A user with a specifc roles : " + roleAdmin + " has Been Created");
+
                     var res = await _signInManager.PasswordSignInAsync(user.UserName, registerModel.Password,
                         true, false);
                     if (res.Succeeded)
@@ -191,12 +205,7 @@ namespace Erp.Controllers
                 ModelState.AddModelError("", el.Code);
             }
 
-            ModelState.AddModelError("", "You don't Have the Authority To Do that , please Contact The System Adminstrator");
-
-            /*Console.WriteLine("\n" + HttpContext.Session.GetString("LastPageView"));
-            if (HttpContext.Session.GetString("LastPageView") != null)
-                return Redirect(HttpContext.Session.GetString("LastPageView"));*/
-
+            ModelState.AddModelError("", "You don't Have the Authority To Do that , please Contact The System Adminstrator");        
             return RedirectToAction("App", "System");
 
         }

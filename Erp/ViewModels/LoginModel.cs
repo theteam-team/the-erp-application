@@ -15,5 +15,6 @@ namespace Erp.ViewModels
         public string Password { get; set; }
         [Required]
         public string DatabaseName { get; set; }
+        public bool RememberMe { get; set; }
     }
 }

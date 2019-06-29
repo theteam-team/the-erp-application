@@ -12,12 +12,12 @@ namespace Erp.BackgroundServices.Entities
         [JsonIgnore]
         public string databaseName { get; set; }
         [JsonIgnore]
-        public string Invoker { get; set; }
+        public string InvokerId { get; set; }
         public string Type { get; set; }
         public string WorkflowName { get; set; }
         public string instanceID { get; set; }
         public string taskID { get; set; }
-        public string TaskName { get; set; }
-        public object TaskParam { get; set; }
+        public string TaskName { get; set; }   
+        public object[] TaskParam { get; set; }
     }
 }

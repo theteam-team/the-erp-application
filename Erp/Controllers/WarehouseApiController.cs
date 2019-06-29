@@ -18,13 +18,13 @@ namespace Erp.Controllers
     [Authorize]
     public class WarehouseApiController : ControllerBase
     {
-        private readonly IProductRepository _iProductRepository;
-        private readonly IOrderRepository _orderRepository;
-        private readonly IOrderProductRepository _orderProductRepository;
-        private readonly IInventoryRepository _inventoryRepository;
-        private readonly IInventoryProductRepository _inventoryProductRepository;
-        private readonly IReportRepository _reportRepository;
-        private readonly IProductMovesRepository _productMovesRepository;
+        public  IProductRepository _iProductRepository { get; }
+        public IOrderRepository _orderRepository { get; }
+        public IOrderProductRepository _orderProductRepository { get; }
+        public  IInventoryRepository _inventoryRepository { get; }
+        public IInventoryProductRepository _inventoryProductRepository { get; }
+        public IReportRepository _reportRepository { get; }
+        public IProductMovesRepository _productMovesRepository { get; }
 
         public WarehouseApiController(IProductRepository iProductRepository, IOrderRepository orderRepository, IOrderProductRepository orderProductRepository, IInventoryRepository inventoryRepository, IInventoryProductRepository inventoryProductRepository, IReportRepository reportRepository, IProductMovesRepository iProductMovesRepository)
         {
@@ -431,6 +431,24 @@ namespace Erp.Controllers
         {
             byte[] error = new byte[500];
             List<Product> products = await _iProductRepository.GetAll(error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(products);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
+
+        [HttpGet("ShowAvailableProducts")]
+        public async Task<ActionResult<List<Product>>> ShowAvailableProducts()
+        {
+            byte[] error = new byte[500];
+            List<Product> products = await _iProductRepository.ShowAvailableProducts(error);
             string z = Encoding.ASCII.GetString(error);
             string y = z.Remove(z.IndexOf('\0'));
             if (y == "")

@@ -45,7 +45,7 @@ namespace Erp.BackgroundServices
                 {
                     tasks.Add(Execute(bpmTask));                   
                 }
-                Thread.Sleep(100);
+                //Thread.Sleep(100);
             }
 
             _logger.LogInformation("Task Execution Engine Hosted Service is stopping.");
@@ -60,8 +60,9 @@ namespace Erp.BackgroundServices
                 using (var scope = Services.CreateScope())
                 {
                     var _sysServices = scope.ServiceProvider.GetRequiredService<SystemServices>();
-                    MethodInfo method = _sysServices.GetType().GetMethod(bpmTask.TaskName);
-                    method.Invoke(_sysServices, new object[] { bpmTask});
+
+                    await  _sysServices.findServiceAsync(bpmTask, scope);
+                   
                }
             
         }

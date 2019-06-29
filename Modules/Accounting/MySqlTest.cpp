@@ -309,18 +309,18 @@ extern "C" ERP_API int reporting(Out** out, char* error, ConnectionString con) {
 					row[2] ? _account->creation_date = row[2] : _account->creation_date = nullptr;
 					row[3] ? _account->account_debts = stod(row[3]) : _account->account_debts = 0.0;
 					*/
-					if(stod(row[3]) > 2000){
-						break;
+					/*if(stod(row[3]) > 2000){
+						break;*/
 						cout << "I'm 1" << endl;
 						_out->payment_id = row[0];
 						row[1] ? _out->payment_method = row[1] : _out->payment_method = nullptr;
 						//row[2] ? _out->payment_date = row[2] : _out->payment_date = nullptr;
-						row[2] ? _out->payment_amount = stod(row[2]) : _out->payment_amount = 0;
-					}
+						row[2] ? _out->payment_amount = stod(row[2]) : _out->payment_amount = 0.0;
+					/*}
 					else{
 						cout << "I'm 2" << endl;
 						
-					}
+					}*/
 					
 					numberOfRows++;
 					_out++;

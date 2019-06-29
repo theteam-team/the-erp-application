@@ -1426,6 +1426,63 @@ extern "C"	ERP_API int showProducts(Product** product, char* error, ConnectionSt
 	 return numberOfRows;
 }
 
+extern "C"	ERP_API int showAvailableProducts(Product** product, char* error, ConnectionString con)
+{
+	status = 0;
+	int numberOfRows = 0;
+	unsigned int numOfFields;
+
+	db_response::ConnectionFunction(error, con);
+
+	if (conn) {
+
+		mysql_free_result(res);
+
+		qstate = mysql_query(conn, "select Product_ID, Product_Name, Product_Description, Product_Price, Product_Weight, length, width, height, Units_In_Stock from product inner join product_has_category on product.Product_ID = product_has_category.Product_Product_ID and product_has_category.Category_Category_ID = '1'");
+		
+		if (checkQuery(qstate, error)) {
+
+			res = mysql_store_result(conn);
+
+			if (res->row_count > 0)
+			{
+				*product = (Product*)CoTaskMemAlloc((int)(res->row_count) * sizeof(Product));
+				cout << res->row_count << endl;
+				numOfFields = mysql_num_fields(res);
+
+				Product *_product = *product;
+
+				while (row = mysql_fetch_row(res)) {
+
+					_product->id = row[0];
+					row[1] ? _product->name = row[1] : _product->name = nullptr;
+					row[2] ? _product->description = row[2] : _product->description = nullptr;
+					row[3] ? _product->price = stod(row[3]) : _product->price = 0;
+					row[4] ? _product->weight = stod(row[4]) : _product->weight = 0;
+					row[5] ? _product->length = stod(row[5]) : _product->length = 0;
+					row[6] ? _product->width = stod(row[6]) : _product->width = 0;
+					row[7] ? _product->height = stod(row[7]) : _product->height = 0;
+					row[8] ? _product->unitsInStock = stoi(row[8]) : _product->unitsInStock = 0;
+
+					_product->sold = 1;
+					_product->purchased = 0;
+
+					numberOfRows++;
+					_product++;
+				}
+			}
+			else
+			{
+				string s = "No Products Found";
+				cout << s << endl;
+				strcpy_s(error, s.length() + 1, s.c_str());
+				status = 2;
+			}
+		}
+	}
+	return numberOfRows;
+}
+
 extern "C"	ERP_API int showInventories(Inventory** inventory, char* error, ConnectionString con)
  {
 	 status = 0;

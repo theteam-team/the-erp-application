@@ -26,6 +26,7 @@
   <ItemGroup>
     <None Remove="ClientApp\app\Test\test.component.html" />
     <None Remove="ClientApp\app\Test\test.component.ts" />
+    <None Remove="ProductManager\app\shared\dataService.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -109,6 +110,10 @@
   <ItemGroup>
     <Folder Include="wwwroot\lib\" />
     <Folder Include="wwwroot\WorkFlows\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ProductManager\app\shared\dataService.ts" />
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">

@@ -32,15 +32,15 @@
                     @{
                         List<string> list = new List<string>();
 
-                        var Admins = await userManager.GetUsersInRoleAsync("Adminstrator");
+                        var Admins = mcontext.Organizations;
 
                         @foreach (var el in Admins)
                         {
-                            list.Add(el.DatabaseName);
+                            list.Add(el.Name);
                         }
                     }
                     <div>
-                        <label asp-for="LoginModel.DatabaseName" class="fa fa-database">Company Name</label>
+                        <label asp-for="LoginModel.DatabaseName" class="fa fa-database">Organization Name</label>
                         <select asp-for="LoginModel.DatabaseName" asp-items="@(new SelectList(list))" class="form-control">
                             <option value="">Please choose a Database</option>
                         </select>
