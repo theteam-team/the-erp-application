@@ -23,6 +23,7 @@ using Erp.Data.Entities;
 using Erp.Database_Builder;
 using Erp.Microservices;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Erp
 {
@@ -54,12 +55,13 @@ namespace Erp
         /// <param name="services">The Services container </param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<SystemServices>();
-            services.AddHttpContextAccessor();
             //services.AddHostedService<SystemBackgroundService>();
+            //services.AddHostedService<TimedService>();
+            services.AddHostedService<SchemaBuilder>();
             services.AddHostedService<TaskExecutionEngine>();
             services.AddHostedService<TaskResponseEngine>();
-            //services.AddHostedService<TimedService>();
+            services.AddHttpContextAccessor();
+            services.AddTransient<SystemServices>();
             services.AddSingleton<TaskExectionQueue>();
             services.AddSingleton<CommonNeeds>();
             services.AddSingleton<TaskResponseQueue>();
@@ -102,6 +104,7 @@ namespace Erp
                 
                     .AddEntityFrameworkStores<AccountDbContext>()
                     .AddDefaultTokenProviders();
+            services.AddSingleton<IServiceCollection, ServiceCollection>();
             services.AddAuthentication()
                      .AddCookie("CustomerSchema", o => // scheme1
                      {
@@ -188,9 +191,7 @@ namespace Erp
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, DataDbContext dataDbContext ,AccountDbContext mcontext)
         {
-            
-            //ensure that the database used to store user accounts is created at the begining
-            //dataDbContext.Database.EnsureCreated();
+
             mcontext.Database.EnsureCreated();
             app.UseNodeModules(env);//include the Node modules File into hte the response
             app.UseStaticFiles();//mark wwwroot Files as servable

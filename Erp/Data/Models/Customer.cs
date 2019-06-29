@@ -11,19 +11,19 @@ namespace Erp.Models
     public class Customer
     {
         [Required]
-        public string customer_id;
-        public string name;      
+        public string customer_id ;
+        public string name ;
         public uint phone_number;
         [EmailAddress]
-        public string email;
+        public string email ;
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
-        public string DateOfBirth;
-        public string gender;
+        public string DateOfBirth ;
+        public string gender ;
         public uint loyality_points;
         public uint type;
-        public string company;
-        public string company_email;
+        public string company ;
+        public string company_email ;
         public bool is_lead;
     }
 }

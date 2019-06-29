@@ -20,7 +20,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/store/@ViewBag.Organization"><i class="fa fa-home"></i>Home</a>
                     </li>
-
+                    @{
+                        var result = await authorizationService.AuthenticateAsync(Context, @ViewBag.Organization);
+                     }
 
                     @if (ViewBag.CurrentView == "customer login")
                     {
@@ -30,7 +32,7 @@
                     {
                         <li class="nav-item"><a class="nav-link" href="./Login"> <i class="fa fa-sign-in"></i> Login</a> </li>
                     }
-                    else if (Context.User.IsInRole("Customer"))
+                    else if (result.Succeeded)
                     {
                         <li class="nav-item"><a class="nav-link" href="./Logout"> <i class="fa fa-sign-out"></i>Log Out</a> </li>
                     }
