@@ -10,7 +10,7 @@ export class DataService {
 
     public availableProducts = [];
     loadAvailableProducts(): Observable<boolean> {
-        return this.http.get("getProductStore")
+        return this.http.get("GetProductStore")
             .pipe(
                 map((data: any[]) => {
                 this.availableProducts = data;

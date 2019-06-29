@@ -138,6 +138,7 @@ namespace Erp.Controllers
             }else
                 return NotFound("This organization does not exist");
         }
+
         [HttpGet("Register")]
         public async Task<IActionResult> Register()
         {
@@ -220,8 +221,8 @@ namespace Erp.Controllers
             return LocalRedirect("~/Store/" + orgExist.Name);
         }
         [HttpGet("GetProductStore")]
-        [Authorize(Roles ="Customer")]
-        [Authorize(AuthenticationSchemes = "CustomerSchema")]
+        //[Authorize(Roles ="Customer")]
+        //[Authorize(AuthenticationSchemes = "CustomerSchema")]
         public async Task<ActionResult<List<Product>>> GetProductStore()
         {
 
@@ -233,7 +234,7 @@ namespace Erp.Controllers
                 Console.WriteLine(User.Identity.IsAuthenticated);
 
                 byte[] error = new byte[500];
-                List<Product> product = await _productRepository.GetAll(error);
+                List<Product> product = await _productRepository.ShowAvailableProducts(error);
                 string z = Encoding.ASCII.GetString(error);
                 string y = z.Remove(z.IndexOf('\0'));
                 if (y == "")

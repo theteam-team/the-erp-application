@@ -52,15 +52,6 @@ namespace Erp.Controllers
 
 
         [HttpGet]
-        public IActionResult ProductManager()
-        {
-
-            ViewBag.CurrentView = "Product Manager";
-            return View();
-        }
-
-
-        [HttpGet]
         public IActionResult Login()
         {
             if (User.IsInRole("Employee"))

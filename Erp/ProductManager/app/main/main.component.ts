@@ -13,13 +13,12 @@ import { DataService } from 'ProductManager/app/shared/dataService';
 export class MainComponent implements OnInit {
 
     public availableProducts = [];
-
+    
     constructor(private data: DataService, private router: Router, private location: Location) {
-
     }
 
     ngOnInit(): void {
-        //this.loadAvailableProducts();
+        this.loadAvailableProducts();
     }
 
     reloadComponent(): void {
