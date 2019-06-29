@@ -8,7 +8,7 @@ namespace Erp.Data
 {
     public class AccountDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
-
+        public DbSet<Organization> Organizations { get; set; }
         public DbSet<ApplicationUser> ErpUsers { get; set; }
         public DbSet<UserTask> UserTasks { get; set; }
         public DbSet<BpmWorker> BpmWorkers { get; set; }
@@ -26,6 +26,7 @@ namespace Erp.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {             
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Organization>().HasIndex(org => org.Name).IsUnique();
             modelBuilder.Entity<UserHasEmail>().HasKey(sc => new { sc.EmailId, sc.EmailTypeId, sc.ApplicationUserId });
             modelBuilder.Entity<NotificationApplicationUser>().HasKey(sc => new { sc.NotificationId, sc.ApplicationUserId });
         }

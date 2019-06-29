@@ -5,19 +5,19 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema Phyzia
+-- Schema phyzia
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema Phyzia
+-- Schema phyzia
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `Phyzia` DEFAULT CHARACTER SET utf8 ;
-USE `Phyzia` ;
+CREATE SCHEMA IF NOT EXISTS `phyzia` DEFAULT CHARACTER SET utf8 ;
+USE `phyzia` ;
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`Employee`
+-- Table `phyzia`.`Employee`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`Employee` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`Employee` (
   `Employee_ID` VARCHAR(50) NOT NULL,
   `Employee_Name` VARCHAR(45) NULL,
   `Employee_Phone_Number` DECIMAL NULL,
@@ -34,9 +34,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`Customer`
+-- Table `phyzia`.`Customer`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`Customer` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`Customer` (
   `Customer_ID` VARCHAR(45) NOT NULL,
   `Customer_Name` VARCHAR(45) NULL,
   `Customer_Phone_Number` DECIMAL NULL,
@@ -53,9 +53,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`Opportunities`
+-- Table `phyzia`.`Opportunities`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`Opportunities` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`Opportunities` (
   `Opportunity_ID` VARCHAR(45) NOT NULL,
   `Opportunity_Status` INT NULL,
   `Opportunity_Expected_Revenue` DECIMAL NULL,
@@ -70,21 +70,21 @@ CREATE TABLE IF NOT EXISTS `Phyzia`.`Opportunities` (
   INDEX `fk_opportunities_Employee1_idx` (`Employee_Employee_ID` ASC) VISIBLE,
   CONSTRAINT `fk_opportunities_Customer1`
     FOREIGN KEY (`Customer_Customer_ID`)
-    REFERENCES `Phyzia`.`Customer` (`Customer_ID`)
+    REFERENCES `phyzia`.`Customer` (`Customer_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_opportunities_Employee1`
     FOREIGN KEY (`Employee_Employee_ID`)
-    REFERENCES `Phyzia`.`Employee` (`Employee_ID`)
+    REFERENCES `phyzia`.`Employee` (`Employee_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`Customer_Address`
+-- Table `phyzia`.`Customer_Address`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`Customer_Address` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`Customer_Address` (
   `Address_ID` VARCHAR(45) NOT NULL,
   `City` VARCHAR(45) NULL,
   `Governate` VARCHAR(45) NULL,
@@ -95,16 +95,16 @@ CREATE TABLE IF NOT EXISTS `Phyzia`.`Customer_Address` (
   INDEX `fk_Address_Customer1_idx` (`Customer_Customer_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Address_Customer1`
     FOREIGN KEY (`Customer_Customer_ID`)
-    REFERENCES `Phyzia`.`Customer` (`Customer_ID`)
+    REFERENCES `phyzia`.`Customer` (`Customer_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`Supplier`
+-- Table `phyzia`.`Supplier`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`Supplier` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`Supplier` (
   `Supplier_ID` VARCHAR(45) NOT NULL,
   `Supplier_Name` VARCHAR(45) NULL,
   `Supplier_Phone_Number` DECIMAL NULL,
@@ -114,9 +114,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`Product`
+-- Table `phyzia`.`Product`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`Product` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`Product` (
   `Product_ID` VARCHAR(45) NOT NULL,
   `Product_Name` VARCHAR(45) NULL,
   `Product_Description` VARCHAR(200) NULL,
@@ -132,9 +132,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`Shipment`
+-- Table `phyzia`.`Shipment`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`Shipment` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`Shipment` (
   `Shipment_ID` VARCHAR(45) NOT NULL,
   `Shipment_Method` VARCHAR(45) NULL,
   `Shipment_Start` DATETIME NULL,
@@ -144,9 +144,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`Payment`
+-- Table `phyzia`.`Payment`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`Payment` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`Payment` (
   `Payment_ID` VARCHAR(45) NOT NULL,
   `Payment_Method` VARCHAR(45) NULL,
   `Payment_Date` DATETIME NULL,
@@ -156,9 +156,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`Category`
+-- Table `phyzia`.`Category`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`Category` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`Category` (
   `Category_ID` VARCHAR(45) NOT NULL,
   `Category_Name` VARCHAR(45) NULL,
   `Category_Description` VARCHAR(200) NULL,
@@ -167,9 +167,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`Product_has_Supplier`
+-- Table `phyzia`.`Product_has_Supplier`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`Product_has_Supplier` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`Product_has_Supplier` (
   `Product_Product_ID` VARCHAR(45) NOT NULL,
   `Supplier_Supplier_ID` VARCHAR(45) NOT NULL,
   `Units_Supplied` INT NULL,
@@ -180,21 +180,21 @@ CREATE TABLE IF NOT EXISTS `Phyzia`.`Product_has_Supplier` (
   INDEX `fk_Product_has_Supplier1_Product1_idx` (`Product_Product_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Product_has_Supplier1_Product1`
     FOREIGN KEY (`Product_Product_ID`)
-    REFERENCES `Phyzia`.`Product` (`Product_ID`)
+    REFERENCES `phyzia`.`Product` (`Product_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Product_has_Supplier1_Supplier1`
     FOREIGN KEY (`Supplier_Supplier_ID`)
-    REFERENCES `Phyzia`.`Supplier` (`Supplier_ID`)
+    REFERENCES `phyzia`.`Supplier` (`Supplier_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`Product_has_Category`
+-- Table `phyzia`.`Product_has_Category`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`Product_has_Category` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`Product_has_Category` (
   `Product_Product_ID` VARCHAR(45) NOT NULL,
   `Category_Category_ID` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`Product_Product_ID`, `Category_Category_ID`),
@@ -202,21 +202,21 @@ CREATE TABLE IF NOT EXISTS `Phyzia`.`Product_has_Category` (
   INDEX `fk_Product_has_Category1_Product1_idx` (`Product_Product_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Product_has_Category1_Product1`
     FOREIGN KEY (`Product_Product_ID`)
-    REFERENCES `Phyzia`.`Product` (`Product_ID`)
+    REFERENCES `phyzia`.`Product` (`Product_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Product_has_Category1_Category1`
     FOREIGN KEY (`Category_Category_ID`)
-    REFERENCES `Phyzia`.`Category` (`Category_ID`)
+    REFERENCES `phyzia`.`Category` (`Category_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`Account`
+-- Table `phyzia`.`Account`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`Account` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`Account` (
   `Account_ID` VARCHAR(45) NOT NULL,
   `Account_Money` DOUBLE NULL,
   `Account_Creation_Date` DATETIME NULL,
@@ -226,16 +226,16 @@ CREATE TABLE IF NOT EXISTS `Phyzia`.`Account` (
   INDEX `fk_Account_Customer1_idx` (`Customer_Customer_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Account_Customer1`
     FOREIGN KEY (`Customer_Customer_ID`)
-    REFERENCES `Phyzia`.`Customer` (`Customer_ID`)
+    REFERENCES `phyzia`.`Customer` (`Customer_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`Product_has_Supplier`
+-- Table `phyzia`.`Product_has_Supplier`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`Product_has_Supplier` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`Product_has_Supplier` (
   `Product_Product_ID` VARCHAR(45) NOT NULL,
   `Supplier_Supplier_ID` VARCHAR(45) NOT NULL,
   `Units_Supplied` INT NULL,
@@ -246,21 +246,21 @@ CREATE TABLE IF NOT EXISTS `Phyzia`.`Product_has_Supplier` (
   INDEX `fk_Product_has_Supplier1_Product1_idx` (`Product_Product_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Product_has_Supplier1_Product1`
     FOREIGN KEY (`Product_Product_ID`)
-    REFERENCES `Phyzia`.`Product` (`Product_ID`)
+    REFERENCES `phyzia`.`Product` (`Product_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Product_has_Supplier1_Supplier1`
     FOREIGN KEY (`Supplier_Supplier_ID`)
-    REFERENCES `Phyzia`.`Supplier` (`Supplier_ID`)
+    REFERENCES `phyzia`.`Supplier` (`Supplier_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`Product_has_Category`
+-- Table `phyzia`.`Product_has_Category`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`Product_has_Category` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`Product_has_Category` (
   `Product_Product_ID` VARCHAR(45) NOT NULL,
   `Category_Category_ID` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`Product_Product_ID`, `Category_Category_ID`),
@@ -268,37 +268,37 @@ CREATE TABLE IF NOT EXISTS `Phyzia`.`Product_has_Category` (
   INDEX `fk_Product_has_Category1_Product1_idx` (`Product_Product_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Product_has_Category1_Product1`
     FOREIGN KEY (`Product_Product_ID`)
-    REFERENCES `Phyzia`.`Product` (`Product_ID`)
+    REFERENCES `phyzia`.`Product` (`Product_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Product_has_Category1_Category1`
     FOREIGN KEY (`Category_Category_ID`)
-    REFERENCES `Phyzia`.`Category` (`Category_ID`)
+    REFERENCES `phyzia`.`Category` (`Category_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`Interest`
+-- Table `phyzia`.`Interest`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`Interest` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`Interest` (
   `Interest_ID` INT NOT NULL,
   `Category_Category_ID` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`Interest_ID`, `Category_Category_ID`),
   INDEX `fk_Interest_Category1_idx` (`Category_Category_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Interest_Category1`
     FOREIGN KEY (`Category_Category_ID`)
-    REFERENCES `Phyzia`.`Category` (`Category_ID`)
+    REFERENCES `phyzia`.`Category` (`Category_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`Customer_Interest`
+-- Table `phyzia`.`Customer_Interest`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`Customer_Interest` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`Customer_Interest` (
   `Level` INT NULL,
   `Customer_Customer_ID` VARCHAR(45) NOT NULL,
   `Interest_Interest_ID` INT NOT NULL,
@@ -306,21 +306,21 @@ CREATE TABLE IF NOT EXISTS `Phyzia`.`Customer_Interest` (
   PRIMARY KEY (`Interest_Interest_ID`, `Customer_Customer_ID`),
   CONSTRAINT `fk_Customer_Interest_Customer1`
     FOREIGN KEY (`Customer_Customer_ID`)
-    REFERENCES `Phyzia`.`Customer` (`Customer_ID`)
+    REFERENCES `phyzia`.`Customer` (`Customer_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Customer_Interest_Interest1`
     FOREIGN KEY (`Interest_Interest_ID`)
-    REFERENCES `Phyzia`.`Interest` (`Interest_ID`)
+    REFERENCES `phyzia`.`Interest` (`Interest_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`Opportunity_Product`
+-- Table `phyzia`.`Opportunity_Product`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`Opportunity_Product` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`Opportunity_Product` (
   `Opportunities_Opportunity_ID` VARCHAR(45) NOT NULL,
   `Product_Product_ID` VARCHAR(45) NOT NULL,
   `Units` INT NULL,
@@ -328,21 +328,21 @@ CREATE TABLE IF NOT EXISTS `Phyzia`.`Opportunity_Product` (
   INDEX `fk_Opportunity_Product_Product1_idx` (`Product_Product_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Opportunity_Product_Opportunities1`
     FOREIGN KEY (`Opportunities_Opportunity_ID`)
-    REFERENCES `Phyzia`.`Opportunities` (`Opportunity_ID`)
+    REFERENCES `phyzia`.`Opportunities` (`Opportunity_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Opportunity_Product_Product1`
     FOREIGN KEY (`Product_Product_ID`)
-    REFERENCES `Phyzia`.`Product` (`Product_ID`)
+    REFERENCES `phyzia`.`Product` (`Product_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`order_table`
+-- Table `phyzia`.`order_table`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`order_table` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`order_table` (
   `Order_ID` VARCHAR(45) NOT NULL,
   `incoming` INT NULL,
   `outgoing` INT NULL,
@@ -361,31 +361,31 @@ CREATE TABLE IF NOT EXISTS `Phyzia`.`order_table` (
   INDEX `fk_order_table_Supplier1_idx` (`Supplier_Supplier_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Order_Payment1`
     FOREIGN KEY (`Payment_Payment_ID`)
-    REFERENCES `Phyzia`.`Payment` (`Payment_ID`)
+    REFERENCES `phyzia`.`Payment` (`Payment_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Order_Customer1`
     FOREIGN KEY (`Customer_Customer_ID`)
-    REFERENCES `Phyzia`.`Customer` (`Customer_ID`)
+    REFERENCES `phyzia`.`Customer` (`Customer_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Order_Shipment1`
     FOREIGN KEY (`Shipment_Shipment_ID`)
-    REFERENCES `Phyzia`.`Shipment` (`Shipment_ID`)
+    REFERENCES `phyzia`.`Shipment` (`Shipment_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_order_table_Supplier1`
     FOREIGN KEY (`Supplier_Supplier_ID`)
-    REFERENCES `Phyzia`.`Supplier` (`Supplier_ID`)
+    REFERENCES `phyzia`.`Supplier` (`Supplier_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`Order_has_Product`
+-- Table `phyzia`.`Order_has_Product`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`Order_has_Product` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`Order_has_Product` (
   `Order_Order_ID` VARCHAR(45) NOT NULL,
   `Product_Product_ID` VARCHAR(45) NOT NULL,
   `Units_In_Order` INT NULL,
@@ -395,21 +395,21 @@ CREATE TABLE IF NOT EXISTS `Phyzia`.`Order_has_Product` (
   INDEX `fk_Order_has_Product1_Order1_idx` (`Order_Order_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Order_has_Product1_Order1`
     FOREIGN KEY (`Order_Order_ID`)
-    REFERENCES `Phyzia`.`order_table` (`Order_ID`)
+    REFERENCES `phyzia`.`order_table` (`Order_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Order_has_Product1_Product1`
     FOREIGN KEY (`Product_Product_ID`)
-    REFERENCES `Phyzia`.`Product` (`Product_ID`)
+    REFERENCES `phyzia`.`Product` (`Product_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`Inventory`
+-- Table `phyzia`.`Inventory`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`Inventory` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`Inventory` (
   `Inventory_ID` VARCHAR(45) NOT NULL,
   `Governorate` VARCHAR(20) NULL,
   `City` VARCHAR(20) NULL,
@@ -422,9 +422,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`Inventory_has_Product`
+-- Table `phyzia`.`Inventory_has_Product`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`Inventory_has_Product` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`Inventory_has_Product` (
   `Inventory_Inventory_ID` VARCHAR(45) NOT NULL,
   `Product_Product_ID` VARCHAR(45) NOT NULL,
   `position` VARCHAR(45) NULL,
@@ -434,21 +434,21 @@ CREATE TABLE IF NOT EXISTS `Phyzia`.`Inventory_has_Product` (
   INDEX `fk_Inventory_has_Product_Inventory1_idx` (`Inventory_Inventory_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Inventory_has_Product_Inventory1`
     FOREIGN KEY (`Inventory_Inventory_ID`)
-    REFERENCES `Phyzia`.`Inventory` (`Inventory_ID`)
+    REFERENCES `phyzia`.`Inventory` (`Inventory_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Inventory_has_Product_Product1`
     FOREIGN KEY (`Product_Product_ID`)
-    REFERENCES `Phyzia`.`Product` (`Product_ID`)
+    REFERENCES `phyzia`.`Product` (`Product_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`Employee_Address`
+-- Table `phyzia`.`Employee_Address`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`Employee_Address` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`Employee_Address` (
   `Address_ID` VARCHAR(45) NOT NULL,
   `City` VARCHAR(45) NULL,
   `Governate` VARCHAR(45) NULL,
@@ -459,16 +459,16 @@ CREATE TABLE IF NOT EXISTS `Phyzia`.`Employee_Address` (
   INDEX `fk_Employee_Address_Employee1_idx` (`Employee_Employee_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Employee_Address_Employee1`
     FOREIGN KEY (`Employee_Employee_ID`)
-    REFERENCES `Phyzia`.`Employee` (`Employee_ID`)
+    REFERENCES `phyzia`.`Employee` (`Employee_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`Supplier_Address`
+-- Table `phyzia`.`Supplier_Address`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`Supplier_Address` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`Supplier_Address` (
   `Address_ID` VARCHAR(45) NOT NULL,
   `City` VARCHAR(45) NULL,
   `Governate` VARCHAR(45) NULL,
@@ -479,16 +479,16 @@ CREATE TABLE IF NOT EXISTS `Phyzia`.`Supplier_Address` (
   INDEX `fk_Inventory_Address_Supplier1_idx` (`Supplier_Supplier_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Inventory_Address_Supplier1`
     FOREIGN KEY (`Supplier_Supplier_ID`)
-    REFERENCES `Phyzia`.`Supplier` (`Supplier_ID`)
+    REFERENCES `phyzia`.`Supplier` (`Supplier_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`BillMaterials`
+-- Table `phyzia`.`BillMaterials`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`BillMaterials` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`BillMaterials` (
   `BillMaterials_ID` VARCHAR(45) NOT NULL,
   `Component_Name` INT NULL,
   `Valid_From` DATETIME NULL,
@@ -499,9 +499,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`Inventory_has_BillMaterials`
+-- Table `phyzia`.`Inventory_has_BillMaterials`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`Inventory_has_BillMaterials` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`Inventory_has_BillMaterials` (
   `Inventory_ID` VARCHAR(45) NOT NULL,
   `BillMaterials_ID` VARCHAR(45) NOT NULL,
   `position` VARCHAR(45) NULL,
@@ -511,21 +511,21 @@ CREATE TABLE IF NOT EXISTS `Phyzia`.`Inventory_has_BillMaterials` (
   INDEX `FK_Inventory_ID` (`Inventory_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Inventory_has_BillMaterials_Inventory`
     FOREIGN KEY (`Inventory_ID`)
-    REFERENCES `Phyzia`.`Inventory` (`Inventory_ID`)
+    REFERENCES `phyzia`.`Inventory` (`Inventory_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Inventory_has_BillMaterials_BillMaterials`
     FOREIGN KEY (`BillMaterials_ID`)
-    REFERENCES `Phyzia`.`BillMaterials` (`BillMaterials_ID`)
+    REFERENCES `phyzia`.`BillMaterials` (`BillMaterials_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`Product_has_BillMaterials`
+-- Table `phyzia`.`Product_has_BillMaterials`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`Product_has_BillMaterials` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`Product_has_BillMaterials` (
   `Product_ID` VARCHAR(45) NOT NULL,
   `BillMaterials_ID` VARCHAR(45) NOT NULL,
   `Component_Name` VARCHAR(45) NULL,
@@ -535,21 +535,21 @@ CREATE TABLE IF NOT EXISTS `Phyzia`.`Product_has_BillMaterials` (
   INDEX `FK_Product_ID` (`Product_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Product_has_BillMaterialst_Product`
     FOREIGN KEY (`Product_ID`)
-    REFERENCES `Phyzia`.`Product` (`Product_ID`)
+    REFERENCES `phyzia`.`Product` (`Product_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Product_has_BillMaterialst_BillMaterials`
     FOREIGN KEY (`BillMaterials_ID`)
-    REFERENCES `Phyzia`.`BillMaterials` (`BillMaterials_ID`)
+    REFERENCES `phyzia`.`BillMaterials` (`BillMaterials_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`ManufacturingOrder`
+-- Table `phyzia`.`ManufacturingOrder`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`ManufacturingOrder` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`ManufacturingOrder` (
   `ManufacturingOrder_ID` VARCHAR(45) NOT NULL,
   `Start` DATETIME NULL,
   `End` DATETIME NULL,
@@ -562,9 +562,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Phyzia`.`ManufacturingOrder_has_Materials`
+-- Table `phyzia`.`ManufacturingOrder_has_Materials`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Phyzia`.`ManufacturingOrder_has_Materials` (
+CREATE TABLE IF NOT EXISTS `phyzia`.`ManufacturingOrder_has_Materials` (
   `ManufacturingOrder_ID` VARCHAR(45) NOT NULL,
   `Product_ID` VARCHAR(45) NOT NULL,
   `Units_In_order` INT NULL,
@@ -575,12 +575,12 @@ CREATE TABLE IF NOT EXISTS `Phyzia`.`ManufacturingOrder_has_Materials` (
   INDEX `FK_ManufacturingOrder_ID` (`ManufacturingOrder_ID` ASC) VISIBLE,
   CONSTRAINT `ManufacturingOrder_has_Materials-Manufacturing`
     FOREIGN KEY (`ManufacturingOrder_ID`)
-    REFERENCES `Phyzia`.`ManufacturingOrder` (`ManufacturingOrder_ID`)
+    REFERENCES `phyzia`.`ManufacturingOrder` (`ManufacturingOrder_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `ManufacturingOrder_has_Materials-Product`
     FOREIGN KEY (`Product_ID`)
-    REFERENCES `Phyzia`.`Product` (`Product_ID`)
+    REFERENCES `phyzia`.`Product` (`Product_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

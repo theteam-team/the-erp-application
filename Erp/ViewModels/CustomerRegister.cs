@@ -7,14 +7,25 @@ using System.Threading.Tasks;
 
 namespace Erp.ViewModels
 {
-    public class LoginModel
+    public class CustomerRegister
     {
+        public string name { get; set; }
         [Required]
         public string UserName { get; set; }
         [Required]
         public string Password { get; set; }
         [Required]
-        public string DatabaseName { get; set; }
-        public bool RememberMe { get; set; }
+        public string Email { get; set; }
+
+        public uint phoneNumber{ get; set; }
+
+        public string DateOfBirth;
+
+        public string gender;
+
+     
+      
+      
+        
     }
 }

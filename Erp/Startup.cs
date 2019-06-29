@@ -21,7 +21,6 @@ using Microsoft.Extensions.Logging.Console;
 using Erp.Repository;
 using Erp.Data.Entities;
 using Erp.Database_Builder;
-using Microsoft.AspNetCore.Http;
 using Erp.Microservices;
 
 namespace Erp
@@ -67,6 +66,7 @@ namespace Erp
             services.AddTransient<INodeLangRepository, NodeLangRepository>();
             services.AddSignalR();           
             services.AddTransient<ICustomerRepository, CustomerRepository>();
+            services.AddTransient<IOrganizationRepository, OrganizationRepository>();
             services.AddTransient<IUserTaskRepository, UserTaskRepository>();
             services.AddTransient<IBmpParmRepo, BmpParmRepo>();
             services.AddTransient<IProcRequestRepo, ProcRequestRepo>();
@@ -128,7 +128,7 @@ namespace Erp
             {
                 options.AddPolicy("CreateUsers", policy => policy.RequireRole("Adminstrator"));
             });
-            //add the session services to enable the store of the user data in memory beyond the http request life span
+            //add the session services to enable the store of the user data in memory beyond the http request life time span
             services.AddSession();
             services.AddDistributedMemoryCache();
             

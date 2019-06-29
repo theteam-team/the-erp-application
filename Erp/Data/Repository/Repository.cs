@@ -21,20 +21,20 @@ namespace Erp.Repository
 {
     public class Repository<T, C> : IRepository<T, C> where T : class where C : DbContext
     {
-        private AccountDbContext _accountdbContext;
-        private readonly UserManager<ApplicationUser> _usermanager;
-        private readonly DataDbContext _datadbContext;
-        private Management _managment;
+        protected AccountDbContext _accountdbContext;
+        protected readonly UserManager<ApplicationUser> _usermanager;
+        protected readonly DataDbContext _datadbContext;
+        protected Management _managment;
         protected ConnectionString _ConnectionString;
-        private IConfiguration _config;
-        private IHttpContextAccessor _httpContextAccessor;
-        private IConfiguration config;
-        private ILogger<InventoryRepository> ilogger;
-        private IHttpContextAccessor httpContextAccessor;
-        private Management management;
-        private DataDbContext datadbContext;
-        private AccountDbContext accountDbContext;
-        private UserManager<ApplicationUser> userManager;
+        protected IConfiguration _config;
+        protected IHttpContextAccessor _httpContextAccessor;
+        protected IConfiguration config;
+        protected ILogger<InventoryRepository> ilogger;
+     
+      
+      
+       
+     
 
         public ClaimsPrincipal User { get; set; }
 
@@ -57,7 +57,7 @@ namespace Erp.Repository
                 
                 if (User.Identity.IsAuthenticated)
                 {
-                    string databaseName = identity.FindFirst("database").Value;
+                    string databaseName = identity.FindFirst("organization").Value;
                     User = httpContextAccessor.HttpContext.User;
                     setConnectionString(databaseName);
                 }
@@ -67,7 +67,7 @@ namespace Erp.Repository
 
         
 
-        public  void setConnectionString(string databaseName)
+        public  void setConnectionString(string OrganizationName)
         {
             
             _ConnectionString = new ConnectionString()
@@ -76,7 +76,7 @@ namespace Erp.Repository
                 USER = _config["MySqlC++:user"],
                 PORT = _config["MySqlC++:port"],
                 PASSWORD = _config["MySqlC++:password"],
-                DATABASE = databaseName,
+                DATABASE = OrganizationName,
             };
             
         }
@@ -197,8 +197,7 @@ namespace Erp.Repository
                     status = Warehouse_Wrapper.getOrderInfo(id, out orderPtr, error, _ConnectionString);
                     order = (Order)Marshal.PtrToStructure(orderPtr, typeof(Order));
                     Marshal.FreeCoTaskMem(orderPtr);
-                });
-                Console.WriteLine("status = " + status);
+                });             
                 return (T)(object)order;
             }
 
@@ -214,7 +213,6 @@ namespace Erp.Repository
                     product = (Product)Marshal.PtrToStructure(prodductPtr, typeof(Product));
                     Marshal.FreeCoTaskMem(prodductPtr);
                 });
-                Console.WriteLine("status = " + status);
                 return (T)(object)product;
             }
             return null;
@@ -291,15 +289,6 @@ namespace Erp.Repository
         }
 
 
-        /*public virtual async Task Create(T entity)
-        {
-
-            if (typeof(C) == (typeof(AccountDbContext)))
-            {
-                _accountdbContext.Add(entity);
-                _accountdbContext.SaveChanges();
-            }
-        }*/
 
         public async Task<List<T>> GetAll()
         {
