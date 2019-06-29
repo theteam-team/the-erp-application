@@ -1438,8 +1438,8 @@ extern "C"	ERP_API int showAvailableProducts(Product** product, char* error, Con
 
 		mysql_free_result(res);
 
-		qstate = mysql_query(conn, "select Product_Product_ID from product_has_category where Category_Category_ID = '1'");
-
+		qstate = mysql_query(conn, "select Product_ID, Product_Name, Product_Description, Product_Price, Product_Weight, length, width, height, Units_In_Stock from product inner join product_has_category on product.Product_ID = product_has_category.Product_Product_ID and product_has_category.Category_Category_ID = '1'");
+		
 		if (checkQuery(qstate, error)) {
 
 			res = mysql_store_result(conn);
@@ -1454,24 +1454,15 @@ extern "C"	ERP_API int showAvailableProducts(Product** product, char* error, Con
 
 				while (row = mysql_fetch_row(res)) {
 
-					mysql_free_result(tempRes);
-
-					string query = (string)"select * from product where Product_ID = '" + row[0] + "'";
-					const char* q = query.c_str();
-					qstate = mysql_query(conn, q);
-
-					tempRes = mysql_store_result(conn);
-					tempRow = mysql_fetch_row(tempRes);
-
 					_product->id = row[0];
-					tempRow[1] ? _product->name = tempRow[1] : _product->name = nullptr;
-					tempRow[2] ? _product->description = tempRow[2] : _product->description = nullptr;
-					tempRow[3] ? _product->price = stod(tempRow[3]) : _product->price = 0;
-					tempRow[4] ? _product->weight = stod(tempRow[4]) : _product->weight = 0;
-					tempRow[5] ? _product->length = stod(tempRow[5]) : _product->length = 0;
-					tempRow[6] ? _product->width = stod(tempRow[6]) : _product->width = 0;
-					tempRow[7] ? _product->height = stod(tempRow[7]) : _product->height = 0;
-					tempRow[8] ? _product->unitsInStock = stoi(tempRow[8]) : _product->unitsInStock = 0;
+					row[1] ? _product->name = row[1] : _product->name = nullptr;
+					row[2] ? _product->description = row[2] : _product->description = nullptr;
+					row[3] ? _product->price = stod(row[3]) : _product->price = 0;
+					row[4] ? _product->weight = stod(row[4]) : _product->weight = 0;
+					row[5] ? _product->length = stod(row[5]) : _product->length = 0;
+					row[6] ? _product->width = stod(row[6]) : _product->width = 0;
+					row[7] ? _product->height = stod(row[7]) : _product->height = 0;
+					row[8] ? _product->unitsInStock = stoi(row[8]) : _product->unitsInStock = 0;
 
 					_product->sold = 1;
 					_product->purchased = 0;
