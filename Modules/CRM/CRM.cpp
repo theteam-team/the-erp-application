@@ -35,8 +35,18 @@ extern "C"	ERP_API int AddCustomer(Customer* customer, char* error, ConnectionSt
 
 	db_response::ConnectionFunction(error, con);
 	if (conn) {
-		puts("Successful connection to database!");
-		puts(customer->customer_id);
+		
+		cout << customer->customer_id<<endl;
+		cout << customer->name << endl;
+		cout << customer->phone_number<<endl;
+		cout << customer->email << endl;
+		cout << customer->dateOfBirth << endl;
+		//cout << customer->gender<< endl;
+		cout << customer->loyality_points<< endl;
+		cout << customer->type<< endl;
+		cout << customer->company<< endl;
+		cout << customer->company_email<< endl;
+		cout << customer->is_lead<< endl;
 		string query = "INSERT INTO Customer VALUES";
 		query += "('";
 		query += customer->customer_id;

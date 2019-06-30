@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 using Erp.Interfaces;
 using Erp.Data;
 using Erp.Data.Entities;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Erp.Hubs
 {
+    [Authorize]
     public class NotificationHub : Hub
     {
         private readonly Management _management;
@@ -25,11 +28,15 @@ namespace Erp.Hubs
             
             await Clients.User(userId).SendAsync("receiveNotification", notification);
         }
+        public async Task sendUserTask(string userId ,UserTask userTask)
+        {
+            
+            await Clients.User(userId).SendAsync("recieveUserTask", userTask);
+        }
 
         public async Task notificationResponse(long notificationId, string response)
         {
             List<Task> tasks = new List<Task>();
-            //Console.WriteLine(notificationId + " " + response);
             List<string> users = await _notificationUserRepository.GetUsersInNotification(notificationId);
             
             tasks.Add( _notificationUserRepository.RespondToNotification(notificationId, response));
@@ -42,10 +49,15 @@ namespace Erp.Hubs
 
         }
 
+        public async Task removeUserTask(string UserTaskid)
+        {
+            string userId = ((ClaimsIdentity)Context.User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
+            await Clients.User(userId).SendAsync("removeNotification", UserTaskid);
+        }
+
         public async Task AddToGroupRole()
         {
             IList<string> userRole = await _management.GetUserRoleAsync(Context.User);
-
             foreach (var el in userRole)
             {
                 await Groups.AddToGroupAsync(Context.ConnectionId, el);
@@ -54,6 +66,7 @@ namespace Erp.Hubs
         }
         public async Task AddToGroup(string groupName)
         { 
+           
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
         }
 

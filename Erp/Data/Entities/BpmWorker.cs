@@ -11,7 +11,7 @@ namespace Erp.Data.Entities
     {
         [Key]
         public string Id { get; set; }
-        public string WorkflowName { get; set; }
+        public string workflowName { get; set; }
         public string instanceID { get; set; }
         public string taskID { get; set; }
     }

@@ -10,9 +10,9 @@ namespace Erp.BackgroundServices
 {
     public class TaskResponseQueue
     {
-        private ConcurrentQueue<BpmResponse> _workItems = new ConcurrentQueue<BpmResponse>();
+        private ConcurrentQueue<ServiceResponse> _workItems = new ConcurrentQueue<ServiceResponse>();
         private SemaphoreSlim _signal = new SemaphoreSlim(0);
-        public void QueueExection(BpmResponse workItem)
+        public void QueueExection(ServiceResponse workItem)
         {
             if (workItem == null)
             {
@@ -23,7 +23,7 @@ namespace Erp.BackgroundServices
             _signal.Release();
         }
 
-        public async Task<BpmResponse> DequeueAsync(CancellationToken cancellationToken)
+        public async Task<ServiceResponse> DequeueAsync(CancellationToken cancellationToken)
         {
             await _signal.WaitAsync(cancellationToken);
             _workItems.TryDequeue(out var workItem);

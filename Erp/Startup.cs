@@ -58,6 +58,7 @@ namespace Erp
             //services.AddHostedService<SystemBackgroundService>();
             //services.AddHostedService<TimedService>();
             services.AddHostedService<SchemaBuilder>();
+            services.AddHostedService<BpmPollingService>();
             services.AddHostedService<TaskExecutionEngine>();
             services.AddHostedService<TaskResponseEngine>();
             services.AddHttpContextAccessor();
@@ -89,7 +90,7 @@ namespace Erp
             services.AddTransient<IReportRepository, ReportRepository>();
             services.AddTransient<IProductMovesRepository, ProductMovesRepository>();
             services.AddDbContext<AccountDbContext>(options =>
-                //options.UseLoggerFactory(MyLoggerFactory),
+              
                 options.UseSqlServer(_config.GetConnectionString("DefaultConnection")));
             services.AddDbContext<DataDbContext>();
             services.AddIdentity<ApplicationUser, ApplicationRole>(
@@ -106,13 +107,7 @@ namespace Erp
                     .AddDefaultTokenProviders();
             services.AddSingleton<IServiceCollection, ServiceCollection>();
             services.AddAuthentication()
-                     .AddCookie("CustomerSchema", o => // scheme1
-                     {
-                         o.ExpireTimeSpan = TimeSpan.FromHours(1);
-                         o.LoginPath = new PathString("/store/{OrganizationName}");
-                         o.Cookie.Name = "CustomerCookie";
-                         o.SlidingExpiration = true;
-                     })
+                    
                     .AddJwtBearer(cfg => 
                         {
                             cfg.SaveToken = true;

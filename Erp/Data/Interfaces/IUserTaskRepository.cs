@@ -13,5 +13,6 @@ namespace Erp.Interfaces
     {
         Task AssigneUserTask(UserTask ob);
         Task<string> GetNonBusyUser(string RoleId);
+        Task<List<UserTask>> GetAssignedUserTask(string userId);
     }
 }

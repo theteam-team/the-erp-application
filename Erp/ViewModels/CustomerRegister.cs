@@ -18,8 +18,9 @@ namespace Erp.ViewModels
         public string Email { get; set; }
 
         public uint phoneNumber{ get; set; }
-
-        public string DateOfBirth;
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
+        public string DateOfBirth { get; set; }
 
         public string gender;
 

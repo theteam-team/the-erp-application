@@ -42,14 +42,15 @@ namespace Erp.Controllers
             var bpmWorker = new BpmWorker
             {
                 instanceID = bpmTask.instanceID,
-                WorkflowName = bpmTask.WorkflowName,
+                workflowName = bpmTask.workflowName,
                 taskID = bpmTask.taskID
             };
             _accountDbContext.BpmWorkers.Add(bpmWorker);
             _accountDbContext.SaveChanges();
             bpmTask.InvokerId = bpmWorker.Id;
 
-            bpmTask.databaseName = ((ClaimsIdentity)HttpContext.User.Identity).FindFirst("database").Value;
+            bpmTask.databaseName = ((ClaimsIdentity)HttpContext.User.Identity).FindFirst("organization").Value;
+            bpmTask.IsBpm = true;
             _exectionQueue.QueueExection(bpmTask);
             return Ok();
         }
