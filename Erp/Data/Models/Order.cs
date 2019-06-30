@@ -18,10 +18,10 @@ namespace Erp.Models
         public string requiredDate;
         public string completedDate;
         public string orderStatus;
+        public double totalPrice;
         public string customerID;
         public string supplierID;
         public string paymentID;
-        public double totalPrice;
         public string shipmentID;
     }
 }

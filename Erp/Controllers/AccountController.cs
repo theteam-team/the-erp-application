@@ -129,7 +129,7 @@ namespace Erp.Controllers
                     
                 };
 
-                _databaseBuilder.createModulesDatabase(registerModel.DatabaseName);
+                //_databaseBuilder.createModulesDatabase(registerModel.DatabaseName);
 
                 _authenticationProvider.AddScheme(new AuthenticationScheme(registerModel.DatabaseName, registerModel.DatabaseName, typeof(CookieAuthenticationHandler)));
 

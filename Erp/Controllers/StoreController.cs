@@ -28,7 +28,8 @@ namespace Erp.Controllers
         private IProductRepository _productRepository;
         private ICustomerRepository _customerRepository;
         private IOrganizationRepository _organizationRepository;
-       
+        private IOrderRepository _orderRepository;
+        private IOrderProductRepository _orderProductRepository;
         private IConfiguration _config;
         private Management _management; 
         private ILogger<ApplicationUser> muserLogger;
@@ -36,7 +37,7 @@ namespace Erp.Controllers
         private AccountDbContext mContext;  
         private UserManager<ApplicationUser> _userManager;  
         private SignInManager<ApplicationUser> _signInManager; 
-        public StoreController(IAuthenticationService authorizationService, IProductRepository productRepository,ICustomerRepository customerRepository ,IOrganizationRepository organizationRepository, AccountDbContext context, DataDbContext dataDbContext,
+        public StoreController(IAuthenticationService authorizationService, IProductRepository productRepository,ICustomerRepository customerRepository ,IOrganizationRepository organizationRepository, IOrderRepository orderRepository, IOrderProductRepository orderProductRepository, AccountDbContext context, DataDbContext dataDbContext,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<ApplicationUser> userlogger, Management management, IConfiguration config)
@@ -45,7 +46,9 @@ namespace Erp.Controllers
             //AuthSchemes = (string)RouteData.Values["OrganizationName"];
             _productRepository = productRepository;
             _customerRepository = customerRepository;
-            _organizationRepository = organizationRepository;         
+            _organizationRepository = organizationRepository;
+            _orderRepository = orderRepository;
+            _orderProductRepository = orderProductRepository;
             _config = config;
             _management = management;
             muserLogger = userlogger;
@@ -53,29 +56,24 @@ namespace Erp.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
+
         [HttpGet]   
         [AllowAnonymous]
         public async Task<ActionResult> Store()
         {
             string OrganizationName = (string)RouteData.Values["OrganizationName"];
             Organization orgExist = await _organizationRepository.OraganizationExist(OrganizationName);
+
             if (orgExist != null)
             {
                 var result = await  _authorizationService.AuthenticateAsync(HttpContext, OrganizationName);          
                 ViewBag.Organization = OrganizationName;
                 HttpContext.Session.SetString(HttpContext.Session.Id, OrganizationName);
                 return View("ProductManager");
-
             }
             else
                 return NotFound("This organization does not exist");
-            
-            
-
         }
-
-
-
 
         [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginModel loginModel)
@@ -116,10 +114,8 @@ namespace Erp.Controllers
                             muserLogger.LogInformation("A user with a specifc roles : " + roles);
 
                             return LocalRedirect("~/Store/" + orgExist.Name);
-
                         }
                     }
-
                 }
                 else
                     ModelState.AddModelError("", "Wrong Entry");
@@ -173,6 +169,7 @@ namespace Erp.Controllers
                     UserName = customerRegister.UserName,
                     OrganizationId = orgExist.Id,
                 };
+
                 var result = await _userManager.CreateAsync(user, customerRegister.Password);
                 if (result.Succeeded)
                 {
@@ -204,22 +201,22 @@ namespace Erp.Controllers
                         company = "asdas",
                         company_email = "aaaa",
                         is_lead = false,
-                        
-                        
-
                     };
+
                      byte[] error = new byte[500];
                     _customerRepository.setConnectionString(OrganizationName);
                     int status = await _customerRepository.Create(Customer, error);
+
                     if (status != 0)
                     {
                         return StatusCode(500);
                     }              */    
+
                     muserLogger.LogInformation("A user with a specifc roles : " + roleCustomer + " has Been Created");
                     return LocalRedirect("~/Store/"+orgExist.Name);
-
                 }
                 var errors = result.Errors.ToList();
+
                 foreach (var el in errors)
                 {
                     ModelState.AddModelError("", el.Code);
@@ -240,6 +237,7 @@ namespace Erp.Controllers
 
             return LocalRedirect("~/Store/" + orgExist.Name);
         }
+
         [HttpGet("GetProductStore")]
         public async Task<ActionResult<List<Product>>> GetProductStore()
         {
@@ -247,29 +245,25 @@ namespace Erp.Controllers
             Organization orgExist = await _organizationRepository.OraganizationExist(OrganizationName);
             if (orgExist != null)
             {
-
                 _productRepository.setConnectionString(OrganizationName);
 
                 byte[] error = new byte[500];
-                List<Product> product = await _productRepository.GetAll(error);
+                List<Product> product = await _productRepository.ShowAvailableProducts(error);
                 string z = Encoding.ASCII.GetString(error);
                 string y = z.Remove(z.IndexOf('\0'));
                 if (y == "")
                 {
-
                     return Ok(product);
                 }
                 else
                 {
                     return BadRequest(y);
                 }
-
             }
             else
             {
                 return NotFound("This organization does not exist");
             }
-
         }
 
         [HttpGet("getUserName")]
@@ -294,7 +288,60 @@ namespace Erp.Controllers
             {
                 return NotFound("This organization does not exist");
             }
+        }
 
+        [HttpPost("AddPotentialOrder")]
+        public async Task<ActionResult<string>> AddOrderStore(Order order)
+        {
+            string OrganizationName = (string)RouteData.Values["OrganizationName"];
+            Organization orgExist = await _organizationRepository.OraganizationExist(OrganizationName);
+            if (orgExist != null)
+            {
+                _orderRepository.setConnectionString(OrganizationName);
+
+                byte[] error = new byte[500];
+                int status = await _orderRepository.AddPotentialOrder(order, error);
+                string z = System.Text.Encoding.ASCII.GetString(error);
+                if (status != 0)
+                {
+                    return BadRequest(z.Remove(z.IndexOf('\0')));
+                }
+                else
+                {
+                    return Ok("successfuly added");
+                }
+            }
+            else
+            {
+                return NotFound("This organization does not exist");
+            }
+        }
+
+        [HttpPost("AddToOrder")]
+        public async Task<ActionResult<string>> AddToOrderStore(ProductInOrder product)
+        {
+            string OrganizationName = (string)RouteData.Values["OrganizationName"];
+            Organization orgExist = await _organizationRepository.OraganizationExist(OrganizationName);
+            if (orgExist != null)
+            {
+                _orderProductRepository.setConnectionString(OrganizationName);
+
+                byte[] error = new byte[500];
+                int status = await _orderProductRepository.Create(product, error);
+                string z = System.Text.Encoding.ASCII.GetString(error);
+                if (status != 0)
+                {
+                    return BadRequest(z.Remove(z.IndexOf('\0')));
+                }
+                else
+                {
+                    return Ok("successfuly added");
+                }
+            }
+            else
+            {
+                return NotFound("This organization does not exist");
+            }
         }
     }
 }

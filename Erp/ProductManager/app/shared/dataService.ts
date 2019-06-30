@@ -18,4 +18,11 @@ export class DataService {
                 }));
     }
 
+    addOrder(order) {
+        return this.http.post("AddPotentialOrder", order).subscribe((data) => { });
+    }
+
+    addToOrder(product) {
+        return this.http.post("AddProductToOrder", product).subscribe((data) => { });
+    }
 }

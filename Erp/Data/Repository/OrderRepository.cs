@@ -234,5 +234,15 @@ namespace Erp.Repository
             return orders;
 
         }
+
+        public async Task<int> AddPotentialOrder(Order entity, byte[] error)
+        {
+            int status = 0;
+
+            Order order = (Order)(object)(entity);
+            status = await Task.Run(() => Warehouse_Wrapper.addPotentialOrder(order, error, _ConnectionString));
+
+            return status;
+        }
     }
 }

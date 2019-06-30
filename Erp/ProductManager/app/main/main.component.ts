@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import * as uuid from 'uuid';
 
 import { DataService } from 'ProductManager/app/shared/dataService';
+
 
 @Component({
   selector: 'app-main',
@@ -12,13 +14,43 @@ import { DataService } from 'ProductManager/app/shared/dataService';
 })
 export class MainComponent implements OnInit {
 
+    public today = new Date();
+    public dd = String(this.today.getDate()).padStart(2, '0');
+    public mm = String(this.today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    public yyyy = this.today.getFullYear();
+
+    public date = this.yyyy + "-" + this.mm + "-" + this.dd;
+    public customerID = uuid.v4();
     public availableProducts = [];
-    
+    public orderID = uuid.v4();
+
+    public productInOrder = {
+        "orderID": "",
+        "productID": "",
+        "unitsOrdered": 0,
+        "unitsDone": 0
+    };
+
+    public order = {
+        "id": this.orderID,
+        "incoming": 1,
+        "outgoing": 0,
+        "requiredDate": this.date,
+        "completedDate": "",
+        "orderStatus": "Waiting",
+        "totalPrice": 0,
+        "customerID": "1",
+        "supplierID": "",
+        "paymentID": "",
+        "shipmentID": ""
+    };
+
     constructor(private data: DataService, private router: Router, private location: Location) {
     }
 
     ngOnInit(): void {
         this.loadAvailableProducts();
+        //this.addOrder();
     }
 
     reloadComponent(): void {
@@ -33,5 +65,17 @@ export class MainComponent implements OnInit {
                     this.availableProducts = this.data.availableProducts;
                 }
             })
+    }
+
+    addOrder(): void {
+        this.data.addOrder(this.order);
+    }
+
+    onProductAdd(productID: string, units: number): void {
+        this.productInOrder.orderID = this.orderID;
+        this.productInOrder.productID = productID;
+        this.productInOrder.unitsOrdered = units;
+
+        this.data.addToOrder(this.productInOrder);
     }
 }

@@ -55,6 +55,7 @@ struct Order
 	char* requiredDate;
 	char* completedDate;
 	char* orderStatus;
+	double totalPrice;
 	char* customerID;
 	char* supplierID;
 	char* paymentID;

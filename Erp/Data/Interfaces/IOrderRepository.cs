@@ -20,5 +20,7 @@ namespace Erp.Interfaces
         Task<List<Order>> ShowOrdersInProgress(byte[] error);
         Task<List<Order>> ShowWaitingOrders(byte[] error);
         Task<List<Order>> ShowWaitingReceipts(byte[] error);
+
+        Task<int> AddPotentialOrder(Order entity, byte[] error);
     }
 }

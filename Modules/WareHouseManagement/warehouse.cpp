@@ -652,7 +652,24 @@ extern "C"	ERP_API int addOrder(Order* order, char* error, ConnectionString con)
 
 	if (conn) {
 
-		string query = (string) "insert into order_table values ('" + order->id + "', " + to_string(order->incoming) + ", " + to_string(order->outgoing) + ", '" + order->requiredDate + "', '" + order->completedDate + "', '" + order->orderStatus + "', '" + order->customerID + "', '" + order->supplierID + "','" + order->paymentID + "', '" + order->shipmentID + "')";
+		string query = (string) "insert into order_table values ('" + order->id + "', " + to_string(order->incoming) + ", " + to_string(order->outgoing) + ", '" + order->requiredDate + "', '" + order->completedDate + "', '" + order->orderStatus + "', " + to_string(order->totalPrice) + ", '" + order->customerID + "', '" + order->supplierID + "','" + order->paymentID + "', '" + order->shipmentID + "')";
+		cout << query << endl;
+		char const *q = query.c_str();
+		qstate = mysql_query(conn, q);
+		checkQuery(qstate, error);
+		mysql_close(conn);
+	}
+	return status;
+}
+
+extern "C"	ERP_API int addPotentialOrder(Order* order, char* error, ConnectionString con)
+{
+	status = 0;
+	db_response::ConnectionFunction(error, con);
+
+	if (conn) {
+
+		string query = (string) "insert into order_table (Order_ID, incoming, outgoing, Order_Required_Date, Order_Status, Customer_Customer_ID) values ('" + order->id + "', " + to_string(order->incoming) + ", " + to_string(order->outgoing) + ", '" + order->requiredDate + "', '" + order->orderStatus + "', '" + order->customerID + "')";
 		cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
@@ -724,7 +741,7 @@ extern "C" ERP_API int editOrder(Order* order, char* error, ConnectionString con
 	db_response::ConnectionFunction(error, con);
 
 	if (conn) {
-		string query = (string) "update order_table set incoming = " + to_string(order->incoming) + ", outgoing = " + to_string(order->outgoing) + ", Order_Required_Date = '" + order->requiredDate + "', Order_Status = '" + order->orderStatus + "', Customer_Customer_ID = '" + order->customerID + "', Supplier_Supplier_ID = " + order->supplierID + "', Payment_Payment_ID = '" + order->paymentID + "', Shipment_Shipment_ID = '" + order->shipmentID + "' where Order_ID = '" + order->id + "'";
+		string query = (string) "update order_table set incoming = " + to_string(order->incoming) + ", outgoing = " + to_string(order->outgoing) + ", Order_Required_Date = '" + order->requiredDate + "', Order_Status = '" + order->orderStatus + "', total = " + to_string(order->totalPrice) + ", Customer_Customer_ID = '" + order->customerID + "', Supplier_Supplier_ID = " + order->supplierID + "', Payment_Payment_ID = '" + order->paymentID + "', Shipment_Shipment_ID = '" + order->shipmentID + "' where Order_ID = '" + order->id + "'";
 		cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
@@ -1063,10 +1080,11 @@ extern "C"	ERP_API int searchOrders(Order** order, char* key, char* value, char*
 					 row[3] ? _order->requiredDate = row[3] : _order->requiredDate = nullptr;
 					 row[4] ? _order->completedDate = row[4] : _order->completedDate = nullptr;
 					 row[5] ? _order->orderStatus = row[5] : _order->orderStatus = nullptr;
-					 row[6] ? _order->customerID = row[6] : _order->customerID = nullptr;
-					 row[7] ? _order->supplierID = row[7] : _order->supplierID = nullptr;
-					 row[8] ? _order->paymentID = row[8] : _order->paymentID = nullptr;
-					 row[9] ? _order->shipmentID = row[9] : _order->shipmentID = nullptr;
+					 row[6] ? _order->totalPrice = stod(row[6]) : _order->totalPrice = 0;
+					 row[7] ? _order->customerID = row[7] : _order->customerID = nullptr;
+					 row[8] ? _order->supplierID = row[8] : _order->supplierID = nullptr;
+					 row[9] ? _order->paymentID = row[9] : _order->paymentID = nullptr;
+					 row[10] ? _order->shipmentID = row[10] : _order->shipmentID = nullptr;
 
 					 numberOfRows++;
 					 _order++;
@@ -1346,10 +1364,11 @@ extern "C"	ERP_API int getOrderInfo(char* id, Order** order, char* error, Connec
 				 row[3] ? _order->requiredDate = row[3] : _order->requiredDate = nullptr;
 				 row[4] ? _order->completedDate = row[4] : _order->completedDate = nullptr;
 				 row[5] ? _order->orderStatus = row[5] : _order->orderStatus = nullptr;
-				 row[6] ? _order->customerID = row[6] : _order->customerID = nullptr;
-				 row[7] ? _order->supplierID = row[7] : _order->supplierID = nullptr;
-				 row[8] ? _order->paymentID = row[8] : _order->paymentID = nullptr;
-				 row[9] ? _order->shipmentID = row[9] : _order->shipmentID = nullptr;
+				 row[6] ? _order->totalPrice = stod(row[6]) : _order->totalPrice = 0;
+				 row[7] ? _order->customerID = row[7] : _order->customerID = nullptr;
+				 row[8] ? _order->supplierID = row[8] : _order->supplierID = nullptr;
+				 row[9] ? _order->paymentID = row[9] : _order->paymentID = nullptr;
+				 row[10] ? _order->shipmentID = row[10] : _order->shipmentID = nullptr;
 
 				 cout << "here" << endl;
 
@@ -1640,10 +1659,11 @@ extern "C"	ERP_API int showAllOrders(Order** order, char* error, ConnectionStrin
 					 row[3] ? _order->requiredDate = row[3] : _order->requiredDate = nullptr;
 					 row[4] ? _order->completedDate = row[4] : _order->completedDate = nullptr;
 					 row[5] ? _order->orderStatus = row[5] : _order->orderStatus = nullptr;
-					 row[6] ? _order->customerID = row[6] : _order->customerID = nullptr;
-					 row[7] ? _order->supplierID = row[7] : _order->supplierID = nullptr;
-					 row[8] ? _order->paymentID = row[8] : _order->paymentID = nullptr;
-					 row[9] ? _order->shipmentID = row[9] : _order->shipmentID = nullptr;
+					 row[6] ? _order->totalPrice = stod(row[6]) : _order->totalPrice = 0;
+					 row[7] ? _order->customerID = row[7] : _order->customerID = nullptr;
+					 row[8] ? _order->supplierID = row[8] : _order->supplierID = nullptr;
+					 row[9] ? _order->paymentID = row[9] : _order->paymentID = nullptr;
+					 row[10] ? _order->shipmentID = row[10] : _order->shipmentID = nullptr;
 
 					 numberOfRows++;
 					 _order++; 
@@ -1689,10 +1709,11 @@ extern "C"	ERP_API int showAllOrders(Order** order, char* error, ConnectionStrin
 					 row[3] ? _order->requiredDate = row[3] : _order->requiredDate = nullptr;
 					 row[4] ? _order->completedDate = row[4] : _order->completedDate = nullptr;
 					 row[5] ? _order->orderStatus = row[5] : _order->orderStatus = nullptr;
-					 row[6] ? _order->customerID = row[6] : _order->customerID = nullptr;
-					 row[7] ? _order->supplierID = row[7] : _order->supplierID = nullptr;
-					 row[8] ? _order->paymentID = row[8] : _order->paymentID = nullptr;
-					 row[9] ? _order->shipmentID = row[9] : _order->shipmentID = nullptr;
+					 row[6] ? _order->totalPrice = stod(row[6]) : _order->totalPrice = 0;
+					 row[7] ? _order->customerID = row[7] : _order->customerID = nullptr;
+					 row[8] ? _order->supplierID = row[8] : _order->supplierID = nullptr;
+					 row[9] ? _order->paymentID = row[9] : _order->paymentID = nullptr;
+					 row[10] ? _order->shipmentID = row[10] : _order->shipmentID = nullptr;
 
 					 numberOfRows++;
 					 _order++;
@@ -1736,10 +1757,11 @@ extern "C"	ERP_API int showAllOrders(Order** order, char* error, ConnectionStrin
 					 row[3] ? _order->requiredDate = row[3] : _order->requiredDate = nullptr;
 					 row[4] ? _order->completedDate = row[4] : _order->completedDate = nullptr;
 					 row[5] ? _order->orderStatus = row[5] : _order->orderStatus = nullptr;
-					 row[6] ? _order->customerID = row[6] : _order->customerID = nullptr;
-					 row[7] ? _order->supplierID = row[7] : _order->supplierID = nullptr;
-					 row[8] ? _order->paymentID = row[8] : _order->paymentID = nullptr;
-					 row[9] ? _order->shipmentID = row[9] : _order->shipmentID = nullptr;
+					 row[6] ? _order->totalPrice = stod(row[6]) : _order->totalPrice = 0;
+					 row[7] ? _order->customerID = row[7] : _order->customerID = nullptr;
+					 row[8] ? _order->supplierID = row[8] : _order->supplierID = nullptr;
+					 row[9] ? _order->paymentID = row[9] : _order->paymentID = nullptr;
+					 row[10] ? _order->shipmentID = row[10] : _order->shipmentID = nullptr;
 
 					 numberOfRows++;
 					 _order++;
@@ -1785,10 +1807,11 @@ extern "C"	ERP_API int showReadyOrders(Order** order, char* error, ConnectionStr
 					 row[3] ? _order->requiredDate = row[3] : _order->requiredDate = nullptr;
 					 row[4] ? _order->completedDate = row[4] : _order->completedDate = nullptr;
 					 row[5] ? _order->orderStatus = row[5] : _order->orderStatus = nullptr;
-					 row[6] ? _order->customerID = row[6] : _order->customerID = nullptr;
-					 row[7] ? _order->supplierID = row[7] : _order->supplierID = nullptr;
-					 row[8] ? _order->paymentID = row[8] : _order->paymentID = nullptr;
-					 row[9] ? _order->shipmentID = row[9] : _order->shipmentID = nullptr;
+					 row[6] ? _order->totalPrice = stod(row[6]) : _order->totalPrice = 0;
+					 row[7] ? _order->customerID = row[7] : _order->customerID = nullptr;
+					 row[8] ? _order->supplierID = row[8] : _order->supplierID = nullptr;
+					 row[9] ? _order->paymentID = row[9] : _order->paymentID = nullptr;
+					 row[10] ? _order->shipmentID = row[10] : _order->shipmentID = nullptr;
 
 					 numberOfRows++;
 					 _order++;
@@ -1834,10 +1857,11 @@ extern "C"	ERP_API int showOrdersInProgress(Order** order, char* error, Connecti
 					 row[3] ? _order->requiredDate = row[3] : _order->requiredDate = nullptr;
 					 row[4] ? _order->completedDate = row[4] : _order->completedDate = nullptr;
 					 row[5] ? _order->orderStatus = row[5] : _order->orderStatus = nullptr;
-					 row[6] ? _order->customerID = row[6] : _order->customerID = nullptr;
-					 row[7] ? _order->supplierID = row[7] : _order->supplierID = nullptr;
-					 row[8] ? _order->paymentID = row[8] : _order->paymentID = nullptr;
-					 row[9] ? _order->shipmentID = row[9] : _order->shipmentID = nullptr;
+					 row[6] ? _order->totalPrice = stod(row[6]) : _order->totalPrice = 0;
+					 row[7] ? _order->customerID = row[7] : _order->customerID = nullptr;
+					 row[8] ? _order->supplierID = row[8] : _order->supplierID = nullptr;
+					 row[9] ? _order->paymentID = row[9] : _order->paymentID = nullptr;
+					 row[10] ? _order->shipmentID = row[10] : _order->shipmentID = nullptr;
 
 					 numberOfRows++;
 					 _order++;
@@ -1881,10 +1905,11 @@ extern "C"	ERP_API int showOrdersInProgress(Order** order, char* error, Connecti
 					 row[3] ? _order->requiredDate = row[3] : _order->requiredDate = nullptr;
 					 row[4] ? _order->completedDate = row[4] : _order->completedDate = nullptr;
 					 row[5] ? _order->orderStatus = row[5] : _order->orderStatus = nullptr;
-					 row[6] ? _order->customerID = row[6] : _order->customerID = nullptr;
-					 row[7] ? _order->supplierID = row[7] : _order->supplierID = nullptr;
-					 row[8] ? _order->paymentID = row[8] : _order->paymentID = nullptr;
-					 row[9] ? _order->shipmentID = row[9] : _order->shipmentID = nullptr;
+					 row[6] ? _order->totalPrice = stod(row[6]) : _order->totalPrice = 0;
+					 row[7] ? _order->customerID = row[7] : _order->customerID = nullptr;
+					 row[8] ? _order->supplierID = row[8] : _order->supplierID = nullptr;
+					 row[9] ? _order->paymentID = row[9] : _order->paymentID = nullptr;
+					 row[10] ? _order->shipmentID = row[10] : _order->shipmentID = nullptr;;
 
 					 numberOfRows++;
 					 _order++;
@@ -1928,10 +1953,11 @@ extern "C"	ERP_API int showOrdersInProgress(Order** order, char* error, Connecti
 					 row[3] ? _order->requiredDate = row[3] : _order->requiredDate = nullptr;
 					 row[4] ? _order->completedDate = row[4] : _order->completedDate = nullptr;
 					 row[5] ? _order->orderStatus = row[5] : _order->orderStatus = nullptr;
-					 row[6] ? _order->customerID = row[6] : _order->customerID = nullptr;
-					 row[7] ? _order->supplierID = row[7] : _order->supplierID = nullptr;
-					 row[8] ? _order->paymentID = row[8] : _order->paymentID = nullptr;
-					 row[9] ? _order->shipmentID = row[9] : _order->shipmentID = nullptr;
+					 row[6] ? _order->totalPrice = stod(row[6]) : _order->totalPrice = 0;
+					 row[7] ? _order->customerID = row[7] : _order->customerID = nullptr;
+					 row[8] ? _order->supplierID = row[8] : _order->supplierID = nullptr;
+					 row[9] ? _order->paymentID = row[9] : _order->paymentID = nullptr;
+					 row[10] ? _order->shipmentID = row[10] : _order->shipmentID = nullptr;
 
 					 numberOfRows++;
 					 _order++;

@@ -1,5 +1,6 @@
 .border {
-    background-color: #262626;
+    background-color: white;
+    border: thin;
 }
 
 .product-info {
@@ -8,5 +9,19 @@
 
 .product-props {
     list-style-type: none;
-    color: white;
+    color: #666666;
 }
+
+.btn2 {
+    background-color: #8c8c8c;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    margin: 10px;
+    text-align: center;
+}
+
+    .btn2:hover {
+        background-color: #737373;
+    }
+
