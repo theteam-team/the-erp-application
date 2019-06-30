@@ -50,6 +50,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OpportunityService } from './crm/create-opportunity/opportunity.service';
 import { OpportunityCanDeactivateGuardService } from './crm/create-opportunity/opportunity-canDeactivate-guard-service';
 import { CustomerCanDeactivateGuardService } from './crm/create-customer/customer-canDeactivate-guard-service';
+import { DashboardComponent } from './CRM/dashboard/dashboard.component';
 
 
 let routes = [
@@ -132,6 +133,7 @@ let routes = [
       CreateCustomerComponent,
       CustomerFilterPipe,
       OpportunityFilterPipe,
+      DashboardComponent,
 
     ],
   imports: [
