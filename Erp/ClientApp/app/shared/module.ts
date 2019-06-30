@@ -41,3 +41,21 @@ export interface Customer {
     company_email: string;
     is_lead: boolean;
 }
+
+export interface customerOrders{
+    id: string;
+    requiredDate: string;
+    completedDate: string;
+    orderStatus: string;
+    paymentID: string;
+}
+
+export interface OrderProducts{
+    id: string;
+    name: string;
+    unitsInOrder: number;
+    price: number;
+    totalPrice: number;
+
+
+}

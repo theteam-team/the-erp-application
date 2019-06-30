@@ -17,17 +17,17 @@ namespace Erp.ModulesWrappers
     {
         ///Customer 
         [DllImport("Modules//CRM//CRM.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        public static extern int AddCustomer(Customer customer, byte[] error);
+        public static extern int AddCustomer(Customer customer, byte[] error, ConnectionString connection);
         [DllImport("Modules//CRM//CRM.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        public static extern IntPtr getCustomerById(string id,  byte[] error);
+        public static extern IntPtr getCustomerById(string id,  byte[] error, ConnectionString connection);
         ///Opportunity
         [DllImport("Modules//CRM//CRM.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        public static extern int AddOpportunity(Opportunity opportunities, byte[] error);
+        public static extern int AddOpportunity(Opportunity opportunities, byte[] error, ConnectionString connection);
         [DllImport("Modules//CRM//CRM.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        public static extern int AddOpportunitie_detail(string opportunity_id, string[] product_id , int numOfProducts, byte[] error);
+        public static extern int AddOpportunitie_detail(string opportunity_id, string[] product_id , int numOfProducts, byte[] error, ConnectionString connection);
         ///Employee
         [DllImport("Modules//CRM//CRM.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        public static extern int AddEmployee(Employee employee, byte[] error);
+        public static extern int AddEmployee(Employee employee, byte[] error, ConnectionString connection);
         
 
     }

@@ -21,7 +21,7 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="App" asp-action="Home"><i class="fa fa-home"></i>Home</a>
                     </li>
-                   
+
 
                     @if (ViewBag.CurrentView == "login")
                     {
@@ -31,7 +31,7 @@
                     {
                         <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Login"> <i class="fa fa-sign-in"></i> Login</a> </li>
                     }
-                    else if (User.Identity.IsAuthenticated)
+                    else if (User.IsInRole("Employee"))
                     {
                         <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Logout"> <i class="fa fa-sign-out"></i>Log Out</a> </li>
                     }

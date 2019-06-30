@@ -23,9 +23,12 @@ import { RouterModule, Routes, Router } from '@angular/router';
 import { WarehouseComponent } from './warehouse/warehouse.component';
 import { ProductsComponent } from './warehouse/products/products.component';
 import { OrdersComponent } from './warehouse/orders/orders.component';
+import { ReceiptsComponent } from './warehouse/Receipts/receipts.component';
 import { InventoriesComponent } from './warehouse/inventories/inventories.component';
 import { ProductComponent } from './warehouse/product/product.component';
 import { OrderComponent } from './warehouse/order/order.component';
+import { ReportingComponent } from './warehouse/reporting/reporting.component';
+import { ProductMovesComponent } from './warehouse/product-moves/product-moves.component';
 import { AddProductComponent } from './warehouse/add-product/add-product.component';
 import { AddOrderComponent } from './warehouse/add-order/add-order.component';
 import { AddProductsInOrderComponent } from './warehouse/add-products-in-order/add-products-in-order.component';
@@ -64,14 +67,16 @@ let routes = [
     { path: "accounting/sendrequest", component: AccountingSendRequest},
     { path: "accounting/wallet", component: AccountingWallet },
 
-    { path: "warehouse", component: WarehouseComponent },
+    { path: "warehouse", component: ReportingComponent },
     { path: "warehouse/products", component: ProductsComponent },
-    { path: "warehouse/orders", component: OrdersComponent },
+    { path: "warehouse/operations/deliveries", component: OrdersComponent },
+    { path: "warehouse/operations/receipts", component: ReceiptsComponent },
     { path: "warehouse/inventories", component: InventoriesComponent },
     { path: "warehouse/product/:productid", component: ProductComponent },
     { path: "warehouse/order/:orderid", component: OrderComponent },
     { path: "warehouse/inventory/:inventoryid", component: InventoryComponent },
     { path: "warehouse/order/editOrder/:orderid", component: EditOrderComponent },
+    { path: "warehouse/products/productMoves", component: ProductMovesComponent },
     { path: "warehouse/addInventory", component: AddInventoryComponent },
     { path: "warehouse/addproduct", component: AddProductComponent },
     { path: "warehouse/addOrder", component: AddOrderComponent },
@@ -114,9 +119,12 @@ let routes = [
       WarehouseComponent,
       ProductsComponent,
       OrdersComponent,
+      ReceiptsComponent,
       InventoriesComponent,
       ProductComponent,
       OrderComponent,
+      ReportingComponent,
+      ProductMovesComponent,
       InventoryComponent,
       AddInventoryComponent,
       AddProductComponent,

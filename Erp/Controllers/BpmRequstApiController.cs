@@ -20,9 +20,9 @@ namespace Erp.Controllers
     {
         private IProcRequestRepo _requestRepo;
         private IBmpParmRepo _parmRepo;
-        private BmExectionQueue _bmExectionQueue;
+        private TaskExectionQueue _bmExectionQueue;
 
-        public ProcessRequstApiController(IProcRequestRepo requestRepo, IBmpParmRepo parmRepo, BmExectionQueue bmExectionQueue)
+        public ProcessRequstApiController(IProcRequestRepo requestRepo, IBmpParmRepo parmRepo, TaskExectionQueue bmExectionQueue)
         {
             _requestRepo = requestRepo;
             _parmRepo = parmRepo;
@@ -44,13 +44,13 @@ namespace Erp.Controllers
             return Ok("ok");
 
         }
-        [HttpGet("RunRequest/{requestName}")]
+        /*[HttpGet("RunRequest/{requestName}")]
         public async Task<ActionResult> RunRequest([FromRoute]string requestName)
         {
             _bmExectionQueue.QueueExection(requestName);
             return Ok("ok");
 
-        }
+        }*/
         [HttpPost("UpdateRequest")]
         public async Task<ActionResult> RunRequest([FromBody]BpmRequestViewModel requestViewModel)
         {

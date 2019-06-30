@@ -1,13 +1,15 @@
+Modules/modules_dll/*
+*/Modules/modules_dll/*
 Erp/obj/*
 Erp/bin/*
 */node_modules/*
-Erp/wwwroot/clientapp*
+Erp/wwwroot/clientapp/*
+Erp/wwwroot/ProductManager/*
 *[Dd]ebug.*
 bin/*
 */bin/*
 */.vs/*
 .vs/*
-*.vcxproj
 *.suo
 *.tmp
 *.userprefs
@@ -17,4 +19,4 @@ bin/*
 *.pdb
 npm-debug.log
 package-lock.json
-Modules/WareHouseManagement/WareHouseManagement.vcxproj
+

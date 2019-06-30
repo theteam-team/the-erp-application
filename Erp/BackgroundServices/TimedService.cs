@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,6 +15,7 @@ namespace Erp.BackgroundServices
         {
             _logger = logger;
         }
+
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Service Started");
@@ -28,8 +27,6 @@ namespace Erp.BackgroundServices
 
         private void DoWork(object state)
         {
-
-            
             _logger.LogInformation("Doing Work");
         }
 

@@ -9,22 +9,17 @@ int status;
 using namespace std;
 int qstate;
 
-#define SERVER "localhost"
-#define USER "root" //your username
-//#define PASSWORD "rana"//your password for mysql
-//#define PASSWORD "root" //your password for mysql
-#define PASSWORD "0198484014###"
-#define DATABASE "erp" //d	atabase name
+
 MYSQL* conn;
 MYSQL_ROW row;
 MYSQL_RES* res;
 class db_response {
 
 public:
-	static void ConnectionFunction(char* error) {
+	static void ConnectionFunction(char* error, ConnectionString con) {
 
 		conn = mysql_init(0);
-		conn = mysql_real_connect(conn, SERVER, USER, PASSWORD, DATABASE, 3306, NULL, 0);
+		conn = mysql_real_connect(conn, con.SERVER, con.USER, con.PASSWORD, con.DATABASE, 3306, NULL, 0);
 		if (!conn) {
 
 			cout << "Failed To Connect!" << mysql_errno(conn) << endl;
@@ -34,13 +29,24 @@ public:
 		}
 	}
 };
-extern "C"	ERP_API int AddCustomer(Customer* customer, char* error)
+extern "C"	ERP_API int AddCustomer(Customer* customer, char* error, ConnectionString con)
 {
 
 
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 	if (conn) {
-		puts("Successful connection to database!");
+		
+		cout << customer->customer_id<<endl;
+		cout << customer->name << endl;
+		cout << customer->phone_number<<endl;
+		cout << customer->email << endl;
+		cout << customer->dateOfBirth << endl;
+		//cout << customer->gender<< endl;
+		cout << customer->loyality_points<< endl;
+		cout << customer->type<< endl;
+		cout << customer->company<< endl;
+		cout << customer->company_email<< endl;
+		cout << customer->is_lead<< endl;
 		string query = "INSERT INTO Customer VALUES";
 		query += "('";
 		query += customer->customer_id;
@@ -74,9 +80,9 @@ extern "C"	ERP_API int AddCustomer(Customer* customer, char* error)
 	}
 	return status;
 }
-extern "C"	ERP_API int AddEmployee(Employee* crm_employee, char* error)
+extern "C"	ERP_API int AddEmployee(Employee* crm_employee, char* error, ConnectionString con)
 {
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 	if (conn)
 	{
 		string query = (string)"INSERT INTO employee VALUES('" + crm_employee->id + "','" + crm_employee->name + "','"
@@ -91,9 +97,9 @@ extern "C"	ERP_API int AddEmployee(Employee* crm_employee, char* error)
 	}
 	return status;
 }
-extern "C"	ERP_API int AddOpportunity(Opportunity* opportunities, char* error)
+extern "C"	ERP_API int AddOpportunity(Opportunity* opportunities, char* error, ConnectionString con)
 {
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 	status = 0;
 	if (conn)
 	{
@@ -118,9 +124,9 @@ extern "C"	ERP_API int AddOpportunity(Opportunity* opportunities, char* error)
 	}
 	return status;
 }
-extern "C"	ERP_API int AddOpportunitie_detail(char* opportunity_id, char** product_id, int numOfProducts, char* error)
+extern "C"	ERP_API int AddOpportunitie_detail(char* opportunity_id, char** product_id, int numOfProducts, char* error, ConnectionString con)
 {
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 	if (conn)
 	{
 		for (int i = 0; i < numOfProducts; ++i)
@@ -137,10 +143,10 @@ extern "C"	ERP_API int AddOpportunitie_detail(char* opportunity_id, char** produ
 
 	return status;
 }
-extern "C"	ERP_API Customer* getCustomerById(char* customer_id, char* error)
+extern "C"	ERP_API Customer* getCustomerById(char* customer_id, char* error, ConnectionString con)
 {
 	status = 0;
-	db_response::ConnectionFunction(error);
+	db_response::ConnectionFunction(error, con);
 	if (conn)
 	{
 		string query = "SELECT * FROM Customer WHERE customer_id = '";
@@ -163,16 +169,17 @@ extern "C"	ERP_API Customer* getCustomerById(char* customer_id, char* error)
 				while (row = mysql_fetch_row(res))
 				{
 					p->customer_id = row[0];
-					p->name = row[1];
-					p->phone_number = stoi(row[2]);
-					p->email = row[3];
-					p->dateOfBirth = row[4];
-					p->gender = row[5];
-					p->loyality_points = stringToInt(row[6]);
-					p->type = stringToInt(row[7]);
-					p->company = row[8];
-					p->company_email = row[9];
-					p->is_lead = row[10];
+					row[1] ? p->name = row[1] : p->name = nullptr;
+					row[2] ? p->phone_number = stoi(row[2]) : p->phone_number = 0;
+					row[3] ? p->email = row[3] : p->email = nullptr;
+					row[4] ? p->dateOfBirth = row[3] : p->dateOfBirth = nullptr;
+					row[5] ? p->gender = row[5] : p->gender = nullptr;
+					row[6] ? p->loyality_points = stoi(row[6]) : p->loyality_points = 0;
+					row[7] ? p->type = stoi(row[7]) : p->type = 0;
+					row[8] ? p->company = row[8] : p->company = nullptr;
+					row[9] ? p->company_email = row[9] : p->company_email = nullptr;
+					row[10] ? p->is_lead = row[3] : p->is_lead = false;
+										
 				}
 				return customer;
 			}
@@ -188,13 +195,7 @@ extern "C"	ERP_API Customer* getCustomerById(char* customer_id, char* error)
 
 	return nullptr;
 }
-unsigned int stringToInt(char* c)
-{
-	unsigned int number;
-	stringstream q(c);
-	q >> number;
-	return number;
-}
+
 bool checkQuery(int qstate, char* error)
 {
 	if (qstate)

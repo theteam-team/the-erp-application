@@ -13,10 +13,14 @@ namespace Erp.Models
     {
        [Required]
         public string id;
+        public uint incoming;
+        public uint outgoing;
         public string requiredDate;
         public string completedDate;
         public string orderStatus;
+        public double totalPrice;
         public string customerID;
+        public string supplierID;
         public string paymentID;
         public string shipmentID;
     }

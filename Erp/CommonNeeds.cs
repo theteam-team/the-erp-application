@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
+using System.Collections.Concurrent;
+using System.Threading;
 
 namespace Erp
 {
@@ -18,17 +20,26 @@ namespace Erp
     {
 
         /// <summary>
-        /// Used To Check if a database with this specifc name is existed or not
-        /// </summary>
-        /// <param name="dataDbContext">The Database Context used to manage the database connection</param>
-        /// <param name="DatabaseName">the Database Name</param>
-        /// <returns></returns>
-        public static bool checkdtb(DataDbContext dataDbContext ,string DatabaseName)
+        private static Dictionary<int, string> _workItems = new Dictionary<int, string>();
+        private static SemaphoreSlim _signal = new SemaphoreSlim(0);
+        public  void QueueExection(int ThreadId, string workItem)
         {
-            dataDbContext.ConnectionString = "Server=(localdb)\\ProjectsV13;Database="
-                    + DatabaseName + ";Trusted_Connection=True;MultipleActiveResultSets=true";
-            return (dataDbContext.Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists();
+         
+            if (workItem == null)
+            {
+                throw new ArgumentNullException(nameof(workItem));
+            }
+
+            _workItems.TryAdd(ThreadId ,workItem);
+            //_signal.Release();
         }
-     
+
+        public  async Task<string> DequeueAsync(int ThreadId)
+        {
+            //await _signal.WaitAsync();
+          
+            return _workItems[ThreadId];
+        }
+
     }
 }

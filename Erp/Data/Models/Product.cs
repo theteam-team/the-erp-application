@@ -10,9 +10,7 @@ namespace Erp.Models
     [StructLayout(LayoutKind.Sequential)]
     public class Product
     {
-        [Required]
         public string id;
-        [Required]
         public string name;
         public string description;
         [Required]

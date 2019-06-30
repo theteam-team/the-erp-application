@@ -68,3 +68,13 @@ struct Crm_roles
 	char* role_id;
 	char* role;
 };
+
+struct ConnectionString
+{
+	char* SERVER;
+	char* USER;
+	char* PORT;
+	char* PASSWORD;
+	char* DATABASE;
+
+};

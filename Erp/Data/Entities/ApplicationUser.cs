@@ -16,12 +16,16 @@ namespace Erp.Data.Entities
         [Required]
         [MaxLength(250)]        
         public string DatabaseName { get; set; }        
-        [Required]
+        
         public string Country { get; set; }
-        [Required]
+      
         public string Language { get; set; }    
         
         public IList<UserHasEmail> Emails { get; set; }
+
+        public IList<UserTask> UserTasks{ get; set; }
+        public string OrganizationId{ get; set; }
+        public Organization Organization{ get; set; }
 
     }
 }

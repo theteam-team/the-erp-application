@@ -66,6 +66,15 @@ export class OrdersComponent implements OnInit {
             })
     }
 
+    displayWaitingOrders(): void {
+        this.data.loadWaitingOrders()
+            .subscribe(success => {
+                if (success) {
+                    this.orders = this.data.orders;
+                }
+            })
+    }
+
     searchOrders(sForm: NgForm): void {
         console.log(sForm.value);
         this.data.searchOrders(sForm.value.sKey, sForm.value.sValue)

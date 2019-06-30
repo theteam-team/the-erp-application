@@ -12,7 +12,7 @@ namespace Erp.ViewModels
     {
 
         [Required]
-        public string DataBaseName { get; set; }
+        public string DatabaseName { get; set; }
         [Required]
         [EmailAddress]
         public string Email { get; set; }

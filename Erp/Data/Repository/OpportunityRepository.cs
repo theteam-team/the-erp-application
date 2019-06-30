@@ -9,14 +9,17 @@ using Erp.ViewModels.CRN_Tabels;
 using Erp.Data;
 using Microsoft.AspNetCore.Identity;
 using Erp.Data.Entities;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Erp.Repository
 {
     public class OpportunityRepository : Repository<Opportunities_product, DataDbContext>, IOpportunityRepository
     {
-        public OpportunityRepository(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
+        public OpportunityRepository(IConfiguration config, ILogger<OpportunityRepository> ilogger, IHttpContextAccessor httpContextAccessor, AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(config, ilogger, httpContextAccessor, management, datadbContext, accountDbContext, userManager)
         {
-
+            
         }
     }
 }

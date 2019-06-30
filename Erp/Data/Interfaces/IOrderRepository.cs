@@ -12,8 +12,15 @@ namespace Erp.Interfaces
     {
         Task<List<Order>> SearchOrders(string key, string value, byte[] error);
         Task<int> EditOrder(Order entity, byte[] error);
+        Task<List<Order>> ShowAllOrders(byte[] error);
+        Task<List<Order>> ShowReceipts(byte[] error);
         Task<List<Order>> ShowCompletedOrders(byte[] error);
+        Task<List<Order>> ShowCompletedReceipts(byte[] error);
         Task<List<Order>> ShowReadyOrders(byte[] error);
         Task<List<Order>> ShowOrdersInProgress(byte[] error);
+        Task<List<Order>> ShowWaitingOrders(byte[] error);
+        Task<List<Order>> ShowWaitingReceipts(byte[] error);
+
+        Task<int> AddPotentialOrder(Order entity, byte[] error);
     }
 }

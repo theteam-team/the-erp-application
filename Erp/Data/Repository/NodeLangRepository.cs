@@ -5,9 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Erp.Data;
 using Erp.Data.Entities;
+using Erp.Hubs;
 using Erp.Interfaces;
-
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Erp.Repository
 {
@@ -17,7 +21,8 @@ namespace Erp.Repository
         private readonly AccountDbContext _accountDbContext;
         private readonly Management _management;
 
-        public NodeLangRepository(AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(management, datadbContext, accountDbContext, userManager)
+        public NodeLangRepository(IConfiguration config, ILogger<NodeLangRepository> ilogger, IHttpContextAccessor httpContextAccessor, IHubContext<NotificationHub> hubContext, AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager)
+            : base(config, ilogger, httpContextAccessor, management, datadbContext, accountDbContext, userManager)
         {
             _dataDbContext = datadbContext;
             _accountDbContext = accountDbContext;
