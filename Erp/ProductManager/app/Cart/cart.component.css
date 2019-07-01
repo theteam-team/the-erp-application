@@ -1,0 +1,26 @@
+.border {
+    background-color: white;
+    border: thin;
+}
+
+.product-info {
+    margin: 10px;
+}
+
+.product-props {
+    list-style-type: none;
+    color: #666666;
+}
+
+.btn1 {
+    background-color: #8c8c8c;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    margin: 10px;
+    text-align: center;
+}
+
+    .btn1:hover {
+        background-color: #737373;
+    }

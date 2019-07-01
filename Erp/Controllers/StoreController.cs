@@ -30,6 +30,8 @@ namespace Erp.Controllers
         private IOrganizationRepository _organizationRepository;
         private IOrderRepository _orderRepository;
         private IOrderProductRepository _orderProductRepository;
+        private ICustomerProductRepository _customerProductRepository;
+        private IAddressRepository _addressRepository;
         private IConfiguration _config;
         private Management _management; 
         private ILogger<ApplicationUser> muserLogger;
@@ -37,7 +39,7 @@ namespace Erp.Controllers
         private AccountDbContext mContext;  
         private UserManager<ApplicationUser> _userManager;  
         private SignInManager<ApplicationUser> _signInManager; 
-        public StoreController(IAuthenticationService authorizationService, IProductRepository productRepository,ICustomerRepository customerRepository ,IOrganizationRepository organizationRepository, IOrderRepository orderRepository, IOrderProductRepository orderProductRepository, AccountDbContext context, DataDbContext dataDbContext,
+        public StoreController(IAuthenticationService authorizationService, IProductRepository productRepository,ICustomerRepository customerRepository ,IOrganizationRepository organizationRepository, IOrderRepository orderRepository, IOrderProductRepository orderProductRepository, ICustomerProductRepository customerProductRepository, IAddressRepository addressRepository, AccountDbContext context, DataDbContext dataDbContext,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<ApplicationUser> userlogger, Management management, IConfiguration config)
@@ -49,6 +51,8 @@ namespace Erp.Controllers
             _organizationRepository = organizationRepository;
             _orderRepository = orderRepository;
             _orderProductRepository = orderProductRepository;
+            _customerProductRepository = customerProductRepository;
+            _addressRepository = addressRepository;
             _config = config;
             _management = management;
             muserLogger = userlogger;
@@ -291,7 +295,7 @@ namespace Erp.Controllers
         }
 
         [HttpPost("AddPotentialOrder")]
-        public async Task<ActionResult<string>> AddOrderStore(Order order)
+        public async Task<ActionResult<string>> AddOrderStore([FromBody]Order order)
         {
             string OrganizationName = (string)RouteData.Values["OrganizationName"];
             Organization orgExist = await _organizationRepository.OraganizationExist(OrganizationName);
@@ -318,7 +322,7 @@ namespace Erp.Controllers
         }
 
         [HttpPost("AddToOrder")]
-        public async Task<ActionResult<string>> AddToOrderStore(ProductInOrder product)
+        public async Task<ActionResult<string>> AddToOrderStore([FromBody]ProductInOrder product)
         {
             string OrganizationName = (string)RouteData.Values["OrganizationName"];
             Organization orgExist = await _organizationRepository.OraganizationExist(OrganizationName);
@@ -336,6 +340,90 @@ namespace Erp.Controllers
                 else
                 {
                     return Ok("successfuly added");
+                }
+            }
+            else
+            {
+                return NotFound("This organization does not exist");
+            }
+        }
+
+        [HttpPost("AddCustomerAddress")]
+        public async Task<ActionResult<string>> AddOCustomerAddress([FromBody]Address address)
+        {
+            string OrganizationName = (string)RouteData.Values["OrganizationName"];
+            Organization orgExist = await _organizationRepository.OraganizationExist(OrganizationName);
+            if (orgExist != null)
+            {
+                _addressRepository.setConnectionString(OrganizationName);
+
+                byte[] error = new byte[500];
+                int status = await _addressRepository.AddCustomerAddress(address, error);
+                string z = System.Text.Encoding.ASCII.GetString(error);
+                if (status != 0)
+                {
+                    return BadRequest(z.Remove(z.IndexOf('\0')));
+                }
+                else
+                {
+                    return Ok("successfuly added");
+                }
+            }
+            else
+            {
+                return NotFound("This organization does not exist");
+            }
+        }
+
+        [HttpGet("GetCustomerProducts/{id}")]
+        public async Task<ActionResult<List<CustomerProduct>>> ShowCustomerProducts(string id)
+        {
+            string OrganizationName = (string)RouteData.Values["OrganizationName"];
+            Organization orgExist = await _organizationRepository.OraganizationExist(OrganizationName);
+            if (orgExist != null)
+            {
+                _customerProductRepository.setConnectionString(OrganizationName);
+
+                byte[] error = new byte[500];
+                List<CustomerProduct> orders = await _customerProductRepository.ShowCustomerProducts(id, error);
+                string z = Encoding.ASCII.GetString(error);
+                string y = z.Remove(z.IndexOf('\0'));
+                if (y == "")
+                {
+
+                    return Ok(orders);
+                }
+                else
+                {
+                    return BadRequest(y);
+                }
+            }
+            else
+            {
+                return NotFound("This organization does not exist");
+            }
+        }
+
+        [HttpDelete("DeleteCustomerProduct/{oid}/{pid}")]
+        public async Task<ActionResult<string>> DeleteCustomerProduct(string oID, string pID)
+        {
+            string OrganizationName = (string)RouteData.Values["OrganizationName"];
+            Organization orgExist = await _organizationRepository.OraganizationExist(OrganizationName);
+            if (orgExist != null)
+            {
+                _orderProductRepository.setConnectionString(OrganizationName);
+
+                byte[] error = new byte[500];
+                int status = await _orderProductRepository.DeleteProductFromOrder(oID, pID, error);
+                string z = System.Text.Encoding.ASCII.GetString(error);
+                if (status != 0)
+                {
+
+                    return BadRequest(z.Remove(z.IndexOf('\0')));
+                }
+                else
+                {
+                    return Ok("successfuly deleted");
                 }
             }
             else
