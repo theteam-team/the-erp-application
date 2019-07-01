@@ -1,12 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { customerService } from '../customers/customer.service';
+import { customerService } from '../services/customer.service';
 import { Opportunity } from '../models/opportunityModel';
 import { Customer } from '../models/customerModel';
 import { NgForm } from '@angular/forms';
 import { OpportunityService } from '../services/opportunity.service';
-import { SalesmanService } from '../qoutation/salesman.service';
+import { SalesmanService } from '../services/salesman.service';
 import { Salesman } from '../models/salesmanModel';
+import { ProductService } from '../services/product.service';
+import { Product } from '../models/productModel';
+import { MatDialog, MatDialogConfig } from '@angular/material'
+import { ProductsComponent } from '../products/products.component';
+ 
 
 
 @Component({
@@ -21,14 +26,16 @@ export class CreateOpportunityComponent implements OnInit {
   customers: Customer[];
   opportunity: Opportunity;
   salesman: Salesman[];
-
+  products: Product[];
 
   constructor(private _customerService: customerService, private _opportunityService: OpportunityService,
-    private _router: Router, private _route: ActivatedRoute, private salesmanService : SalesmanService) { }
+    private _router: Router, private _route: ActivatedRoute, private salesmanService: SalesmanService
+    , private productService: ProductService, private dialog: MatDialog) { }
 
   ngOnInit() {
     this._customerService.getCustomers().subscribe(customers => this.customers = customers);
     this.salesmanService.getSalesmans().subscribe(salesman => this.salesman = salesman);
+    this.productService.getProducts().subscribe(products => this.products = products);
 
     this._route.paramMap.subscribe(parameterMap => {
       const id = +parameterMap.get('id');
@@ -42,8 +49,10 @@ export class CreateOpportunityComponent implements OnInit {
         id: null,
         title: null,
         customer_id: null,
+        product_id: null,
         salesman_id: null,
         expected_revenue: null,
+        quantity: null,
         status: 1,
         start_date: null,
 
@@ -75,5 +84,12 @@ export class CreateOpportunityComponent implements OnInit {
         }
       );
     }
-}
+  }
+  addProducts() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "60%";
+    this.dialog.open(ProductsComponent, dialogConfig);
+  }
 }
