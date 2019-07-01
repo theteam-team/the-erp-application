@@ -47,6 +47,16 @@ struct ProductInOrder
 	unsigned int unitsDone;
 };
 
+struct CustomerProduct
+{
+	char* customerID;
+	char* orderID;
+	char* productID;
+	char* name;
+	unsigned int unitsOrdered;
+	double price;
+};
+
 struct Order 
 {
 	char* id;
