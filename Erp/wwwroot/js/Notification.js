@@ -151,7 +151,7 @@ function notificationResponse(userTaskId, btnId)
                 {
                     "name": name,
                     "type": type,
-                    "value": param.val()
+                    "value": "true"
                 });
         }
         else

@@ -76,9 +76,10 @@ namespace Erp.BackgroundServices
 
                     };
                     string json = JsonConvert.SerializeObject(bpmResponse);
-                    _logger.LogInformation("sending json" + json);
+                    //_logger.LogInformation("sending json" + json);
                     using (var client = new HttpClient())
                     {
+                        _logger.LogInformation("sending json" + json);
                         var content = await client.PostAsJsonAsync("http://102.187.45.214/engine/api/notification", bpmResponse);
                     }
                 }
