@@ -11,14 +11,22 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
 using Erp.Data.Entities;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Erp.BackgroundServices.Entities;
+using Erp.BackgroundServices;
+using Newtonsoft.Json;
 
 namespace Erp.Controllers
 {
     [Route("api/[controller]")]
     [Produces("application/json")]
     [ApiController]
+    [Authorize(Roles = "Employee")]
+    //[Authorize(AuthenticationSchemes = "Identity.Application")]
     public class ServicesApiController : ControllerBase
     {
+        private TaskResponseQueue _resonseQueue;
+
         public  Management _management { get; }
         public  IUserTaskRepository _userTaskRepository { get; }
         public  UserManager<ApplicationUser> _userManager { get; }
@@ -30,9 +38,10 @@ namespace Erp.Controllers
         public  ILogger<ServicesApiController> _logger { get; }
 
 
-        public ServicesApiController(Management management, IUserTaskRepository userTaskRepository, IEmailUserRepository emailUser, IEmailRepository email, IEmailTypeRepository emailType,
+        public ServicesApiController(TaskResponseQueue resonseQueue ,Management management, IUserTaskRepository userTaskRepository, IEmailUserRepository emailUser, IEmailRepository email, IEmailTypeRepository emailType,
            UserManager<ApplicationUser> userManager, ILoggerFactory loggerFactory)
         {
+            _resonseQueue = resonseQueue;
             _management = management;
             _userTaskRepository = userTaskRepository;
             _userManager = userManager;
@@ -47,21 +56,68 @@ namespace Erp.Controllers
         [HttpPost("AssignUserTask")]
         public async Task<ActionResult> AssignUserTask([FromBody] UserTaskViewModel userTaskView)
         {
-            Console.WriteLine("Assigne " + userTaskView.IsBpmEngine);
+            Console.WriteLine(userTaskView.IsBpmEngine);
             if (!userTaskView.IsBpmEngine)
             {
                 userTaskView.InvokerId = ((ClaimsIdentity) HttpContext.User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
             }
             string roleId = await _management.getRoleIdAsync(userTaskView.RoleName);
-            var userTask = new UserTask
+            if (roleId != null)
             {
-                ApplicationRoleId = roleId,
-                UserTaskParameters = userTaskView.UserTaskParameters,
-                Title = userTaskView.Title,
-                InvokerID = userTaskView.InvokerId
-                
-            };
-            await _userTaskRepository.AssigneUserTask(userTask);
+                Console.WriteLine(roleId);
+                var userTask = new UserTask
+                {
+                    ApplicationRoleId = roleId,
+                    UserTaskParameters = userTaskView.UserTaskParameters,
+                    Title = userTaskView.Title,
+                    InvokerID = userTaskView.InvokerId,
+                    IsBpmEngine = userTaskView.IsBpmEngine
+
+                };
+                await _userTaskRepository.AssigneUserTask(userTask);
+                return Ok();
+            }
+            return BadRequest("this Role Does not exist");
+        }
+        [HttpGet("GetAssignedUserTask")]
+        public async Task<ActionResult <List<UserTask>>> GetAssignedUserTask()
+        {
+
+            string userId = ((ClaimsIdentity)HttpContext.User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
+            List<UserTask> userTasks = await _userTaskRepository.GetAssignedUserTask(userId);
+            return Ok(userTasks);
+        }
+        [HttpPost("RespondToUserTask")]
+        public async Task<ActionResult> RespondToUserTask([FromBody]UserTaskResponseViewModel userTaskResponse)
+        {          
+            var userTask = await _userTaskRepository.GetById(userTaskResponse.id);
+            if (userTask != null)
+            {
+                for (int i = 0; i < userTask.UserTaskParameters.Count; i++)
+                {
+                    userTask.UserTaskParameters[0].Value = userTaskResponse.userTaskParameters[0].value;
+                }
+                userTask.IsDone = true;
+               
+
+                ClaimsIdentity identity = (ClaimsIdentity)User.Identity;
+                string databaseName = identity.FindFirst("organization").Value;
+
+                var response = new ServiceResponse()
+                {
+                    IsBpm = userTask.IsBpmEngine,
+                    InvokerId = userTask.InvokerID,
+                    status = "success",
+                    Organization = databaseName,
+                    parameters = userTaskResponse.userTaskParameters,
+                    Type = "userTask"
+
+                };
+                _resonseQueue.QueueExection(response);
+                await _userTaskRepository.Update(userTask);
+
+            }
+           
             return Ok();
         }
 

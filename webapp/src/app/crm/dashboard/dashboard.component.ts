@@ -3,9 +3,9 @@ import { Chart } from 'chart.js';
 import { OpportunityService } from '../services/opportunity.service';
 import { Opportunity } from '../models/opportunityModel';
 import { Customer } from '../models/customerModel';
-import { customerService } from '../customers/customer.service';
+import { customerService } from '../services/customer.service';
 import { Salesman } from '../models/salesmanModel';
-import { SalesmanService } from '../qoutation/salesman.service';
+import { SalesmanService } from '../services/salesman.service';
  
 @Component({
   selector: 'app-dashboard',
@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
 
 
   constructor(private _customerService: customerService, private _opportunityService: OpportunityService, private salesmanService: SalesmanService) {
-    this.new = this.ERNew();
+     
    
   }
 
@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit {
     this._customerService.getCustomers().subscribe(customers => this.customers = customers);
     this._opportunityService.getOpportunities().subscribe(opportunities => this.opportunities = opportunities);
     this.salesmanService.getSalesmans().subscribe(salesman => this.salesman = salesman);
-    console.log(this.new);
+    
 
    // this.ERNew().then(data => this.new = data);
      
@@ -67,7 +67,7 @@ export class DashboardComponent implements OnInit {
             type: 'bar',
             label: 'Expexted Revenue',
             data: [ 1, 8, 45, 6, 2],
-            backgroundColor: 'darkcyan',
+            backgroundColor: 'darkorange',
             borderColor: 'white',
             fill: false,
           }
@@ -115,7 +115,7 @@ export class DashboardComponent implements OnInit {
         responsive: true,
         title: {
           display: true,
-          text: 'Doughnut Chart'
+          text: 'Total Opportunities No.'
         }, legend: {
           position: 'top',
         }, animation: {
@@ -126,7 +126,7 @@ export class DashboardComponent implements OnInit {
       data: {
         datasets: [{
           data: [45, 10, 5, 25, 15],
-          backgroundColor: ["red", "orange", "yellow", "green", "blue"],
+          backgroundColor: [" chocolate", "olivedrab", "yellow", "darkcyan", " indianred"],
           label: 'Opportunities'
         }],
         labels: ['New', 'Qualified', 'Proposition', 'Negotiation', 'Won']
@@ -136,7 +136,7 @@ export class DashboardComponent implements OnInit {
 
    ERNew() {
      let total = 0;
-     let erNew;
+   
     for (var i = 0; i < this.opportunities.length; i++) {
       if (this.opportunities[i].status === 1) {
         total += this.opportunities[i].expected_revenue;
@@ -369,5 +369,66 @@ export class DashboardComponent implements OnInit {
       }
     }
     return New;
+  }
+  SalesNewER(id: number) {
+    let total = 0;
+    for (var i = 0; i < this.opportunities.length; i++) {
+      if (this.opportunities[i].salesman_id == id && this.opportunities[i].status === 1) {
+        total += this.opportunities[i].expected_revenue;
+      }
+    }
+    return total;
+  }
+  SalesQualifiedER(id: number) {
+    let total = 0;
+    for (var i = 0; i < this.opportunities.length; i++) {
+      if (this.opportunities[i].salesman_id == id && this.opportunities[i].status === 2) {
+        total += this.opportunities[i].expected_revenue;
+      }
+    }
+    return total;
+  }
+  SalesPropositionER(id: number) {
+    let total = 0;
+    for (var i = 0; i < this.opportunities.length; i++) {
+      if (this.opportunities[i].salesman_id == id && this.opportunities[i].status === 3) {
+        total += this.opportunities[i].expected_revenue;
+      }
+    }
+    return total;
+  }
+  SalesNegotiationER(id: number) {
+    let total = 0;
+    for (var i = 0; i < this.opportunities.length; i++) {
+      if (this.opportunities[i].salesman_id == id && this.opportunities[i].status === 4) {
+        total += this.opportunities[i].expected_revenue;
+      }
+    }
+    return total;
+  }
+  SalesWonER(id: number) {
+    let total = 0;
+    for (var i = 0; i < this.opportunities.length; i++) {
+      if (this.opportunities[i].salesman_id == id && this.opportunities[i].status === 5) {
+        total += this.opportunities[i].expected_revenue;
+      }
+    }
+    return total;
+  }
+  SalesTotalER(id: number) {
+    let New = 0;
+    for (var i = 0; i < this.opportunities.length; i++) {
+      if (this.opportunities[i].salesman_id == id) {
+        New += this.opportunities[i].expected_revenue;
+      }
+    }
+    return New;
+  }
+  totalCustomer() {
+    let total = 0;
+    for (var i = 0; i < this.customers.length; i++) {
+      total++;
+    }
+    return total;
   }
 }

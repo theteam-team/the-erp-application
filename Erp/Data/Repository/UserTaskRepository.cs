@@ -11,6 +11,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.SignalR;
+using Erp.Hubs;
 
 namespace Erp.Repository
 {
@@ -18,12 +20,13 @@ namespace Erp.Repository
     {
         private AccountDbContext _accountDbContext;
         private UserManager<ApplicationUser> _userManager;
+        private IHubContext<NotificationHub> _hubContext;
 
-        public UserTaskRepository(IConfiguration config, ILogger<UserTaskRepository> ilogger, IHttpContextAccessor httpContextAccessor, AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(config, ilogger, httpContextAccessor, management, datadbContext, accountDbContext, userManager)
+        public UserTaskRepository(IConfiguration config, ILogger<UserTaskRepository> ilogger, IHubContext<NotificationHub> hubContext, IHttpContextAccessor httpContextAccessor, AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(config, ilogger, httpContextAccessor, management, datadbContext, accountDbContext, userManager)
         {
             _accountDbContext = accountDbContext;
             _userManager = userManager;
-
+            _hubContext = hubContext;
         }
 
         public  async Task AssigneUserTask(UserTask ob)
@@ -31,6 +34,7 @@ namespace Erp.Repository
             string userid = await GetNonBusyUser(ob.ApplicationRoleId);
             ob.ApplicationUserId = userid;
             await base.Insert(ob);
+            await _hubContext.Clients.User(userid).SendAsync("recieveUserTask", ob);
             //To-Do create Notification
         }
         public async Task<string> GetNonBusyUser(string RoleId)
@@ -46,9 +50,23 @@ namespace Erp.Repository
                   .Include(dt => dt.UserTasks).ToList();
 
             var user = result.FirstOrDefault();
-            Console.WriteLine("user" + user.Id);
             //To-Do create Notification
             return user.Id;
+        }
+
+        public async Task<List<UserTask>> GetAssignedUserTask(string userId)
+        {
+            List<UserTask> userTasks = _accountDbContext.UserTasks
+                .Include(x=>x.UserTaskParameters)
+                .Where(u => u.ApplicationUserId == userId && !u.IsDone).ToList();
+            return userTasks;
+        }
+        public override async Task<UserTask> GetById(object userId)
+        {
+            UserTask userTask = _accountDbContext.UserTasks
+                .Include(x=>x.UserTaskParameters)
+                .Where(u => u.Id == (string)userId).FirstOrDefault();
+            return userTask;
         }
 
     }

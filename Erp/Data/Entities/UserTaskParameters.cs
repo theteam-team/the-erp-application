@@ -19,7 +19,7 @@ namespace Erp.Data.Entities
         public string Name { get; set; }
         public string Type { get; set; }
         [JsonIgnore]
-        public string Response { get; set; } = null;
+        public string Value { get; set; } = null;
 
     }
 }

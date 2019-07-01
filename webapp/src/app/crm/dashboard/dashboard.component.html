@@ -1,42 +1,61 @@
+ <div style="margin:30px">
+  <br />
+  <h2 style="color:darkcyan">Dashboard</h2>
 
-<h2 style="color:darkcyan">Pipeline Analysis</h2>
+  <div class="row">
+    <div class="col">
+      <div class="card" style="padding:10px;   background-color:white">
+        <h6 class="card-title" style="color:darkorange">Opportunities </h6>
+        <h2 style="color:dimgrey">{{ totalOpportunities()}}</h2>
+      </div>
+    </div>
 
-<div class="chart-diplay">
-  <div style="width: 70%; float:right">
-    <canvas id="bar"></canvas>
+    <div class="col">
+      <div class="card" style="padding:10px;    background-color:white">
+        <h6 class="card-title" style="color:dodgerblue">Expected Revenue</h6>
+        <h2 style="color:dimgrey">{{totalExpectedRevenue()}} $</h2>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card" style="padding:10px;  background-color:white">
+        <h6 class="card-title" style=" color:palevioletred;">Total Customers</h6>
+        <h2 style=" color:dimgrey;">{{ totalCustomer()}} </h2>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card" style="padding:10px; background-color:white">
+        <h6 class="card-title" style=" color: olive;">Average Deal Size</h6>
+        <h2 style=" color: dimgrey;">{{totalExpectedRevenue() / totalOpportunities() }} $</h2>
+      </div>
+    </div>
   </div>
-</div>
-<div class="chart-diplay">
-  <div style="width: 70% ;float:right">
-    <canvas id="bar2"></canvas>
-  </div>
-</div>
-<div class="chart-diplay">
-  <div style="width: 50%">
-    <canvas id="doughnut"></canvas>
-  </div>
-</div>
+  <br />
 
-  <table class="table table-dark" style="width:60%">
-    <thead>
-      <tr>
-        <th scope="col"> Opportunities</th>
-        <th scope="col">Expected Revenue</th>
-        <th scope="col">Prorated Revenue</th>
-        <th scope="col">Average Deal Size</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>{{ totalOpportunities()}} </td>
-        <td>{{totalExpectedRevenue()}} $</td>
-        <td> Prorated revenue $</td>
-        <td>{{totalExpectedRevenue() / totalOpportunities() }} $</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="col " style="display:inline-flex">
 
-  <table class="table table-dark" style="width:60%">
+    <div class="card" style="width:60%;margin-right:10px; margin-bottom:15px  ">
+      <div class="card-header" style="color:#4e73df; font-size:17px">Expected Revenue</div>
+      <div class="col">
+        <canvas id="bar"></canvas>
+      </div>
+    </div>
+
+    <div class="card" style="width:40%;  margin-bottom:15px; margin-left:10px">
+      <div class="card-header" style="color:#4e73df; font-size:17px">Pipeline Analysis</div>
+      <div class="col" style="margin-top:40px">
+        <canvas id="doughnut"></canvas>
+      </div>
+    </div>
+
+
+  </div>
+  <br />
+
+ 
+    
+  <table class="table  " style="width:70%; margin:20px ; background-color:darkseagreen; color:white">
     <thead>
       <tr>
         <th scope="col"> Customer </th>
@@ -61,28 +80,38 @@
     </tbody>
   </table>
 
+   <div >
+     <h5> loss</h5>
+     <h5>won</h5>
+   </div>
 
-  <table class="table table-dark" style="width:60%">
-    <thead>
-      <tr>
-        <th scope="col"> Customer </th>
-        <th scope="col"> New </th>
-        <th scope="col">Qualified </th>
-        <th scope="col">Proposition</th>
-        <th scope="col">Negotiation</th>
-        <th scope="col">Won</th>
-        <th scope="col">Total</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let customer of customers">
-        <td>{{customer.name}}  </td>
-        <td>{{ CustomerNewCount(customer.id) }}   </td>
-        <td>{{ CustomerQualifiedCount(customer.id) }}   </td>
-        <td>{{ CustomerPropositionCount(customer.id) }}   </td>
-        <td>{{ CustomerNegotiationCount(customer.id) }}   </td>
-        <td>{{ CustomerWonCount(customer.id) }}   </td>
-        <td>{{ CustomerTotalCount(customer.id) }}   </td>
-      </tr>
-    </tbody>
-  </table>
+        <table class=" table " style="width:70%; margin:20px ; background-color:darkseagreen; color:white">
+          <thead>
+            <tr>
+              <th> Salesperson </th>
+              <th scope="col"> New </th>
+              <th scope="col">Qualified </th>
+              <th scope="col">Proposition</th>
+              <th scope="col">Negotiation</th>
+              <th scope="col">Won</th>
+              <th scope="col">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let s of salesman">
+              <td>{{s.name}}  </td>
+              <td>{{ SalesNewER(s.id) }}  $ </td>
+              <td>{{ SalesQualifiedER(s.id) }}  $ </td>
+              <td>{{ SalesPropositionER(s.id) }}  $ </td>
+              <td>{{ SalesNegotiationER(s.id) }}  $ </td>
+              <td>{{ SalesWonER(s.id) }}  $ </td>
+              <td>{{ SalesTotalER(s.id) }}  $ </td>
+            </tr>
+          </tbody>
+        </table>
+    
+    
+
+    
+    
+</div>

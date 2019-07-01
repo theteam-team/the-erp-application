@@ -19,7 +19,7 @@ namespace Erp.Models
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         public string DateOfBirth ;
-        public string gender ;
+        public string gender { get; set; } = "";
         public uint loyality_points;
         public uint type;
         public string company ;

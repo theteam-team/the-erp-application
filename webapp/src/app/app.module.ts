@@ -10,7 +10,7 @@ import { CustomersComponent } from './crm/customers/customers.component';
 import { PipelineComponent } from './crm/pipeline/pipeline.component';
 import { CreateOpportunityComponent } from './crm/create-opportunity/create-opportunity.component';
 import { CreateCustomerComponent } from './crm/create-customer/create-customer.component';
-import { customerService } from './crm/customers/customer.service';
+import { customerService } from './crm/services/customer.service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CustomerFilterPipe } from './crm/customers/customer-filter';
 import { OpportunityFilterPipe } from './crm/pipeline/opportunity-filter';
@@ -23,11 +23,13 @@ import { CustomerCanDeactivateGuardService } from './crm/create-customer/custome
 import { QoutationComponent } from './crm/qoutation/qoutation.component';
 import { CreateQoutationComponent } from './crm/create-qoutation/create-qoutation.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { SalesmanService } from './crm/qoutation/salesman.service';
-import { ProductService } from './crm/qoutation/product.service';
+import { SalesmanService } from './crm/services/salesman.service';
+import { ProductService } from './crm/services/product.service';
 import { QoutationService } from './crm/qoutation/qoutation.service';
 import { DashboardComponent } from './crm/dashboard/dashboard.component';
 import { ChartsModule } from 'ng2-charts';
+import { ProductsComponent } from './crm/products/products.component';
+import { AddProductComponent } from './crm/add-product/add-product.component';
  
  
 
@@ -46,6 +48,8 @@ import { ChartsModule } from 'ng2-charts';
     QoutationComponent,
     CreateQoutationComponent,
     DashboardComponent,
+    ProductsComponent,
+    AddProductComponent,
     
     
      
@@ -61,7 +65,8 @@ import { ChartsModule } from 'ng2-charts';
     DragDropModule,
     BrowserAnimationsModule,
     MatDialogModule,
-    ChartsModule
+    ChartsModule,
+    
    
     
   ],
@@ -72,6 +77,7 @@ import { ChartsModule } from 'ng2-charts';
               SalesmanService,
               ProductService,
               QoutationService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ProductsComponent]
 })
 export class AppModule { }

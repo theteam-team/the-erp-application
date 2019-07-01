@@ -10,8 +10,7 @@ namespace Erp.Data.Entities
     public class UserTask
     {
         [Key]
-        [JsonIgnore]
-        public int Id { get; set; }
+        public string Id { get; set; }
         [JsonIgnore]
         public bool IsBpmEngine { get; set; }
         [JsonIgnore]
