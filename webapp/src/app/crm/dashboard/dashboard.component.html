@@ -53,65 +53,67 @@
   </div>
   <br />
 
- 
-    
-  <table class="table  " style="width:70%; margin:20px ; background-color:darkseagreen; color:white">
-    <thead>
-      <tr>
-        <th scope="col"> Customer </th>
-        <th scope="col"> New </th>
-        <th scope="col">Qualified </th>
-        <th scope="col">Proposition</th>
-        <th scope="col">Negotiation</th>
-        <th scope="col">Won</th>
-        <th scope="col">Total</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let customer of customers">
-        <td>{{customer.name}}  </td>
-        <td>{{ CustomerNewER(customer.id) }}  $ </td>
-        <td>{{ CustomerQualifiedER(customer.id) }}  $ </td>
-        <td>{{ CustomerPropositionER(customer.id) }}  $ </td>
-        <td>{{ CustomerNegotiationER(customer.id) }}  $ </td>
-        <td>{{ CustomerWonER(customer.id) }}  $ </td>
-        <td>{{ CustomerTotalER(customer.id) }}  $ </td>
-      </tr>
-    </tbody>
-  </table>
 
-   <div >
-     <h5> loss</h5>
-     <h5>won</h5>
-   </div>
+  <div class="col " style="display:inline-flex">
+    <table class="table " style="width:70%; margin:20px ; background-color:darkseagreen; color:white">
+      <thead>
+        <tr>
+          <th scope="col"> Customer </th>
+          <th scope="col"> New </th>
+          <th scope="col">Qualified </th>
+          <th scope="col">Proposition</th>
+          <th scope="col">Negotiation</th>
+          <th scope="col">Won</th>
+          <th scope="col">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let customer of customers">
+          <td>{{customer.name}}  </td>
+          <td>{{ CustomerNewER(customer.id) }}  $ </td>
+          <td>{{ CustomerQualifiedER(customer.id) }}  $ </td>
+          <td>{{ CustomerPropositionER(customer.id) }}  $ </td>
+          <td>{{ CustomerNegotiationER(customer.id) }}  $ </td>
+          <td>{{ CustomerWonER(customer.id) }}  $ </td>
+          <td>{{ CustomerTotalER(customer.id) }}  $ </td>
+        </tr>
+      </tbody>
+    </table>
 
-        <table class=" table " style="width:70%; margin:20px ; background-color:darkseagreen; color:white">
-          <thead>
-            <tr>
-              <th> Salesperson </th>
-              <th scope="col"> New </th>
-              <th scope="col">Qualified </th>
-              <th scope="col">Proposition</th>
-              <th scope="col">Negotiation</th>
-              <th scope="col">Won</th>
-              <th scope="col">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let s of salesman">
-              <td>{{s.name}}  </td>
-              <td>{{ SalesNewER(s.id) }}  $ </td>
-              <td>{{ SalesQualifiedER(s.id) }}  $ </td>
-              <td>{{ SalesPropositionER(s.id) }}  $ </td>
-              <td>{{ SalesNegotiationER(s.id) }}  $ </td>
-              <td>{{ SalesWonER(s.id) }}  $ </td>
-              <td>{{ SalesTotalER(s.id) }}  $ </td>
-            </tr>
-          </tbody>
-        </table>
-    
-    
+    <div class="card" style="width:40%;  margin-bottom:15px; margin-left:10px">
+      <div class="card-header" style="color:#4e73df; font-size:17px">Pipeline Analysis</div>
+      <div class="col" style="margin-top:40px">
+        <canvas id="doughnut"></canvas>
+      </div>
+    </div>
 
-    
-    
+    <table class=" table " style="width:70%; margin:20px ; background-color:darkseagreen; color:white">
+      <thead>
+        <tr>
+          <th> Salesperson </th>
+          <th scope="col"> New </th>
+          <th scope="col">Qualified </th>
+          <th scope="col">Proposition</th>
+          <th scope="col">Negotiation</th>
+          <th scope="col">Won</th>
+          <th scope="col">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let s of salesman">
+          <td>{{s.name}}  </td>
+          <td>{{ SalesNewER(s.id) }}  $ </td>
+          <td>{{ SalesQualifiedER(s.id) }}  $ </td>
+          <td>{{ SalesPropositionER(s.id) }}  $ </td>
+          <td>{{ SalesNegotiationER(s.id) }}  $ </td>
+          <td>{{ SalesWonER(s.id) }}  $ </td>
+          <td>{{ SalesTotalER(s.id) }}  $ </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+
+
 </div>
