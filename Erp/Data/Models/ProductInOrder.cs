@@ -12,6 +12,7 @@ namespace Erp.Models
     {
 	   public string orderID;	
        public string productID;
+       public string inventoryID;
        public uint unitsOrdered;
        public uint unitsDone;
     }

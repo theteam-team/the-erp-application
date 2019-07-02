@@ -16,5 +16,6 @@ namespace Erp.Models
         public string name;
         public uint unitsOrdered;
         public double price;
+        public double total;
     }
 }

@@ -89,6 +89,23 @@ namespace Erp.Controllers
             }
         }
 
+        [HttpPost("AddPotentialProduct")]
+        public async Task<ActionResult<string>> AddPotentialProduct(ProductInOrder product)
+        {
+            byte[] error = new byte[500];
+            int status = await _orderProductRepository.AddPotentialProduct(product, error);
+            string z = System.Text.Encoding.ASCII.GetString(error);
+            if (status != 0)
+            {
+
+                return BadRequest(z.Remove(z.IndexOf('\0')));
+            }
+            else
+            {
+                return Ok("successfuly added");
+            }
+        }
+
         [HttpPost("AddProductToOrder")]
         public async Task<ActionResult<string>> AddProductToOrder(ProductInOrder product)
         {

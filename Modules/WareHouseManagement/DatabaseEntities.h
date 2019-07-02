@@ -43,6 +43,7 @@ struct ProductInOrder
 {
 	char* orderID;
 	char* productID;
+	char* inventoryID;
 	unsigned int unitsOrdered;
 	unsigned int unitsDone;
 };
@@ -55,6 +56,7 @@ struct CustomerProduct
 	char* name;
 	unsigned int unitsOrdered;
 	double price;
+	double total;
 };
 
 struct Order 

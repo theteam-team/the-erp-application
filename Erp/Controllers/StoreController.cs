@@ -331,7 +331,7 @@ namespace Erp.Controllers
                 _orderProductRepository.setConnectionString(OrganizationName);
 
                 byte[] error = new byte[500];
-                int status = await _orderProductRepository.Create(product, error);
+                int status = await _orderProductRepository.AddPotentialProduct(product, error);
                 string z = System.Text.Encoding.ASCII.GetString(error);
                 if (status != 0)
                 {

@@ -21,7 +21,6 @@ export class MainComponent implements OnInit {
 
     public date = this.yyyy + "-" + this.mm + "-" + this.dd;
     public customerID = "3";
-    //public orderID = "1";
     public availableProducts = [];
     public orderID = uuid.v4();
 

@@ -14,5 +14,7 @@ namespace Erp.Interfaces
         Task<List<ProductInOrder>> ShowProductsInOrder(string id, byte[] error);
         Task<int> DeleteProductFromOrder(string oID, string pID, byte[] error);
         Task<int> removeFromStock(ProductInOrder product, byte[] error);
+
+        Task<int> AddPotentialProduct(ProductInOrder entity, byte[] error);
     }
 }
