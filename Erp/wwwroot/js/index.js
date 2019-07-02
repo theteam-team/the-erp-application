@@ -1,5 +1,25 @@
 ﻿
 $(document).ready(function () {
+
+    $('#sidebarCollapse').on('click', function () {
+        // open or close navbar
+        $('#sidebar').toggleClass('active');
+        // close dropdowns
+        $('.collapse.in').toggleClass('in');
+        // and also adjust aria-expanded attributes we use for the open/closed arrows
+        // in our CSS
+        $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+    });
+
+    $("#sidebar").mCustomScrollbar({
+        theme: "minimal"
+    });
+
+    
+    
+
+    
+
     var x = 0;
     var s = "";
     console.log("Hello Pluralsight");
@@ -48,7 +68,7 @@ $(document).ready(function () {
     // Get the element with id="defaultOpen" and click on it
     document.getElementById("defaultOpen").click();
 
-   
+    
 
 });
 
