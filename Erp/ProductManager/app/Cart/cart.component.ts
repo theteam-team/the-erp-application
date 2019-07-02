@@ -26,8 +26,7 @@ export class CartComponent implements OnInit {
     ngOnInit() {
 
         this.getProducts();
-        this.getTotal();
-        this.total = this.data.total;
+        console.log(this.total);
     }
 
     reloadComponent(): void {
@@ -41,14 +40,17 @@ export class CartComponent implements OnInit {
                     this.customerProducts = this.data.customerProducts;
                 }
             });
+
+        this.total = this.customerProducts[this.customerProducts.length - 1].total;
+        this.getTotal(this.total);
     }
 
-    getTotal(){
-        let payment = 0;
+    getTotal(payment){
+        /*let payment = 0;
 
         for (let p of this.customerProducts) {
             payment += p.price * p.unitsOrdered;
-        }
+        }*/
 
         this.data.getTotal(payment);
     }

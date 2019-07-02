@@ -101,5 +101,15 @@ namespace Erp.Repository
         {
             return await Task.Run(() => Warehouse_Wrapper.removeFromStock(product, error, _ConnectionString));
         }
+
+        public async Task<int> AddPotentialProduct(ProductInOrder entity, byte[] error)
+        {
+            int status = 0;
+
+            ProductInOrder product = (ProductInOrder)(object)(entity);
+            status = await Task.Run(() => Warehouse_Wrapper.addPotentialProduct(product, error, _ConnectionString));
+
+            return status;
+        }
     }
 }
