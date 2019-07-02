@@ -53,65 +53,66 @@
   </div>
   <br />
 
- 
-    
-  <table class="table  " style="width:70%; margin:20px ; background-color:darkseagreen; color:white">
-    <thead>
-      <tr>
-        <th scope="col"> Customer </th>
-        <th scope="col"> New </th>
-        <th scope="col">Qualified </th>
-        <th scope="col">Proposition</th>
-        <th scope="col">Negotiation</th>
-        <th scope="col">Won</th>
-        <th scope="col">Total</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let customer of customers">
-        <td>{{customer.name}}  </td>
-        <td>{{ CustomerNewER(customer.id) }}  $ </td>
-        <td>{{ CustomerQualifiedER(customer.id) }}  $ </td>
-        <td>{{ CustomerPropositionER(customer.id) }}  $ </td>
-        <td>{{ CustomerNegotiationER(customer.id) }}  $ </td>
-        <td>{{ CustomerWonER(customer.id) }}  $ </td>
-        <td>{{ CustomerTotalER(customer.id) }}  $ </td>
-      </tr>
-    </tbody>
-  </table>
 
-   <div >
-     <h5> loss</h5>
-     <h5>won</h5>
-   </div>
+  <div class="col " style="display:inline-flex">
+    <div  style="width:60%;">
+      <table class="table " style=" margin:20px ; background-color:darkseagreen; color:white">
+        <thead>
+          <tr>
+            <th scope="col"> Customer </th>
+            <th scope="col"> New </th>
+            <th scope="col">Qualified </th>
+            <th scope="col">Proposition</th>
+            <th scope="col">Negotiation</th>
+            <th scope="col">Won</th>
+            <th scope="col">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let customer of customers">
+            <td>{{customer.name}}  </td>
+            <td>{{ CustomerNewER(customer.id) }}  $ </td>
+            <td>{{ CustomerQualifiedER(customer.id) }}  $ </td>
+            <td>{{ CustomerPropositionER(customer.id) }}  $ </td>
+            <td>{{ CustomerNegotiationER(customer.id) }}  $ </td>
+            <td>{{ CustomerWonER(customer.id) }}  $ </td>
+            <td>{{ CustomerTotalER(customer.id) }}  $ </td>
+          </tr>
+        </tbody>
+      </table>
 
-        <table class=" table " style="width:70%; margin:20px ; background-color:darkseagreen; color:white">
-          <thead>
-            <tr>
-              <th> Salesperson </th>
-              <th scope="col"> New </th>
-              <th scope="col">Qualified </th>
-              <th scope="col">Proposition</th>
-              <th scope="col">Negotiation</th>
-              <th scope="col">Won</th>
-              <th scope="col">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let s of salesman">
-              <td>{{s.name}}  </td>
-              <td>{{ SalesNewER(s.id) }}  $ </td>
-              <td>{{ SalesQualifiedER(s.id) }}  $ </td>
-              <td>{{ SalesPropositionER(s.id) }}  $ </td>
-              <td>{{ SalesNegotiationER(s.id) }}  $ </td>
-              <td>{{ SalesWonER(s.id) }}  $ </td>
-              <td>{{ SalesTotalER(s.id) }}  $ </td>
-            </tr>
-          </tbody>
-        </table>
-    
-    
 
-    
-    
+      <table class=" table " style="  margin:20px ; background-color:darkseagreen; color:white">
+        <thead>
+          <tr>
+            <th> Salesperson </th>
+            <th scope="col"> New </th>
+            <th scope="col">Qualified </th>
+            <th scope="col">Proposition</th>
+            <th scope="col">Negotiation</th>
+            <th scope="col">Won</th>
+            <th scope="col">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let s of salesman">
+            <td>{{s.name}}  </td>
+            <td>{{ SalesNewER(s.id) }}  $ </td>
+            <td>{{ SalesQualifiedER(s.id) }}  $ </td>
+            <td>{{ SalesPropositionER(s.id) }}  $ </td>
+            <td>{{ SalesNegotiationER(s.id) }}  $ </td>
+            <td>{{ SalesWonER(s.id) }}  $ </td>
+            <td>{{ SalesTotalER(s.id) }}  $ </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card" style="width:20%;margin:50px ">
+      
+      
+    </div>
+  </div>
+
+
+
 </div>

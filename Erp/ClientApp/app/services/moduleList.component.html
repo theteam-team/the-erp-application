@@ -1,4 +1,5 @@
-﻿<div class="row">
+﻿<!--
+<div class="row">
     <div class="col-md-12">
         <nav class="navbar navbar-expand-md navbar-light bg-light">
             <a class="navbar-brand" routerLink="">{{ title }}</a>
@@ -38,16 +39,48 @@
                         <li> <strong>price:</strong> {{ m.price | currency:"USD":true }}</li>
                         <li> <strong>Description</strong> {{ m.discription }}</li>
                     </ul>
-                    <!--
-                            <button id="buyButton" class="btn btn-success" (click)="onClickMe()">Buy</button>
-                    <button class="btn btn-success" (click)="onAccounting()">accounting</button>
+                   
 
-                    -->
                     <button class="btn btn-success" (click)="onAccounting()">BUY</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+-->
+<div class="row">
+    <div class="card m-3" style="width: 16rem;">
+        <img class="card-img-top" src="../img/wms.png" alt="warehousing" width="285" height="180" />
+        <div class="card-body d-flex flex-column">
+            <h5 class="card-title">Warehouse Management</h5>
+            <p class="card-text">controls and records the day-to-day operations in a warehouse </p>
+            <a routerLink="warehouse" class="btn btn-primary mt-auto">Show Warehouse</a>
+        </div>
+    </div>
+    <div class="card m-3" style="width: 16rem;">
+        <img class="card-img-top" src="../img/CRM.jpg" alt="CRM" width="285" height="180">
+        <div class="card-body d-flex flex-column">
+            <h5 class="card-title">Customer Relation Management</h5>
+            <p class="card-text">Collecting and managing customer information.</p>
+            <a routerLink="crm" class="btn btn-primary mt-auto">Show CRM</a>
+        </div>
+    </div>
+    <div class="card m-3" style="width: 16rem;">
+        <img class="card-img-top" src="../img/man.jpg" alt="Manufacturing" width="285" height="180">
+        <div class="card-body d-flex flex-column">
+            <h5 class="card-title">Manufacturing</h5>
+            <p class="card-text">complete the inventory management by implementing a streamlined manufacturing process.</p>
+            <a routerLink="manufacturing" class="btn btn-primary mt-auto">Show Manufacturing</a>
+        </div>
+    </div>
+    <div class="card m-3" style="width: 16rem;">
+        <img class="card-img-top" src="../img/acc.jpg" alt="Accounting" width="285" height="180">
+        <div class="card-body d-flex flex-column">
+            <h5 class="card-title">Accounting</h5>
+            <p class="card-text">Monitor and record all account transactions.</p>
+            <a routerLink="accounting" class="btn btn-primary mt-auto text-center">Show Accounting</a>
+        </div>
+    </div>
 
+</div>
 <router-outlet></router-outlet>
