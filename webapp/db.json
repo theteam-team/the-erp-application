@@ -2,7 +2,7 @@
   "customers": [
     {
       "id": 1,
-      "name": "menna",
+      "name": "Menna",
       "email": "menna777@gmail.com",
       "phone_number": "01117572565",
       "company": "none",
@@ -13,7 +13,7 @@
     },
     {
       "id": 2,
-      "name": "Nour",
+      "name": "Rana",
       "email": "menn6667@gmail.com",
       "phone_number": "01144472565",
       "company": "none",
@@ -24,7 +24,7 @@
     },
     {
       "id": 3,
-      "name": "Mohamed Essam",
+      "name": "Mohamed ",
       "email": "test@test.com",
       "phone_number": "01117572565",
       "company": "none",
@@ -37,30 +37,48 @@
   "opportunities": [
     {
       "id": 1,
-      "title": "One",
-      "customer_id": "1",
-      "salesman_id": "3",
+      "title": "Plan to buy 10 red balls",
+      "customer_id": 1,
+      "salesman_id": 3,
+      "product_id": 678,
+      "quantity":10,
       "expected_revenue": 200,
       "status": 1,
       "start_date": "2019-05-20"
     },
     {
       "id": 2,
-      "title": "two",
-      "customer_id": "2",
-      "salesmanr_id": "1",
+      "title": "interest in products",
+      "customer_id": 2,
+      "salesman_id": 1,
+      "product_id": null,
+      "quantity": null,
       "expected_revenue": 80,
       "status": 2,
       "start_date": "2019-07-19"
+       
     },
     {
       "id": 3,
-      "title": "three",
-      "customer_id": "3",
-      "salesman_id": "2",
+      "title": "Plan to buy 5 green balls",
+      "customer_id": 3,
+      "salesman_id": 2,
+      "product_id": 235,
+      "quantity": 5,
       "expected_revenue": 50,
       "status": 2,
       "start_date": "2019-05-17"
+    },
+    {
+      "id": 4,
+      "title": "Plan to buy 15 blue balls",
+      "customer_id": 2,
+      "product_id": 944,
+      "quantity": 15,
+      "salesman_id": 3,
+      "expected_revenue": 800,
+      "status": 1,
+      "start_date": "2019-06-20"
     }
   ],
   "salesman": [
@@ -104,22 +122,27 @@
   "product": [
     {
       "id": 678,
+      "opportunity_id": 2,
       "name": "red ball",
       "unit_price": 10,
-      "description": "ball"
+      "description": "ball",
+      "quantity": 2
     },
     {
       "id": 944,
+      "opportunity_id": 3,
       "name": "blue ball",
       "unit_price": 20,
-      "description": "ball"
+      "description": "ball",
+      "quantity": 4
     },
     {
       "id": 235,
+      "opportunity_id": 1,
       "name": "green ball",
       "unit_price": 30,
-      "description": "ball"
+      "description": "ball",
+      "quantity": 3
     }
   ]
-
 }

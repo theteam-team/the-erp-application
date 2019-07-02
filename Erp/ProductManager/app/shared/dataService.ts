@@ -23,6 +23,29 @@ export class DataService {
     }
 
     addToOrder(product) {
-        return this.http.post("AddProductToOrder", product).subscribe((data) => { });
+        return this.http.post("AddToOrder", product).subscribe((data) => { });
+    }
+
+    addCustomerAddress(address) {
+        return this.http.post("AddCustomerAddress", address).subscribe((data) => { });
+    }
+
+    public customerProducts = [];
+    loadCustomerProducts(id): Observable<boolean> {
+        return this.http.get("GetCustomerProducts/" + id)
+            .pipe(
+                map((data: any[]) => {
+                this.customerProducts = data;
+                    return true;
+                }));
+    }
+
+    deleteProductFromOrder(oID: string, pID: string) {
+        return this.http.delete("DeleteCustomerProduct/" + oID + "/" + pID).subscribe((data) => { });
+    }
+
+    public total;
+    getTotal(payment): void {
+        this.total = payment;
     }
 }

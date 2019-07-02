@@ -68,7 +68,8 @@ namespace Erp
             services.AddSingleton<TaskResponseQueue>();
             services.AddSingleton<ModulesDatabaseBuilder>();           
             services.AddTransient<INodeLangRepository, NodeLangRepository>();
-            services.AddSignalR();           
+            services.AddSignalR();
+            services.AddTransient<IAddressRepository, AddressRepository>();
             services.AddTransient<ICustomerRepository, CustomerRepository>();
             services.AddTransient<IOrganizationRepository, OrganizationRepository>();
             services.AddTransient<IUserTaskRepository, UserTaskRepository>();
@@ -85,6 +86,7 @@ namespace Erp
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IOrderProductRepository, OrderProductRepository>();
+            services.AddTransient<ICustomerProductRepository, CustomerProductRepository>();
             services.AddTransient<IInventoryRepository, InventoryRepository>();
             services.AddTransient<IInventoryProductRepository, InventoryProductRepository>();
             services.AddTransient<IReportRepository, ReportRepository>();

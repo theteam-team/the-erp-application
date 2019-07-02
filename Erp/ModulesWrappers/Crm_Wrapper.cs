@@ -28,7 +28,8 @@ namespace Erp.ModulesWrappers
         ///Employee
         [DllImport("Modules//CRM//CRM.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern int AddEmployee(Employee employee, byte[] error, ConnectionString connection);
-        
 
+        [DllImport("Modules//CRM//CRM.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern int AddCustomerAddress(Address address, byte[] error, ConnectionString connection);
     }
 }

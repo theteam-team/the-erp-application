@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { customerService } from '../customers/customer.service';
+import { customerService } from '../services/customer.service';
 import { Customer } from '../models/customerModel';
 import { Qoutation } from '../models/qoutationModel';
 import { Salesman } from '../models/salesmanModel';
 import { NgForm } from '@angular/forms';
 import { QoutationService } from '../qoutation/qoutation.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SalesmanService } from '../qoutation/salesman.service';
+import { SalesmanService } from '../services/salesman.service';
 
 @Component({
   selector: 'app-create-qoutation',

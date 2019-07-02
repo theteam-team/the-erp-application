@@ -29,6 +29,25 @@ public:
 		}
 	}
 };
+
+extern "C"	ERP_API int AddCustomerAddress(Address* address, char* error, ConnectionString con)
+{
+	status = 0;
+	db_response::ConnectionFunction(error, con);
+
+	if (conn) {
+
+		string query = (string) "insert into Customer_Address values ('" + address->id + "', '" + address->city + "', '" + address->governate + "', '" + address->street + "', " + to_string(address->zip_code) + ", '" + address->customer_id + "')";
+		cout << query << endl;
+		char const *q = query.c_str();
+		qstate = mysql_query(conn, q);
+		checkQuery(qstate, error);
+		mysql_close(conn);
+	}
+	return status;
+}
+
+
 extern "C"	ERP_API int AddCustomer(Customer* customer, char* error, ConnectionString con)
 {
 

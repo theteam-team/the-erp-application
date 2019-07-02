@@ -48,6 +48,8 @@ namespace Erp.BackgroundServices
                 //Thread.Sleep(100);
             }
 
+            await Task.WhenAll(tasks);
+
             _logger.LogInformation("Task Execution Engine Hosted Service is stopping.");
            
         }

@@ -36,7 +36,7 @@ namespace Erp.BackgroundServices
                     pollWork();
                 });
 
-                Thread.Sleep(3000);
+                Thread.Sleep(4000);
             }
         }
 
@@ -51,39 +51,41 @@ namespace Erp.BackgroundServices
                     if (result.IsSuccessStatusCode)
                     {
                         var content = await result.Content.ReadAsStringAsync();
-                        List<BpmTask> bpmTasks = JsonConvert.DeserializeObject<List<BpmTask>>(content);
-                        Console.WriteLine(content);
-                        foreach (var item in bpmTasks)
+                        List<BpmTask> bpmTasks = JsonConvert.DeserializeObject<List<BpmTask>>(content);                     
+                       _ilogger.LogInformation(content);
+                        if (bpmTasks.Count > 0)
                         {
-                            using (var scope = _services.CreateScope())
+                            foreach (var item in bpmTasks)
                             {
-                                var _accountDbContext = scope.ServiceProvider.GetRequiredService<AccountDbContext>();
-
-                                var bpmWorker = new BpmWorker
+                                using (var scope = _services.CreateScope())
                                 {
-                                    instanceID = item.instanceID,
-                                    workflowName = item.workflowName,
-                                    taskID = item.taskID
-                                };
-                                _accountDbContext.BpmWorkers.Add(bpmWorker);
-                                _accountDbContext.SaveChanges();
-                                item.InvokerId = bpmWorker.Id;
+                                    var _accountDbContext = scope.ServiceProvider.GetRequiredService<AccountDbContext>();
 
-                                item.databaseName = _accountDbContext.Organizations.FirstOrDefault().Name;//((ClaimsIdentity)HttpContext.User.Identity).FindFirst("organization").Value;
-                                if (item != null)
-                                {
-                                    item.IsBpm = true;
-                                    _exectionQueue.QueueExection(item);
+                                    var bpmWorker = new BpmWorker
+                                    {
+                                        instanceID = item.instanceID,
+                                        workflowName = item.workflowName,
+                                        taskID = item.taskID
+                                    };
+                                    _accountDbContext.BpmWorkers.Add(bpmWorker);
+                                    _accountDbContext.SaveChanges();
+                                    item.InvokerId = bpmWorker.Id;
+
+                                    item.databaseName = _accountDbContext.Organizations.FirstOrDefault().Name;//((ClaimsIdentity)HttpContext.User.Identity).FindFirst("organization").Value;
+                                    if (item != null)
+                                    {
+                                        item.IsBpm = true;
+                                        _exectionQueue.QueueExection(item);
+                                    }
                                 }
                             }
                         }
                     }
-
                 }
                 catch (Exception EX)
                 {
 
-                    _ilogger.LogInformation(EX.Message);
+                    //_ilogger.LogInformation(EX.Message);
                 }
                 
 

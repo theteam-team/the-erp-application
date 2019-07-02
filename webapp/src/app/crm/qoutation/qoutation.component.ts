@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../models/productModel';
 import { QoutationService } from './qoutation.service';
-import { ProductService } from './product.service';
+import { ProductService } from '../services/product.service';
 import { Salesman } from '../models/salesmanModel';
 import { Qoutation } from '../models/qoutationModel';
-import { SalesmanService } from './salesman.service';
+import { SalesmanService } from '../services/salesman.service';
 import { Router } from '@angular/router';
 
 @Component({

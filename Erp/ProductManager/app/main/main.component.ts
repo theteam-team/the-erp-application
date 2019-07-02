@@ -20,12 +20,13 @@ export class MainComponent implements OnInit {
     public yyyy = this.today.getFullYear();
 
     public date = this.yyyy + "-" + this.mm + "-" + this.dd;
-    public customerID = uuid.v4();
+    public customerID = "3";
+    //public orderID = "1";
     public availableProducts = [];
     public orderID = uuid.v4();
 
     public productInOrder = {
-        "orderID": "",
+        "orderID": this.orderID,
         "productID": "",
         "unitsOrdered": 0,
         "unitsDone": 0
@@ -39,7 +40,7 @@ export class MainComponent implements OnInit {
         "completedDate": "",
         "orderStatus": "Waiting",
         "totalPrice": 0,
-        "customerID": "1",
+        "customerID": this.customerID,
         "supplierID": "",
         "paymentID": "",
         "shipmentID": ""
@@ -50,7 +51,7 @@ export class MainComponent implements OnInit {
 
     ngOnInit(): void {
         this.loadAvailableProducts();
-        //this.addOrder();
+        this.addOrder();
     }
 
     reloadComponent(): void {
@@ -72,10 +73,13 @@ export class MainComponent implements OnInit {
     }
 
     onProductAdd(productID: string, units: number): void {
-        this.productInOrder.orderID = this.orderID;
         this.productInOrder.productID = productID;
         this.productInOrder.unitsOrdered = units;
 
         this.data.addToOrder(this.productInOrder);
+    }
+
+    goToCart() {
+        this.router.navigate(["cart", this.customerID]);
     }
 }

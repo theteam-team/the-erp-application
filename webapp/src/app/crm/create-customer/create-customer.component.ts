@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Customer } from '../models/customerModel';
 import { Router, ActivatedRoute } from '@angular/router';
-import { customerService } from '../customers/customer.service';
+import { customerService } from '../services/customer.service';
 import { NgForm } from '@angular/forms';
  
 

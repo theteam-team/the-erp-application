@@ -1,3 +1,53 @@
-<p>
-  profile works!
-</p>
+<!--<mat-card>
+    <mat-card-header>
+        <mat-card-title>Example Login Form</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <form>
+            <mat-form-field>
+                <input matInput placeholder="City" [(ngModel)]="city" type="text" name="city" required>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Governorate" [(ngModel)]="governate" type="text" name="governate" required>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Street" [(ngModel)]="street" type="text" name="street" required>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Zip Code" [(ngModel)]="zip_code" type="number" name="zip_code" required>
+            </mat-form-field>
+        </form>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button (click)="addCustomerAddress()" color="primary">Submit Order</button>
+    </mat-card-actions>
+</mat-card>-->
+
+<form #addressForm="ngForm" (ngSubmit)="addCustomerAddress(addressForm)">
+    <div class="panel panel-primary col-md-9">
+        <!----<div class="panel-heading">
+            <h3></h3>
+        </div>-->
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="col-md-6 offset-md-2" for="city">City</label>
+                <input class="form-control col-md-6 offset-md-2" id="city" name="city" [(ngModel)]="city" type="text" placeholder="City" />
+            </div>
+            <div class="form-group">
+                <label class="col-md-6 offset-md-2" for="governate">Governorate</label>
+                <input class="form-control col-md-6 offset-md-2" id="governate" name="governate" [(ngModel)]="governate" type="text" placeholder="Governorate" />
+            </div>
+            <div class="form-group">
+                <label class="col-md-6 offset-md-2" for="street">Street</label>
+                <input class="form-control col-md-6 offset-md-2" id="street" name="street" [(ngModel)]="street" type="text" placeholder="Street" />
+            </div>
+            <div class="form-group">
+                <label class="col-md-6 offset-md-2" for="zip_code">Zip Code</label>
+                <input class="form-control col-md-6 offset-md-2" id="zip_code" name="zip_code" [(ngModel)]="zip_code" type="number" placeholder="Zip code" />
+            </div>
+        </div>
+        <div class="panel-footer">
+            <button type="submit" class="btn btn-primary col-md-2 offset-md-4">Save</button>
+        </div>
+    </div>
+</form>

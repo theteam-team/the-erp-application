@@ -9,7 +9,7 @@ namespace Erp.Models
     [StructLayout(LayoutKind.Sequential)]
     public  class Address
     {
-        public uint id;
+        public string id;
         public string city;
         public string governate;
         public string street;

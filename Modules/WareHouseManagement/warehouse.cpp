@@ -2009,6 +2009,51 @@ extern "C"	ERP_API int showProductsInOrder(char* id, ProductInOrder** product, c
 	 }
 	 return numberOfRows;
 }
+
+extern "C"	ERP_API int showCustomerProducts(char* id, CustomerProduct** product, char* error, ConnectionString con) {
+
+	status = 0;
+	int numberOfRows = 0;
+	unsigned int numOfFields;
+
+	db_response::ConnectionFunction(error, con);
+	if (conn) {
+
+		mysql_free_result(res);
+
+		string query = (string)"select order_has_product.Order_Order_ID, order_has_product.Product_Product_ID, product.Product_Name, order_has_product.Units_In_Order, product.Product_Price from product, order_has_product, order_table where order_table.Customer_Customer_ID = '" + id + "' and order_has_product.Order_Order_ID = order_table.Order_ID and order_has_product.Product_Product_ID = product.Product_ID";
+		qstate = mysql_query(conn, query.c_str());
+		cout << query << endl;
+		if (checkQuery(qstate, error)) {
+
+			res = mysql_store_result(conn);
+
+			if (res->row_count > 0)
+			{
+				*product = (CustomerProduct*)CoTaskMemAlloc((int)(res->row_count) * sizeof(CustomerProduct));
+				cout << res->row_count << endl;
+				numOfFields = mysql_num_fields(res);
+
+				CustomerProduct *_product = *product;
+				while (row = mysql_fetch_row(res)) {
+
+					_product->customerID = id;
+					_product->orderID = row[0];
+					_product->productID = row[1];
+					_product->name = row[2];
+					_product->unitsOrdered = stoi(row[3]);
+					_product->price = stod(row[4]);
+
+					numberOfRows++;
+					_product++;
+				}
+				cout << "here" << endl;
+			}
+		}
+	}
+	return numberOfRows;
+}
+
 /*
  extern "C"	ERP_API double makeOrder(char* id, char *error) {
 
