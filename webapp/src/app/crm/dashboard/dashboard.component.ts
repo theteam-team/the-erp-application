@@ -149,8 +149,8 @@ export class DashboardComponent implements OnInit {
       },
       data: {
         datasets: [{
-          data:[ 1,0],
-          backgroundColor: [" green", "red" ],
+          data:[ 0,1],
+          backgroundColor: [" darkgreen", "darkred" ],
           label: 'Opportunities'
         }],
         labels: ['Won', 'Loss ']
@@ -169,7 +169,7 @@ export class DashboardComponent implements OnInit {
         total ++;
       }
     }
-    return total
+    return total;
   }
 
    ERNew() {
