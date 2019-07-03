@@ -1,7 +1,7 @@
  <div style="margin:30px">
-  <br />
-  <h2 style="color:darkcyan">Dashboard</h2>
-
+  
+  <h1 style="color:darkcyan">Dashboard</h1>
+   <br />
   <div class="row">
     <div class="col">
       <div class="card" style="padding:10px;   background-color:white">
@@ -55,7 +55,7 @@
 
 
   <div class="col " style="display:inline-flex">
-    <div  style="width:60%;">
+    <div style="width:60%;">
       <table class="table " style=" margin:20px ; background-color:darkseagreen; color:white">
         <thead>
           <tr>
@@ -107,9 +107,15 @@
         </tbody>
       </table>
     </div>
-    <div class="card" style="width:20%;margin:50px ">
+    <div  style="width:30%;  margin-left:150px">
       
-      
+ 
+        <canvas id="wonLoss"></canvas>
+        <div class="row" style="margin:70px">
+          <h5 class="col"> Won: {{won()}}</h5>
+          <h5 class="col"> Loss: {{loss()}}</h5>
+        
+      </div>
     </div>
   </div>
 

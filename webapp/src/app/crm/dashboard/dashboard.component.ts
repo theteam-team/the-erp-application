@@ -19,12 +19,12 @@ export class DashboardComponent implements OnInit {
   pie: any;
   doughnut: any;
   
-  
+ 
   opportunities: Opportunity[];
   customers: Customer[];
   salesman: Salesman[];
 
-  new;
+   
 
 
   constructor(private _customerService: customerService, private _opportunityService: OpportunityService, private salesmanService: SalesmanService) {
@@ -132,6 +132,44 @@ export class DashboardComponent implements OnInit {
         labels: ['New', 'Qualified', 'Proposition', 'Negotiation', 'Won']
       }
     })
+
+    this.doughnut = new Chart('wonLoss', {
+      type: 'pie',
+      options: {
+        responsive: true,
+        title: {
+          display: true,
+          text: ' Opportunities'
+        }, legend: {
+          position: 'top',
+        }, animation: {
+          animateScale: true,
+          animateRotate: true
+        }
+      },
+      data: {
+        datasets: [{
+          data:[ 1,0],
+          backgroundColor: [" green", "red" ],
+          label: 'Opportunities'
+        }],
+        labels: ['Won', 'Loss ']
+      }
+    })
+  }
+  loss() {
+    let loss = 0;
+    loss = this._opportunityService.lossOpportunity();
+    return loss;
+  }
+  Won() {
+    let total = 0;
+    for (var i = 0; i < this.opportunities.length; i++) {
+      if (this.opportunities[i].status === 5) {
+        total ++;
+      }
+    }
+    return total
   }
 
    ERNew() {

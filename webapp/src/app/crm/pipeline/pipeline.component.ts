@@ -30,11 +30,15 @@ export class PipelineComponent implements OnInit {
   }
 
   deleteOpportunity(opportunityID: number) {
+   
     this._opportunityService.deleteOpportunity(opportunityID).subscribe(
       () => console.log('Opportunity deleted'),
       (err) => console.log(err)
-    );  
+    );
+    this._opportunityService.lossOpportunity();
   }
+
+ 
 
   drop(event: CdkDragDrop<Opportunity[]>) {
     if (event.previousContainer !== event.container) {

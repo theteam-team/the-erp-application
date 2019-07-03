@@ -15,17 +15,7 @@ export class CreateCustomerComponent implements OnInit {
 
   Title: string;
   dateOfBirth: Date;
-  customer: Customer = {
-    id: null,
-    name: null,
-    email: '',
-    phone_number: null,
-    company: null,
-    company_email: '',
-    gender: null,
-    is_lead: null,
-    dateOfBirth: null,
-  };
+  customer: Customer ;
   title: string;
   constructor(private _customerService: customerService, private _router: Router, private _route: ActivatedRoute) { }
 
@@ -48,6 +38,8 @@ export class CreateCustomerComponent implements OnInit {
         gender: null,
         is_lead: null,
         dateOfBirth: null,
+        loyality_points: null,
+        type: null
       };
       this.Title = 'Create New Customer';
     }

@@ -1,142 +1,143 @@
 
-  <header>
-    <h1 class="dark" style="color:darkcyan"> Pipeline</h1>
-     
-    <div class="form-group">
-      <input type="text" class="form-control" placeholder="Search by Name" style="width:200px;  float:right;" [(ngModel)]="searchTerm" />
-      <button class="btn btn-info" routerLink="editOpportunity/0">CREATE</button>
+<header>
+  <h1 class="dark" style="color:darkcyan"> Pipeline</h1>
 
+  <div class="form-group">
+    <input type="text" class="form-control" placeholder="Search by Name" style="width:200px;  float:right;" [(ngModel)]="searchTerm" />
+    <button class="btn btn-info" routerLink="editOpportunity/0">CREATE</button>
+
+  </div>
+</header>
+
+
+<div class="row bg-light" data-spy="scroll" style="margin:5px; padding:5px;">
+  <div class="col">
+    <div>
+      <h5>New</h5>
+      <h6 matSuffix>Expected Revenues:{{ totalNew() }}.00 $</h6>
     </div>
-  </header>
-
- 
-  <div class="row bg-light" data-spy="scroll"  style="margin:5px; padding:5px;" >
-    <div class="col">
-      <div>
-        <h5>New</h5>
-        <h6 matSuffix>Expected Revenues:{{ totalNew() }}.00 $</h6>
-      </div>
 
 
 
-      <div *ngFor="let opportunity of opportunities | opportunityFilter:searchTerm">
-        <div class="card" style="width: 14rem; margin:0px;padding:10px;" *ngIf="opportunity.status ===1" (click)="editOpportunity(opportunity.id)">
-          <h6 class="card-title"> {{opportunity.title}} </h6>
+    <div *ngFor="let opportunity of opportunities | opportunityFilter:searchTerm">
+      <div class="card text-white bg-dark mb-3" style="width: 14rem; margin:0px;padding:10px;" *ngIf="opportunity.status ===1" (click)="editOpportunity(opportunity.id)">
+        <h6 class="card-title"> {{opportunity.title}} </h6>
 
 
 
-          <h6 class="card-title" style="color:darkcyan" matSuffix> {{opportunity.expected_revenue}}.00 $ </h6>
-          <div class="row">
-            <h6 style="color:grey;" class="col"> {{opportunity.start_date}} </h6>
-            <i class=" col material-icons" style="color: grey">schedule </i>
-
-          </div>
-          <button class="btn btn-danger" (click)="deleteOpportunity(opportunity.id)" style="width: 50%; font-size:small;"> Mark Lost </button>
+        <h6 class="card-title" style="color:darkcyan" matSuffix> {{opportunity.expected_revenue}}.00 $ </h6>
+        <div class="row">
+          <h6 style="color:grey;" class="col"> {{opportunity.start_date}} </h6>
+          <i class=" col material-icons" style="color: grey">schedule </i>
 
         </div>
+        <button class="btn btn-danger" (click)="deleteOpportunity(opportunity.id)" style="width: 50%; font-size:small;"> Mark Lost </button>
+
       </div>
     </div>
-     
-    <div class="col  ">
-     
-      <div>
-        <h5> Qualified</h5>
-        <h6 matSuffix>Expected Revenues: {{  totalQualified() }}.00 $</h6>
-      </div>
-        
-           
-            <div   *ngFor="let opportunity of opportunities | opportunityFilter:searchTerm">
-              <div class="card" style="width: 15rem; margin:0px;padding:10px;" *ngIf="opportunity.status ===2" (click)="editOpportunity(opportunity.id)">
-                <h6 class="card-title"> {{opportunity.title}} </h6>
-
-
-
-                <h6 class="card-title" style="color:darkcyan" matSuffix> {{opportunity.expected_revenue}}.00 $ </h6>
-                <div class="row" >
-                  <h6 style="color:grey;" class="col"> {{opportunity.start_date}} </h6>
-                  <i class=" col material-icons" style="color: grey">schedule </i>
-
-                </div>
-                  <button class="btn btn-danger" (click)="deleteOpportunity(opportunity.id)" style="width: 40%; font-size:small;"> Mark Lost </button>
-
-                </div>
-            </div>
-        
-      
-    </div>
-    <div class="col  ">
-      <div>
-        <h5> Proposition</h5>
-        <h6 matSuffix>Expected Revenues: {{  totalProposition() }}.00 $</h6>
-      </div>
-
-
-      <div *ngFor="let opportunity of opportunities | opportunityFilter:searchTerm">
-        <div class="card" style="width: 15rem; margin:0px;padding:10px;" *ngIf="opportunity.status ===3" (click)="editOpportunity(opportunity.id)">
-          <h6 class="card-title"> {{opportunity.title}} </h6>
-
-
-
-          <h6 class="card-title" style="color:darkcyan" matSuffix> {{opportunity.expected_revenue}}.00 $ </h6>
-          <div class="row">
-            <h6 style="color:grey;" class="col"> {{opportunity.start_date}} </h6>
-            <i class=" col material-icons" style="color: grey">schedule </i>
-
-          </div>
-          <button class="btn btn-danger" (click)="deleteOpportunity(opportunity.id)" style="width: 40%; font-size:small;"> Mark Lost </button>
-
-        </div>
-      </div>
-
-    </div>
-    <div class="col  ">
-      <div>
-        <h5>Negotiation</h5>
-        <h6 matSuffix>Expected Revenues:{{  totalNegotiation() }}.00 $</h6>
-      </div>
-
-
-      <div *ngFor="let opportunity of opportunities | opportunityFilter:searchTerm">
-        <div class="card" style="width: 15rem; margin:0px;padding:10px;" *ngIf="opportunity.status ===4" (click)="editOpportunity(opportunity.id)">
-          <h6 class="card-title"> {{opportunity.title}} </h6>
-
-
-
-          <h6 class="card-title" style="color:darkcyan" matSuffix> {{opportunity.expected_revenue}}.00 $ </h6>
-          <div class="row">
-            <h6 style="color:grey;" class="col"> {{opportunity.start_date}} </h6>
-            <i class=" col material-icons" style="color: grey">schedule </i>
-
-          </div>
-          <button class="btn btn-danger" (click)="deleteOpportunity(opportunity.id)" style="width: 40%; font-size:small;"> Mark Lost </button>
-
-        </div>
-      </div>
-
-    </div>
-    <div class="col ">
-      <div>
-        <h5> Won</h5>
-        <h6 matSuffix>Expected Revenues: {{  totalWon() }}.00 $</h6>
-      </div>
-
-
-      <div *ngFor="let opportunity of opportunities | opportunityFilter:searchTerm">
-        <div class="card" style="width: 15rem; margin:0px;padding:10px;" *ngIf="opportunity.status ===5" (click)="editOpportunity(opportunity.id)">
-          <h6 class="card-title"> {{opportunity.title}} </h6>
-
-          <h6 class="card-title" style="color:darkcyan" matSuffix> {{opportunity.expected_revenue}}.00 $ </h6>
-          <div class="row">
-            <h6 style="color:grey;" class="col"> {{opportunity.start_date}} </h6>
-            <i class=" col material-icons" style="color: grey">schedule </i>
-
-          </div>
-          <button class="btn btn-danger" (click)="deleteOpportunity(opportunity.id)" style="width: 40%; font-size:small;"> Mark Lost </button>
-
-        </div>
-      </div>
-
-    </div>  
   </div>
 
- 
+  <div class="col ">
+
+    <div>
+      <h5> Qualified</h5>
+      <h6 matSuffix>Expected Revenues: {{  totalQualified() }}.00 $</h6>
+    </div>
+
+
+    <div *ngFor="let opportunity of opportunities | opportunityFilter:searchTerm">
+      <div class="card" style="width: 15rem; margin:0px;padding:10px;" *ngIf="opportunity.status ===2" (click)="editOpportunity(opportunity.id)">
+        <h6 class="card-title"> {{opportunity.title}} </h6>
+
+
+
+        <h6 class="card-title" style="color:darkcyan" matSuffix> {{opportunity.expected_revenue}}.00 $ </h6>
+        <div class="row">
+          <h6 style="color:grey;" class="col"> {{opportunity.start_date}} </h6>
+          <i class=" col material-icons" style="color: grey">schedule </i>
+
+        </div>
+        <button class="btn btn-danger" (click)="deleteOpportunity(opportunity.id)" style="width: 40%; font-size:small;"> Mark Lost </button>
+
+      </div>
+    </div>
+
+
+  </div>
+  <div class="col  ">
+    <div>
+      <h5> Proposition</h5>
+      <h6 matSuffix>Expected Revenues: {{  totalProposition() }}.00 $</h6>
+    </div>
+
+
+    <div *ngFor="let opportunity of opportunities | opportunityFilter:searchTerm">
+      <div class="card" style="width: 15rem; margin:0px;padding:10px;" *ngIf="opportunity.status ===3" (click)="editOpportunity(opportunity.id)">
+        <h6 class="card-title"> {{opportunity.title}} </h6>
+
+
+
+        <h6 class="card-title" style="color:darkcyan" matSuffix> {{opportunity.expected_revenue}}.00 $ </h6>
+        <div class="row">
+          <h6 style="color:grey;" class="col"> {{opportunity.start_date}} </h6>
+          <i class=" col material-icons" style="color: grey">schedule </i>
+
+        </div>
+        <button class="btn btn-danger" (click)="deleteOpportunity(opportunity.id)" style="width: 40%; font-size:small;"> Mark Lost </button>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="col  ">
+    <div>
+      <h5>Negotiation</h5>
+      <h6 matSuffix>Expected Revenues:{{  totalNegotiation() }}.00 $</h6>
+    </div>
+
+
+    <div *ngFor="let opportunity of opportunities | opportunityFilter:searchTerm">
+      <div class="card" style="width: 15rem; margin:0px;padding:10px;" *ngIf="opportunity.status === 4" (click)="editOpportunity(opportunity.id)">
+        <h6 class="card-title"> {{opportunity.title}} </h6>
+
+
+
+        <h6 class="card-title" style="color:darkcyan" matSuffix> {{opportunity.expected_revenue}}.00 $ </h6>
+        <div class="row">
+          <h6 style="color:grey;" class="col"> {{opportunity.start_date}} </h6>
+          <i class=" col material-icons" style="color: grey">schedule </i>
+
+        </div>
+        <button class="btn btn-danger" (click)="deleteOpportunity(opportunity.id)" style="width: 40%; font-size:small;"> Mark Lost </button>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="col ">
+    <div>
+      <h5> Won</h5>
+      <h6 matSuffix>Expected Revenues: {{  totalWon() }}.00 $</h6>
+    </div>
+
+
+    <div *ngFor="let opportunity of opportunities | opportunityFilter:searchTerm">
+      <div class="card" style="width: 15rem; margin:0px;padding:10px;" *ngIf="opportunity.status ===5" (click)="editOpportunity(opportunity.id)">
+        <h6 class="card-title"> {{opportunity.title}} </h6>
+
+        <h6 class="card-title" style="color:darkcyan" matSuffix> {{opportunity.expected_revenue}}.00 $ </h6>
+        <div class="row">
+          <h6 style="color:grey;" class="col"> {{opportunity.start_date}} </h6>
+          <i class=" col material-icons" style="color: grey">schedule </i>
+
+        </div>
+        <button class="btn btn-danger" (click)="deleteOpportunity(opportunity.id)" style="width: 40%; font-size:small;"> Mark Lost </button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<div>{{loss()}}</div>
+
