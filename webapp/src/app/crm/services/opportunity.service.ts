@@ -41,4 +41,10 @@ export class OpportunityService {
     return this.httpClient.delete<void>('http://localhost:3000/opportunities/' + id);
   
   }
+
+  lossOpportunity() {
+    let loss = 0;
+    loss++;
+    return loss;
+  }
 }

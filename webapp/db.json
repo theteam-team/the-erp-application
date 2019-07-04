@@ -41,33 +41,10 @@
       "customer_id": 1,
       "salesman_id": 3,
       "product_id": 678,
-      "quantity":10,
+      "quantity": 10,
       "expected_revenue": 200,
       "status": 1,
       "start_date": "2019-05-20"
-    },
-    {
-      "id": 2,
-      "title": "interest in products",
-      "customer_id": 2,
-      "salesman_id": 1,
-      "product_id": null,
-      "quantity": null,
-      "expected_revenue": 80,
-      "status": 2,
-      "start_date": "2019-07-19"
-       
-    },
-    {
-      "id": 3,
-      "title": "Plan to buy 5 green balls",
-      "customer_id": 3,
-      "salesman_id": 2,
-      "product_id": 235,
-      "quantity": 5,
-      "expected_revenue": 50,
-      "status": 2,
-      "start_date": "2019-05-17"
     },
     {
       "id": 4,
@@ -77,7 +54,7 @@
       "quantity": 15,
       "salesman_id": 3,
       "expected_revenue": 800,
-      "status": 1,
+      "status": 2,
       "start_date": "2019-06-20"
     }
   ],

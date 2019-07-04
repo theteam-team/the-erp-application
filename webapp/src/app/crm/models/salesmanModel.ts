@@ -5,10 +5,9 @@ export class Salesman {
   email: string;
   phone_number: string;
   points: number;
-  Role_id: number;
   gender: string;
   is_Available: boolean;
   dateOfBirth: Date;
   department: string;
-
+  role: string ;
 }

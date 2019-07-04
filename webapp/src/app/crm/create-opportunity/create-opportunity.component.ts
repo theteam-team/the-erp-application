@@ -55,6 +55,8 @@ export class CreateOpportunityComponent implements OnInit {
         quantity: null,
         status: 1,
         start_date: null,
+        end_data: null,
+        notes: null,
 
       };
       this.Title = 'Create an Opportunity';

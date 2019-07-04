@@ -9,6 +9,7 @@ export class Opportunity {
   salesman_id: number;
   status: number;
   start_date: Date;
-  
-
+  end_data: string ;
+  notes: string;
+ 
 }
