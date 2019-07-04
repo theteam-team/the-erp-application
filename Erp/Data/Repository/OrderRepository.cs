@@ -244,5 +244,15 @@ namespace Erp.Repository
 
             return status;
         }
+
+        public async Task<int> AddToOrderTotal(string id, double newPrice, byte[] error)
+        {
+            return await Task.Run(() => Warehouse_Wrapper.addToOrderTotal(id, newPrice, error, _ConnectionString));
+        }
+
+        public async Task<int> RemoveFromOrderTotal(string id, double newPrice, byte[] error)
+        {
+            return await Task.Run(() => Warehouse_Wrapper.removeFromOrderTotal(id, newPrice, error, _ConnectionString));
+        }
     }
 }

@@ -62,6 +62,12 @@ namespace Erp.ModulesWrappers
         public static extern int addToStock(string id, int newUnits, byte[] error, ConnectionString connectionString);
 
         [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern int addToOrderTotal(string id, double newPrice, byte[] error, ConnectionString connectionString);
+
+        [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern int removeFromOrderTotal(string id, double newPrice, byte[] error, ConnectionString connectionString);
+
+        [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern int removeFromStock(ProductInOrder product, byte[] error, ConnectionString connectionString);
 
         [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]

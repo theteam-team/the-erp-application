@@ -16,7 +16,21 @@ export class ProductComponent implements OnInit {
     public productID: string;
     public formDisabled: boolean;
     public check: boolean;
-    public productInfo;
+    public productInfo = {
+        "id": "",
+        "name": "",
+        "description": "",
+        "price": 0,
+        "weight": 0,
+        "length": 0,
+        "width": 0,
+        "height": 0,
+        "unitsInStock": 0,
+        "sold": 0,
+        "purchased": 0
+    };
+    public sold = false;
+    public purchased = false;
 
     constructor(private data: DataService, private router: Router, private route: ActivatedRoute, private location: Location) {
         this.route.paramMap.subscribe(params => this.productID = params.get('productid'));
@@ -29,6 +43,12 @@ export class ProductComponent implements OnInit {
                     this.productInfo = this.data.productInfo;
                 }
             })
+        if (this.productInfo.sold) {
+            this.sold = true;
+        }
+        if (this.productInfo.purchased) {
+            this.purchased = true;
+        }
         this.formDisabled = true;
     }
 
@@ -61,6 +81,12 @@ export class ProductComponent implements OnInit {
         }
         if (pForm.value.unitsInStock) {
             this.productInfo.unitsInStock = pForm.value.unitsInStock;
+        }
+        if (pForm.value.sold) {
+            this.productInfo.sold = 1;
+        }
+        if (pForm.value.purchased) {
+            this.productInfo.purchased = 1;
         }
 
         this.data.saveEdits(this.productInfo);

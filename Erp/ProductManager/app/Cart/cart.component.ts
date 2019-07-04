@@ -16,17 +16,19 @@ import { ProfileComponent } from '../profile/profile.component';
 export class CartComponent implements OnInit {
 
     public customerID;
+    public orderID;
     public customerProducts = [];
-    public total = 0;
+    public orderInfo;
 
     constructor(private data: DataService, private router: Router, private route: ActivatedRoute, private location: Location, private dialog: MatDialog) {
-        this.route.paramMap.subscribe(params => this.customerID = params.get('id'));
+        this.route.paramMap.subscribe(params => this.customerID = params.get('cid'));
+        this.route.paramMap.subscribe(params => this.orderID = params.get('oid'));
     }
 
     ngOnInit() {
 
         this.getProducts();
-        console.log(this.total);
+        this.getOrder();
     }
 
     reloadComponent(): void {
@@ -40,24 +42,22 @@ export class CartComponent implements OnInit {
                     this.customerProducts = this.data.customerProducts;
                 }
             });
-
-        this.total = this.customerProducts[this.customerProducts.length - 1].total;
-        this.getTotal(this.total);
     }
 
-    getTotal(payment){
-        /*let payment = 0;
-
-        for (let p of this.customerProducts) {
-            payment += p.price * p.unitsOrdered;
-        }*/
-
-        this.data.getTotal(payment);
+    getOrder(): void {
+        this.data.loadOrderInfo(this.orderID)
+            .subscribe(success => {
+                if (success) {
+                    this.orderInfo = this.data.orderInfo;
+                }
+            });
     }
 
-    onProductRemove(oid, pid): void {
+    onProductRemove(oid: string, pid: string, units: number, newPrice: number): void {
+        let cost = units * newPrice;
 
         this.data.deleteProductFromOrder(oid, pid);
+        this.data.removeFromOrderTotal(oid, cost);
         this.reloadComponent();
     }
 

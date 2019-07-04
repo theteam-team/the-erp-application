@@ -13,7 +13,7 @@
                 <li>Price: {{ p.price }} $</li>
             </ul>
             <input #units type="number" id="units" name="units" value="1"/>
-            <button class="btn2" type="button" (click)="onProductAdd(p.id, units.value)">Add To Cart</button>
+            <button class="btn2" type="button" (click)="onProductAdd(p.id, units.value, p.price)">Add To Cart</button>
         </div>
     </div>
 </div>
