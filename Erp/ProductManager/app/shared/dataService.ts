@@ -22,8 +22,8 @@ export class DataService {
         return this.http.post("AddPotentialOrder", order).subscribe((data) => { });
     }
 
-    addToOrder(product) {
-        return this.http.post("AddToOrder", product).subscribe((data) => { });
+   addToOrder(product, order) {
+       return this.http.post("AddToOrder", product).subscribe((data) => {});
     }
 
     addCustomerAddress(address) {

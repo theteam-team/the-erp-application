@@ -30,7 +30,7 @@
     "Audience": "users"
   },
   "BpmEngine" :{
-    "Address": ""
+    "Address": "localhost:8090"
   },
   "MySqlC++": {
     "server": "mysqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com",

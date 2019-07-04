@@ -256,7 +256,7 @@ namespace Erp.Controllers
                 _productRepository.setConnectionString(OrganizationName);
 
                 byte[] error = new byte[500];
-                List<Product> product = await _productRepository.ShowAvailableProducts(error);
+                List<Product> product = await _productRepository.GetAll(error);
                 string z = Encoding.ASCII.GetString(error);
                 string y = z.Remove(z.IndexOf('\0'));
                 if (y == "")

@@ -11,17 +11,20 @@ using Newtonsoft.Json;
 using Erp.Data.Entities;
 using Erp.Data;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 
 namespace Erp.BackgroundServices
 {
     public class BpmPollingService : BackgroundService
     {
+        private IConfiguration _config;
         private TaskExectionQueue _executionQueue;
         private ILogger<BpmPollingService> _ilogger;
         private IServiceProvider _services;
 
-        public BpmPollingService(TaskExectionQueue exectionQueue ,IServiceProvider services, ILogger<BpmPollingService> ilogger) 
+        public BpmPollingService(IConfiguration config,TaskExectionQueue exectionQueue ,IServiceProvider services, ILogger<BpmPollingService> ilogger) 
         {
+            _config = config;
             _executionQueue = exectionQueue;
             _ilogger = ilogger;
             _services = services;
@@ -47,7 +50,7 @@ namespace Erp.BackgroundServices
             {
                 try
                 {
-                    var result = await client.GetAsync("http://102.187.45.214/engine/api/tasks");
+                    var result = await client.GetAsync("http://"+_config["BpmEngine:Address"] +"/engine/api/tasks");
                     if (result.IsSuccessStatusCode)
                     {
                         var content = await result.Content.ReadAsStringAsync();

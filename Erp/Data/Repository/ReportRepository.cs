@@ -41,7 +41,7 @@ namespace Erp.Repository
                 catch (Exception)
                 {
 
-                    throw;
+                    
                 }
             });
             Console.WriteLine("status = " + status);

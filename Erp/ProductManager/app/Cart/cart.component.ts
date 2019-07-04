@@ -38,32 +38,47 @@ export class CartComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.data.loadCustomerProducts(this.customerID)
+            .subscribe(success => {
+                if (success) {
+                    this.customerProducts = this.data.customerProducts;
+                }
+                this.data.loadOrderInfo(this.orderID)
+                    .subscribe(success => {
+                        if (success) {
+                            this.orderInfo = this.data.orderInfo;
+                        }
+                        console.log(this.customerProducts);
+                        console.log(this.orderInfo);
+                    });
+            });
+        
 
-        this.getProducts();
-        this.getOrder();
+        //this.getProducts();
+        //this.getOrder();
     }
 
     reloadComponent(): void {
         location.reload();
     }
 
-    getProducts(): void {
+    /*getProducts(): void {
         this.data.loadCustomerProducts(this.customerID)
             .subscribe(success => {
                 if (success) {
                     this.customerProducts = this.data.customerProducts;
                 }
             });
-    }
+    }*/
 
-    getOrder(): void {
+    /*getOrder(): void {
         this.data.loadOrderInfo(this.orderID)
             .subscribe(success => {
                 if (success) {
                     this.orderInfo = this.data.orderInfo;
                 }
             });
-    }
+    }*/
 
     onProductRemove(oid: string, pid: string, units: number, newPrice: number): void {
 

@@ -5,19 +5,19 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema ERP
+-- Schema team
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema ERP
+-- Schema team
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `ERP` DEFAULT CHARACTER SET utf8 ;
-USE `ERP` ;
+CREATE SCHEMA IF NOT EXISTS `team` DEFAULT CHARACTER SET utf8 ;
+USE `team` ;
 
 -- -----------------------------------------------------
--- Table `ERP`.`employee`
+-- Table `team`.`Employee`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ERP`.`employee` (
+CREATE TABLE IF NOT EXISTS `team`.`Employee` (
   `Employee_ID` VARCHAR(50) NOT NULL,
   `Employee_Name` VARCHAR(45) NULL,
   `Employee_Phone_Number` DECIMAL NULL,
@@ -34,9 +34,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ERP`.`customer`
+-- Table `team`.`Customer`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ERP`.`customer` (
+CREATE TABLE IF NOT EXISTS `team`.`Customer` (
   `Customer_ID` VARCHAR(45) NOT NULL,
   `Customer_Name` VARCHAR(45) NULL,
   `Customer_Phone_Number` DECIMAL NULL,
@@ -53,9 +53,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ERP`.`opportunities`
+-- Table `team`.`Opportunities`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ERP`.`opportunities` (
+CREATE TABLE IF NOT EXISTS `team`.`Opportunities` (
   `Opportunity_ID` VARCHAR(45) NOT NULL,
   `Opportunity_Status` INT NULL,
   `Opportunity_Expected_Revenue` DECIMAL NULL,
@@ -70,21 +70,21 @@ CREATE TABLE IF NOT EXISTS `ERP`.`opportunities` (
   INDEX `fk_opportunities_Employee1_idx` (`Employee_Employee_ID` ASC) VISIBLE,
   CONSTRAINT `fk_opportunities_Customer1`
     FOREIGN KEY (`Customer_Customer_ID`)
-    REFERENCES `ERP`.`customer` (`Customer_ID`)
+    REFERENCES `team`.`Customer` (`Customer_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_opportunities_Employee1`
     FOREIGN KEY (`Employee_Employee_ID`)
-    REFERENCES `ERP`.`employee` (`Employee_ID`)
+    REFERENCES `team`.`Employee` (`Employee_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ERP`.`customer_address`
+-- Table `team`.`Customer_Address`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ERP`.`customer_address` (
+CREATE TABLE IF NOT EXISTS `team`.`Customer_Address` (
   `Address_ID` VARCHAR(45) NOT NULL,
   `City` VARCHAR(45) NULL,
   `Governate` VARCHAR(45) NULL,
@@ -95,16 +95,16 @@ CREATE TABLE IF NOT EXISTS `ERP`.`customer_address` (
   INDEX `fk_Customer_Address_Customer1_idx` (`Customer_Customer_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Customer_Address_Customer1`
     FOREIGN KEY (`Customer_Customer_ID`)
-    REFERENCES `ERP`.`customer` (`Customer_ID`)
+    REFERENCES `team`.`Customer` (`Customer_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ERP`.`supplier`
+-- Table `team`.`Supplier`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ERP`.`supplier` (
+CREATE TABLE IF NOT EXISTS `team`.`Supplier` (
   `Supplier_ID` VARCHAR(45) NOT NULL,
   `Supplier_Name` VARCHAR(45) NULL,
   `Supplier_Phone_Number` DECIMAL NULL,
@@ -114,9 +114,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ERP`.`product`
+-- Table `team`.`Product`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ERP`.`product` (
+CREATE TABLE IF NOT EXISTS `team`.`Product` (
   `Product_ID` VARCHAR(45) NOT NULL,
   `Product_Name` VARCHAR(45) NULL,
   `Product_Description` VARCHAR(200) NULL,
@@ -131,9 +131,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ERP`.`shipment`
+-- Table `team`.`Shipment`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ERP`.`shipment` (
+CREATE TABLE IF NOT EXISTS `team`.`Shipment` (
   `Shipment_ID` VARCHAR(45) NOT NULL,
   `Shipment_Method` VARCHAR(45) NULL,
   `Shipment_Start` DATETIME NULL,
@@ -143,9 +143,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ERP`.`payment`
+-- Table `team`.`Payment`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ERP`.`payment` (
+CREATE TABLE IF NOT EXISTS `team`.`Payment` (
   `Payment_ID` VARCHAR(45) NOT NULL,
   `Payment_Method` VARCHAR(45) NULL,
   `Payment_Date` DATETIME NULL,
@@ -155,9 +155,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ERP`.`category`
+-- Table `team`.`Category`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ERP`.`category` (
+CREATE TABLE IF NOT EXISTS `team`.`Category` (
   `Category_ID` VARCHAR(45) NOT NULL,
   `Category_Name` VARCHAR(45) NULL,
   `Category_Description` VARCHAR(200) NULL,
@@ -166,9 +166,54 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ERP`.`account`
+-- Table `team`.`Product_has_Supplier`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ERP`.`account` (
+CREATE TABLE IF NOT EXISTS `team`.`Product_has_Supplier` (
+  `Product_Product_ID` VARCHAR(45) NOT NULL,
+  `Supplier_Supplier_ID` VARCHAR(45) NOT NULL,
+  `Units_Supplied` INT NULL,
+  PRIMARY KEY (`Product_Product_ID`, `Supplier_Supplier_ID`),
+  INDEX `fk_Product_has_Supplier_Supplier1_idx` (`Supplier_Supplier_ID` ASC) VISIBLE,
+  INDEX `fk_Product_has_Supplier_Product_idx` (`Product_Product_ID` ASC) VISIBLE,
+  CONSTRAINT `fk_Product_has_Supplier_Product`
+    FOREIGN KEY (`Product_Product_ID`)
+    REFERENCES `team`.`Product` (`Product_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Product_has_Supplier_Supplier1`
+    FOREIGN KEY (`Supplier_Supplier_ID`)
+    REFERENCES `team`.`Supplier` (`Supplier_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `team`.`Product_has_Category`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `team`.`Product_has_Category` (
+  `Product_Product_ID` VARCHAR(45) NOT NULL,
+  `Category_Category_ID` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`Product_Product_ID`, `Category_Category_ID`),
+  INDEX `fk_Product_has_Category1_Category1_idx` (`Category_Category_ID` ASC) INVISIBLE,
+  INDEX `fk_Product_has_Category1_Product1_idx` (`Product_Product_ID` ASC) VISIBLE,
+  CONSTRAINT `fk_Product_has_Category1_Product1`
+    FOREIGN KEY (`Product_Product_ID`)
+    REFERENCES `team`.`Product` (`Product_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Product_has_Category1_Category1`
+    FOREIGN KEY (`Category_Category_ID`)
+    REFERENCES `team`.`Category` (`Category_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `team`.`Account`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `team`.`Account` (
   `Account_ID` VARCHAR(45) NOT NULL,
   `Account_Money` DOUBLE NULL,
   `Account_Creation_Date` DATETIME NULL,
@@ -178,16 +223,16 @@ CREATE TABLE IF NOT EXISTS `ERP`.`account` (
   INDEX `fk_Account_Customer1_idx` (`Customer_Customer_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Account_Customer1`
     FOREIGN KEY (`Customer_Customer_ID`)
-    REFERENCES `ERP`.`customer` (`Customer_ID`)
+    REFERENCES `team`.`Customer` (`Customer_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ERP`.`product_has_category`
+-- Table `team`.`Product_has_Category`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ERP`.`product_has_category` (
+CREATE TABLE IF NOT EXISTS `team`.`Product_has_Category` (
   `Product_Product_ID` VARCHAR(45) NOT NULL,
   `Category_Category_ID` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`Product_Product_ID`, `Category_Category_ID`),
@@ -195,37 +240,37 @@ CREATE TABLE IF NOT EXISTS `ERP`.`product_has_category` (
   INDEX `fk_Product_has_Category1_Product1_idx` (`Product_Product_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Product_has_Category1_Product1`
     FOREIGN KEY (`Product_Product_ID`)
-    REFERENCES `ERP`.`product` (`Product_ID`)
+    REFERENCES `team`.`Product` (`Product_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Product_has_Category1_Category1`
     FOREIGN KEY (`Category_Category_ID`)
-    REFERENCES `ERP`.`category` (`Category_ID`)
+    REFERENCES `team`.`Category` (`Category_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ERP`.`interest`
+-- Table `team`.`Interest`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ERP`.`interest` (
+CREATE TABLE IF NOT EXISTS `team`.`Interest` (
   `Interest_ID` INT NOT NULL,
   `Category_Category_ID` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`Interest_ID`, `Category_Category_ID`),
   INDEX `fk_Interest_Category1_idx` (`Category_Category_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Interest_Category1`
     FOREIGN KEY (`Category_Category_ID`)
-    REFERENCES `ERP`.`category` (`Category_ID`)
+    REFERENCES `team`.`Category` (`Category_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ERP`.`customer_interest`
+-- Table `team`.`Customer_Interest`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ERP`.`customer_interest` (
+CREATE TABLE IF NOT EXISTS `team`.`Customer_Interest` (
   `Level` INT NULL,
   `Customer_Customer_ID` VARCHAR(45) NOT NULL,
   `Interest_Interest_ID` INT NOT NULL,
@@ -233,21 +278,21 @@ CREATE TABLE IF NOT EXISTS `ERP`.`customer_interest` (
   PRIMARY KEY (`Interest_Interest_ID`, `Customer_Customer_ID`),
   CONSTRAINT `fk_Customer_Interest_Customer1`
     FOREIGN KEY (`Customer_Customer_ID`)
-    REFERENCES `ERP`.`customer` (`Customer_ID`)
+    REFERENCES `team`.`Customer` (`Customer_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Customer_Interest_Interest1`
     FOREIGN KEY (`Interest_Interest_ID`)
-    REFERENCES `ERP`.`interest` (`Interest_ID`)
+    REFERENCES `team`.`Interest` (`Interest_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ERP`.`opportunity_product`
+-- Table `team`.`Opportunity_Product`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ERP`.`opportunity_product` (
+CREATE TABLE IF NOT EXISTS `team`.`Opportunity_Product` (
   `Opportunities_Opportunity_ID` VARCHAR(45) NOT NULL,
   `Product_Product_ID` VARCHAR(45) NOT NULL,
   `Units` INT NULL,
@@ -255,21 +300,21 @@ CREATE TABLE IF NOT EXISTS `ERP`.`opportunity_product` (
   INDEX `fk_Opportunity_Product_Product1_idx` (`Product_Product_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Opportunity_Product_Opportunities1`
     FOREIGN KEY (`Opportunities_Opportunity_ID`)
-    REFERENCES `ERP`.`opportunities` (`Opportunity_ID`)
+    REFERENCES `team`.`Opportunities` (`Opportunity_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Opportunity_Product_Product1`
     FOREIGN KEY (`Product_Product_ID`)
-    REFERENCES `ERP`.`product` (`Product_ID`)
+    REFERENCES `team`.`Product` (`Product_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ERP`.`order_table`
+-- Table `team`.`order_table`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ERP`.`order_table` (
+CREATE TABLE IF NOT EXISTS `team`.`order_table` (
   `Order_ID` VARCHAR(45) NOT NULL,
   `incoming` INT NULL,
   `outgoing` INT NULL,
@@ -288,31 +333,31 @@ CREATE TABLE IF NOT EXISTS `ERP`.`order_table` (
   INDEX `fk_order_table_Shipment1_idx` (`Shipment_Shipment_ID` ASC) VISIBLE,
   CONSTRAINT `fk_order_table_Customer1`
     FOREIGN KEY (`Customer_Customer_ID`)
-    REFERENCES `ERP`.`customer` (`Customer_ID`)
+    REFERENCES `team`.`Customer` (`Customer_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_order_table_Supplier1`
     FOREIGN KEY (`Supplier_Supplier_ID`)
-    REFERENCES `ERP`.`supplier` (`Supplier_ID`)
+    REFERENCES `team`.`Supplier` (`Supplier_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_order_table_Payment1`
     FOREIGN KEY (`Payment_Payment_ID`)
-    REFERENCES `ERP`.`payment` (`Payment_ID`)
+    REFERENCES `team`.`Payment` (`Payment_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_order_table_Shipment1`
     FOREIGN KEY (`Shipment_Shipment_ID`)
-    REFERENCES `ERP`.`shipment` (`Shipment_ID`)
+    REFERENCES `team`.`Shipment` (`Shipment_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ERP`.`inventory`
+-- Table `team`.`Inventory`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ERP`.`inventory` (
+CREATE TABLE IF NOT EXISTS `team`.`Inventory` (
   `Inventory_ID` VARCHAR(45) NOT NULL,
   `Governorate` VARCHAR(20) NULL,
   `City` VARCHAR(20) NULL,
@@ -325,9 +370,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ERP`.`order_has_product`
+-- Table `team`.`Order_has_Product`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ERP`.`order_has_product` (
+CREATE TABLE IF NOT EXISTS `team`.`Order_has_Product` (
   `Product_Product_ID` VARCHAR(45) NOT NULL,
   `order_table_Order_ID` VARCHAR(45) NOT NULL,
   `Inventory_Inventory_ID` VARCHAR(45) NULL,
@@ -339,26 +384,26 @@ CREATE TABLE IF NOT EXISTS `ERP`.`order_has_product` (
   INDEX `fk_Order_has_Product_order_table1_idx` (`order_table_Order_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Order_has_Product1_Product1`
     FOREIGN KEY (`Product_Product_ID`)
-    REFERENCES `ERP`.`product` (`Product_ID`)
+    REFERENCES `team`.`Product` (`Product_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Order_has_Product_Inventory1`
     FOREIGN KEY (`Inventory_Inventory_ID`)
-    REFERENCES `ERP`.`inventory` (`Inventory_ID`)
+    REFERENCES `team`.`Inventory` (`Inventory_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Order_has_Product_order_table1`
     FOREIGN KEY (`order_table_Order_ID`)
-    REFERENCES `ERP`.`order_table` (`Order_ID`)
+    REFERENCES `team`.`order_table` (`Order_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ERP`.`inventory_has_product`
+-- Table `team`.`Inventory_has_Product`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ERP`.`inventory_has_product` (
+CREATE TABLE IF NOT EXISTS `team`.`Inventory_has_Product` (
   `Inventory_Inventory_ID` VARCHAR(45) NOT NULL,
   `Product_Product_ID` VARCHAR(45) NOT NULL,
   `position` VARCHAR(45) NULL,
@@ -368,21 +413,21 @@ CREATE TABLE IF NOT EXISTS `ERP`.`inventory_has_product` (
   INDEX `fk_Inventory_has_Product_Inventory1_idx` (`Inventory_Inventory_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Inventory_has_Product_Inventory1`
     FOREIGN KEY (`Inventory_Inventory_ID`)
-    REFERENCES `ERP`.`inventory` (`Inventory_ID`)
+    REFERENCES `team`.`Inventory` (`Inventory_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Inventory_has_Product_Product1`
     FOREIGN KEY (`Product_Product_ID`)
-    REFERENCES `ERP`.`product` (`Product_ID`)
+    REFERENCES `team`.`Product` (`Product_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ERP`.`employee_address`
+-- Table `team`.`Employee_Address`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ERP`.`employee_address` (
+CREATE TABLE IF NOT EXISTS `team`.`Employee_Address` (
   `Address_ID` VARCHAR(45) NOT NULL,
   `City` VARCHAR(45) NULL,
   `Governate` VARCHAR(45) NULL,
@@ -393,16 +438,16 @@ CREATE TABLE IF NOT EXISTS `ERP`.`employee_address` (
   INDEX `fk_Employee_Address_Employee1_idx` (`Employee_Employee_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Employee_Address_Employee1`
     FOREIGN KEY (`Employee_Employee_ID`)
-    REFERENCES `ERP`.`employee` (`Employee_ID`)
+    REFERENCES `team`.`Employee` (`Employee_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ERP`.`supplier_address`
+-- Table `team`.`Supplier_Address`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ERP`.`supplier_address` (
+CREATE TABLE IF NOT EXISTS `team`.`Supplier_Address` (
   `Address_ID` VARCHAR(45) NOT NULL,
   `City` VARCHAR(45) NULL,
   `Governate` VARCHAR(45) NULL,
@@ -413,16 +458,16 @@ CREATE TABLE IF NOT EXISTS `ERP`.`supplier_address` (
   INDEX `fk_Inventory_Address_Supplier1_idx` (`Supplier_Supplier_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Inventory_Address_Supplier1`
     FOREIGN KEY (`Supplier_Supplier_ID`)
-    REFERENCES `ERP`.`supplier` (`Supplier_ID`)
+    REFERENCES `team`.`Supplier` (`Supplier_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ERP`.`billMaterials`
+-- Table `team`.`BillMaterials`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ERP`.`billMaterials` (
+CREATE TABLE IF NOT EXISTS `team`.`BillMaterials` (
   `BillMaterials_ID` VARCHAR(45) NOT NULL,
   `Component_Name` INT NULL,
   `Valid_From` DATETIME NULL,
@@ -433,9 +478,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ERP`.`inventory_has_billMaterials`
+-- Table `team`.`Inventory_has_BillMaterials`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ERP`.`inventory_has_billMaterials` (
+CREATE TABLE IF NOT EXISTS `team`.`Inventory_has_BillMaterials` (
   `Inventory_ID` VARCHAR(45) NOT NULL,
   `BillMaterials_ID` VARCHAR(45) NOT NULL,
   `position` VARCHAR(45) NULL,
@@ -445,21 +490,21 @@ CREATE TABLE IF NOT EXISTS `ERP`.`inventory_has_billMaterials` (
   INDEX `FK_Inventory_ID` (`Inventory_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Inventory_has_BillMaterials_Inventory`
     FOREIGN KEY (`Inventory_ID`)
-    REFERENCES `ERP`.`inventory` (`Inventory_ID`)
+    REFERENCES `team`.`Inventory` (`Inventory_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Inventory_has_BillMaterials_BillMaterials`
     FOREIGN KEY (`BillMaterials_ID`)
-    REFERENCES `ERP`.`billMaterials` (`BillMaterials_ID`)
+    REFERENCES `team`.`BillMaterials` (`BillMaterials_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ERP`.`product_has_billMaterials`
+-- Table `team`.`Product_has_BillMaterials`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ERP`.`product_has_billMaterials` (
+CREATE TABLE IF NOT EXISTS `team`.`Product_has_BillMaterials` (
   `Product_ID` VARCHAR(45) NOT NULL,
   `BillMaterials_ID` VARCHAR(45) NOT NULL,
   `Component_Name` VARCHAR(45) NULL,
@@ -469,21 +514,21 @@ CREATE TABLE IF NOT EXISTS `ERP`.`product_has_billMaterials` (
   INDEX `FK_Product_ID` (`Product_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Product_has_BillMaterialst_Product`
     FOREIGN KEY (`Product_ID`)
-    REFERENCES `ERP`.`product` (`Product_ID`)
+    REFERENCES `team`.`Product` (`Product_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Product_has_BillMaterialst_BillMaterials`
     FOREIGN KEY (`BillMaterials_ID`)
-    REFERENCES `ERP`.`billMaterials` (`BillMaterials_ID`)
+    REFERENCES `team`.`BillMaterials` (`BillMaterials_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ERP`.`manufacturingOrder`
+-- Table `team`.`ManufacturingOrder`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ERP`.`manufacturingOrder` (
+CREATE TABLE IF NOT EXISTS `team`.`ManufacturingOrder` (
   `ManufacturingOrder_ID` VARCHAR(45) NOT NULL,
   `Start` DATETIME NULL,
   `End` DATETIME NULL,
@@ -496,9 +541,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ERP`.`manufacturingOrder_has_materials`
+-- Table `team`.`ManufacturingOrder_has_Materials`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ERP`.`manufacturingOrder_has_materials` (
+CREATE TABLE IF NOT EXISTS `team`.`ManufacturingOrder_has_Materials` (
   `ManufacturingOrder_ID` VARCHAR(45) NOT NULL,
   `Product_ID` VARCHAR(45) NOT NULL,
   `Units_In_order` INT NULL,
@@ -509,12 +554,12 @@ CREATE TABLE IF NOT EXISTS `ERP`.`manufacturingOrder_has_materials` (
   INDEX `FK_ManufacturingOrder_ID` (`ManufacturingOrder_ID` ASC) VISIBLE,
   CONSTRAINT `ManufacturingOrder_has_Materials-Manufacturing`
     FOREIGN KEY (`ManufacturingOrder_ID`)
-    REFERENCES `ERP`.`manufacturingOrder` (`ManufacturingOrder_ID`)
+    REFERENCES `team`.`ManufacturingOrder` (`ManufacturingOrder_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `ManufacturingOrder_has_Materials-Product`
     FOREIGN KEY (`Product_ID`)
-    REFERENCES `ERP`.`product` (`Product_ID`)
+    REFERENCES `team`.`Product` (`Product_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

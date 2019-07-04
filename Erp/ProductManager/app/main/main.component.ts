@@ -22,6 +22,7 @@ export class MainComponent implements OnInit {
     public date = this.yyyy + "-" + this.mm + "-" + this.dd;
     public customerID = "11";
     public availableProducts = [];
+    //public orderID = '10407428-b3ba-445b-b1a5-5bfe034d6f18';
     public orderID = uuid.v4();
 
     public productInOrder = {
@@ -41,7 +42,7 @@ export class MainComponent implements OnInit {
         "totalPrice": 0,
         "customerID": this.customerID,
         "supplierID": "",
-        "paymentID": "",
+        "paymentID": "1",
         "shipmentID": ""
     };
 
@@ -49,15 +50,22 @@ export class MainComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.loadAvailableProducts();
-        this.addOrder();
+        this.data.loadAvailableProducts()
+            .subscribe(success => {
+                if (success) {
+                    this.availableProducts = this.data.availableProducts;
+                }
+                 this.data.addOrder(this.order);
+            });
+        //this.loadAvailableProducts();
+        //this.addOrder();
     }
 
     reloadComponent(): void {
         location.reload();
     }
 
-    loadAvailableProducts(): void {
+    /*loadAvailableProducts(): void {
 
         this.data.loadAvailableProducts()
             .subscribe(success => {
@@ -65,10 +73,10 @@ export class MainComponent implements OnInit {
                     this.availableProducts = this.data.availableProducts;
                 }
             })
-    }
+    }*/
 
     addOrder(): void {
-        this.data.addOrder(this.order);
+        //this.data.addOrder(this.order);
     }
 
     onProductAdd(productID: string, units: number, newPrice: number): void {
@@ -76,13 +84,13 @@ export class MainComponent implements OnInit {
         this.productInOrder.productID = productID;
         this.productInOrder.unitsOrdered = units;
 
-        this.data.addToOrder(this.productInOrder);
-
+        this.data.addToOrder(this.productInOrder, this.order)
+       
         this.order.totalPrice = units * newPrice;
         this.data.addToOrderTotal(this.order);
     }
 
     goToCart() {
-        this.router.navigate(["cart", this.customerID, this.orderID]);
+      this.router.navigate(["cart", this.customerID, this.orderID]);
     }
 }

@@ -66,7 +66,7 @@ extern "C"	ERP_API int AddCustomer(Customer* customer, char* error, ConnectionSt
 		cout << customer->company<< endl;
 		cout << customer->company_email<< endl;
 		cout << customer->is_lead<< endl;
-		string query = "INSERT INTO Customer VALUES";
+		string query = "INSERT INTO customer VALUES";
 		query += "('";
 		query += customer->customer_id;
 		query += "','";
@@ -168,7 +168,7 @@ extern "C"	ERP_API Customer* getCustomerById(char* customer_id, char* error, Con
 	db_response::ConnectionFunction(error, con);
 	if (conn)
 	{
-		string query = "SELECT * FROM Customer WHERE customer_id = '";
+		string query = "SELECT * FROM customer WHERE customer_id = '";
 		query += customer_id;
 		query += "';";
 		cout << query << endl;
