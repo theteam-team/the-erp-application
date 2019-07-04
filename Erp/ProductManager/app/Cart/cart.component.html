@@ -5,7 +5,7 @@
                 <li><h5>{{ p.name }}</h5></li>
                 <li>Units Ordered: {{ p.unitsOrdered }}</li>
             </ul>
-            <button class="btn1" type="button" (click)="onProductRemove(p.orderID, p.productID)">Remove</button>
+            <button class="btn1" type="button" (click)="onProductRemove(p.orderID, p.productID, p.unitsOrdered, p.price)">Remove</button>
         </div>
     </div>
 </div>
@@ -13,5 +13,5 @@
     <button class="btn1" type="button" (click)="submitOrder()">Continue To Checkout</button>
 </div>
 <div>
-    <h5>{{ total }}</h5>
+    <h5>{{ orderInfo.total }}</h5>
 </div>

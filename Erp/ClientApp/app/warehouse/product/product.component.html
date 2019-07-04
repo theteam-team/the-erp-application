@@ -9,12 +9,22 @@
             </div>
             <fieldset [disabled]="formDisabled">
                 <div class="panel-body">
-                    <!--<div class="form-group">
-                        Sold<input class="form-control col-md-2 offset-md-2" id="sold" name="sold" [(ngModel)]="sold" type="checkbox" [formControl]="sold" />
+                    <div class="form-group">
+                        <div class="form-control">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="sold" [(ngModel)]="sold">
+                                Sold
+                            </label>
+                        </div>
                     </div>
                     <div class="form-group">
-                        Purchased<input class="form-control col-md-2 offset-md-2" id="purchased" name="purchased" [(ngModel)]="purchased" type="checkbox" [formControl]="purchased" />
-                    </div>-->
+                        <div class="form-control">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="purchased" [(ngModel)]="purchased">
+                                Purchased
+                            </label>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label class="col-md-6 offset-md-2" for="id">Product ID</label>
                         <input disabled="disabled" class="form-control col-md-6 offset-md-2" id="id" name="id" [(ngModel)]="id" type="text" value={{productInfo.id}} />

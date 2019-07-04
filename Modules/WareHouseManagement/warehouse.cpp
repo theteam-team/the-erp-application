@@ -400,6 +400,85 @@ int checkUnitsInStock(char* id, char* error, ConnectionString con) {
 }
 
 
+extern "C"	ERP_API int addToOrderTotal(Order* order, char* error, ConnectionString con) {
+
+
+	double price = 0;
+	status = 0;
+
+	db_response::ConnectionFunction(error, con);
+
+	if (conn)
+	{
+		string query = (string)"select total from order_table where Order_ID = '" + order->id + "'";
+		cout << query << endl;
+		char const *q = query.c_str();
+
+		mysql_free_result(res);
+		qstate = mysql_query(conn, q);
+
+		if (checkQuery(qstate, error))
+		{
+			res = mysql_store_result(conn);
+			if (res->row_count > 0)
+			{
+				row = mysql_fetch_row(res);
+				status = 0;
+				row[0] ? price = stod(row[0]) : price = 0;
+			}
+		}
+
+		price += order->totalPrice;
+		query = (string)"update order_table set total = " + to_string(price) + " where Order_ID = '" + order->id + "'";
+		cout << query << endl;
+		q = query.c_str();
+
+		qstate = mysql_query(conn, q);
+		checkQuery(qstate, error);
+		mysql_close(conn);
+	}
+	return status;
+}
+
+extern "C"	ERP_API int removeFromOrderTotal(Order* order, char* error, ConnectionString con) {
+
+
+	double price = 0;
+	status = 0;
+
+	db_response::ConnectionFunction(error, con);
+
+	if (conn)
+	{
+		string query = (string)"select total from order_table where Order_ID = '" + order->id + "'";
+		cout << query << endl;
+		char const *q = query.c_str();
+
+		mysql_free_result(res);
+		qstate = mysql_query(conn, q);
+
+		if (checkQuery(qstate, error))
+		{
+			res = mysql_store_result(conn);
+			if (res->row_count > 0)
+			{
+				row = mysql_fetch_row(res);
+				status = 0;
+				row[0] ? price = stod(row[0]) : price = 0;
+			}
+		}
+
+		price -= order->totalPrice;
+		query = (string)"update order_table set total = " + to_string(price) + " where Order_ID = '" + order->id + "'";
+		cout << query << endl;
+		q = query.c_str();
+
+		qstate = mysql_query(conn, q);
+		checkQuery(qstate, error);
+		mysql_close(conn);
+	}
+	return status;
+}
 
 extern "C"	ERP_API int addToStock(char* id, int newUnits, char* error, ConnectionString con) {
 
@@ -1476,6 +1555,57 @@ extern "C"	ERP_API int showAllOrders(Order** order, char* error, ConnectionStrin
 	 }
 	 return numberOfRows;
  }
+
+extern "C"	ERP_API int showReceipts(Order** order, char* error, ConnectionString con) {
+
+	status = 0;
+	int numberOfRows = 0;
+	unsigned int numOfFields;
+	db_response::ConnectionFunction(error, con);
+	if (conn) {
+
+		mysql_free_result(res);
+
+		string query = (string)"select * from order_table where outgoing = 1";
+		const char* q = query.c_str();
+		qstate = mysql_query(conn, q);
+		cout << query << endl;
+
+		if (checkQuery(qstate, error))
+		{
+			res = mysql_store_result(conn);
+
+			if (res->row_count > 0)
+			{
+				*order = (Order*)CoTaskMemAlloc((int)(res->row_count) * sizeof(Order));
+				numOfFields = mysql_num_fields(res);
+				cout << res->row_count << endl;
+
+				Order *_order = *order;
+
+				while (row = mysql_fetch_row(res)) {
+
+					_order->id = row[0];
+					row[1] ? _order->incoming = stoi(row[1]) : _order->incoming = 2;
+					row[2] ? _order->outgoing = stoi(row[2]) : _order->outgoing = 2;
+					row[3] ? _order->requiredDate = row[3] : _order->requiredDate = nullptr;
+					row[4] ? _order->completedDate = row[4] : _order->completedDate = nullptr;
+					row[5] ? _order->orderStatus = row[5] : _order->orderStatus = nullptr;
+					row[6] ? _order->totalPrice = stod(row[6]) : _order->totalPrice = 0;
+					row[7] ? _order->customerID = row[7] : _order->customerID = nullptr;
+					row[8] ? _order->supplierID = row[8] : _order->supplierID = nullptr;
+					row[9] ? _order->paymentID = row[9] : _order->paymentID = nullptr;
+					row[10] ? _order->shipmentID = row[10] : _order->shipmentID = nullptr;
+
+					numberOfRows++;
+					_order++;
+				}
+				cout << "here" << endl;
+			}
+		}
+	}
+	return numberOfRows;
+}
 
  extern "C"	ERP_API int showCompletedOrders(Order** order, char* error, ConnectionString con) {
 

@@ -31,6 +31,7 @@ export class DataService {
     }
 
     public customerProducts = [];
+    public total;
     loadCustomerProducts(id): Observable<boolean> {
         return this.http.get("GetCustomerProducts/" + id)
             .pipe(
@@ -44,8 +45,21 @@ export class DataService {
         return this.http.delete("DeleteCustomerProduct/" + oID + "/" + pID).subscribe((data) => { });
     }
 
-    public total;
-    getTotal(payment): void {
-        this.total = payment;
+    addToOrderTotal(form) {
+        return this.http.put("AddToOrderTotal", form).subscribe((data) => { });
+    }
+
+    removeFromOrderTotal(form) {
+        return this.http.put("RemoveFromOrderTotal", form).subscribe((data) => { });
+    }
+
+    public orderInfo;
+    loadOrderInfo(orderID: string): Observable<boolean> {
+        return this.http.get("GetOrder/" + orderID)
+            .pipe(
+                map((data: any[]) => {
+                    this.orderInfo = data;
+                    return true;
+                }));
     }
 }

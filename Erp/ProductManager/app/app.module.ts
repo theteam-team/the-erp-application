@@ -16,7 +16,7 @@ import { ConfirmComponent } from './Confirm/confirm.component';
 let routes = [
     { path: "", component: MainComponent },
     { path: "home", component: MainComponent },
-    { path: "cart/:id", component: CartComponent },
+    { path: "cart/:cid/:oid", component: CartComponent },
     { path: "profile/:id", component: ProfileComponent },
     { path: "confirm/:id", component: ConfirmComponent }
 ];

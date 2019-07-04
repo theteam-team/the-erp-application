@@ -435,5 +435,79 @@ namespace Erp.Controllers
                 return NotFound("This organization does not exist");
             }
         }
+
+        [HttpPut("AddToOrderTotal")]
+        public async Task<ActionResult<string>> AddToOrderTotal([FromBody]Order order)
+        {
+            string OrganizationName = (string)RouteData.Values["OrganizationName"];
+            Organization orgExist = await _organizationRepository.OraganizationExist(OrganizationName);
+            if (orgExist != null)
+            {
+                _orderRepository.setConnectionString(OrganizationName);
+
+                byte[] error = new byte[500];
+                int status = await _orderRepository.AddToOrderTotal(order, error);
+                string z = System.Text.Encoding.ASCII.GetString(error);
+                if (status != 0)
+                {
+
+                    return BadRequest(z.Remove(z.IndexOf('\0')));
+                }
+                else
+                {
+                    return Ok("successfuly added");
+                }
+            }
+            else
+            {
+                return NotFound("This organization does not exist");
+            }
+        }
+
+        [HttpPut("RemoveFromOrderTotal")]
+        public async Task<ActionResult<string>> RemoveFromOrderTotal([FromBody]Order order)
+        {
+            string OrganizationName = (string)RouteData.Values["OrganizationName"];
+            Organization orgExist = await _organizationRepository.OraganizationExist(OrganizationName);
+            if (orgExist != null)
+            {
+                _orderRepository.setConnectionString(OrganizationName);
+
+                byte[] error = new byte[500];
+                int status = await _orderRepository.RemoveFromOrderTotal(order, error);
+                string z = System.Text.Encoding.ASCII.GetString(error);
+                if (status != 0)
+                {
+
+                    return BadRequest(z.Remove(z.IndexOf('\0')));
+                }
+                else
+                {
+                    return Ok("successfuly added");
+                }
+            }
+            else
+            {
+                return NotFound("This organization does not exist");
+            }
+        }
+
+        [HttpGet("GetOrder/{id}")]
+        public async Task<ActionResult<Order>> GetOrderInfo(string id)
+        {
+            byte[] error = new byte[500];
+            Order order = await _orderRepository.GetById(id, error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(order);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
     }
 }
