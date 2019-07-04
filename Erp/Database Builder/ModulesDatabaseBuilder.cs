@@ -26,31 +26,33 @@ namespace Erp.Database_Builder
 
         }
 
-        public void createModulesDatabase(string name)
+        public async Task<bool> createModulesDatabaseAsync(string name)
         {
             string sqlCode;
             string path = GetTablesPath();
             string mainDbpath = Path.Combine(path, @"Main System");
             string companyPath = Path.Combine(path, @"Companies/" + name);
+            bool databaseCreated = false;
             _logger.LogInformation(path);
             using (var fileStream = new FileStream(Path.Combine(mainDbpath, @"Erp.sql"), FileMode.Open, FileAccess.ReadWrite))
             {
                 BinaryReader br = new BinaryReader(fileStream);
                 byte[] filByte = br.ReadBytes((int)fileStream.Length);
                 string mnSql = Encoding.ASCII.GetString(filByte);
-                //var stream = new FileStream(Path.Combine(path, @"\"+name+".sql"), FileMode.Open, FileAccess.ReadWrite);
+              
                 sqlCode = mnSql.Replace("ERP", name);
-                
-                Directory.CreateDirectory(companyPath);
-                File.WriteAllText(Path.GetFullPath(Path.Combine(companyPath,  @""+name+".sql")), sqlCode);
-                
+                databaseCreated = await runSqlCodeAsync(sqlCode);
+                if (databaseCreated) {
+                    Directory.CreateDirectory(companyPath);
+                    File.WriteAllText(Path.GetFullPath(Path.Combine(companyPath, @"" + name + ".sql")), sqlCode);
+                }
 
             }
-            runSqlCode(sqlCode);
+            return databaseCreated;
         }
 
 
-        public void createNewModule(string databaseName, string moduleName)
+        public async Task<bool> createNewModule(string databaseName, string moduleName)
         {
             string path = GetTablesPath();
             _logger.LogInformation(path);
@@ -62,20 +64,30 @@ namespace Erp.Database_Builder
             string databaseSql = File.ReadAllText(databasePath);
             string moduleSql = File.ReadAllText(newModulePath);
             string newDatabase = string.Concat(databaseSql, moduleSql);
-            runSqlCode(newDatabase);
             File.WriteAllText(databasePath, newDatabase);
+            return await runSqlCodeAsync(newDatabase);
 
         }
 
-        public void runSqlCode(string sqlCode)
+        public async Task<bool> runSqlCodeAsync(string sqlCode)
         {
-            using (var conn = new MySqlConnection(_configuration.GetConnectionString("MySql_Local")))
+            using (var conn = new MySqlConnection(_configuration.GetConnectionString("MySql")))
             {
-                conn.Open();
-                var cmd = new MySqlCommand(sqlCode, conn);
-                _logger.LogInformation("Creating the Database");
-                cmd.ExecuteNonQuery();
-                _logger.LogInformation("Database Created");
+
+                try
+                {
+                    conn.Open();
+                    var cmd = new MySqlCommand(sqlCode, conn);
+                    _logger.LogInformation("Creating the Database");
+                    await Task.Run(() => { cmd.ExecuteNonQuery(); });
+                    _logger.LogInformation("Database Created");
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogInformation("Failed To create The database due to error" + ex.Message);
+                    return false;
+                }
 
             }
         }

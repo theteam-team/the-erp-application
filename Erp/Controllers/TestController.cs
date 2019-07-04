@@ -33,7 +33,7 @@ namespace Erp.Controllers
         [HttpGet("CreateDatabase")]
         public ActionResult CreateDatabase(string database)
         {
-            _databaseBuilder.createModulesDatabase(database);
+            _databaseBuilder.createModulesDatabaseAsync(database);
             return Ok();
         }
         [HttpPost("RunTask")]

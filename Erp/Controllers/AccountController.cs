@@ -129,27 +129,14 @@ namespace Erp.Controllers
                     
                 };
 
-                //_databaseBuilder.createModulesDatabase(registerModel.DatabaseName);
 
-                _authenticationProvider.AddScheme(new AuthenticationScheme(registerModel.DatabaseName, registerModel.DatabaseName, typeof(CookieAuthenticationHandler)));
 
-                using (var scope = _service.CreateScope())
-                {
-                    var _sysServices = scope.ServiceProvider.GetRequiredService<IServiceCollection>();
-                    var shema = _sysServices.AddAuthentication()
-                     .AddCookie(registerModel.DatabaseName, o =>
-                     {
-                         o.ExpireTimeSpan = TimeSpan.FromHours(1);
-                         o.LoginPath = new PathString("/store/{OrganizationName}");
-                         o.Cookie.Name = registerModel.DatabaseName + " CustomerCookie";
-                         o.SlidingExpiration = true;
-                     });
-
-                }
+               
                 var result = await _userManager.CreateAsync(user, registerModel.Password);
                 if (result.Succeeded)
                 {
-                    var roleAdmin = "Adminstrator";
+                    List<Task> tasks = new List<Task>();
+                    var roleAdmin = "Administrator";
                     var roleEmployee = "Employee";
                     await _management.AddRoleToUserAsync(roleAdmin, user);
                     await _management.AddRoleToUserAsync(roleEmployee, user);
@@ -161,6 +148,9 @@ namespace Erp.Controllers
                         true, false);
                     if (res.Succeeded)
                     {
+                        tasks.Add(  _databaseBuilder.createModulesDatabaseAsync(registerModel.DatabaseName));
+                        tasks.Add(Task.Run(()=>_authenticationProvider.AddScheme(new AuthenticationScheme(registerModel.DatabaseName, registerModel.DatabaseName, typeof(CookieAuthenticationHandler)))));
+                        await Task.WhenAll(tasks);
                         return RedirectToAction("System", "App");
                     }
 

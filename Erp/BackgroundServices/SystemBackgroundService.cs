@@ -11,24 +11,28 @@ using MailKit.Net.Smtp;
 using MimeKit;
 using Microsoft.Extensions.DependencyInjection;
 using Erp.Data.Entities;
+using Microsoft.Extensions.Configuration;
 
 namespace Erp.BackgroundServices
 {
-    public class SystemBackgroundService : BackgroundService
+    public class MailSenderService : BackgroundService
     {
      
        
-        private readonly ILogger<SystemBackgroundService> _logger;
+        private readonly ILogger<MailSenderService> _logger;
         private Timer _timer;
+        private IConfiguration _confg;
+        private MailQueue _mailQueue;
 
         public IServiceProvider Services { get; }
 
-        public SystemBackgroundService(
-            ILoggerFactory loggerFactory, IServiceProvider services)
+        public MailSenderService(IConfiguration confg,
+            ILoggerFactory loggerFactory, IServiceProvider services, MailQueue mailQueue)
         {
-          
+            _confg = confg;
+            _mailQueue = mailQueue;
             Services = services;                                   
-            _logger = loggerFactory.CreateLogger<SystemBackgroundService>();
+            _logger = loggerFactory.CreateLogger<MailSenderService>();
         }
 
        
@@ -39,102 +43,78 @@ namespace Erp.BackgroundServices
             _logger.LogInformation("Mail sender Hosted Service is starting.");   
             while (!cancellationToken.IsCancellationRequested)
             {
-               
-                await sendMail();
-                Thread.Sleep(1000);
+                var mail = await _mailQueue.DequeueAsync(cancellationToken);           
+                if(mail != null)
+                    await sendMail(mail);
+                Thread.Sleep(5000);
 
             }
 
-            _logger.LogInformation("Queued sender Hosted Service is stopping.");
+            _logger.LogInformation("Mail sender Hosted Service is stopping.");
             
         }
 
 
 
-        async Task sendMail()
+        async Task sendMail(Email email)
         {
             using (var scope = Services.CreateScope())
             {
                 
-                var _emailUser = scope.ServiceProvider.GetRequiredService<IEmailUserRepository>();
-                var _email = scope.ServiceProvider.GetRequiredService<IEmailRepository>();
-                var _accountDbContext = scope.ServiceProvider.GetRequiredService<AccountDbContext>();
-                List<UserHasEmail> userHasEmails = await _emailUser.GetUnSentMails();
-                if (userHasEmails != null && userHasEmails.Count > 0)
+                //var _emailUser = scope.ServiceProvider.GetRequiredService<IEmailUserRepository>();
+                //var _email = scope.ServiceProvider.GetRequiredService<IEmailRepository>();
+                //var _accountDbContext = scope.ServiceProvider.GetRequiredService<AccountDbContext>();
+                //List<UserHasEmail> userHasEmails = await _emailUser.GetUnSentMails();
+                //if (userHasEmails != null && userHasEmails.Count > 0)
+                //{
+                //    foreach (var item in userHasEmails)
+                //    {                      
+                _logger.LogInformation("sending mail To " + email.recieverEmail);
+                var message = new MimeMessage();
+
+                MailboxAddress from = new MailboxAddress(_confg["Email:Smtp:Username"],
+                _confg["Email:Smtp:Username"]);
+                    Console.WriteLine(_confg["Email:Smtp:Username"]);
+                message.From.Add(from);
+
+                MailboxAddress to = new MailboxAddress(email.recieverName,
+                email.recieverEmail);
+                message.To.Add(to);
+                message.Subject = email.Subject;
+                BodyBuilder bodyBuilder = new BodyBuilder();
+                bodyBuilder.TextBody = email.Message;
+                message.Body = bodyBuilder.ToMessageBody();
+                //item.IsSent = true;
+
+                // await _emailUser.Update(item);
+                using (SmtpClient client = new SmtpClient())
                 {
-                    foreach (var item in userHasEmails)
+                    try
                     {
-                        Email email = await _email.GetById((object)item.EmailId);
 
-                        var user = _accountDbContext.ErpUsers.Where(u => u.Id == item.ApplicationUserId).FirstOrDefault();
+                        client.Connect(_confg["Email:Smtp:Host"], int.Parse(_confg["Email:Smtp:Port"]), false);
 
+                        client.Authenticate(_confg["Email:Smtp:Username"], _confg["Email:Smtp:Password"]);
 
-                        var message = new MimeMessage();
+                        client.Send(message);
 
-                        MailboxAddress from = new MailboxAddress("Admin",
-                        "phyzia123@gmail.com");
-                        message.From.Add(from);
-
-                        MailboxAddress to = new MailboxAddress("User",
-                        user.Email);
-                        message.To.Add(to);
-                        message.Subject = email.Subject;
-                        BodyBuilder bodyBuilder = new BodyBuilder();
-                        //bodyBuilder.HtmlBody = "<h1>Hello World!</h1>";
-                        bodyBuilder.TextBody = email.Message;
-                        message.Body = bodyBuilder.ToMessageBody();
-                        item.IsSent = true;
-
-                        _logger.LogInformation("sending mail To " + user.Email);
-                         await _emailUser.Update(item);
-                        /*using (SmtpClient client = new SmtpClient())
-                        {
-                            client.Connect("smtp.gmail.com", 587, false);
-                            
-                            client.Authenticate("phyzia123@gmail.com", "");
-
-                            client.Send(message);
-                            client.Disconnect(true);
-                        }*/
-
+                        client.Disconnect(true);
                     }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }        
                 }
-                else
-                {
-                    _logger.LogInformation("No Mail To Send");
-                }
+
+                 //   }
+                //}
+                //else
+                //{
+                //    _logger.LogInformation("No Mail To Send");
+                //}
             }
         }
-        //protected Task foo()
-        //{
-        //    Task[] tasks = new Task[5];
-        //    for (int i = 0; i <= 4; i++)
-        //    {
-        //        tasks[i] = Task.Run(() => {
-        //            int TaskId = (int)Task.CurrentId;
-        //            // Each task begins by requesting the semaphore.
-        //            Console.WriteLine("Task {0} begins and waits for the semaphore.",
-        //                              Task.CurrentId);
-        //            Func<CancellationToken, Task> func = _cancellationToken =>
-        //            {
-        //                Console.WriteLine("Task {0}", TaskId);
-        //                return Task.CompletedTask;
-        //            };
-
-
-        //            TaskQueue.QueueBackgroundWorkItem(func);
-
-
-        //            //Console.WriteLine("Task {0} enters the semaphore.", Task.CurrentId);
-
-        //            // The task just sleeps for 1+ seconds.
-
-
-
-        //        });
-        //    }
-        //    return Task.CompletedTask;
-
-        //}
+      
     }
 }

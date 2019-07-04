@@ -45,7 +45,7 @@ namespace Erp.BackgroundServices
                 {
                     tasks.Add(Execute(bpmTask));                   
                 }
-                //Thread.Sleep(100);
+                //Thread.Sleep(1000);
             }
 
             await Task.WhenAll(tasks);

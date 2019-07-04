@@ -16,12 +16,13 @@ namespace Erp.ViewModels
         public string Password { get; set; }
         [Required]
         public string Email { get; set; }
-
+        [Required]
         public uint phoneNumber{ get; set; }
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
+        [Required]
         public string DateOfBirth { get; set; }
-
+        [Required]
         public string gender;
 
      

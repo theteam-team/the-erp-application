@@ -16,13 +16,13 @@ namespace Erp.BackgroundServices
 {
     public class BpmPollingService : BackgroundService
     {
-        private TaskExectionQueue _exectionQueue;
+        private TaskExectionQueue _executionQueue;
         private ILogger<BpmPollingService> _ilogger;
         private IServiceProvider _services;
 
         public BpmPollingService(TaskExectionQueue exectionQueue ,IServiceProvider services, ILogger<BpmPollingService> ilogger) 
         {
-            _exectionQueue = exectionQueue;
+            _executionQueue = exectionQueue;
             _ilogger = ilogger;
             _services = services;
         }
@@ -75,7 +75,7 @@ namespace Erp.BackgroundServices
                                     if (item != null)
                                     {
                                         item.IsBpm = true;
-                                        _exectionQueue.QueueExection(item);
+                                        _executionQueue.QueueExection(item);
                                     }
                                 }
                             }

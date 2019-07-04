@@ -62,7 +62,7 @@ namespace Erp.Controllers
         }
 
         [HttpGet]   
-        [AllowAnonymous]
+        
         public async Task<ActionResult> Store()
         {
             string OrganizationName = (string)RouteData.Values["OrganizationName"];
@@ -70,10 +70,17 @@ namespace Erp.Controllers
 
             if (orgExist != null)
             {
-                var result = await  _authorizationService.AuthenticateAsync(HttpContext, OrganizationName);          
-                ViewBag.Organization = OrganizationName;
-                HttpContext.Session.SetString(HttpContext.Session.Id, OrganizationName);
-                return View("ProductManager");
+                var result = await  _authorizationService.AuthenticateAsync(HttpContext, OrganizationName);
+                if (result.Succeeded)
+                {
+                    ViewBag.Organization = OrganizationName;
+                    HttpContext.Session.SetString(HttpContext.Session.Id, OrganizationName);
+                    return View("ProductManager");
+                }
+                else
+                {
+                    return LocalRedirect("~/Store/" + orgExist.Name+"/Login");
+                }
             }
             else
                 return NotFound("This organization does not exist");
@@ -192,29 +199,26 @@ namespace Erp.Controllers
                         _management.AddRoleToUserAsync(roleCustomer, user),
                         HttpContext.SignInAsync(OrganizationName, new ClaimsPrincipal(claimsIdentity), authProperties)
                         });
-                    /*var Customer = new Customer()
+                    var Customer = new Customer()
                     {
                         customer_id = user.Id,
                         name = customerRegister.name,
                         phone_number = customerRegister.phoneNumber,
                         email = customerRegister.Email,
                         DateOfBirth = customerRegister.DateOfBirth,
-                        gender = "affa",
                         loyality_points = 0,
                         type = 0,
-                        company = "asdas",
-                        company_email = "aaaa",
                         is_lead = false,
                     };
 
-                     byte[] error = new byte[500];
+                    byte[] error = new byte[500];
                     _customerRepository.setConnectionString(OrganizationName);
                     int status = await _customerRepository.Create(Customer, error);
 
                     if (status != 0)
                     {
                         return StatusCode(500);
-                    }              */    
+                    }
 
                     muserLogger.LogInformation("A user with a specifc roles : " + roleCustomer + " has Been Created");
                     return LocalRedirect("~/Store/"+orgExist.Name);
@@ -239,7 +243,7 @@ namespace Erp.Controllers
            await HttpContext.SignOutAsync(OrganizationName);
            Organization orgExist = await _organizationRepository.OraganizationExist(OrganizationName);
 
-            return LocalRedirect("~/Store/" + orgExist.Name);
+            return LocalRedirect("~/Store/" + orgExist.Name + "/Login");
         }
 
         [HttpGet("GetProductStore")]
@@ -270,8 +274,8 @@ namespace Erp.Controllers
             }
         }
 
-        [HttpGet("getUserName")]
-        public async Task<ActionResult<string>> getUserName()
+        [HttpGet("GetUserId")]
+        public async Task<ActionResult<string>> GetUserId()
         {
             string OrganizationName = (string)RouteData.Values["OrganizationName"];
             await HttpContext.SignOutAsync(OrganizationName);

@@ -55,16 +55,19 @@ namespace Erp
         /// <param name="services">The Services container </param>
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddHostedService<SystemBackgroundService>();
+            //services.AddHostedService<MailSenderService>();
             //services.AddHostedService<TimedService>();
             services.AddHostedService<SchemaBuilder>();
             services.AddHostedService<BpmPollingService>();
             services.AddHostedService<TaskExecutionEngine>();
             services.AddHostedService<TaskResponseEngine>();
+            services.AddHostedService<ProplemReporting>();
+            services.AddHostedService<MailSenderService>();
             services.AddHttpContextAccessor();
             services.AddTransient<SystemServices>();
             services.AddSingleton<TaskExectionQueue>();
-            services.AddSingleton<CommonNeeds>();
+            services.AddSingleton<MailQueue>();
+            services.AddSingleton<Emergency>();
             services.AddSingleton<TaskResponseQueue>();
             services.AddSingleton<ModulesDatabaseBuilder>();           
             services.AddTransient<INodeLangRepository, NodeLangRepository>();

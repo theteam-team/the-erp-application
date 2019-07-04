@@ -1,18 +1,23 @@
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=(localdb)\\ProjectsV13;Database=Erp;Trusted_Connection=True;MultipleActiveResultSets=true",
+    //"DefaultConnection": "Server=(localdb)\\ProjectsV13;Database=Erp;Trusted_Connection=True;MultipleActiveResultSets=true",
+    "DefaultConnection": "Server=microsoftsqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com;Database=Erp;User=microsoftSQLadmin;Password=microsoftSQLpass123",
     "DataDbConnection": "Server=(localdb)\\ProjectsV13;Database=Data;Trusted_Connection=True;MultipleActiveResultSets=true",
-    "MySql": "server=mysqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com;userid=mySQLadmin;port=3306;password=mySQLpass123;Allow User Variables=True;",
-    "MySql_Local": "server=localhost;userid=root;port=3306;password=rana;Allow User Variables=True;"
+    "MySql": "server=mysqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com;userid=mySQLadmin;port=3306;password=mySQLpass123;Allow User Variables=True;"
+    //"MySql": "server=localhost;userid=root;port=3306;password=123456789pp;AllowUserVariables=True;"
   },
 
   "Email": {
     "Smtp": {
       "Host": "smtp.gmail.com",
-      "Port": 25,
-      "Username": "mail_username",
-      "Password": "mail_password"
+      "Password": "theteambot6hero#4400",
+      "Port": 587,
+      "Username": "theteamteambot@gmail.com"
     }
+  },
+  "EmergencyContact": {
+    "Email": "mkemo421@gmail.com",
+    "Name": "theteam-team"
   },
   "Logging": {
     "LogLevel": {
@@ -20,14 +25,17 @@
     }
   },
   "Tokens": {
-    "Key": "a;lkjasdf;lkajsd;flkjas ;dflkja sd",
+    "Key": "Erwin Smith",
     "Issuer": "http://localhost:8888",
     "Audience": "users"
   },
+  "BpmEngine" :{
+    "Address": ""
+  },
   "MySqlC++": {
-    "server": "localhost",
-    "user": "root",
-    "password": "rana",
+    "server": "mysqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com",
+    "user": "mySQLadmin",
+    "password": "mySQLpass123",
     "port": "3306"
   }
  
