@@ -432,8 +432,8 @@ namespace Erp.Controllers
             }
         }
 
-        [HttpPut("AddToOrderTotal/{id}")]
-        public async Task<ActionResult<int>> AddToOrderTotal(string id, double newPrice)
+        [HttpPut("AddToOrderTotal")]
+        public async Task<ActionResult<string>> AddToOrderTotal([FromBody]Order order)
         {
             string OrganizationName = (string)RouteData.Values["OrganizationName"];
             Organization orgExist = await _organizationRepository.OraganizationExist(OrganizationName);
@@ -442,17 +442,16 @@ namespace Erp.Controllers
                 _orderRepository.setConnectionString(OrganizationName);
 
                 byte[] error = new byte[500];
-                int status = await _orderRepository.AddToOrderTotal(id, newPrice, error);
+                int status = await _orderRepository.AddToOrderTotal(order, error);
                 string z = System.Text.Encoding.ASCII.GetString(error);
-                string y = z.Remove(z.IndexOf('\0'));
-                if (status == 0)
+                if (status != 0)
                 {
 
-                    return Ok("Succesfully Added");
+                    return BadRequest(z.Remove(z.IndexOf('\0')));
                 }
                 else
                 {
-                    return BadRequest(y);
+                    return Ok("successfuly added");
                 }
             }
             else
@@ -461,8 +460,8 @@ namespace Erp.Controllers
             }
         }
 
-        [HttpPut("RemoveFromOrderTotal/{id}")]
-        public async Task<ActionResult<int>> RemoveFromOrderTotal(string id, double newPrice)
+        [HttpPut("RemoveFromOrderTotal")]
+        public async Task<ActionResult<string>> RemoveFromOrderTotal([FromBody]Order order)
         {
             string OrganizationName = (string)RouteData.Values["OrganizationName"];
             Organization orgExist = await _organizationRepository.OraganizationExist(OrganizationName);
@@ -471,17 +470,16 @@ namespace Erp.Controllers
                 _orderRepository.setConnectionString(OrganizationName);
 
                 byte[] error = new byte[500];
-                int status = await _orderRepository.RemoveFromOrderTotal(id, newPrice, error);
+                int status = await _orderRepository.RemoveFromOrderTotal(order, error);
                 string z = System.Text.Encoding.ASCII.GetString(error);
-                string y = z.Remove(z.IndexOf('\0'));
-                if (status == 0)
+                if (status != 0)
                 {
 
-                    return Ok("Succesfully Added");
+                    return BadRequest(z.Remove(z.IndexOf('\0')));
                 }
                 else
                 {
-                    return BadRequest(y);
+                    return Ok("successfuly added");
                 }
             }
             else

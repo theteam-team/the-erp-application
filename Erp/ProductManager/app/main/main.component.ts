@@ -20,7 +20,7 @@ export class MainComponent implements OnInit {
     public yyyy = this.today.getFullYear();
 
     public date = this.yyyy + "-" + this.mm + "-" + this.dd;
-    public customerID = "9";
+    public customerID = "11";
     public availableProducts = [];
     public orderID = uuid.v4();
 
@@ -72,12 +72,14 @@ export class MainComponent implements OnInit {
     }
 
     onProductAdd(productID: string, units: number, newPrice: number): void {
-        let cost = units * newPrice;
+
         this.productInOrder.productID = productID;
         this.productInOrder.unitsOrdered = units;
 
         this.data.addToOrder(this.productInOrder);
-        this.data.addToOrderTotal(this.orderID, cost);
+
+        this.order.totalPrice = units * newPrice;
+        this.data.addToOrderTotal(this.order);
     }
 
     goToCart() {

@@ -22,7 +22,7 @@ namespace Erp.Interfaces
         Task<List<Order>> ShowWaitingReceipts(byte[] error);
 
         Task<int> AddPotentialOrder(Order entity, byte[] error);
-        Task<int> AddToOrderTotal(string id, double newPrice, byte[] error);
-        Task<int> RemoveFromOrderTotal(string id, double newPrice, byte[] error);
+        Task<int> AddToOrderTotal(Order entity, byte[] error);
+        Task<int> RemoveFromOrderTotal(Order entity, byte[] error);
     }
 }

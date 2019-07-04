@@ -400,7 +400,7 @@ int checkUnitsInStock(char* id, char* error, ConnectionString con) {
 }
 
 
-extern "C"	ERP_API int addToOrderTotal(char* id, double newPrice, char* error, ConnectionString con) {
+extern "C"	ERP_API int addToOrderTotal(Order* order, char* error, ConnectionString con) {
 
 
 	double price = 0;
@@ -410,7 +410,7 @@ extern "C"	ERP_API int addToOrderTotal(char* id, double newPrice, char* error, C
 
 	if (conn)
 	{
-		string query = (string)"select total from order_table where Order_ID = '" + id + "'";
+		string query = (string)"select total from order_table where Order_ID = '" + order->id + "'";
 		cout << query << endl;
 		char const *q = query.c_str();
 
@@ -428,8 +428,8 @@ extern "C"	ERP_API int addToOrderTotal(char* id, double newPrice, char* error, C
 			}
 		}
 
-		price += newPrice;
-		query = (string)"update order_table set total = " + to_string(price) + " where Order_ID = '" + id + "'";
+		price += order->totalPrice;
+		query = (string)"update order_table set total = " + to_string(price) + " where Order_ID = '" + order->id + "'";
 		cout << query << endl;
 		q = query.c_str();
 
@@ -440,7 +440,7 @@ extern "C"	ERP_API int addToOrderTotal(char* id, double newPrice, char* error, C
 	return status;
 }
 
-extern "C"	ERP_API int removeFromOrderTotal(char* id, double newPrice, char* error, ConnectionString con) {
+extern "C"	ERP_API int removeFromOrderTotal(Order* order, char* error, ConnectionString con) {
 
 
 	double price = 0;
@@ -450,7 +450,7 @@ extern "C"	ERP_API int removeFromOrderTotal(char* id, double newPrice, char* err
 
 	if (conn)
 	{
-		string query = (string)"select total from order_table where Order_ID = '" + id + "'";
+		string query = (string)"select total from order_table where Order_ID = '" + order->id + "'";
 		cout << query << endl;
 		char const *q = query.c_str();
 
@@ -468,8 +468,8 @@ extern "C"	ERP_API int removeFromOrderTotal(char* id, double newPrice, char* err
 			}
 		}
 
-		price -= newPrice;
-		query = (string)"update order_table set total = " + to_string(price) + " where Order_ID = '" + id + "'";
+		price -= order->totalPrice;
+		query = (string)"update order_table set total = " + to_string(price) + " where Order_ID = '" + order->id + "'";
 		cout << query << endl;
 		q = query.c_str();
 

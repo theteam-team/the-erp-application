@@ -45,12 +45,12 @@ export class DataService {
         return this.http.delete("DeleteCustomerProduct/" + oID + "/" + pID).subscribe((data) => { });
     }
 
-    addToOrderTotal(id, newPrice) {
-        return this.http.put("AddToOrderTotal", id, newPrice).subscribe((data) => { });
+    addToOrderTotal(form) {
+        return this.http.put("AddToOrderTotal", form).subscribe((data) => { });
     }
 
-    removeFromOrderTotal(id, newPrice) {
-        return this.http.put("RemoveFromOrderTotal/" + id, newPrice).subscribe((data) => { });
+    removeFromOrderTotal(form) {
+        return this.http.put("RemoveFromOrderTotal", form).subscribe((data) => { });
     }
 
     public orderInfo;

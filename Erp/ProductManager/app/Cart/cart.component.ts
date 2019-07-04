@@ -18,7 +18,19 @@ export class CartComponent implements OnInit {
     public customerID;
     public orderID;
     public customerProducts = [];
-    public orderInfo;
+    public orderInfo = {
+        "id": "",
+        "incoming": 1,
+        "outgoing": 0,
+        "requiredDate": "",
+        "completedDate": "",
+        "orderStatus": "Waiting",
+        "totalPrice": 0,
+        "customerID": "",
+        "supplierID": "",
+        "paymentID": "",
+        "shipmentID": ""
+    };
 
     constructor(private data: DataService, private router: Router, private route: ActivatedRoute, private location: Location, private dialog: MatDialog) {
         this.route.paramMap.subscribe(params => this.customerID = params.get('cid'));
@@ -54,10 +66,11 @@ export class CartComponent implements OnInit {
     }
 
     onProductRemove(oid: string, pid: string, units: number, newPrice: number): void {
-        let cost = units * newPrice;
 
         this.data.deleteProductFromOrder(oid, pid);
-        this.data.removeFromOrderTotal(oid, cost);
+
+        this.orderInfo.totalPrice = units * newPrice;
+        this.data.removeFromOrderTotal(this.orderInfo);
         this.reloadComponent();
     }
 
