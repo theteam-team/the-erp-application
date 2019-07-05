@@ -14,20 +14,12 @@
     </tr>
   </thead>
   <tbody>
-    <tr class="table-active">
-      <td>hp-probook</td>
-      <td>25/1/2020</td>
-      <td>200</td>
-      <td>waiting</td>
-      <td>planned</td>
-    </tr>
-
-    <tr class="table-active">
-      <td>hp-probook</td>
-      <td>25/1/2020</td>
-      <td>200</td>
-      <td>waiting</td>
-      <td>planned</td>
+    <tr class="table-active" *ngFor="let order of orders">
+      <td>{{order.productname}}</td>
+      <td>{{order.deadlinestart}}</td>
+      <td>{{order.quantity}}</td>
+      <td>{{order.rawmaterilasStatus}}</td>
+      <td>{{order.orderStatus}}</td>
     </tr>
   </tbody>
 </table>

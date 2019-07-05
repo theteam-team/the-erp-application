@@ -11,7 +11,16 @@ export interface BillofMatrials {
     name: number;
     validFrom: string;
     validUntil: string;
-    Quantity: number;
+    quantity: number;
     price: string;
 
+}
+
+export interface manufacturingOrders {
+    manufacturingOrderid: string;
+    productname: string;
+    deadlinestart: string;
+    quantity: number;
+    rawmaterilasStatus: string;
+    orderStatus: string;
 }
