@@ -43,7 +43,7 @@ extern "C" ERP_API int getProfit(ProductSold** product, char* error, ConnectionS
 	if (conn) {
 		mysql_free_result(res);
 		//for each sold product, calculate its profit --> Units_In_Order *( product_price - Produt_cost),,,,,, then get summation of all profits
-		query = "SELECT Product_ID, sum(Units_In_Order) as Units_In_Order, Product_Cost, Product_Price,sum(Units_In_Order * (Product_Price - Product_Cost)) AS Profit FROM product, order_has_product WHERE(product.product_id = order_has_product.Product_Product_ID) group by Product_ID";
+		query = "SELECT Product_ID, sum(Units_In_Order) as Units_In_Order, Product_Cost, Product_Price,sum(Units_In_Order * (Product_Price - Product_Cost)) AS Profit FROM product , order_has_product WHERE(product.product_id = order_has_product.Product_Product_ID) group by Product_ID";
 		qstate = mysql_query(conn, query.c_str());
 		cout << query << endl;
 		if (checkQuery(qstate, error)) {
@@ -173,7 +173,7 @@ extern "C" ERP_API int getCustomerOrders(char* id, AOrder** order, char* error, 
 	db_response::ConnectionFunction(error, con);
 	if (conn) {
 		mysql_free_result(res);
-		query = (string) "SELECT Order_ID, Order_Required_Date,Order_Completed_Date,Order_Status,Payment_Payment_ID,sum(Units_In_Order*(select product_price from "+con.DATABASE+".product where product_product_id = product_id)) as tP FROM " + con.DATABASE + ".order_table ,"+ con.DATABASE +".order_has_product where "+ con.DATABASE +".order_table.Customer_Customer_id  = '" + id + "'And order_id = order_order_id group by order_id ";
+		query = (string) "SELECT Order_ID, Order_Required_Date,Order_Completed_Date,Order_Status,Payment_Payment_ID,sum(Units_In_Order*(select product_price from "+con.DATABASE+".product where product_product_id = product_id)) as tP FROM " + con.DATABASE + ".order_table ,"+ con.DATABASE +".order_has_product where "+ con.DATABASE +".order_table.Customer_Customer_id  = '" + id + "'And order_id = order_table_order_id group by order_id ";
 		qstate = mysql_query(conn, query.c_str());
 		cout << query << endl;
 		if (checkQuery(qstate, error)) {
@@ -214,7 +214,7 @@ extern "C" ERP_API int getOrderProducts(char* id, AProduct** product_order, char
 	db_response::ConnectionFunction(error, con);
 	if (conn) {
 		mysql_free_result(res);
-		query = (string) "select Product_Product_ID,Product_Name, Units_In_Order, Product_Price, (Product_Price*Units_In_Order) as Pcost from order_has_product, product where Order_Order_ID ='" + id + "'AND Product_Product_ID = Product_ID group by Product_Product_ID";
+		query = (string) "select Product_Product_ID,Product_Name, Units_In_Order, Product_Price, (Product_Price*Units_In_Order) as Pcost from order_has_product , product where order_table_order_id ='" + id + "'AND Product_Product_ID = Product_ID group by Product_Product_ID";
 		qstate = mysql_query(conn, query.c_str());
 		cout << query << endl;
 		if (checkQuery(qstate, error)) {

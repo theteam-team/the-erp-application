@@ -97,6 +97,7 @@ namespace Erp.Repository
             }
             if (typeof(T) == typeof(Product))
             {
+                
                 Product product = (Product)(object)(entity);
                 status = await Task.Run(() => Warehouse_Wrapper.addProduct(product, error, _ConnectionString));
             }
@@ -205,8 +206,7 @@ namespace Erp.Repository
             {
                 IntPtr prodductPtr;
                 int status = 0;
-                Product product = null;
-
+                Product product = null;           
                 await Task.Run(() =>
                 {
                     status = Warehouse_Wrapper.getAllProductInfo(id, out prodductPtr, error, _ConnectionString);
