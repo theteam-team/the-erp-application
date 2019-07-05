@@ -152,6 +152,12 @@ a[data-toggle="collapse"] {
     #sidebar.active {
         margin-left: 0;
     }
+    #content {
+        margin-left: -200px
+    }
+    #content.active {
+        margin-left: 0px;
+    }
 
 }
 body {
@@ -239,7 +245,7 @@ ul ul a {
 #naver {
     background-color: #35475c;
     color: whitesmoke;
-    height: 50px;
+    height: 55px;
 }
 * {
     box-sizing: border-box;
