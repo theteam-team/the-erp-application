@@ -23,18 +23,18 @@
     {
       "BillofMatrialid": 1,
       "name": "plastic",
-      "validFrom": " ",
-      "validUntil": 2,
+      "validFrom": "2018-12-11",
+      "validUntil": "2019-05-25",
       "quantity": 4,
       "price": 10
     },
     {
       "BillofMatrialid": 2,
       "name": "rubber",
-      "validFrom": " ",
-      "validUntil": 6,
+      "validFrom": "2019-05-16",
+      "validUntil": "2019-05-20",
       "quantity": 8,
-      "price": 10
+      "price": 15
     }
   ],
 

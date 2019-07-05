@@ -102,6 +102,7 @@ let routes = [
   { path: "manufacturing/manufacturingOrders", component: ManufacturingOrdersComponent },
     { path: "manufacturing/manufacturingOrders/new", component: AddManufacturingOrderComponent },
     { path: "manufacturing/products", component: ManufacturingProductsComponent },
+    { path: "manufacturing/materials", component: BillOfMaterialsComponent },
 
 
 
