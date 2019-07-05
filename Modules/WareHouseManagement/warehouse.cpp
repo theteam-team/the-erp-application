@@ -2354,7 +2354,7 @@ extern "C"	ERP_API int showCustomerProducts(char* id, CustomerProduct** product,
 		 cout << "Query succeeded" << endl;
 		 status = 0;
 		 string s = mysql_error(conn);
-		 //strcpy_s(error, s.length() + 1, mysql_error(conn));
+		 strcpy_s(error, s.length() + 1, mysql_error(conn));
 		 return true;
 
 	 }

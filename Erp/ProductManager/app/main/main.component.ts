@@ -56,20 +56,15 @@ export class MainComponent implements OnInit {
                     this.customerID = this.data.customerID;
                 }
                 console.log(this.customerID);
-                /*this.order.customerID = this.customerID;
-                this.data.addOrder(this.order);*/
+                this.order.customerID = this.customerID;
+                this.data.addOrder(this.order);
             });
-
-        console.log(this.customerID);
 
         this.data.loadAvailableProducts()
             .subscribe(success => {
                 if (success) {
                     this.availableProducts = this.data.availableProducts;
                 }
-                console.log(this.customerID);
-                this.order.customerID = this.customerID;
-                this.data.addOrder(this.order);
             });
 
     }

@@ -65,10 +65,10 @@ export class DataService {
 
     public customerID;
     getCustomerID(): Observable<boolean> {
-        return this.http.get("GetUserId")
+        return this.http.get("GetUserId", { responseType: 'text' })
             .pipe(
-            map((data: any[]) => {
-                this.customerID = data;
+                map((data: string) => {
+                    this.customerID = data;
                     return true;
                 }));
     }
