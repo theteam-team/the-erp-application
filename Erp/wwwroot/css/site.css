@@ -179,8 +179,8 @@ a, a:hover, a:focus {
     max-width: 200px;
     min-height: 100vh;
     background-color: #35475e;
-    color: #fff;
-    transition: all 0.3s;    
+    color: whitesmoke;
+    transition: all 0.3s;
     /*position: fixed;*/
     width: 200px;
     position: fixed;
@@ -189,7 +189,7 @@ a, a:hover, a:focus {
     height: 100vh;
     z-index: 999;
     background: #35475e;
-    color: #fff;
+    color: whitesmoke;
     transition: all 0.3s;
 }
 
@@ -205,7 +205,7 @@ a, a:hover, a:focus {
     }
 
     #sidebar ul p {
-        color: #fff;
+        color: whitesmoke;
         padding: 10px;
     }
 
@@ -217,11 +217,11 @@ a, a:hover, a:focus {
 
         #sidebar ul li a:hover {
             color: #7386D5;
-            background: #fff;
+            background: whitesmoke;
         }
 
     #sidebar ul li.active > a, a[aria-expanded="true"] {
-        color: #fff;
+        color: whitesmoke;
         background: #6d7fcc;
     }
 
@@ -238,7 +238,7 @@ ul ul a {
 
 #naver {
     background-color: #35475c;
-    color: white;
+    color: whitesmoke;
     height: 50px;
 }
 * {
@@ -248,5 +248,4 @@ ul ul a {
 #content{
     margin-left : 200px;
 }
-
 

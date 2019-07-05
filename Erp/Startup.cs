@@ -58,14 +58,16 @@ namespace Erp
             //services.AddHostedService<MailSenderService>();
             //services.AddHostedService<TimedService>();
             services.AddHostedService<SchemaBuilder>();
-            services.AddHostedService<BpmPollingService>();
+            //services.AddHostedService<BpmPollingService>();
             services.AddHostedService<TaskExecutionEngine>();
             services.AddHostedService<TaskResponseEngine>();
             //services.AddHostedService<ProplemReporting>();
             services.AddHostedService<MailSenderService>();
+            //services.AddHostedService<BpmInvokerService>();
             services.AddHttpContextAccessor();
             services.AddTransient<SystemServices>();
             services.AddSingleton<TaskExectionQueue>();
+            services.AddSingleton<BpmInvokerQueue>();
             services.AddSingleton<MailQueue>();
             services.AddSingleton<Emergency>();
             services.AddSingleton<TaskResponseQueue>();
@@ -113,7 +115,7 @@ namespace Erp
                     .AddDefaultTokenProviders();
             services.AddSingleton<IServiceCollection, ServiceCollection>();
             services.AddAuthentication()
-                    
+                    .AddCookie()
                     .AddJwtBearer(cfg => 
                         {
                             cfg.SaveToken = true;

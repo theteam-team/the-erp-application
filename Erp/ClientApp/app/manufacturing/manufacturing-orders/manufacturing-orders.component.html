@@ -1,0 +1,25 @@
+<app-manufacturing></app-manufacturing>
+
+
+<button type="button" class="btn btn-dark" (click)="createOrder()" style="margin: 10px">create</button>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>product</th>
+      <th>deadline start</th>
+      <th>quantity</th>
+      <th>raw materials</th>
+      <th>status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="table-active" *ngFor="let order of orders">
+      <td>{{order.productname}}</td>
+      <td>{{order.deadlinestart}}</td>
+      <td>{{order.quantity}}</td>
+      <td>{{order.rawmaterilasStatus}}</td>
+      <td>{{order.orderStatus}}</td>
+    </tr>
+  </tbody>
+</table>
