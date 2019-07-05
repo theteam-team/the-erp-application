@@ -26,7 +26,7 @@ int calculateDeliveriesCycleTime(char* error, ConnectionString con) {
 		mysql_free_result(res);
 
 		string query = (string)"select Order_Required_Date, Order_Completed_Date from order_table where outgoing = 1 and Order_Status = 'Done'";
-		cout << query << endl;
+		////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 
@@ -118,7 +118,7 @@ int calculateReceiptsCycleTime(char* error, ConnectionString con) {
 		mysql_free_result(res);
 
 		string query = (string)"select Order_Required_Date, Order_Completed_Date from order_table where incoming = 1 and Order_Status = 'Done'";
-		cout << query << endl;
+		//////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 
@@ -207,7 +207,7 @@ double calculateInventoryValue(char* error, ConnectionString con) {
 		mysql_free_result(res);
 
 		string query = (string)"select Product_Price, Units_In_Stock from product";
-		cout << query << endl;
+		//////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 
@@ -253,7 +253,7 @@ double calculateOutgoingValue(char* error, ConnectionString con) {
 		mysql_free_result(res);
 
 		string query = (string)"select product.Product_Price, order_has_product.Units_In_Order from product, order_has_product, order_table where order_table.incoming = 1 and order_has_product.order_table_Order_ID = order_table.Order_ID and order_has_product.Product_Product_ID = product.Product_ID";
-		cout << query << endl;
+		//////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 
@@ -302,7 +302,7 @@ double calculateIncomingValue(char* error, ConnectionString con) {
 		mysql_free_result(res);
 
 		string query = (string)"select product.Product_Price, order_has_product.Units_In_Order from product, order_has_product, order_table where order_table.outgoing = 1 and order_has_product.order_table_Order_ID = order_table.Order_ID and order_has_product.Product_Product_ID = product.Product_ID";
-		cout << query << endl;
+		//////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 
@@ -347,7 +347,7 @@ int addToCategory(char* pid, char* cid, char* error, ConnectionString con) {
 	if (conn)
 	{
 		string query = (string)"insert into product_has_category values ('" + pid + "', '" + cid + "')";
-		cout << query << endl;
+		//////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 		checkQuery(qstate, error, conn);
@@ -370,7 +370,7 @@ int deleteFromCategory(char* pid, char* error, ConnectionString con) {
 	if (conn)
 	{
 		string query = (string)"delete from product_has_category where Product_Product_ID = '" + pid + "'";
-		cout << query << endl;
+		//////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 		checkQuery(qstate, error, conn);
@@ -393,7 +393,7 @@ int checkUnitsInStock(char* id, char* error, ConnectionString con) {
 	if (conn)
 	{
 		string query = (string)"select Units_In_Stock from product where Product_ID = '" + id + "'";
-		cout << query << endl;
+		//////cout << query << endl;
 		char const *q = query.c_str();
 		mysql_free_result(res);
 		qstate = mysql_query(conn, q);
@@ -437,7 +437,7 @@ extern "C"	ERP_API int addToOrderTotal(Order* order, char* error, ConnectionStri
 	if (conn)
 	{
 		string query = (string)"select total from order_table where Order_ID = '" + order->id + "'";
-		cout << query << endl;
+		//////cout << query << endl;
 		char const *q = query.c_str();
 
 		mysql_free_result(res);
@@ -456,7 +456,7 @@ extern "C"	ERP_API int addToOrderTotal(Order* order, char* error, ConnectionStri
 
 		price += order->totalPrice;
 		query = (string)"update order_table set total = " + to_string(price) + " where Order_ID = '" + order->id + "'";
-		cout << query << endl;
+		////cout << query << endl;
 		q = query.c_str();
 
 		qstate = mysql_query(conn, q);
@@ -482,7 +482,7 @@ extern "C"	ERP_API int removeFromOrderTotal(Order* order, char* error, Connectio
 	if (conn)
 	{
 		string query = (string)"select total from order_table where Order_ID = '" + order->id + "'";
-		cout << query << endl;
+		////cout << query << endl;
 		char const *q = query.c_str();
 
 		mysql_free_result(res);
@@ -501,7 +501,7 @@ extern "C"	ERP_API int removeFromOrderTotal(Order* order, char* error, Connectio
 
 		price -= order->totalPrice;
 		query = (string)"update order_table set total = " + to_string(price) + " where Order_ID = '" + order->id + "'";
-		cout << query << endl;
+		////cout << query << endl;
 		q = query.c_str();
 
 		qstate = mysql_query(conn, q);
@@ -530,7 +530,7 @@ extern "C"	ERP_API int addToStock(char* id, int newUnits, char* error, Connectio
 		cout << newUnits << endl;
 		units += newUnits;
 		string query = "update product set Units_In_Stock = " + to_string(units) + " where Product_ID = '" + id + "'";
-		cout << query << endl;
+		////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 		checkQuery(qstate, error, conn);
@@ -557,7 +557,7 @@ extern "C"	ERP_API int removeFromStock(ProductInOrder* product, char* error, Con
 	if (status == 0)
 	{
 		string query = "update product set Units_In_Stock = " + to_string(units) + " where Product_ID = '" + product->productID + "'";
-		cout << query << endl;
+		////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 		checkQuery(qstate, error, conn);
@@ -580,7 +580,7 @@ extern "C"	ERP_API int addInventory(Inventory* inventory, char* error, Connectio
 	if (conn) {
 
 		string query = (string) "insert into inventory values ('" + inventory->id + "', '" + inventory->governorate + "', '" + inventory->city + "', '" + inventory->street + "', " + to_string(inventory->length) + ", " + to_string(inventory->width) + ", " + to_string(inventory->height) + ")";
-		cout << query << endl;
+		////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 		checkQuery(qstate, error, conn);
@@ -603,7 +603,7 @@ extern "C"	ERP_API int addProduct(Product* product, char* error, ConnectionStrin
 	if (conn) {
 		
 		string query = (string) "insert into product values ('" + product->id + "', '" + product->name + "', '" + product->description + "', " + to_string(product->price) + ", " + to_string(product->weight) + ", " + to_string(product->length) + ", " + to_string(product->width) + ", " + to_string(product->height) + ", " + to_string(product->unitsInStock) + ")";
-		cout << query << endl;
+		////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 		checkQuery(qstate, error, conn);
@@ -631,7 +631,7 @@ extern "C"	ERP_API int addOrder(Order* order, char* error, ConnectionString con)
 	if (conn) {
 
 		string query = (string) "insert into order_table values ('" + order->id + "', " + to_string(order->incoming) + ", " + to_string(order->outgoing) + ", '" + order->requiredDate + "', '" + order->completedDate + "', '" + order->orderStatus + "', " + to_string(order->totalPrice) + ", '" + order->customerID + "', '" + order->supplierID + "','" + order->paymentID + "', '" + order->shipmentID + "')";
-		cout << query << endl;
+		////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 		checkQuery(qstate, error, conn);
@@ -655,7 +655,7 @@ extern "C"	ERP_API int addPotentialOrder(Order* order, char* error, ConnectionSt
 	if (conn) {
 
 		string query = (string) "insert into order_table (Order_ID, incoming, outgoing, Order_Required_Date, Order_Status, Customer_Customer_ID) values ('" + order->id + "', " + to_string(order->incoming) + ", " + to_string(order->outgoing) + ", '" + order->requiredDate + "', '" + order->orderStatus + "', '" + order->customerID + "')";
-		cout << query << endl;
+		////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 		checkQuery(qstate, error, conn);
@@ -678,7 +678,7 @@ extern "C" ERP_API int addPotentialProduct(ProductInOrder* product, char* error,
 	if (conn) {
 
 		string query = (string) "insert into order_has_product (order_table_Order_ID, Product_Product_ID, Units_In_Order) values ('" + product->orderID + "', '" + product->productID + "', " + to_string(product->unitsOrdered) + ")";
-		cout << query << endl;
+		////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 		checkQuery(qstate, error, conn);
@@ -701,7 +701,7 @@ extern "C" ERP_API int addPayment(Payment* payment, char* error, ConnectionStrin
 	if (conn) {
 
 		string query = (string) "insert into payment (Payment_ID, Payment_Method, Payment_Amount) values ('" + payment->id + "', '" + payment->method + "', " + to_string(payment->amount) + ")";
-		cout << query << endl;
+		////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 		checkQuery(qstate, error, conn);
@@ -724,7 +724,7 @@ extern "C" ERP_API int addOrderPayment(Order* order, char* error, ConnectionStri
 	if (conn) {
 
 		string query = (string) "update order_table set Payment_Payment_ID = '" + order->paymentID + "' where Order_ID = '" + order->id + "'";
-		cout << query << endl;
+		////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 		checkQuery(qstate, error, conn);
@@ -747,7 +747,7 @@ extern "C" ERP_API int addProductToOrder(ProductInOrder* product, char* error, C
 	if (conn) {
 
 		string query = (string) "insert into order_has_product values ('" + product->orderID + "', '" + product->productID + "', '" + product->inventoryID + "', " + to_string(product->unitsOrdered) + ", " + to_string(product->unitsDone) + ")";
-		cout << query << endl;
+		////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 		checkQuery(qstate, error, conn);
@@ -770,7 +770,7 @@ extern "C" ERP_API int addProductToInventory(ProductInInventory* product, char* 
 	if (conn) {
 
 		string query = (string) "insert into inventory_has_product values ('" + product->inventoryID + "', '" + product->productID + "', '" + product->position + "', " + to_string(product->unitsInInventory) + ")";
-		cout << query << endl;
+		////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 		checkQuery(qstate, error, conn);
@@ -792,7 +792,7 @@ extern "C" ERP_API int editProduct(Product* product, char* error, ConnectionStri
 
 	if (conn) {
         string query = (string) "update product set Product_Name = '" + product->name + "', Product_Description = '" + product->description + "', " + "', Product_Price = " + to_string(product->price) + ", Product_Weight = " + to_string(product->weight) + ", length = " + to_string(product->length) + ", width = " + to_string(product->width) + ", Product_height = " + to_string(product->height) + ", Units_In_Stock = " + to_string(product->unitsInStock) + " where Product_ID = '" + product->id + "'";
-		cout << query << endl;
+		////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 		checkQuery(qstate, error, conn);
@@ -821,7 +821,7 @@ extern "C" ERP_API int editOrder(Order* order, char* error, ConnectionString con
 
 	if (conn) {
 		string query = (string) "update order_table set incoming = " + to_string(order->incoming) + ", outgoing = " + to_string(order->outgoing) + ", Order_Required_Date = '" + order->requiredDate + "', Order_Status = '" + order->orderStatus + "', total = " + to_string(order->totalPrice) + ", Customer_Customer_ID = '" + order->customerID + "', Supplier_Supplier_ID = " + order->supplierID + "', Payment_Payment_ID = '" + order->paymentID + "', Shipment_Shipment_ID = '" + order->shipmentID + "' where Order_ID = '" + order->id + "'";
-		cout << query << endl;
+		////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 		checkQuery(qstate, error, conn);
@@ -843,7 +843,7 @@ extern "C" ERP_API int editProductInOrder(ProductInOrder* product, char* error, 
 
 	if (conn) {
 		string query = (string) "update order_has_product set Units_In_Order = " + to_string(product->unitsOrdered) + ", Units_Done = " + to_string(product->unitsDone)  + " where order_table_Order_ID = '" + product->orderID + "' and Product_Product_ID = '" + product->productID + "'";
-		cout << query << endl;
+		////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 		checkQuery(qstate, error, conn);
@@ -865,7 +865,7 @@ extern "C" ERP_API int editProductInInventory(ProductInInventory* product, char*
 
 	if (conn) {
 		string query = (string) "update inventory_has_product set position = '" + product->position + "', Units_In_Inventory = " + to_string(product->unitsInInventory) + " where Product_Product_ID = '" + product->productID + "'";
-		cout << query << endl;
+		////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 		checkQuery(qstate, error, conn);
@@ -890,7 +890,7 @@ extern "C"	ERP_API int deleteProduct(char* id, char* error, ConnectionString con
 	if (conn)
 	{
 		string query = (string)"delete from inventory_has_product where Product_Product_ID = '" + id + "';delete from product where Product_ID = '" + id + "'";
-		cout << query << endl;
+		////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 		checkQuery(qstate, error, conn);
@@ -913,7 +913,7 @@ extern "C"	ERP_API int deleteOrder(char* id, char* error, ConnectionString con) 
 	if (conn)
 	{
 		string query = (string)"delete from order_has_product where order_table_Order_ID = '" + id + "';delete from order_table where Order_ID = '" + id + "'";
-		cout << query << endl;
+		////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 		checkQuery(qstate, error, conn);
@@ -936,7 +936,7 @@ extern "C"	ERP_API int deleteInventory(char* id, char* error, ConnectionString c
 	if (conn)
 	{
 		string query = (string)"delete from inventory_has_product where Inventory_Inventory_ID = '" + id + "';delete from inventory where Inventory_ID = " + id + "';";
-		cout << query << endl;
+		////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 		checkQuery(qstate, error, conn);
@@ -959,7 +959,7 @@ extern "C"	ERP_API int deleteProductFromOrder(char* oID, char* pID, char* error,
 	if (conn)
 	{
 		string query = (string)"delete from order_has_product where order_table_Order_ID = '" + oID + "' and Product_Product_ID = '" + pID + "'";
-		cout << query << endl;
+		////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 		checkQuery(qstate, error, conn);
@@ -982,7 +982,7 @@ extern "C"	ERP_API int deleteProductFromInventory(char* iID, char* pID, char* er
 	if (conn)
 	{
 		string query = (string)"delete from inventory_has_product where Inventory_Inventory_ID = '" + iID + "' and Product_Product_ID = '" + pID + "'";
-		cout << query << endl;
+		////cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 		checkQuery(qstate, error, conn);
@@ -1010,7 +1010,7 @@ extern "C"	ERP_API int searchByCategory(Product** product, char* id, char* error
 		mysql_free_result(res);
 
 		string query = (string) "select * from product, product_has_category where product.Product_ID = product_has_category.Product_Product_ID and product_has_category.Category_Category_ID = '" + id + "'";
-		cout << query << endl;
+		////cout << query << endl;
 		char const *q = query.c_str();
 
 		qstate = mysql_query(conn, q);
@@ -1086,7 +1086,7 @@ extern "C"	ERP_API int searchProducts(Product** product, char* key, char* value,
 		 mysql_free_result(res);
 
 		 string query = (string) "select * from product, product_has_category where " + key + " = '" + value + "' and product.Product_ID = product_has_category.Product_Product_ID";
-		 cout << query << endl;
+		 ////cout << query << endl;
 		 char const *q = query.c_str();
 
 		 qstate = mysql_query(conn, q);
@@ -1164,7 +1164,7 @@ extern "C"	ERP_API int searchOrders(Order** order, char* key, char* value, char*
 		 mysql_free_result(res);
 
 		 string query = (string) "select * from order_table where " + key + " = '" + value + "'";
-		 cout << query << endl;
+		 ////cout << query << endl;
 		 char const *q = query.c_str();
 
 		 qstate = mysql_query(conn, q);
@@ -1230,7 +1230,7 @@ extern "C"	ERP_API int searchInventories(Inventory** inventory, char* key, char*
 		 mysql_free_result(res);
 
 		 string query = (string) "select * from inventory where " + key + " = '" + value + "'";
-		 cout << query << endl;
+		 ////cout << query << endl;
 		 char const *q = query.c_str();
 
 		 qstate = mysql_query(conn, q);
@@ -1317,7 +1317,7 @@ extern "C"	ERP_API int searchInventories(Inventory** inventory, char* key, char*
 	 {
 		 unsigned int numOfFields;
 		 string query = (string)"select order_table.Order_Required_Date, product.Product_ID, product.Product_Name, order_table.incoming, order_has_product.Units_In_Order from product, order_table, order_has_product where product.Product_ID = order_has_product.Product_Product_ID and order_has_product.order_table_Order_ID = order_table.Order_ID";
-		 cout << query << endl;
+		 ////cout << query << endl;
 		 char const *q = query.c_str();
 
 		 mysql_free_result(res);
@@ -1384,7 +1384,7 @@ extern "C"	ERP_API int getAllProductInfo(char* id, Product** product, char* erro
 	{
 		unsigned int numOfFields;
 		string query = (string)"select * from product, product_has_category where product.Product_ID = '" + id + "' and product.Product_ID = product_has_category.Product_Product_ID";
-		cout << query << endl;
+		////cout << query << endl;
 		char const *q = query.c_str();
 
 		mysql_free_result(res);
@@ -1454,7 +1454,7 @@ extern "C"	ERP_API int getOrderInfo(char* id, Order** order, char* error, Connec
 		 unsigned int numOfFields;
 		 string query = (string)"select * from order_table where Order_ID = '" + id + "'";
 
-		 cout << query << endl;
+		 ////cout << query << endl;
 
 		 char const *q = query.c_str();
 		 mysql_free_result(res);
@@ -1522,7 +1522,7 @@ extern "C"	ERP_API int showProducts(Product** product, char* error, ConnectionSt
 		 string query = "select * from product, product_has_category where product.Product_ID = product_has_category.Product_Product_ID";
 
 		 qstate = mysql_query(conn, query.c_str());
-		 cout << query << endl;
+		 ////cout << query << endl;
 		 if (checkQuery(qstate, error, conn)) {
 			 if (conn) {
 				 res = mysql_store_result(conn);
@@ -1722,7 +1722,7 @@ extern "C"	ERP_API int showProductsInInventory(char* id, ProductInInventory** pr
 		 mysql_free_result(res);
 
 		 string query = (string) "select * from product, inventory_has_product where inventory_has_product.Inventory_Inventory_ID = '" + id + "' and inventory_has_product.Product_Product_ID = product.Product_ID;";
-		 cout << query << endl;
+		 ////cout << query << endl;
 		 char const *q = query.c_str();
 		 qstate = mysql_query(conn, q);
 
@@ -1785,7 +1785,7 @@ extern "C"	ERP_API int showAllOrders(Order** order, char* error, ConnectionStrin
 		string query = (string)"select * from order_table where incoming = 1";
 		const char* q = query.c_str();
 		qstate = mysql_query(conn, q);
-		cout << query << endl;
+		////cout << query << endl;
 
 		if (checkQuery(qstate, error, conn))
 		{
@@ -1845,7 +1845,7 @@ extern "C"	ERP_API int showReceipts(Order** order, char* error, ConnectionString
 		string query = (string)"select * from order_table where outgoing = 1";
 		const char* q = query.c_str();
 		qstate = mysql_query(conn, q);
-		cout << query << endl;
+		////cout << query << endl;
 
 		if (checkQuery(qstate, error, conn))
 		{
@@ -2019,7 +2019,7 @@ extern "C"	ERP_API int showReadyOrders(Order** order, char* error, ConnectionStr
 		 mysql_free_result(res);
 		 string query = (string)"select * from order_table where Order_Status = 'Ready'";
 		 qstate = mysql_query(conn, query.c_str());
-		 cout << query << endl;
+		 ////cout << query << endl;
 		 
 		 if (checkQuery(qstate, error, conn))
 		 {
@@ -2078,7 +2078,7 @@ extern "C"	ERP_API int showOrdersInProgress(Order** order, char* error, Connecti
 		
 		 string query = (string)"select * from order_table where Order_Status = 'In Progress'";
 		 qstate = mysql_query(conn, query.c_str());
-		 cout << query << endl;
+		 ////cout << query << endl;
 
 		 if (checkQuery(qstate, error, conn))
 		 {
@@ -2135,7 +2135,7 @@ extern "C"	ERP_API int showOrdersInProgress(Order** order, char* error, Connecti
 
 		 mysql_free_result(res);
 		 qstate = mysql_query(conn, "select * from order_table where Order_Status = 'Waiting' and incoming = 1");
-		 cout << "select * from order_table where Order_Status = 'Waiting' and incoming = 1" << endl;
+		// cout << "select * from order_table where Order_Status = 'Waiting' and incoming = 1" << endl;
 
 		 if (checkQuery(qstate, error, conn))
 		 {
@@ -2251,7 +2251,7 @@ extern "C"	ERP_API int showProductsInOrder(char* id, ProductInOrder** product, c
 
 		 string query = (string)"select * from order_has_product where order_table_Order_ID = '" + id + "'";
 		 qstate = mysql_query(conn, query.c_str());
-		 cout << query << endl;
+		 ////cout << query << endl;
 		 if (checkQuery(qstate, error, conn)) {
 
 			 res = mysql_store_result(conn);
@@ -2302,7 +2302,7 @@ extern "C"	ERP_API int showCustomerProducts(char* id, CustomerProduct** product,
 
 		string query = (string)"select order_has_product.order_table_Order_ID, order_has_product.Product_Product_ID, product.Product_Name, order_has_product.Units_In_Order, product.Product_Price from product, order_has_product, order_table where order_table.Customer_Customer_ID = '" + id + "' and order_has_product.order_table_Order_ID = order_table.Order_ID and order_has_product.Product_Product_ID = product.Product_ID";
 		qstate = mysql_query(conn, query.c_str());
-		cout << query << endl;
+		////cout << query << endl;
 		if (checkQuery(qstate, error, conn)) {
 
 			res = mysql_store_result(conn);
