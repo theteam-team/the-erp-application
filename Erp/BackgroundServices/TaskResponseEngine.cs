@@ -82,7 +82,7 @@ namespace Erp.BackgroundServices
                     using (var client = new HttpClient())
                     {
                         _logger.LogInformation("sending json" + json);
-                        var content = await client.PostAsJsonAsync("http://" +_config["BpmEngine:Address"] + "/engine/api/notification", bpmResponse);
+                        var content = await client.PostAsJsonAsync(_config["BpmEngine:Address"] + "/engine/api/notification", bpmResponse);
                     }
                 }
                 else

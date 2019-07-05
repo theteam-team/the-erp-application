@@ -8,11 +8,9 @@
         <script src="~/node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
 }
 
-<div>
-    <div class="text-center">
-        <label id="registerToggle">Register</label>
-    </div>
-    <div class="col-md-6 offset-md-3">
+<div class="container">
+    
+    <div class="col-md-6 offset-md-3 mt-3">
         <div id="register-div" class="card card-body bg-light">
             <form class="popup-form" id="register-form" asp-controller="Account" asp-action="Register" method="post">
                 <div asp-validation-summary="ModelOnly"></div>
@@ -21,19 +19,16 @@
                     <input asp-for="Register.DatabaseName" class="form-control" />
                     <span asp-validation-for="Register.DatabaseName" class="text-danger"></span>
                 </div>
-                <br />
                 <div class="form-group">
                     <label asp-for="Register.Email" class="fa fa-envelope">Email:</label>
                     <input type="email" asp-for="Register.Email" class="form-control" />
                     <span asp-validation-for="Register.Email" class="text-danger"></span>
                 </div>
-                <br />
                 <div class="form-group">
                     <label asp-for="Register.UserName" class="fa fa-user">User Name</label>
                     <input type="text" asp-for="Register.UserName" class="form-control" />
                     <span asp-validation-for="Register.UserName" class="text-danger"></span>
                 </div>
-                <br />
                 <div class="form-group">
                     <label asp-for="Register.Password" class="fa fa-lock">Password</label>
                     <br />
@@ -41,7 +36,6 @@
                     <span asp-validation-for="Register.Password" class="text-danger"></span>
                     <br />
                 </div>
-                <br />
                 <div class="form-group">
                     <label asp-for="Register.Language" class="fa fa-language">Language:</label>
                     <select asp-for="Register.Language">
@@ -53,7 +47,6 @@
                     </select>
                     <span asp-validation-for="Register.Language"></span>
                 </div>
-                <br />
                 <div class="form-group">
                     <label asp-for="Register.Country" class="fa fa-home">Country:</label>
                     <select asp-for="Register.Country">
