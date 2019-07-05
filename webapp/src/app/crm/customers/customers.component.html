@@ -5,27 +5,36 @@
   </div>
   <div class="row">
 
-    <div class="card text-white bg-dark mb-3" style="width: 100%;margin:15px;padding:10px;" *ngFor="let customer of customers | customerFilter:searchTerm" (click)="editCustomer(customer.id)">
+    <div class="card text-white bg-dark mb-3" style="width: 100%;margin:15px;padding:10px;" *ngFor="let customer of customers | customerFilter:searchTerm">
       <div>
-          
+
         <h5 class="card-title" style="display:inline">  {{customer.name}} </h5>
       </div>
       <br />
-      <h6 class="card-title">email: {{customer.email}} </h6>
-      <h6 class="card-title">phone: {{customer.phone_number}} </h6>
-
-      <div class="col-md-2">
-        <button class="btn btn-info" (click)="editCustomer(customer.id)"><i class="fa fa-pencil"></i></button>
-        <button class="btn btn-danger" (click)="deleteCustomer(customer.id)"><i class="fa fa-times"></i></button>
+      <div class="row">
+        <div class="col">
+          <h6 class="card-title">email: {{customer.email}} </h6>
+          <h6 class="card-title">phone: {{customer.phone_number}} </h6>
+          <h6 class="card-title">company: {{customer.company}} </h6>
+          <h6 class="card-title">company email: {{customer.company_email}} </h6>
+        </div>
+        <div class="col">
+          <h6 class="card-title">gender: {{customer.gender}} </h6>
+          <h6 class="card-title">dateOfBirth: {{customer.dateOfBirth}} </h6>
+          <h6 class="card-title">loyality_points: {{customer.loyality_points}} </h6>
+          <h6 class="card-title">is_lead: {{customer.is_lead}} </h6>
+        </div>
+      </div>
+      <div style="display:inline-flex">
+       
+          <button class="btn btn-info" (click)="editCustomer(customer.id)">View <i class="fa fa-pencil"></i></button>
+       
+          <button class="btn btn-danger" (click)="deleteCustomer(customer.id)"   style="margin-left:20px">Delete <i class="fa fa-times"></i></button>
+        
       </div>
     </div>
   </div>
-  <div class="card" style="width: 18rem;">
-    <img class="card-img-top" src="customer.png" alt="Card image cap">
-    <div class="card-body">
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    </div>
-  </div>
+  
   <button class="btn btn-info" routerLink="/editCustomer/0" style="margin:10px">CREATE CUSTOMER</button>
 </div>
  

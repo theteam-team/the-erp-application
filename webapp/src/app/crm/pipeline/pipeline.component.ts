@@ -16,7 +16,7 @@ export class PipelineComponent implements OnInit {
   searchTerm: string;
    customers: Customer[];
   opportunities: Opportunity[];
-  Qualified: Opportunity[];
+ 
 
   constructor(private _customerService: customerService, private _opportunityService: OpportunityService, private _router: Router) { }
 

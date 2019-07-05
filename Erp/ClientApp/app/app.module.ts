@@ -51,9 +51,8 @@ import { OpportunityFilterPipe } from './crm/pipeline/opportunity-filter';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OpportunityService } from './crm/create-opportunity/opportunity.service';
-import { OpportunityCanDeactivateGuardService } from './crm/create-opportunity/opportunity-canDeactivate-guard-service';
-import { CustomerCanDeactivateGuardService } from './crm/create-customer/customer-canDeactivate-guard-service';
-import { DashboardComponent } from './CRM/dashboard/dashboard.component';
+ 
+import { DashboardComponent } from './crm/dashboard/dashboard.component';
 
 
 import { ManufacturingComponent } from './manufacturing/manufacturing.component';
@@ -62,6 +61,8 @@ import { BillOfMaterialsComponent } from './manufacturing/bill-of-materials/bill
 import { ManufacturingProductsComponent } from './manufacturing/manufacturing-products/manufacturing-products.component';
 import { AddManufacturingOrderComponent } from './manufacturing/add-manufacturing-order/add-manufacturing-order.component';
 import { AddManufacturingProductComponent } from './manufacturing/add-manufacturing-product/add-manufacturing-product.component';
+import { ProductService } from './crm/services/product.service';
+import { SalesmanService } from './crm/services/salesman.service';
 
 
 let routes = [
@@ -101,15 +102,16 @@ let routes = [
   { path: 'crm', component: CrmComponent },
   { path: 'crm/pipeline', component: PipelineComponent },
   { path: 'crm/customers', component: CustomersComponent },
-  {
+    { path: 'crm/dashboard', component: DashboardComponent },
+    {
     path: 'crm/editCustomer/:id',
     component: CreateCustomerComponent,
-    canDeactivate: [CustomerCanDeactivateGuardService]
+     
   },
   {
     path: 'crm/editOpportunity/:id',
     component: CreateOpportunityComponent,
-    canDeactivate: [OpportunityCanDeactivateGuardService]
+    
   },
 
 ];
@@ -185,8 +187,8 @@ let routes = [
 
 
   providers: [
-    DataService,
-    customerService, OpportunityService, OpportunityCanDeactivateGuardService, CustomerCanDeactivateGuardService
+      DataService,
+      customerService, OpportunityService, ProductService, SalesmanService
 
   ],
 

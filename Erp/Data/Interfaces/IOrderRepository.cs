@@ -24,5 +24,6 @@ namespace Erp.Interfaces
         Task<int> AddPotentialOrder(Order entity, byte[] error);
         Task<int> AddToOrderTotal(Order entity, byte[] error);
         Task<int> RemoveFromOrderTotal(Order entity, byte[] error);
+        Task<int> AddOrderPayment(Order entity, byte[] error);
     }
 }

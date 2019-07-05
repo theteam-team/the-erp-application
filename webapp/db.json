@@ -1,7 +1,7 @@
 {
   "customers": [
     {
-      "id": 1,
+      " id": 1,
       "name": "Menna",
       "email": "menna777@gmail.com",
       "phone_number": "01117572565",
@@ -9,10 +9,12 @@
       "company_email": "mmm@yahoo.com",
       "gender": "female",
       "is_lead": true,
-      "dateOfBirth": "2018-12-11"
+      "dateOfBirth": "2018-12-11",
+      "loyality_points": "",
+      "type": ""
     },
     {
-      "id": 2,
+      " id": 2,
       "name": "Rana",
       "email": "menn6667@gmail.com",
       "phone_number": "01144472565",
@@ -20,18 +22,22 @@
       "company_email": "sss@yahoo.com",
       "gender": "male",
       "is_lead": true,
-      "dateOfBirth": "2019-05-25"
+      "dateOfBirth": "2019-05-25",
+      "loyality_points": "",
+      "type": ""
     },
     {
-      "id": 3,
+      " id": 3,
       "name": "Mohamed ",
       "email": "test@test.com",
       "phone_number": "01117572565",
       "company": "none",
       "company_email": "sss@yahoo.com",
       "gender": "male",
-      "is_lead": null,
-      "dateOfBirth": "2019-05-16"
+      "is_lead": false,
+      "dateOfBirth": "2019-05-16",
+      "loyality_points": "",
+      "type": ""
     }
   ],
   "opportunities": [

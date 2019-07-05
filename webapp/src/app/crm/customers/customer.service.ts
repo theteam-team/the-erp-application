@@ -3,13 +3,14 @@ import { Customer } from '../models/customerModel';
 import { Opportunity } from '../models/opportunityModel';
 import { Observable , of} from 'rxjs';
 import { HttpClient, HttpHeaders  } from '@angular/common/http';
+import { Router } from '@angular/router';
  
  
 
 @Injectable()
 export class customerService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private _router: Router) { }
 
   private customers: Customer[];
 
@@ -37,7 +38,7 @@ export class customerService {
 
   deleteOpportunity(id: number): Observable<void> {
     return this.httpClient.delete<void>('http://localhost:3000/customers/' + id);
-
+    this._router.navigate(['customers'])
    }
   }
 
