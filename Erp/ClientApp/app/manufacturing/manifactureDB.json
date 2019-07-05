@@ -1,0 +1,44 @@
+{
+  "products": [
+    {
+      "productid": "1",
+      "productname": "red_ball",
+      "BillofMatrialname": "plastic",
+      "costofmanufacturing": 5
+    },
+    {
+      "productid": "2",
+      "productname": "green_ball",
+      "BillofMatrialname": "plastic",
+      "costofmanufacturing": 7
+    },
+    {
+      "productid": "3",
+      "productname": "yellow_ball",
+      "BillofMatrialname": "plastic",
+      "costofmanufacturing": 4
+    }
+  ],
+  "materials": [
+    {
+      "BillofMatrialid": 1,
+      "name": "plastic",
+      "validFrom": " ",
+      "validUntil": 2,
+      "quantity": 4,
+      "price": 10
+    },
+    {
+      "BillofMatrialid": 2,
+      "name": "rubber",
+      "validFrom": " ",
+      "validUntil": 6,
+      "quantity": 8,
+      "price": 10
+    }
+  ],
+
+  "orders": {
+    "name": "typicode"
+  }
+}

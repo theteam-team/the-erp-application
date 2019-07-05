@@ -2,7 +2,7 @@ export interface Products {
     productid: string;
     productname: string;
     BillofMatrialname: string;
-    costofmanufacturing: string;
+    costofmanufacturing: number;
 }
 
 
@@ -10,9 +10,9 @@ export interface BillofMatrials {
     BillofMatrialid: number;
     name: number;
     validFrom: string;
-    validUntil: string;
+    validUntil: number;
     quantity: number;
-    price: string;
+    price: number;
 
 }
 
