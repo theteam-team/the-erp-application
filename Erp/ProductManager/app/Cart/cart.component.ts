@@ -16,53 +16,82 @@ import { ProfileComponent } from '../profile/profile.component';
 export class CartComponent implements OnInit {
 
     public customerID;
+    public orderID;
     public customerProducts = [];
-    public total = 0;
+    public orderInfo = {
+        "id": "",
+        "incoming": 1,
+        "outgoing": 0,
+        "requiredDate": "",
+        "completedDate": "",
+        "orderStatus": "Waiting",
+        "totalPrice": 0,
+        "customerID": "",
+        "supplierID": "",
+        "paymentID": "",
+        "shipmentID": ""
+    };
 
     constructor(private data: DataService, private router: Router, private route: ActivatedRoute, private location: Location, private dialog: MatDialog) {
-        this.route.paramMap.subscribe(params => this.customerID = params.get('id'));
+        this.route.paramMap.subscribe(params => this.customerID = params.get('cid'));
+        this.route.paramMap.subscribe(params => this.orderID = params.get('oid'));
     }
 
     ngOnInit() {
 
-        this.getProducts();
-        console.log(this.total);
+        this.data.loadCustomerProducts(this.customerID)
+            .subscribe(success => {
+                if (success) {
+                    this.customerProducts = this.data.customerProducts;
+                }
+                this.data.loadOrderInfo(this.orderID)
+                    .subscribe(success => {
+                        if (success) {
+                            this.orderInfo = this.data.orderInfo;
+                        }
+                        console.log(this.customerProducts);
+                        console.log(this.orderInfo);
+                    });
+            });
+        
+
+        //this.getProducts();
+        //this.getOrder();
     }
 
     reloadComponent(): void {
         location.reload();
     }
 
-    getProducts(): void {
+    /*getProducts(): void {
         this.data.loadCustomerProducts(this.customerID)
             .subscribe(success => {
                 if (success) {
                     this.customerProducts = this.data.customerProducts;
                 }
             });
+    }*/
 
-        this.total = this.customerProducts[this.customerProducts.length - 1].total;
-        this.getTotal(this.total);
-    }
+    /*getOrder(): void {
+        this.data.loadOrderInfo(this.orderID)
+            .subscribe(success => {
+                if (success) {
+                    this.orderInfo = this.data.orderInfo;
+                }
+            });
+    }*/
 
-    getTotal(payment){
-        /*let payment = 0;
-
-        for (let p of this.customerProducts) {
-            payment += p.price * p.unitsOrdered;
-        }*/
-
-        this.data.getTotal(payment);
-    }
-
-    onProductRemove(oid, pid): void {
+    onProductRemove(oid: string, pid: string, units: number, newPrice: number): void {
 
         this.data.deleteProductFromOrder(oid, pid);
+
+        this.orderInfo.totalPrice = units * newPrice;
+        this.data.removeFromOrderTotal(this.orderInfo);
         this.reloadComponent();
     }
 
     submitOrder(): void {
-        this.router.navigate(["/profile", this.customerID]);
+        this.router.navigate(["profile", this.customerID, this.orderID]);
         /*const dialogConfig = new MatDialogConfig();
 
         dialogConfig.disableClose = true;

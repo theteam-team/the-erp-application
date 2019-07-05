@@ -39,17 +39,25 @@
                 </div>
                 <br />
                 <div class="form-group">
-                    <label asp-for="Password" class="fa fa-lock">Password</label>
-                    <br />
+                    <label asp-for="Password" class="fa fa-lock">Password</label>                    
                     <input type="password" asp-for="Password" class="form-control" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                    <br />
+                    <span asp-validation-for="Password" class="text-danger"></span>                  
                 </div>
                 <br />
                 <div class="form-group">
                     <label asp-for="DateOfBirth" class="fa fa-language">Date of Birth:</label>
                     <input type="date" asp-for="DateOfBirth" class="form-control" >
                     <span asp-validation-for="DateOfBirth"></span>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label asp-for="gender" class="fa fa-language">Gender:</label>
+                    <select asp-for="gender">
+                        <option value="">Please choose a Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>                        
+                    </select>
+                    <span asp-validation-for="gender"></span>
                 </div>
                 <br />
                 <div class="form-group">

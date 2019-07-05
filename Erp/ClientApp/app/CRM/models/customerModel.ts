@@ -9,6 +9,7 @@ export class Customer {
     gender: string;
     is_lead: boolean;
     dateOfBirth: Date;
-
+    loyality_points: number;
+    type: number;
 }
 

@@ -24,13 +24,13 @@ namespace Erp.Microservices
     {
         //private CrmApiController _crmApiController;
         private TaskResponseQueue _responseQueue;
-        private readonly CommonNeeds _common;
+        private readonly Emergency _common;
         private readonly IActionDescriptorCollectionProvider _actionDescriptorCollectionProvider;
         private readonly AccountDbContext _accountDbContext;
         private readonly CrmApiController _crmApiController;
         public IServiceProvider Services { get; }
 
-        public SystemServices(AccountDbContext accountDbContext ,CommonNeeds common, IActionDescriptorCollectionProvider actionDescriptorCollectionProvider, TaskResponseQueue responseQueue)
+        public SystemServices(AccountDbContext accountDbContext ,Emergency common, IActionDescriptorCollectionProvider actionDescriptorCollectionProvider, TaskResponseQueue responseQueue)
         {
             _common = common;
             _actionDescriptorCollectionProvider = actionDescriptorCollectionProvider;

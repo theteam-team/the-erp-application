@@ -32,6 +32,7 @@ namespace Erp.Controllers
         private IOrderProductRepository _orderProductRepository;
         private ICustomerProductRepository _customerProductRepository;
         private IAddressRepository _addressRepository;
+        private IPaymentRepository _paymentRepository;
         private IConfiguration _config;
         private Management _management; 
         private ILogger<ApplicationUser> muserLogger;
@@ -39,7 +40,7 @@ namespace Erp.Controllers
         private AccountDbContext mContext;  
         private UserManager<ApplicationUser> _userManager;  
         private SignInManager<ApplicationUser> _signInManager; 
-        public StoreController(IAuthenticationService authorizationService, IProductRepository productRepository,ICustomerRepository customerRepository ,IOrganizationRepository organizationRepository, IOrderRepository orderRepository, IOrderProductRepository orderProductRepository, ICustomerProductRepository customerProductRepository, IAddressRepository addressRepository, AccountDbContext context, DataDbContext dataDbContext,
+        public StoreController(IAuthenticationService authorizationService, IProductRepository productRepository,ICustomerRepository customerRepository ,IOrganizationRepository organizationRepository, IOrderRepository orderRepository, IOrderProductRepository orderProductRepository, ICustomerProductRepository customerProductRepository, IAddressRepository addressRepository, IPaymentRepository paymentRepository, AccountDbContext context, DataDbContext dataDbContext,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<ApplicationUser> userlogger, Management management, IConfiguration config)
@@ -53,6 +54,7 @@ namespace Erp.Controllers
             _orderProductRepository = orderProductRepository;
             _customerProductRepository = customerProductRepository;
             _addressRepository = addressRepository;
+            _paymentRepository = paymentRepository;
             _config = config;
             _management = management;
             muserLogger = userlogger;
@@ -62,7 +64,7 @@ namespace Erp.Controllers
         }
 
         [HttpGet]   
-        [AllowAnonymous]
+        
         public async Task<ActionResult> Store()
         {
             string OrganizationName = (string)RouteData.Values["OrganizationName"];
@@ -70,10 +72,17 @@ namespace Erp.Controllers
 
             if (orgExist != null)
             {
-                var result = await  _authorizationService.AuthenticateAsync(HttpContext, OrganizationName);          
-                ViewBag.Organization = OrganizationName;
-                HttpContext.Session.SetString(HttpContext.Session.Id, OrganizationName);
-                return View("ProductManager");
+                var result = await  _authorizationService.AuthenticateAsync(HttpContext, OrganizationName);
+                if (result.Succeeded)
+                {
+                    ViewBag.Organization = OrganizationName;
+                    HttpContext.Session.SetString(HttpContext.Session.Id, OrganizationName);
+                    return View("ProductManager");
+                }
+                else
+                {
+                    return LocalRedirect("~/Store/" + orgExist.Name+"/Login");
+                }
             }
             else
                 return NotFound("This organization does not exist");
@@ -192,29 +201,26 @@ namespace Erp.Controllers
                         _management.AddRoleToUserAsync(roleCustomer, user),
                         HttpContext.SignInAsync(OrganizationName, new ClaimsPrincipal(claimsIdentity), authProperties)
                         });
-                    /*var Customer = new Customer()
+                    var Customer = new Customer()
                     {
                         customer_id = user.Id,
                         name = customerRegister.name,
                         phone_number = customerRegister.phoneNumber,
                         email = customerRegister.Email,
                         DateOfBirth = customerRegister.DateOfBirth,
-                        gender = "affa",
                         loyality_points = 0,
                         type = 0,
-                        company = "asdas",
-                        company_email = "aaaa",
                         is_lead = false,
                     };
 
-                     byte[] error = new byte[500];
+                    byte[] error = new byte[500];
                     _customerRepository.setConnectionString(OrganizationName);
                     int status = await _customerRepository.Create(Customer, error);
 
                     if (status != 0)
                     {
                         return StatusCode(500);
-                    }              */    
+                    }
 
                     muserLogger.LogInformation("A user with a specifc roles : " + roleCustomer + " has Been Created");
                     return LocalRedirect("~/Store/"+orgExist.Name);
@@ -239,7 +245,7 @@ namespace Erp.Controllers
            await HttpContext.SignOutAsync(OrganizationName);
            Organization orgExist = await _organizationRepository.OraganizationExist(OrganizationName);
 
-            return LocalRedirect("~/Store/" + orgExist.Name);
+            return LocalRedirect("~/Store/" + orgExist.Name + "/Login");
         }
 
         [HttpGet("GetProductStore")]
@@ -270,18 +276,18 @@ namespace Erp.Controllers
             }
         }
 
-        [HttpGet("getUserName")]
-        public async Task<ActionResult<string>> getUserName()
+        [HttpGet("GetUserId")]
+        public async Task<ActionResult<string>> GetUserId()
         {
             string OrganizationName = (string)RouteData.Values["OrganizationName"];
-            await HttpContext.SignOutAsync(OrganizationName);
+
             Organization orgExist = await _organizationRepository.OraganizationExist(OrganizationName);
             if (orgExist != null)
             {
                 var result = await _authorizationService.AuthenticateAsync(HttpContext, OrganizationName);
                 if (result.Succeeded)
                 {
-                    return ((ClaimsIdentity)HttpContext.User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
+                    return ((ClaimsIdentity)result.Principal.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
                 }
                 else
                 {
@@ -375,6 +381,60 @@ namespace Erp.Controllers
             }
         }
 
+        [HttpPost("AddPayment")]
+        public async Task<ActionResult<string>> AddPayment([FromBody]Payment payment)
+        {
+            string OrganizationName = (string)RouteData.Values["OrganizationName"];
+            Organization orgExist = await _organizationRepository.OraganizationExist(OrganizationName);
+            if (orgExist != null)
+            {
+                _paymentRepository.setConnectionString(OrganizationName);
+
+                byte[] error = new byte[500];
+                int status = await _paymentRepository.AddPayment(payment, error);
+                string z = System.Text.Encoding.ASCII.GetString(error);
+                if (status != 0)
+                {
+                    return BadRequest(z.Remove(z.IndexOf('\0')));
+                }
+                else
+                {
+                    return Ok("successfuly added");
+                }
+            }
+            else
+            {
+                return NotFound("This organization does not exist");
+            }
+        }
+
+        [HttpPut("AddOrderPayment")]
+        public async Task<ActionResult<string>> AddOrderPayment([FromBody]Order order)
+        {
+            string OrganizationName = (string)RouteData.Values["OrganizationName"];
+            Organization orgExist = await _organizationRepository.OraganizationExist(OrganizationName);
+            if (orgExist != null)
+            {
+                _orderRepository.setConnectionString(OrganizationName);
+
+                byte[] error = new byte[500];
+                int status = await _orderRepository.AddOrderPayment(order, error);
+                string z = System.Text.Encoding.ASCII.GetString(error);
+                if (status != 0)
+                {
+                    return BadRequest(z.Remove(z.IndexOf('\0')));
+                }
+                else
+                {
+                    return Ok("successfuly added");
+                }
+            }
+            else
+            {
+                return NotFound("This organization does not exist");
+            }
+        }
+
         [HttpGet("GetCustomerProducts/{id}")]
         public async Task<ActionResult<List<CustomerProduct>>> ShowCustomerProducts(string id)
         {
@@ -429,6 +489,80 @@ namespace Erp.Controllers
             else
             {
                 return NotFound("This organization does not exist");
+            }
+        }
+
+        [HttpPut("AddToOrderTotal")]
+        public async Task<ActionResult<string>> AddToOrderTotal([FromBody]Order order)
+        {
+            string OrganizationName = (string)RouteData.Values["OrganizationName"];
+            Organization orgExist = await _organizationRepository.OraganizationExist(OrganizationName);
+            if (orgExist != null)
+            {
+                _orderRepository.setConnectionString(OrganizationName);
+
+                byte[] error = new byte[500];
+                int status = await _orderRepository.AddToOrderTotal(order, error);
+                string z = System.Text.Encoding.ASCII.GetString(error);
+                if (status != 0)
+                {
+
+                    return BadRequest(z.Remove(z.IndexOf('\0')));
+                }
+                else
+                {
+                    return Ok("successfuly added");
+                }
+            }
+            else
+            {
+                return NotFound("This organization does not exist");
+            }
+        }
+
+        [HttpPut("RemoveFromOrderTotal")]
+        public async Task<ActionResult<string>> RemoveFromOrderTotal([FromBody]Order order)
+        {
+            string OrganizationName = (string)RouteData.Values["OrganizationName"];
+            Organization orgExist = await _organizationRepository.OraganizationExist(OrganizationName);
+            if (orgExist != null)
+            {
+                _orderRepository.setConnectionString(OrganizationName);
+
+                byte[] error = new byte[500];
+                int status = await _orderRepository.RemoveFromOrderTotal(order, error);
+                string z = System.Text.Encoding.ASCII.GetString(error);
+                if (status != 0)
+                {
+
+                    return BadRequest(z.Remove(z.IndexOf('\0')));
+                }
+                else
+                {
+                    return Ok("successfuly added");
+                }
+            }
+            else
+            {
+                return NotFound("This organization does not exist");
+            }
+        }
+
+        [HttpGet("GetOrder/{id}")]
+        public async Task<ActionResult<Order>> GetOrderInfo(string id)
+        {
+            byte[] error = new byte[500];
+            Order order = await _orderRepository.GetById(id, error);
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return Ok(order);
+            }
+            else
+            {
+                return BadRequest(y);
             }
         }
     }

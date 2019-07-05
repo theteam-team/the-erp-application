@@ -22,8 +22,8 @@ export class DataService {
         return this.http.post("AddPotentialOrder", order).subscribe((data) => { });
     }
 
-    addToOrder(product) {
-        return this.http.post("AddToOrder", product).subscribe((data) => { });
+   addToOrder(product, order) {
+       return this.http.post("AddToOrder", product).subscribe((data) => {});
     }
 
     addCustomerAddress(address) {
@@ -31,6 +31,7 @@ export class DataService {
     }
 
     public customerProducts = [];
+    public total;
     loadCustomerProducts(id): Observable<boolean> {
         return this.http.get("GetCustomerProducts/" + id)
             .pipe(
@@ -44,8 +45,36 @@ export class DataService {
         return this.http.delete("DeleteCustomerProduct/" + oID + "/" + pID).subscribe((data) => { });
     }
 
-    public total;
-    getTotal(payment): void {
-        this.total = payment;
+    addToOrderTotal(form) {
+        return this.http.put("AddToOrderTotal", form).subscribe((data) => { });
+    }
+
+    removeFromOrderTotal(form) {
+        return this.http.put("RemoveFromOrderTotal", form).subscribe((data) => { });
+    }
+
+    public orderInfo;
+    loadOrderInfo(orderID: string): Observable<boolean> {
+        return this.http.get("GetOrder/" + orderID)
+            .pipe(
+                map((data: any[]) => {
+                    this.orderInfo = data;
+                    return true;
+                }));
+    }
+
+    public customerID;
+    getCustomerID(): Observable<boolean> {
+        return this.http.get("GetUserId", { responseType: 'text' })
+            .pipe(
+                map((data: string) => {
+                    this.customerID = data;
+                    return true;
+                }));
+    }
+
+    addPayment(payment, order) {
+        this.http.post("AddPayment", payment).subscribe((data) => { });
+        this.http.put("AddOrderPayment", order).subscribe((data) => { });
     }
 }

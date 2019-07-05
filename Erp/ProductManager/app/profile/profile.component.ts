@@ -15,6 +15,7 @@ import { DataService } from 'ProductManager/app/shared/dataService';
 export class ProfileComponent implements OnInit {
 
     public customerID;
+    public orderID;
     public addressID = uuid.v4();
 
     public address = {
@@ -28,7 +29,8 @@ export class ProfileComponent implements OnInit {
     };
 
     constructor(private data: DataService, private router: Router, private route: ActivatedRoute) {
-        this.route.paramMap.subscribe(params => this.customerID = params.get('id'));
+        this.route.paramMap.subscribe(params => this.customerID = params.get('cid'));
+        this.route.paramMap.subscribe(params => this.orderID = params.get('oid'));
     }
 
     ngOnInit() {
@@ -44,7 +46,7 @@ export class ProfileComponent implements OnInit {
         this.address.customer_id = this.customerID;
 
         this.data.addCustomerAddress(this.address);
-        this.router.navigate(["/confirm", this.customerID]);
+        this.router.navigate(["confirm", this.customerID, this.orderID]);
         //this.onClose();
     }
 

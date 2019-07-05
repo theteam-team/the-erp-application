@@ -124,7 +124,7 @@ namespace Erp.Controllers
         [HttpPost("SendEmail")]
         public async Task<ActionResult<string>> SendEmail([FromBody] EmailViewModel emailEntity)
         {
-            List<UserHasEmail> UserEmails = new List<UserHasEmail>();
+            /*List<UserHasEmail> UserEmails = new List<UserHasEmail>();
             Email email = new Email()
             {
                 Id = emailEntity.Email.Id,
@@ -146,7 +146,7 @@ namespace Erp.Controllers
                 }
             }
             email.UserHasEmails = UserEmails;
-            _email.Insert(email);
+            _email.Insert(email);*/
             return Ok();
 
            

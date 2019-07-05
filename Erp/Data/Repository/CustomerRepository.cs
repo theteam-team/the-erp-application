@@ -20,9 +20,9 @@ namespace Erp.Repository
     public class CustomerRepository : Repository<Customer, DataDbContext>, ICustomerRepository
     {
         private IConfiguration _config;
-        private CommonNeeds _common;
+        private Emergency _common;
 
-        public CustomerRepository(CommonNeeds common , IConfiguration config, ILogger<CustomerRepository> ilogger, IHttpContextAccessor httpContextAccessor, AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager)
+        public CustomerRepository(Emergency common , IConfiguration config, ILogger<CustomerRepository> ilogger, IHttpContextAccessor httpContextAccessor, AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager)
               : base(config, ilogger, httpContextAccessor, management, datadbContext, accountDbContext, userManager)
         {
             _config = config;

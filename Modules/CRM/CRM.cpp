@@ -1,47 +1,27 @@
 #include"CrmHeader.h"
 #include "CrmDatabase_tables.h"
-#include <stdio.h>
-#include<iostream>
-#include <sstream> 
-#include <string>
-#include<mysql.h>
-int status;
+
 using namespace std;
-int qstate;
-
-
-MYSQL* conn;
-MYSQL_ROW row;
-MYSQL_RES* res;
-class db_response {
-
-public:
-	static void ConnectionFunction(char* error, ConnectionString con) {
-
-		conn = mysql_init(0);
-		conn = mysql_real_connect(conn, con.SERVER, con.USER, con.PASSWORD, con.DATABASE, 3306, NULL, 0);
-		if (!conn) {
-
-			cout << "Failed To Connect!" << mysql_errno(conn) << endl;
-			string err = (string)"Connection to database has failed!" + mysql_error(conn);;
-			strcpy_s(error, err.length() + 1, err.c_str());
-			status = 3;
-		}
-	}
-};
 
 extern "C"	ERP_API int AddCustomerAddress(Address* address, char* error, ConnectionString con)
 {
-	status = 0;
-	db_response::ConnectionFunction(error, con);
+	int status = 0;
+	int qstate;
+
+	MYSQL* conn;
+	MYSQL_ROW row = nullptr;
+	MYSQL_RES *res = nullptr;
+
+	conn = mysql_init(0);
+	conn = mysql_real_connect(conn, con.SERVER, con.USER, con.PASSWORD, con.DATABASE, 3306, NULL, 0);
 
 	if (conn) {
 
-		string query = (string) "insert into Customer_Address values ('" + address->id + "', '" + address->city + "', '" + address->governate + "', '" + address->street + "', " + to_string(address->zip_code) + ", '" + address->customer_id + "')";
+		string query = (string) "insert into customer_Address values ('" + address->id + "', '" + address->city + "', '" + address->governate + "', '" + address->street + "', " + to_string(address->zip_code) + ", '" + address->customer_id + "')";
 		cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
-		checkQuery(qstate, error);
+		checkQuery(qstate, error, conn);
 		mysql_close(conn);
 	}
 	return status;
@@ -50,9 +30,16 @@ extern "C"	ERP_API int AddCustomerAddress(Address* address, char* error, Connect
 
 extern "C"	ERP_API int AddCustomer(Customer* customer, char* error, ConnectionString con)
 {
+	int status = 0;
+	int qstate;
 
+	MYSQL* conn;
+	MYSQL_ROW row = nullptr;
+	MYSQL_RES *res = nullptr;
 
-	db_response::ConnectionFunction(error, con);
+	conn = mysql_init(0);
+	conn = mysql_real_connect(conn, con.SERVER, con.USER, con.PASSWORD, con.DATABASE, 3306, NULL, 0);
+
 	if (conn) {
 		
 		cout << customer->customer_id<<endl;
@@ -66,7 +53,7 @@ extern "C"	ERP_API int AddCustomer(Customer* customer, char* error, ConnectionSt
 		cout << customer->company<< endl;
 		cout << customer->company_email<< endl;
 		cout << customer->is_lead<< endl;
-		string query = "INSERT INTO Customer VALUES";
+		string query = "INSERT INTO customer VALUES ";
 		query += "('";
 		query += customer->customer_id;
 		query += "','";
@@ -94,14 +81,23 @@ extern "C"	ERP_API int AddCustomer(Customer* customer, char* error, ConnectionSt
 		cout << query << endl;
 		const char* q = query.c_str();
 		qstate = mysql_query(conn, q);
-		checkQuery(qstate, error);
+		checkQuery(qstate, error, conn);
 		mysql_close(conn);
 	}
 	return status;
 }
 extern "C"	ERP_API int AddEmployee(Employee* crm_employee, char* error, ConnectionString con)
 {
-	db_response::ConnectionFunction(error, con);
+	int status = 0;
+	int qstate;
+
+	MYSQL* conn;
+	MYSQL_ROW row = nullptr;
+	MYSQL_RES *res = nullptr;
+
+	conn = mysql_init(0);
+	conn = mysql_real_connect(conn, con.SERVER, con.USER, con.PASSWORD, con.DATABASE, 3306, NULL, 0);
+
 	if (conn)
 	{
 		string query = (string)"INSERT INTO employee VALUES('" + crm_employee->id + "','" + crm_employee->name + "','"
@@ -111,15 +107,23 @@ extern "C"	ERP_API int AddEmployee(Employee* crm_employee, char* error, Connecti
 		cout << query << endl;
 		const char* q = query.c_str();
 		qstate = mysql_query(conn, q);
-		checkQuery(qstate, error);
+		checkQuery(qstate, error, conn);
 		mysql_close(conn);
 	}
 	return status;
 }
 extern "C"	ERP_API int AddOpportunity(Opportunity* opportunities, char* error, ConnectionString con)
 {
-	db_response::ConnectionFunction(error, con);
-	status = 0;
+	int status = 0;
+	int qstate;
+
+	MYSQL* conn;
+	MYSQL_ROW row = nullptr;
+	MYSQL_RES *res = nullptr;
+
+	conn = mysql_init(0);
+	conn = mysql_real_connect(conn, con.SERVER, con.USER, con.PASSWORD, con.DATABASE, 3306, NULL, 0);
+
 	if (conn)
 	{
 		string x = opportunities->employee_id;
@@ -138,14 +142,23 @@ extern "C"	ERP_API int AddOpportunity(Opportunity* opportunities, char* error, C
 		cout << query << endl;
 		const char* q = query.c_str();
 		qstate = mysql_query(conn, q);
-		checkQuery(qstate, error);
+		checkQuery(qstate, error, conn);
 		mysql_close(conn);
 	}
 	return status;
 }
 extern "C"	ERP_API int AddOpportunitie_detail(char* opportunity_id, char** product_id, int numOfProducts, char* error, ConnectionString con)
 {
-	db_response::ConnectionFunction(error, con);
+	int status = 0;
+	int qstate;
+
+	MYSQL* conn;
+	MYSQL_ROW row = nullptr;
+	MYSQL_RES *res = nullptr;
+
+	conn = mysql_init(0);
+	conn = mysql_real_connect(conn, con.SERVER, con.USER, con.PASSWORD, con.DATABASE, 3306, NULL, 0);
+
 	if (conn)
 	{
 		for (int i = 0; i < numOfProducts; ++i)
@@ -155,7 +168,7 @@ extern "C"	ERP_API int AddOpportunitie_detail(char* opportunity_id, char** produ
 			cout << query << endl;
 			const char* q = query.c_str();
 			qstate = mysql_query(conn, q);
-			checkQuery(qstate, error);
+			checkQuery(qstate, error, conn);
 		}
 		mysql_close(conn);
 	}
@@ -164,17 +177,25 @@ extern "C"	ERP_API int AddOpportunitie_detail(char* opportunity_id, char** produ
 }
 extern "C"	ERP_API Customer* getCustomerById(char* customer_id, char* error, ConnectionString con)
 {
-	status = 0;
-	db_response::ConnectionFunction(error, con);
+	int status = 0;
+	int qstate;
+
+	MYSQL* conn;
+	MYSQL_ROW row = nullptr;
+	MYSQL_RES *res = nullptr;
+
+	conn = mysql_init(0);
+	conn = mysql_real_connect(conn, con.SERVER, con.USER, con.PASSWORD, con.DATABASE, 3306, NULL, 0);
+
 	if (conn)
 	{
-		string query = "SELECT * FROM Customer WHERE customer_id = '";
+		string query = "SELECT * FROM customer WHERE customer_id = '";
 		query += customer_id;
 		query += "';";
 		cout << query << endl;
 		const char* q = query.c_str();
 		qstate = mysql_query(conn, q);
-		if (checkQuery(qstate, error))
+		if (checkQuery(qstate, error, conn))
 		{
 
 			res = mysql_store_result(conn);
@@ -215,8 +236,10 @@ extern "C"	ERP_API Customer* getCustomerById(char* customer_id, char* error, Con
 	return nullptr;
 }
 
-bool checkQuery(int qstate, char* error)
+bool checkQuery(int qstate, char* error, MYSQL* conn)
 {
+	int status = 0;
+
 	if (qstate)
 	{
 		cout << "Query failed: " << mysql_error(conn) << endl;

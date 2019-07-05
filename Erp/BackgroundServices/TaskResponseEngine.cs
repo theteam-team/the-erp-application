@@ -1,6 +1,7 @@
 ﻿using Erp.BackgroundServices.Entities;
 using Erp.Data;
 using Erp.Microservices;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -17,14 +18,15 @@ namespace Erp.BackgroundServices
     public class TaskResponseEngine : BackgroundService
     {
         private readonly ILogger<TaskResponseEngine> _logger;
-
+        private IConfiguration _config;
         private TaskResponseQueue _taskResponseQueue;
         public List<Task> tasks = new List<Task>();
         public IServiceProvider Services { get; }
 
-        public TaskResponseEngine(
+        public TaskResponseEngine(IConfiguration config,
             ILoggerFactory loggerFactory, IServiceProvider services, TaskResponseQueue taskResponseQueue)
         {
+            _config = config;
             _taskResponseQueue = taskResponseQueue;
             Services = services;
             _logger = loggerFactory.CreateLogger<TaskResponseEngine>();
@@ -80,7 +82,7 @@ namespace Erp.BackgroundServices
                     using (var client = new HttpClient())
                     {
                         _logger.LogInformation("sending json" + json);
-                        var content = await client.PostAsJsonAsync("http://102.187.45.214/engine/api/notification", bpmResponse);
+                        var content = await client.PostAsJsonAsync(_config["BpmEngine:Address"] + "/engine/api/notification", bpmResponse);
                     }
                 }
                 else

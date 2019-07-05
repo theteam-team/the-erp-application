@@ -11,18 +11,21 @@ using Newtonsoft.Json;
 using Erp.Data.Entities;
 using Erp.Data;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 
 namespace Erp.BackgroundServices
 {
     public class BpmPollingService : BackgroundService
     {
-        private TaskExectionQueue _exectionQueue;
+        private IConfiguration _config;
+        private TaskExectionQueue _executionQueue;
         private ILogger<BpmPollingService> _ilogger;
         private IServiceProvider _services;
 
-        public BpmPollingService(TaskExectionQueue exectionQueue ,IServiceProvider services, ILogger<BpmPollingService> ilogger) 
+        public BpmPollingService(IConfiguration config,TaskExectionQueue exectionQueue ,IServiceProvider services, ILogger<BpmPollingService> ilogger) 
         {
-            _exectionQueue = exectionQueue;
+            _config = config;
+            _executionQueue = exectionQueue;
             _ilogger = ilogger;
             _services = services;
         }
@@ -47,7 +50,7 @@ namespace Erp.BackgroundServices
             {
                 try
                 {
-                    var result = await client.GetAsync("http://102.187.45.214/engine/api/tasks");
+                    var result = await client.GetAsync(_config["BpmEngine:Address"] +"/engine/api/tasks");
                     if (result.IsSuccessStatusCode)
                     {
                         var content = await result.Content.ReadAsStringAsync();
@@ -72,10 +75,11 @@ namespace Erp.BackgroundServices
                                     item.InvokerId = bpmWorker.Id;
 
                                     item.databaseName = _accountDbContext.Organizations.FirstOrDefault().Name;//((ClaimsIdentity)HttpContext.User.Identity).FindFirst("organization").Value;
+                                    _ilogger.LogInformation(item.databaseName);
                                     if (item != null)
                                     {
                                         item.IsBpm = true;
-                                        _exectionQueue.QueueExection(item);
+                                        _executionQueue.QueueExection(item);
                                     }
                                 }
                             }

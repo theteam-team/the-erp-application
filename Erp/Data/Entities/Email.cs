@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,6 +17,11 @@ namespace Erp.Data.Entities
 
         public string Message { get; set; }
         [JsonIgnore]
-        public IList<UserHasEmail> UserHasEmails { get; set; }
+
+        [EmailAddress]
+        public string recieverEmail{ get; set; }
+        [StringLength(50)]
+        public string recieverName{ get; set; }
+        
     }
 }

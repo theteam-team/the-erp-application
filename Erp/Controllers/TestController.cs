@@ -20,20 +20,22 @@ namespace Erp.Controllers
     [Authorize]
     public class TestController : ControllerBase
     {
+        private BpmInvokerQueue _bpmInvokerQueue;
         private AccountDbContext _accountDbContext;
         private ModulesDatabaseBuilder _databaseBuilder;
         private TaskExectionQueue _exectionQueue;
 
-        public TestController(AccountDbContext accounDbContext , ModulesDatabaseBuilder databaseBuilder, TaskExectionQueue exectionQueue)
+        public TestController(BpmInvokerQueue bpmInvokerQueue,AccountDbContext accounDbContext , ModulesDatabaseBuilder databaseBuilder, TaskExectionQueue exectionQueue)
         {
+            _bpmInvokerQueue = bpmInvokerQueue;
             _accountDbContext = accounDbContext;
             _databaseBuilder = databaseBuilder;
             _exectionQueue = exectionQueue;
         }
         [HttpGet("CreateDatabase")]
-        public ActionResult CreateDatabase(string database)
+        public async Task<ActionResult> CreateDatabase(string database)
         {
-            _databaseBuilder.createModulesDatabase(database);
+            await _databaseBuilder.createModulesDatabaseAsync(database);
             return Ok();
         }
         [HttpPost("RunTask")]
@@ -54,10 +56,17 @@ namespace Erp.Controllers
             _exectionQueue.QueueExection(bpmTask);
             return Ok();
         }
+
         [HttpGet("CreateNewModule")]
-        public ActionResult CreateNewModule(string moduleName, string database)
+        public async Task<ActionResult> CreateNewModule(string moduleName, string database)
         {
-            _databaseBuilder.createNewModule(database, moduleName);
+           await _databaseBuilder.createNewModule(database, moduleName);
+            return Ok();
+        }
+        [HttpPost("RunWorkFlow")]
+        public ActionResult RunWorkFlow(BpmWorkFlow bpmWorkFlow)
+        {
+            _bpmInvokerQueue.QueueExection(bpmWorkFlow);
             return Ok();
         }
 

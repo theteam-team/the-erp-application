@@ -26,6 +26,12 @@ namespace Erp.ModulesWrappers
         public static extern int addPotentialProduct(ProductInOrder product, byte[] error, ConnectionString connectionString);
 
         [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern int addPayment(Payment payment, byte[] error, ConnectionString connectionString);
+
+        [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern int addOrderPayment(Order order, byte[] error, ConnectionString connectionString);
+
+        [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern int addProductToOrder(ProductInOrder product, byte[] error, ConnectionString connectionString);
 
         [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
@@ -60,6 +66,12 @@ namespace Erp.ModulesWrappers
 
         [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern int addToStock(string id, int newUnits, byte[] error, ConnectionString connectionString);
+
+        [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern int addToOrderTotal(Order order, byte[] error, ConnectionString connectionString);
+
+        [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        public static extern int removeFromOrderTotal(Order order, byte[] error, ConnectionString connectionString);
 
         [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern int removeFromStock(ProductInOrder product, byte[] error, ConnectionString connectionString);
@@ -124,7 +136,7 @@ namespace Erp.ModulesWrappers
         [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public static extern  int showProductsInOrder(string id, out IntPtr productInOrder, byte[] error, ConnectionString connectionString);
 
-        [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int showCustomerProducts(string id, out IntPtr productInOrder, byte[] error, ConnectionString connectionString);
 
         [DllImport("Modules//WareHouseManagement//WareHouseManagement.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
