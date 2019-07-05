@@ -10,7 +10,7 @@ export interface BillofMatrials {
     BillofMatrialid: number;
     name: number;
     validFrom: string;
-    validUntil: number;
+    validUntill: string;
     quantity: number;
     price: number;
 
