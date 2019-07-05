@@ -17,7 +17,7 @@ extern "C"	ERP_API int AddCustomerAddress(Address* address, char* error, Connect
 
 	if (conn) {
 
-		string query = (string) "insert into customer_Address values ('" + address->id + "', '" + address->city + "', '" + address->governate + "', '" + address->street + "', " + to_string(address->zip_code) + ", '" + address->customer_id + "')";
+		string query = (string) "insert into customer_address values ('" + address->id + "', '" + address->city + "', '" + address->governate + "', '" + address->street + "', " + to_string(address->zip_code) + ", '" + address->customer_id + "')";
 		cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);

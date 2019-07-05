@@ -148,9 +148,27 @@ namespace Erp.Controllers
                         true, false);
                     if (res.Succeeded)
                     {
+                        
                         tasks.Add(  _databaseBuilder.createModulesDatabaseAsync(registerModel.DatabaseName));
                         tasks.Add(Task.Run(()=>_authenticationProvider.AddScheme(new AuthenticationScheme(registerModel.DatabaseName, registerModel.DatabaseName, typeof(CookieAuthenticationHandler)))));
+                       
+ ;
+                        
                         await Task.WhenAll(tasks);
+                        using (var scope = _service.CreateScope())
+                        {
+                            var _sysServices = scope.ServiceProvider.GetRequiredService<IServiceCollection>();
+                            var shema = _sysServices.AddAuthentication()
+                              
+                             .AddCookie(registerModel.DatabaseName, o =>
+                             {
+                                 o.ExpireTimeSpan = TimeSpan.FromHours(1);
+                                 o.LoginPath = new PathString("/store/{OrganizationName}");
+                                 o.Cookie.Name = registerModel.DatabaseName + " CustomerCookie";
+                                 o.SlidingExpiration = true;
+                             });
+
+                        }
                         return RedirectToAction("System", "App");
                     }
 

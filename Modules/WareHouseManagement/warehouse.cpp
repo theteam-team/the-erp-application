@@ -346,7 +346,7 @@ int addToCategory(char* pid, char* cid, char* error, ConnectionString con) {
 
 	if (conn)
 	{
-		string query = (string)"insert into category values ('" + pid + "', '" + cid + "')";
+		string query = (string)"insert into product_has_category values ('" + pid + "', '" + cid + "')";
 		cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
@@ -2265,8 +2265,8 @@ extern "C"	ERP_API int showProductsInOrder(char* id, ProductInOrder** product, c
 				 ProductInOrder *_product = *product;
 				 while (row = mysql_fetch_row(res)) {
 
-					 _product->orderID = row[0];
-					 _product->productID = row[1];
+					 _product->productID = row[0];
+					 _product->orderID = row[1];
 					 row[2] ? _product->inventoryID = row[2] : _product->inventoryID = nullptr;
 					 _product->unitsOrdered = stoi(row[3]);
 					 row[4] ? _product->unitsDone = stoi(row[4]) : _product->unitsDone = 0;

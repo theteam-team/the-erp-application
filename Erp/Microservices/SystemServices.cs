@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Internal;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -24,14 +25,16 @@ namespace Erp.Microservices
     {
         //private CrmApiController _crmApiController;
         private TaskResponseQueue _responseQueue;
+        private readonly ILogger<SystemServices> _logger;
         private readonly Emergency _common;
         private readonly IActionDescriptorCollectionProvider _actionDescriptorCollectionProvider;
         private readonly AccountDbContext _accountDbContext;
         private readonly CrmApiController _crmApiController;
         public IServiceProvider Services { get; }
 
-        public SystemServices(AccountDbContext accountDbContext ,Emergency common, IActionDescriptorCollectionProvider actionDescriptorCollectionProvider, TaskResponseQueue responseQueue)
+        public SystemServices(ILogger<SystemServices> logger, AccountDbContext accountDbContext ,Emergency common, IActionDescriptorCollectionProvider actionDescriptorCollectionProvider, TaskResponseQueue responseQueue)
         {
+            _logger = logger;
             _common = common;
             _actionDescriptorCollectionProvider = actionDescriptorCollectionProvider;
             _accountDbContext = accountDbContext;
@@ -97,6 +100,7 @@ namespace Erp.Microservices
                                     var proType = property.GetValue(controller).GetType();
                                     if (proType != null)
                                     {
+                                        Console.WriteLine(property.Name);
                                         MethodInfo _methodInfo = proType.GetMethod("setConnectionString");
                                         if (_methodInfo != null)
                                         {
@@ -117,6 +121,7 @@ namespace Erp.Microservices
                                 var InvokerId = methodeParam[0].GetType().GetProperty("InvokerId");
                                 InvokerId.SetValue(methodeParam[0], bpmTask.InvokerId);
                             }
+                            _logger.LogInformation("Invoking " + bpmTask.TaskName);
                             var resutlt = await (dynamic)methodInfo.Invoke(controller, methodeParam.ToArray());
                             
                             var prop = resutlt.GetType().GetProperty("Result");
