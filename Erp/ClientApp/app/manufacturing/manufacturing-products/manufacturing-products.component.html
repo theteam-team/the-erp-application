@@ -1,3 +1,13 @@
-<p>
-  manufacturing-products works!
-</p>
+ <app-manufacturing></app-manufacturing>
+
+<div class="container">
+    <div class="row">
+    <div class="col" style="margin:10px" *ngFor="let p of products">
+        <div class="card text-white bg-dark mb-3" style="width:20rem">
+            <h5 class="card-title">Name: {{ p.productname }}</h5>
+            <h5 class="card-title">material name: {{p.BillofMatrialname}}</h5>
+            <h5 class="card-title"> cost: {{costofmanufacturing}}</h5>
+        </div>
+    </div>
+    </div>
+ </div>

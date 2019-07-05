@@ -64,6 +64,11 @@ import { AddManufacturingProductComponent } from './manufacturing/add-manufactur
 import { ProductService } from './crm/services/product.service';
 import { SalesmanService } from './crm/services/salesman.service';
 
+import { ProductsService } from './manufacturing/services/products.service';
+import { MaterialService } from './manufacturing/services/material.service';
+ 
+ 
+
 
 let routes = [
 
@@ -95,7 +100,8 @@ let routes = [
 
   { path: "manufacturing", component: ManufacturingComponent },
   { path: "manufacturing/manufacturingOrders", component: ManufacturingOrdersComponent },
-  { path: "manufacturing/manufacturingOrders/new", component: AddManufacturingOrderComponent },
+    { path: "manufacturing/manufacturingOrders/new", component: AddManufacturingOrderComponent },
+    { path: "manufacturing/products", component: ManufacturingProductsComponent },
 
 
 
@@ -188,8 +194,7 @@ let routes = [
 
   providers: [
       DataService,
-      customerService, OpportunityService, ProductService, SalesmanService
-
+      customerService, OpportunityService, ProductService, SalesmanService, ProductsService, MaterialService
   ],
 
   bootstrap: [AppComponent, Accounting]//, Login]
