@@ -61,7 +61,7 @@ namespace Erp
             services.AddHostedService<BpmPollingService>();
             services.AddHostedService<TaskExecutionEngine>();
             services.AddHostedService<TaskResponseEngine>();
-            services.AddHostedService<ProplemReporting>();
+            //services.AddHostedService<ProplemReporting>();
             services.AddHostedService<MailSenderService>();
             services.AddHttpContextAccessor();
             services.AddTransient<SystemServices>();
@@ -94,6 +94,7 @@ namespace Erp
             services.AddTransient<IInventoryProductRepository, InventoryProductRepository>();
             services.AddTransient<IReportRepository, ReportRepository>();
             services.AddTransient<IProductMovesRepository, ProductMovesRepository>();
+            services.AddTransient<IPaymentRepository, PaymentRepository>();
             services.AddDbContext<AccountDbContext>(options =>
               
                 options.UseSqlServer(_config.GetConnectionString("DefaultConnection")));

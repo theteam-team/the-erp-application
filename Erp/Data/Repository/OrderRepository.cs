@@ -260,5 +260,13 @@ namespace Erp.Repository
             status = await Task.Run(() => Warehouse_Wrapper.removeFromOrderTotal(order, error, _ConnectionString));
             return status;
         }
+
+        public async Task<int> AddOrderPayment(Order entity, byte[] error)
+        {
+            int status = 0;
+            Order order = (Order)(object)(entity);
+            status = await Task.Run(() => Warehouse_Wrapper.addOrderPayment(order, error, _ConnectionString));
+            return status;
+        }
     }
 }

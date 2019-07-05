@@ -20,9 +20,8 @@ export class MainComponent implements OnInit {
     public yyyy = this.today.getFullYear();
 
     public date = this.yyyy + "-" + this.mm + "-" + this.dd;
-    public customerID = "11";
+    public customerID = "7";
     public availableProducts = [];
-    //public orderID = '10407428-b3ba-445b-b1a5-5bfe034d6f18';
     public orderID = uuid.v4();
 
     public productInOrder = {
@@ -40,9 +39,9 @@ export class MainComponent implements OnInit {
         "completedDate": "",
         "orderStatus": "Waiting",
         "totalPrice": 0,
-        "customerID": this.customerID,
+        "customerID": "7",
         "supplierID": "",
-        "paymentID": "1",
+        "paymentID": "",
         "shipmentID": ""
     };
 
@@ -50,33 +49,29 @@ export class MainComponent implements OnInit {
     }
 
     ngOnInit(): void {
+
+        /*this.data.getCustomerID()
+            .subscribe(success => {
+                if (success) {
+                    this.customerID = this.data.customerID;
+                }
+                console.log(this.customerID);
+                this.order.customerID = this.customerID;
+                this.data.addOrder(this.order);
+            });*/
+
         this.data.loadAvailableProducts()
             .subscribe(success => {
                 if (success) {
                     this.availableProducts = this.data.availableProducts;
                 }
-                 this.data.addOrder(this.order);
+                this.data.addOrder(this.order);
             });
-        //this.loadAvailableProducts();
-        //this.addOrder();
+
     }
 
     reloadComponent(): void {
         location.reload();
-    }
-
-    /*loadAvailableProducts(): void {
-
-        this.data.loadAvailableProducts()
-            .subscribe(success => {
-                if (success) {
-                    this.availableProducts = this.data.availableProducts;
-                }
-            })
-    }*/
-
-    addOrder(): void {
-        //this.data.addOrder(this.order);
     }
 
     onProductAdd(productID: string, units: number, newPrice: number): void {

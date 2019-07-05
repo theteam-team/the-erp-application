@@ -93,6 +93,14 @@ struct ProductMoves
 	unsigned int quantity;
 };
 
+struct Payment
+{
+	char* id;
+	char* method;
+	char* date;
+	double amount;
+};
+
 struct ConnectionString
 {
 	char* SERVER;

@@ -38,6 +38,7 @@ export class CartComponent implements OnInit {
     }
 
     ngOnInit() {
+
         this.data.loadCustomerProducts(this.customerID)
             .subscribe(success => {
                 if (success) {
@@ -90,7 +91,7 @@ export class CartComponent implements OnInit {
     }
 
     submitOrder(): void {
-        this.router.navigate(["/profile", this.customerID]);
+        this.router.navigate(["profile", this.customerID, this.orderID]);
         /*const dialogConfig = new MatDialogConfig();
 
         dialogConfig.disableClose = true;

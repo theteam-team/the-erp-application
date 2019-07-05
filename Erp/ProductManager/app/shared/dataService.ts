@@ -62,4 +62,19 @@ export class DataService {
                     return true;
                 }));
     }
+
+    public customerID;
+    getCustomerID(): Observable<boolean> {
+        return this.http.get("GetUserId")
+            .pipe(
+            map((data: any[]) => {
+                this.customerID = data;
+                    return true;
+                }));
+    }
+
+    addPayment(payment, order) {
+        this.http.post("AddPayment", payment).subscribe((data) => { });
+        this.http.put("AddOrderPayment", order).subscribe((data) => { });
+    }
 }

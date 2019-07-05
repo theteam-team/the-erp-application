@@ -1,6 +1,13 @@
 
 #define ERP_API __declspec(dllexport)
-#include<objbase.h>
+
+#include <objbase.h>
 #include <windows.h>
-unsigned int stringToInt(char * c);
-bool checkQuery(int qstate,  char * error);
+#include <stdio.h>
+#include <iostream>
+#include <sstream> 
+#include <string>
+#include <mysql.h>
+
+unsigned int stringToInt(char* c);
+bool checkQuery(int qstate,  char* error, MYSQL* conn);
