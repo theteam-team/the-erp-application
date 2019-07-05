@@ -29,8 +29,8 @@
     "Issuer": "http://localhost:8888",
     "Audience": "users"
   },
-  "BpmEngine" :{
-    "Address": "localhost:8090"
+  "BpmEngine": {
+    "Address": "http://102.187.124.90:8090"
   },
   "MySqlC++": {
     "server": "mysqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com",

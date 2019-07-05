@@ -50,7 +50,7 @@ namespace Erp.BackgroundServices
             {
                 try
                 {
-                    var result = await client.GetAsync("http://"+_config["BpmEngine:Address"] +"/engine/api/tasks");
+                    var result = await client.GetAsync(_config["BpmEngine:Address"] +"/engine/api/tasks");
                     if (result.IsSuccessStatusCode)
                     {
                         var content = await result.Content.ReadAsStringAsync();
@@ -75,6 +75,7 @@ namespace Erp.BackgroundServices
                                     item.InvokerId = bpmWorker.Id;
 
                                     item.databaseName = _accountDbContext.Organizations.FirstOrDefault().Name;//((ClaimsIdentity)HttpContext.User.Identity).FindFirst("organization").Value;
+                                    _ilogger.LogInformation(item.databaseName);
                                     if (item != null)
                                     {
                                         item.IsBpm = true;
