@@ -20,7 +20,7 @@ export class MainComponent implements OnInit {
     public yyyy = this.today.getFullYear();
 
     public date = this.yyyy + "-" + this.mm + "-" + this.dd;
-    public customerID = "7";
+    public customerID;
     public availableProducts = [];
     public orderID = uuid.v4();
 
@@ -39,7 +39,7 @@ export class MainComponent implements OnInit {
         "completedDate": "",
         "orderStatus": "Waiting",
         "totalPrice": 0,
-        "customerID": "7",
+        "customerID": "",
         "supplierID": "",
         "paymentID": "",
         "shipmentID": ""
@@ -50,21 +50,25 @@ export class MainComponent implements OnInit {
 
     ngOnInit(): void {
 
-        /*this.data.getCustomerID()
+        this.data.getCustomerID()
             .subscribe(success => {
                 if (success) {
                     this.customerID = this.data.customerID;
                 }
                 console.log(this.customerID);
-                this.order.customerID = this.customerID;
-                this.data.addOrder(this.order);
-            });*/
+                /*this.order.customerID = this.customerID;
+                this.data.addOrder(this.order);*/
+            });
+
+        console.log(this.customerID);
 
         this.data.loadAvailableProducts()
             .subscribe(success => {
                 if (success) {
                     this.availableProducts = this.data.availableProducts;
                 }
+                console.log(this.customerID);
+                this.order.customerID = this.customerID;
                 this.data.addOrder(this.order);
             });
 
