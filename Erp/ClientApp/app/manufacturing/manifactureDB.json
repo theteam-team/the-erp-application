@@ -37,8 +37,38 @@
       "price": 15
     }
   ],
-
-  "orders": {
-    "name": "typicode"
-  }
+  "manufacturingOrders": [
+    {
+      "manufacturingOrderid": "1",
+      "productname": "hp",
+      "deadlinestart": "25/1/2020",
+      "quantity": 200,
+      "rawmaterilasStatus": "waiting",
+      "orderStatus": "planned"
+    },
+    {
+      "manufacturingOrderid": "2",
+      "productname": "dell",
+      "deadlinestart": "30/1/2020",
+      "quantity": 100,
+      "rawmaterilasStatus": "available",
+      "orderStatus": "confirmed"
+    },
+    {
+      "manufacturingOrderid": "3",
+      "productname": "lenovo",
+      "deadlinestart": "2/2/2020",
+      "quantity": 2000,
+      "rawmaterilasStatus": "waiting",
+      "orderStatus": "canceled"
+    },
+    {
+      "manufacturingOrderid": "4",
+      "productname": "toshiba",
+      "deadlinestart": "3/3/2020",
+      "quantity": 1000,
+      "rawmaterilasStatus": "available",
+      "orderStatus": "planned"
+    }
+  ]
 }

@@ -8,9 +8,8 @@ import { manufacturingOrders } from '../modules/module';
 export class ManufacturingOrderService {
   constructor(private httpClient: HttpClient) { }
 
-  private materials: manufacturingOrders[];
 
-  getProducts(): Observable<manufacturingOrders[]> {
+  getOrders(): Observable<manufacturingOrders[]> {
     return this.httpClient.get<manufacturingOrders[]>('http://localhost:3000/manufacturingOrders');
   }
 }
