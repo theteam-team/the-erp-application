@@ -37,8 +37,23 @@
       "price": 15
     }
   ],
-
-  "orders": {
-    "name": "typicode"
-  }
+  "manufacturingOrders": [
+    {
+      "productname": "hp",
+      "quantity": "5",
+      "material": "rubber",
+      "deadlinestart": "4/5/2020",
+      "responsible": "jimy",
+      "id": 1
+    },
+    {
+      "productname": "lenovo",
+      "quantity": "40",
+      "material": "plastic",
+      "deadlinestart": "30/7/2020",
+      "responsible": "kiro",
+      "id": 2
+    }
+  ],
+  "createOrders": []
 }

@@ -89,3 +89,16 @@ struct Out{
 	//char* payment_date;
 	double payment_amount;
 };
+struct AnInvoice {
+	char* supplied_department;
+	char* employee_ID;
+	char* employee_name;
+	char* Supplier_Name;
+	char* Supplier_ID;
+	char* Supplier_Email;
+	char* Supplier_Phone_Number;
+	char* product_id;
+	int Units_Supplied;
+	double product_cost;
+	
+};

@@ -1,19 +1,46 @@
+.navbar {
+    background-color: #35475e;
+}
+
+.nav-link {
+    border: none;
+    background-color: #35475e;
+    color: whitesmoke;
+}
+
+    .nav-link:hover {
+        color: #b3b3b3;
+    }
+
 .border {
-    background-color: white;
+    background-color: whitesmoke;
     border: thin;
 }
 
 .product-info {
-    margin: 10px;
+    margin: 5px;
 }
 
 .product-props {
     list-style-type: none;
-    color: #666666;
+    color: black;
 }
 
+.btn2 {
+    background-color: #405672;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    margin: 5px;
+    text-align: center;
+}
+
+    .btn2:hover {
+        background-color: #537293;
+    }
+
 .btn1 {
-    background-color: #8c8c8c;
+    background-color: #405672;
     border: none;
     border-radius: 5px;
     color: white;
@@ -22,5 +49,10 @@
 }
 
     .btn1:hover {
-        background-color: #737373;
+        background-color: #537293;
     }
+
+.check {
+    background-color: whitesmoke;
+    border: thin;
+}

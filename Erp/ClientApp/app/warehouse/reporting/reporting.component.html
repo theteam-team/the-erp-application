@@ -1,8 +1,6 @@
 <app-warehouse></app-warehouse>
 
-
-
-<div class="row">
+<!---<div class="row">
     <div class="col">
         <div class="card" style="padding:20px;background-color: cornflowerblue; width:20rem; margin-top:10px; margin-bottom:10px;">
             <div style=" display:inline-flex">
@@ -38,51 +36,49 @@
             </div>
         </div>
     </div>
-</div>
-    <div class="row">
-        <div class="col">
-            <div class="card" style="padding:20px;background-color:cornflowerblue; width:20rem; margin-top:10px; margin-bottom:10px;">
-                <div style=" display:inline-flex">
-                    <div style="width:70%">
-                        <h5 class="card-title" style="color: white">Outgoing Value</h5>
-                        <h3 style="color:lightgrey">354 $</h3>
+    <div class="col">
+        <div class="card" style="padding:20px;background-color:cornflowerblue; width:20rem; margin-top:10px; margin-bottom:10px;">
+            <div style=" display:inline-flex">
+                <div style="width:70%">
+                    <h5 class="card-title" style="color: white">Outgoing Value</h5>
+                    <h3 style="color:lightgrey">354 $</h3>
                     </div>
-                    <div style="width:30%"><h1 style="font-weight:bold; color:lightgrey; font-size:60px"> $</h1></div>
                 </div>
+                <div style="width:30%"><h1 style="font-weight:bold; color:lightgrey;font-size:60px"> $</h1></div>
             </div>
         </div>
+    </div>
+    <div class="col">
+        <div class="card" style="padding:20px;background-color:cornflowerblue; width:20rem;  margin-top:10px; margin-bottom:10px;">
+            <div style=" display:inline-flex">
+                <div style="width:70%">
+                    <h5 class="card-title" style="color: white">Incoming Value </h5>
+                    <h3 style="color:lightgrey">354 $</h3>
+                </div>
+                <div style="width:30%"><h1 style="font-weight:bold; color:lightgrey;font-size:60px">$ </h1></div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card" style="padding:20px;background-color: cornflowerblue; width:20rem; margin-top:10px; margin-bottom:10px;">
+            <div style=" display:inline-flex">
+                <div style="width:70%">
+                    <h5 class="card-title" style="color: white">Inventory Turnover </h5>
+                    <h3 style="color:lightgrey">354 </h3>
+                </div>
+                <div style="width:30%"><h1 style="font-weight:bold; color:lightgrey;font-size:60px"> </h1></div>
+            </div>
+        </div>
+    </div>
+</div>-->
+<div class="row">
+    <ul>
+        <li>  {{ report.deliveriesCycleTime }} day(s)</li>
+        <li>  {{ report.receiptsCycleTime }} day(s)</li>
+        <li> {{ report.inventoryValue }} $</li>
+        <li>  {{ report.outgoingValue }} $</li>
+        <li>  {{ report.incomingValue }} $</li>
+        <li> {{ report.inventoryTurnover }}</li>
+    </ul>
+</div>
 
-        <div class="col">
-            <div class="card" style="padding:20px;background-color:cornflowerblue; width:20rem;  margin-top:10px; margin-bottom:10px;">
-                <div style=" display:inline-flex">
-                    <div style="width:70%">
-                        <h5 class="card-title" style="color: white">Incoming Value </h5>
-                        <h3 style="color:lightgrey">354 $</h3>
-                    </div>
-                    <div style="width:30%"><h1 style="font-weight:bold; color:lightgrey;font-size:60px">$ </h1></div>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card" style="padding:20px;background-color: cornflowerblue; width:20rem; margin-top:10px; margin-bottom:10px;">
-                <div style=" display:inline-flex">
-                    <div style="width:70%">
-                        <h5 class="card-title" style="color: white">Inventory Turnover </h5>
-                        <h3 style="color:lightgrey">354 </h3>
-                    </div>
-                    <div style="width:30%"><h1 style="font-weight:bold; color:lightgrey;font-size:60px"> </h1></div>
-                </div>
-            </div>
-        </div>
-</div>
-        <div class="row">
-            <ul>
-                <li>  {{ report.deliveriesCycleTime }} day(s)</li>
-                <li>  {{ report.receiptsCycleTime }} day(s)</li>
-                <li> {{ report.inventoryValue }} $</li>
-                <li>  {{ report.outgoingValue }} $</li>
-                <li>  {{ report.incomingValue }} $</li>
-                <li> {{ report.inventoryTurnover }}</li>
-            </ul>
-        </div>
-    

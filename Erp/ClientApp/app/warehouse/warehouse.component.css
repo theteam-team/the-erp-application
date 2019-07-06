@@ -1,24 +1,23 @@
 .navbar {
-    background-color: #262626;
-    margin: 10px;
+    background-color: #35475e;
 }
 
 .nav-link {
-    color: white;
+    color: whitesmoke;
 }
 
     .nav-link:hover {
-        color: #2952a3;
+        color: #b3b3b3;
     }
 
 .dropdown-menu {
-    background-color: #262626;
+    background-color: #35475e;
 }
 
 .dropdown-item {
-    background-color: #262626;
-    color: white;
+    background-color: #35475e;
+    color: whitesmoke;
 }
     .dropdown-item:hover {
-        color: #2952a3;
+        color: #b3b3b3;
     }
