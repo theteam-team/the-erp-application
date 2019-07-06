@@ -3,7 +3,7 @@
 <form form #productForm="ngForm" (ngSubmit)="orderProduct()" style="margin-top: 20px">
   <div class="form-group">
     <label for="Product">Product</label>
-    <input type="text" class="form-control" id="Product" name="Product" [(ngModel)]="order.productname ">
+    <input type="text" class="form-control" id="Product" name="Product" [(ngModel)]="order.productname">
   </div>
   <div class="form-group">
     <label for="Quantity To Produce">Quantity To Produce</label>
@@ -16,11 +16,13 @@
   </div>
   <div class="form-group">
     <label for="Dealine Start">Dealine Start</label>
-    <input type="text" class="form-control" id="Dealine Start" name="Dealine Start" [(ngModel)]="order.deadlinestart ">
+    <input type="text" class="form-control" id="Dealine Start" name="Dealine Start" [(ngModel)]="order.deadlinestart">
   </div>
   <div class="form-group">
     <label for="Responsible">Responsible</label>
-    <input type="text" class="form-control" id="Responsible" name="Responsible" [(ngModel)]="order.responsible ">
+    <input type="text" class="form-control" id="Responsible" name="Responsible" [(ngModel)]="order.responsible">
   </div>
   <button type="submit" class="btn btn-dark">Submit</button>
 </form>
+
+{{ order | json}}

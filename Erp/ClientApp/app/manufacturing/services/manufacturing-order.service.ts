@@ -12,4 +12,9 @@ export class ManufacturingOrderService {
   getOrders(): Observable<manufacturingOrders[]> {
     return this.httpClient.get<manufacturingOrders[]>('http://localhost:3000/manufacturingOrders');
   }
+
+
+  saveProduct(order) {
+    return this.httpClient.post('http://localhost:3000/createOrders', order)
+  }
 }
