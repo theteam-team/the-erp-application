@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MaterialService } from '../services/material.service';
+import { BillofMatrials } from '../modules/module';
 
 @Component({
   selector: 'app-bill-of-materials',
@@ -7,9 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BillOfMaterialsComponent implements OnInit {
 
-  constructor() { }
+    materials: BillofMatrials [];
+    constructor(private materialService: MaterialService) { }
 
-  ngOnInit() {
+    ngOnInit() {
+        this.materialService.getMaterials().subscribe(materials => this.materials = materials);
   }
 
 }

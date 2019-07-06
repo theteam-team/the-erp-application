@@ -1,3 +1,17 @@
+.navbar {
+    background-color: #35475e;
+}
+
+.nav-link {
+    border: none;
+    background-color: #35475e;
+    color: whitesmoke;
+}
+
+    .nav-link:hover {
+        color: #b3b3b3;
+    }
+
 .btn2 {
     background-color: #8c8c8c;
     border: none;

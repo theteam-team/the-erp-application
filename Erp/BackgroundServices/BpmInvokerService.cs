@@ -33,7 +33,7 @@ namespace Erp.BackgroundServices
                 {
                     await invokeWorkFlow(bpmWorkFlow);
                 }
-                Thread.Sleep(1000);
+               
             }
             _logger.LogInformation("Bpm Invoker Service is Stoping");
 

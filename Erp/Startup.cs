@@ -58,12 +58,12 @@ namespace Erp
             //services.AddHostedService<MailSenderService>();
             //services.AddHostedService<TimedService>();
             services.AddHostedService<SchemaBuilder>();
-            //services.AddHostedService<BpmPollingService>();
+            services.AddHostedService<BpmPollingService>();
             services.AddHostedService<TaskExecutionEngine>();
             services.AddHostedService<TaskResponseEngine>();
             //services.AddHostedService<ProplemReporting>();
-            services.AddHostedService<MailSenderService>();
-            //services.AddHostedService<BpmInvokerService>();
+            //services.AddHostedService<MailSenderService>();
+            services.AddHostedService<BpmInvokerService>();
             services.AddHttpContextAccessor();
             services.AddTransient<SystemServices>();
             services.AddSingleton<TaskExectionQueue>();
@@ -87,6 +87,7 @@ namespace Erp
             services.AddTransient<INotificationResponseRepository, NotificationResponseRepositroy>();
             services.AddTransient<IEmailTypeRepository, EmailTypeRepository>();
             services.AddTransient<IOpportunityRepository, OpportunityRepository>();
+            services.AddTransient<IOpportunityProductRepository, OpportunityProductRepository>();
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();

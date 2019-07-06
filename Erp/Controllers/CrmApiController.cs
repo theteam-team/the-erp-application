@@ -25,19 +25,18 @@ namespace Erp.Controllers
     [Authorize]
     public class CrmApiController : ControllerBase
     {
-        public ICustomerRepository _customeRepository { get; set; }
+        public ICustomerRepository _customerRepository { get; set; }
         public IOpportunityRepository _opportunityRepository { get; set; }
         public IEmployeeRepository _employeeRepository { get; set; }
+        public IOpportunityProductRepository _opportunityProductRepository { get; set; }
 
-        public CrmApiController ( ICustomerRepository customerepository , IOpportunityRepository opportunityRepository, 
-            IEmployeeRepository employeeRepository)
+        public CrmApiController (ICustomerRepository customerepository , IOpportunityRepository opportunityRepository, IEmployeeRepository employeeRepository, IOpportunityProductRepository opportunityProductRepository)
         {
             _employeeRepository = employeeRepository;
-            _customeRepository = customerepository;
+            _customerRepository = customerepository;
             _opportunityRepository = opportunityRepository;
-
-        }
-        
+            _opportunityProductRepository = opportunityProductRepository;
+        }  
         
 
         [HttpPost("AddCustomer")]
@@ -45,72 +44,113 @@ namespace Erp.Controllers
         {
             Console.WriteLine("customer  "+customer.customer_id);
             byte[] error = new byte[100];
-            int status = await _customeRepository.Create(customer, error);
+            int status = await _customerRepository.Create(customer, error);
             string z = System.Text.Encoding.ASCII.GetString(error);
             if (status != 0)
-            {
-               
+            {               
                 return BadRequest(z.Remove(z.IndexOf('\0')));
             }
             else
             {
                 return Ok("successfuly added");
-            }
-                          
-             
+            }                                    
         }
-        [HttpPost("AddOpportunities")]
-        public async Task<ActionResult<string>> AddOpportunities(Opportunities_product opportunities_Product)
+
+        [HttpPost("AddOpportunity")]
+        public async Task<ActionResult<string>> AddOpportunity(Opportunity opportunity)
         {
             byte[] error = new byte[500];
-            int status = await _opportunityRepository.Create(opportunities_Product, error);
+            int status = await _opportunityRepository.Create(opportunity, error);
             
             if (status != 0)
             {
                 string z = System.Text.Encoding.ASCII.GetString(error);
                 z.Remove(z.IndexOf('\0'));
-                return BadRequest(z.Remove(z.IndexOf('\0')));
-                
+                return BadRequest(z.Remove(z.IndexOf('\0')));                
             }
-             return Ok("successfuly added");
-            
+             return Ok("successfuly added");           
         }
-        [HttpPost("AddEmployee")]
-        public async Task<ActionResult<string>> AddEmployee(Employee employee)
+
+        [HttpPost("AddOpportunityProduct")]
+        public async Task<ActionResult<string>> AddOpportunityProduct(OpportunityProduct product)
         {
-            byte[] error = new byte[100];
-            int status = await _employeeRepository.Create(employee, error);
+            byte[] error = new byte[500];
+            int status = await _opportunityProductRepository.Create(product, error);
 
             if (status != 0)
             {
                 string z = System.Text.Encoding.ASCII.GetString(error);
                 z.Remove(z.IndexOf('\0'));
                 return BadRequest(z.Remove(z.IndexOf('\0')));
-
             }
             return Ok("successfuly added");
-
         }
-
 
         [HttpGet("GetCustomer/{id}")]
         public async Task<ActionResult<Customer>> GetCustomer(string id)
         {
             Console.WriteLine(id);
             byte[] err = new byte[100];
-            Customer customer =  await _customeRepository.GetById(id, err);
+            Customer customer =  await _customerRepository.GetById(id, err);
             string z = System.Text.Encoding.ASCII.GetString(err);
             string error = z.Remove(z.IndexOf('\0'));
             if (customer != null)
-            {
-                
+            {               
                 return Ok(customer);
             }
             else
                 return BadRequest(error);
         }
 
+        [HttpGet("GetAllCustomers")]
+        public async Task<ActionResult<List<Customer>>> GetAllCustomers()
+        {
+            byte[] error = new byte[500];
+            List<Customer> customers = await _customerRepository.GetAll(error);
+            string z = System.Text.Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+                return Ok(customers);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
 
+        [HttpGet("GetAllOpportunities")]
+        public async Task<ActionResult<List<Opportunity>>> GetAllOpportunities()
+        {
+            byte[] error = new byte[500];
+            List<Opportunity> opportunities = await _opportunityRepository.GetAll(error);
+            string z = System.Text.Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+                return Ok(opportunities);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
 
+        [HttpGet("GetAllOpportunityProduct/{id}")]
+        public async Task<ActionResult<List<OpportunityProduct>>> GetAllOpportunityProduct(string id)
+        {
+            byte[] error = new byte[500];
+            List<OpportunityProduct> products = await _opportunityProductRepository.GetAllOpportunityProducts(id, error);
+            string z = System.Text.Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+                return Ok(products);
+            }
+            else
+            {
+                return BadRequest(y);
+            }
+        }
     }
 }

@@ -53,4 +53,8 @@ export class ConfirmComponent implements OnInit {
         this.data.addPayment(this.payment, this.order);
         this.router.navigate(["home"]);
     }
+
+    goToCart() {
+
+    }
 }

@@ -1,17 +1,45 @@
-<div class="row">
-    <div class="product-info col-md-3" *ngFor="let p of customerProducts">
-        <div class="border rounded p-3">
-            <ul class="product-props">
-                <li><h5>{{ p.name }}</h5></li>
-                <li>Units Ordered: {{ p.unitsOrdered }}</li>
+<div>
+    <nav class="navbar navbar-expand-md sticky-top justify-content-between">
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#warehouseMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="warehouseMenu" class="navbar-collapse" collapse>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" (click)="goToCart()">Cart</button>
+                </li>
             </ul>
-            <button class="btn1" type="button" (click)="onProductRemove(p.orderID, p.productID, p.unitsOrdered, p.price)">Remove</button>
+        </div>
+    </nav>
+</div>
+
+<div class="row">
+    <div class="col-mid-9">
+        <div class="product-info col-md-3" *ngFor="let p of customerProducts">
+            <div class="border rounded p-3">
+                <ul class="product-props">
+                    <li><h5>{{ p.name }}</h5></li>
+                    <li>Units Ordered: {{ p.unitsOrdered }}</li>
+                </ul>
+                <button class="btn2" type="button" (click)="onProductRemove(p.orderID, p.productID, p.unitsOrdered, p.price)">Remove</button>
+            </div>
         </div>
     </div>
-</div>
-<div>
-    <button class="btn1" type="button" (click)="submitOrder()">Continue To Checkout</button>
-</div>
-<div>
-    <h5>{{ orderInfo.totalPrice }}</h5>
+    <div class="col-mid-3">
+        <div class="border rounded p-3">
+            <ul class="product-props">
+                <li><h5>Total:</h5></li>
+                <li><h5>{{ orderInfo.totalPrice }}</h5></li>
+            </ul>
+        </div>
+        <div>
+            <button class="btn2" type="button" (click)="submitOrder()">Continue To Checkout</button>
+        </div>
+    </div>
 </div>

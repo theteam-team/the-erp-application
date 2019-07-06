@@ -51,7 +51,7 @@ import { OpportunityFilterPipe } from './crm/pipeline/opportunity-filter';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OpportunityService } from './crm/create-opportunity/opportunity.service';
- 
+
 import { DashboardComponent } from './crm/dashboard/dashboard.component';
 
 
@@ -63,6 +63,11 @@ import { AddManufacturingOrderComponent } from './manufacturing/add-manufacturin
 import { AddManufacturingProductComponent } from './manufacturing/add-manufacturing-product/add-manufacturing-product.component';
 import { ProductService } from './crm/services/product.service';
 import { SalesmanService } from './crm/services/salesman.service';
+
+import { ProductsService } from './manufacturing/services/products.service';
+import { MaterialService } from './manufacturing/services/material.service';
+import { ManufacturingOrderService } from './manufacturing/services/manufacturing-order.service';
+
 
 
 let routes = [
@@ -96,22 +101,24 @@ let routes = [
   { path: "manufacturing", component: ManufacturingComponent },
   { path: "manufacturing/manufacturingOrders", component: ManufacturingOrdersComponent },
   { path: "manufacturing/manufacturingOrders/new", component: AddManufacturingOrderComponent },
+  { path: "manufacturing/products", component: ManufacturingProductsComponent },
+  { path: "manufacturing/materials", component: BillOfMaterialsComponent },
 
 
 
   { path: 'crm', component: CrmComponent },
   { path: 'crm/pipeline', component: PipelineComponent },
   { path: 'crm/customers', component: CustomersComponent },
-    { path: 'crm/dashboard', component: DashboardComponent },
-    {
+  { path: 'crm/dashboard', component: DashboardComponent },
+  {
     path: 'crm/editCustomer/:id',
     component: CreateCustomerComponent,
-     
+
   },
   {
     path: 'crm/editOpportunity/:id',
     component: CreateOpportunityComponent,
-    
+
   },
 
 ];
@@ -187,9 +194,8 @@ let routes = [
 
 
   providers: [
-      DataService,
-      customerService, OpportunityService, ProductService, SalesmanService
-
+    DataService,
+    customerService, OpportunityService, ProductService, SalesmanService, ProductsService, MaterialService, ManufacturingOrderService
   ],
 
   bootstrap: [AppComponent, Accounting]//, Login]

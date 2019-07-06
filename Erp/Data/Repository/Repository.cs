@@ -97,6 +97,7 @@ namespace Erp.Repository
             }
             if (typeof(T) == typeof(Product))
             {
+                
                 Product product = (Product)(object)(entity);
                 status = await Task.Run(() => Warehouse_Wrapper.addProduct(product, error, _ConnectionString));
             }
@@ -120,34 +121,18 @@ namespace Erp.Repository
                     status = await Task.Run(() => Crm_Wrapper.AddCustomer(customer, error, _ConnectionString));
             }
 
-            if (typeof(T) == typeof(Employee))
+            if (typeof(T) == typeof(Opportunity))
             {
-                Employee employee = (Employee)(object)entity;
-                string role_id = await _managment.getRoleIdAsync(employee.role);
-                employee.role = role_id;
-                status = await Task.Run(() => Crm_Wrapper.AddEmployee(employee, error, _ConnectionString));
+                Opportunity opportunity = (Opportunity)(object)(entity);
+                status = await Task.Run(() => Crm_Wrapper.AddOpportunity(opportunity, error, _ConnectionString));
             }
 
-            if (typeof(T) == typeof(Opportunities_product))
+            if (typeof(T) == typeof(OpportunityProduct))
             {
-                Opportunities_product opportunities_Product = (Opportunities_product)(object)entity;
-                status = await Task.Run(() => Crm_Wrapper.AddOpportunity(opportunities_Product.Opportunities, error, _ConnectionString));
-                Console.WriteLine("status= " + status);
-                if (status == 0)
-                {
-                    int numberOfProducts = opportunities_Product.product_id.Length;
-                    status = await Task.Run(() => Crm_Wrapper.AddOpportunitie_detail(opportunities_Product.Opportunities.opportunity_id,
-                        opportunities_Product.product_id, numberOfProducts, error, _ConnectionString));
-                    string z = System.Text.Encoding.ASCII.GetString(error);
-                    z.Remove(z.IndexOf('\0'));
-                    if (status != 0)
-                    {
-
-                        return status;
-                    }
-
-                }
+                OpportunityProduct product = (OpportunityProduct)(object)(entity);
+                status = await Task.Run(() => Crm_Wrapper.AddOpportunityProduct(product, error, _ConnectionString));
             }
+
             return status;
         }     
        
@@ -205,8 +190,7 @@ namespace Erp.Repository
             {
                 IntPtr prodductPtr;
                 int status = 0;
-                Product product = null;
-
+                Product product = null;           
                 await Task.Run(() =>
                 {
                     status = Warehouse_Wrapper.getAllProductInfo(id, out prodductPtr, error, _ConnectionString);
@@ -285,6 +269,51 @@ namespace Erp.Repository
                 });
                 return (List<T>)(object)orders;
             }
+
+            if (typeof(T) == typeof(Customer))
+            {
+                List<Customer> customers = new List<Customer>();
+                IntPtr CustomerPtr;
+
+                await Task.Run(() =>
+                {
+                    int number_fields = Crm_Wrapper.GetAllCustomers(out CustomerPtr, error, _ConnectionString);
+                    IntPtr current = CustomerPtr;
+
+                    for (int i = 0; i < number_fields; ++i)
+                    {
+                        Customer customer = (Customer)Marshal.PtrToStructure(current, typeof(Customer));
+
+                        current = (IntPtr)((long)current + Marshal.SizeOf(customer));
+                        customers.Add(customer);
+                    }
+                    Marshal.FreeCoTaskMem(CustomerPtr);
+                });
+                return (List<T>)(object)customers;
+            }
+
+            if (typeof(T) == typeof(Opportunity))
+            {
+                List<Opportunity> opportunities = new List<Opportunity>();
+                IntPtr OpportunityPtr;
+
+                await Task.Run(() =>
+                {
+                    int number_fields = Crm_Wrapper.GetAllOpportunities(out OpportunityPtr, error, _ConnectionString);
+                    IntPtr current = OpportunityPtr;
+
+                    for (int i = 0; i < number_fields; ++i)
+                    {
+                        Opportunity opportunity = (Opportunity)Marshal.PtrToStructure(current, typeof(Opportunity));
+
+                        current = (IntPtr)((long)current + Marshal.SizeOf(opportunity));
+                        opportunities.Add(opportunity);
+                    }
+                    Marshal.FreeCoTaskMem(OpportunityPtr);
+                });
+                return (List<T>)(object)opportunities;
+            }
+
             return null;
         }
 

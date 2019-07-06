@@ -17,8 +17,9 @@ namespace Erp.BackgroundServices
         private ILogger<SchemaBuilder> _logger;
         private IServiceProvider services;
 
-        public SchemaBuilder(IServiceProvider services, ILogger<SchemaBuilder> logger ,IAuthenticationSchemeProvider authenticationProvider)
+        public SchemaBuilder(IServiceProvider services  ,ILogger<SchemaBuilder> logger ,IAuthenticationSchemeProvider authenticationProvider)
         {
+
             _authenticationProvider = authenticationProvider;
             _logger = logger;
             this.services = services;
@@ -54,6 +55,7 @@ namespace Erp.BackgroundServices
                 {
                     _logger.LogInformation("Creating Authentication Schema for organization : " + organization.Name + "");
                     _authenticationProvider.AddScheme(new AuthenticationScheme(organization.Name, organization.Name, typeof(CookieAuthenticationHandler)));
+                       
 
 
                     var _sysServices = scope.ServiceProvider.GetRequiredService<IServiceCollection>();
