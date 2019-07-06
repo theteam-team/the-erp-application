@@ -69,7 +69,7 @@ namespace Erp.Controllers
                 {
                     message = notificationViewModel.Message,
                     NotificationType = notificationViewModel.NotificationType,
-                    NotificationResponses = nres,
+                    //NotificationResponses = nres,
                     NotificationApplicationUsers = notificationUsers
 
                 };
@@ -102,9 +102,9 @@ namespace Erp.Controllers
             }
 
         }
-        [HttpGet("GetUnResponsedNotifications")]
+        [HttpGet("GetNotifications")]
         [Authorize(AuthenticationSchemes = "Bearer, Identity.Application")]
-        public async Task<ActionResult<List<Notification>>> GetUnResponsedNotifications(string UserId)
+        public async Task<ActionResult<List<Notification>>> GetNotifications(string UserId)
         {
             if (UserId == null)
             {

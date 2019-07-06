@@ -7,12 +7,14 @@
     <!--
     <link href="~/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     -->
-     <link href="~/node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-    
+    <link href="~/node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <link href="~/css/site.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -24,26 +26,17 @@
                     <span></span>
                 </button>
                 <h2 class="navbar-brand"><i class="fa fa-graduation-cap"></i> The team team Graduation Project</h2>
+          
+                <div class="w3-dropdown-hover">
+                    <img class="img-rounded" src="https://s3.amazonaws.com/codecademy-content/projects/2/feedster/bell.svg" />
+                    <div id="Notification_Menu" class="w3-dropdown-content w3-bar-block w3-border">
+                        <a href="#" class="w3-bar-item w3-button">Link 1</a>
+                        <a href="#" class="w3-bar-item w3-button">Link 2</a>
+                        <a href="#" class="w3-bar-item w3-button">Link 3</a>
+                    </div>
+                </div>
             </div>
-            <div class="btn-group">
-               <div class="btn-group dropleft" role="group">
-                   <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                       <span class="sr-only"><i class="fa fa-bell"></i></span>
-                   </button>
-                   <div class="dropdown-menu">
-                       <a class="dropdown-item" asp-controller="App" asp-action="Notification">Notification</a>
-                       <!--
-    هنا يا أبا عيد
-                    -->
-                       <a class="dropdown-item">هنا يا أبا عيد</a>
-                       <div class="dropdown-divider"></div>
-                       <a class="dropdown-item" href="#">Separated link</a>
-                   </div>
-               </div>
-               <button type="button" class="btn btn-secondary">
-                   <i class="fa fa-bell"></i>
-               </button>
-           </div>
+               
         </nav>
     </header>
 
@@ -80,7 +73,7 @@
                     }
 
                     
-                    <hr />
+                    
                     <li class="nav-item">
                         <a class="nav-link" href="#"><i class="fa fa-gear"></i> Help </a>
                     </li>
@@ -234,7 +227,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-
+    <script src="~/js/Notification.js"></script>
     <script src="~/js/index.js"></script>
 
     @RenderSection("scripts", false)

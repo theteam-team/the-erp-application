@@ -59,7 +59,8 @@ extern "C" ERP_API int getProfit(ProductSold** product, char* error, ConnectionS
 					row[1] ? _product->unitsSold = stoi(row[1]) : _product->unitsSold = 0;
 					row[2] ? _product->cost = stod(row[2]) : _product->cost = 0.0;
 					row[3] ? _product->price = stod(row[3]) : _product->price = 0.0;
-					row[4] ? _product->profit = stod(row[4]) : _product->profit = 0.0;
+					//row[4] ? _product->profit = stod(row[4]) : _product->profit = 0.0;
+					_product->profit = (_product->price - _product->cost) * _product->unitsSold;
 					numberOfRows++;
 					_product++;
 				}
@@ -336,6 +337,21 @@ extern "C" ERP_API int reporting(Out** out, char* error, ConnectionString con) {
 		}
 	}
 	return numberOfRows;
+}
+extern "C" ERP_API int addInvoice(AnInvoice** anInvoice, char* error, ConnectionString con){
+	status = 0;
+	int numberOfRows = 0;
+	unsigned int numOfFields;
+	db_response::ConnectionFunction(error, con);
+	if (conn) {
+
+		string query = (string) "";// "insert into order_table (Order_ID, incoming, outgoing, Order_Required_Date, Order_Status, Customer_Customer_ID) values ('" + order->id + "', " + to_string(order->incoming) + ", " + to_string(order->outgoing) + ", '" + order->requiredDate + "', '" + order->orderStatus + "', '" + order->customerID + "')";
+		cout << query << endl;
+		char const *q = query.c_str();
+		qstate = mysql_query(conn, q);
+		checkQuery(qstate, error);
+	}
+	return status;
 }
 bool checkQuery(int qstate, char* error)
 {
