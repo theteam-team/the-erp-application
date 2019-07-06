@@ -20,7 +20,7 @@ namespace Erp.Data.Entities
         public string NotificationType { get; set; }
 
         
-        public IList<NotificationResponses> NotificationResponses { get; set; }
+        
         [JsonIgnore]
         public IList<NotificationApplicationUser> NotificationApplicationUsers { get; set; }
     }
