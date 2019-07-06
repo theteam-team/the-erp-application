@@ -15,7 +15,6 @@ namespace Erp.Models
         public string street;
         public uint zip_code;
         public string customer_id;
-        public string Crm_employee_id;
 
     }
 }

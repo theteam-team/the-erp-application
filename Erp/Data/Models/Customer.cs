@@ -14,7 +14,6 @@ namespace Erp.Models
         public string customer_id { get; set; } = "";
         public string name { get; set; } = "";
         public uint phone_number { get; set; } = 0;
-        [EmailAddress]
         public string email { get; set; } = "";
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]

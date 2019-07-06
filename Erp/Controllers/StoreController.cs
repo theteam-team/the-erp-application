@@ -361,23 +361,33 @@ namespace Erp.Controllers
         [HttpPost("AddCustomerAddress")]
         public async Task<ActionResult<string>> AddOCustomerAddress([FromBody]Address address)
         {
+            Console.WriteLine("hererer");
+            
             string OrganizationName = (string)RouteData.Values["OrganizationName"];
             Organization orgExist = await _organizationRepository.OraganizationExist(OrganizationName);
             if (orgExist != null)
             {
-                _addressRepository.setConnectionString(OrganizationName);
-
-                byte[] error = new byte[500];
-                int status = await _addressRepository.AddCustomerAddress(address, error);
-                string z = System.Text.Encoding.ASCII.GetString(error);
-                if (status != 0)
+                var result = await _authorizationService.AuthenticateAsync(HttpContext, OrganizationName);
+                if (result.Succeeded)
                 {
-                    return BadRequest(z.Remove(z.IndexOf('\0')));
+                    address.customer_id = ((ClaimsIdentity)result.Principal.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
+                    Console.WriteLine(address.customer_id);
+                    _addressRepository.setConnectionString(OrganizationName);
+
+                    byte[] error = new byte[500];
+                    int status = await _addressRepository.AddCustomerAddress(address, error);
+                    string z = System.Text.Encoding.ASCII.GetString(error);
+                    if (status != 0)
+                    {
+                        return BadRequest(z.Remove(z.IndexOf('\0')));
+                    }
+                    else
+                    {
+                        return Ok("successfuly added");
+                    }
                 }
                 else
-                {
-                    return Ok("successfuly added");
-                }
+                    return Unauthorized();
             }
             else
             {
@@ -452,6 +462,7 @@ namespace Erp.Controllers
         [HttpGet("GetCustomerProducts/{id}")]
         public async Task<ActionResult<List<CustomerProduct>>> ShowCustomerProducts(string id)
         {
+            Console.WriteLine("customer = " +id);
             string OrganizationName = (string)RouteData.Values["OrganizationName"];
             Organization orgExist = await _organizationRepository.OraganizationExist(OrganizationName);
             if (orgExist != null)
@@ -460,6 +471,7 @@ namespace Erp.Controllers
 
                 byte[] error = new byte[500];
                 List<CustomerProduct> orders = await _customerProductRepository.ShowCustomerProducts(id, error);
+                Console.WriteLine("order" + orders.Count);
                 string z = Encoding.ASCII.GetString(error);
                 string y = z.Remove(z.IndexOf('\0'));
                 if (y == "")
