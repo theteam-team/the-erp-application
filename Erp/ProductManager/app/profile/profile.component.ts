@@ -28,7 +28,7 @@ export class ProfileComponent implements OnInit {
         "Crm_employee_id": "string"
     };
 
-    constructor(private data: DataService, private router: Router, private route: ActivatedRoute, public dialogRef: MatDialogRef<ProfileComponent>) {
+    constructor(private data: DataService, private router: Router, private route: ActivatedRoute/*, public dialogRef: MatDialogRef<ProfileComponent>*/) {
         this.route.paramMap.subscribe(params => this.customerID = params.get('cid'));
         this.route.paramMap.subscribe(params => this.orderID = params.get('oid'));
     }
@@ -46,11 +46,12 @@ export class ProfileComponent implements OnInit {
         this.address.customer_id = this.customerID;
 
         this.data.addCustomerAddress(this.address);
-        //this.router.navigate(["confirm", this.customerID, this.orderID]);
-        this.onClose();
+        //this.onClose();
+        this.router.navigate(["confirm", this.customerID, this.orderID]);
+        
     }
 
     onClose(): void {
-        this.dialogRef.close();
+        //this.dialogRef.close();
     }
 }

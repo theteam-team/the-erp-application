@@ -2291,7 +2291,6 @@ extern "C"	ERP_API int showCustomerProducts(char* id, CustomerProduct** product,
 	conn = mysql_init(0);
 	conn = mysql_real_connect(conn, con.SERVER, con.USER, con.PASSWORD, con.DATABASE, 3306, NULL, 0);
 
-	int cost = 0;
 	int numberOfRows = 0;
 	unsigned int numOfFields;
 
@@ -2322,13 +2321,10 @@ extern "C"	ERP_API int showCustomerProducts(char* id, CustomerProduct** product,
 					_product->unitsOrdered = stoi(row[3]);
 					_product->price = stod(row[4]);
 
-					cost += stoi(row[3])*stod(row[4]);
-					_product->total = cost;
-
 					numberOfRows++;
 					_product++;
 				}
-				cout << "here" << endl;
+				cout << numberOfRows << endl;
 			}
 		}
 	}

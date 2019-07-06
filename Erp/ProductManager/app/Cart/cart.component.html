@@ -20,18 +20,21 @@
 </div>
 
 <div class="row">
-    <div class="col-mid-9">
-        <div class="product-info col-md-3" *ngFor="let p of customerProducts">
-            <div class="border rounded p-3">
-                <ul class="product-props">
-                    <li><h5>{{ p.name }}</h5></li>
-                    <li>Units Ordered: {{ p.unitsOrdered }}</li>
-                </ul>
-                <button class="btn2" type="button" (click)="onProductRemove(p.orderID, p.productID, p.unitsOrdered, p.price)">Remove</button>
-            </div>
+    <!----<div class="col-mid-9">-->
+    <div class="product-info col-md-3" *ngFor="let p of customerProducts">
+        <div class="border rounded p-3">
+            <ul class="product-props">
+                <li><h5>{{ p.name }}</h5></li>
+                <li>Units Ordered: {{ p.unitsOrdered }}</li>
+            </ul>
+            <button class="btn2" type="button" (click)="onProductRemove(p.orderID, p.productID, p.unitsOrdered, p.price)">Remove</button>
+        </div>
+        <div>
+            <button class="btn2" type="button" (click)="submitOrder()">Continue To Checkout</button>
         </div>
     </div>
-    <div class="col-mid-3">
+    <!--</div>-->
+    <!----<div class="col-mid-3">
         <div class="border rounded p-3">
             <ul class="product-props">
                 <li><h5>Total:</h5></li>
@@ -41,5 +44,5 @@
         <div>
             <button class="btn2" type="button" (click)="submitOrder()">Continue To Checkout</button>
         </div>
-    </div>
+    </div>-->
 </div>
