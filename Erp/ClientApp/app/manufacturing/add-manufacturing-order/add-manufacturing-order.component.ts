@@ -18,7 +18,7 @@ export class AddManufacturingOrderComponent implements OnInit {
 
   orderProduct(order: NgForm) {
     this.manufacturingOrderService.saveProduct(order.value);
-    //this.router.navigate(["manufacturing/manufacturingOrders"]);
+    this.router.navigate(["manufacturing/manufacturingOrders"]);
     console.log(order.value);
   }
 }

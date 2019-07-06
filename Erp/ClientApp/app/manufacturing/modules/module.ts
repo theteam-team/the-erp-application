@@ -24,6 +24,7 @@ export interface manufacturingOrders {
     rawmaterilasStatus: string;
     orderStatus: string;
     responsible: string;
+    material: string;
 }
 
 export interface createOrder {

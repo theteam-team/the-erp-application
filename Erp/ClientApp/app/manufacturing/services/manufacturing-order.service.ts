@@ -15,6 +15,6 @@ export class ManufacturingOrderService {
 
 
   saveProduct(order) {
-    return this.httpClient.post<any>('http://localhost:3000/createOrders', order).subscribe((data) => { });
+    return this.httpClient.post<any>('http://localhost:3000/manufacturingOrders', order).subscribe((data) => { });
   }
 }
