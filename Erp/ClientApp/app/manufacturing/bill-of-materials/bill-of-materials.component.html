@@ -1,7 +1,7 @@
 <app-manufacturing></app-manufacturing>
 
 <br />
-<h1 style="color:darkcyan"> Materials</h1>
+<h1 style="color:darkcyan"> Bill of Materials</h1>
 <br />
 
 <div class="container">
@@ -18,12 +18,12 @@
         </thead>
         <tbody>
             <tr *ngFor="let m of materials">
-                <td>{{m.name}}  </td>
-                <td>{{ m.validFrom  }}   </td>
-                <td>{{ m.validUntil }}   </td>
-                <td>{{ m.quantity }}    </td>
-                <td>{{ m.price }}  $ </td>
-                
+                <td>{{m.name}} </td>
+                <td>{{ m.validFrom  }} </td>
+                <td>{{ m.validUntil }} </td>
+                <td>{{ m.quantity }} </td>
+                <td>{{ m.price }} $ </td>
+
             </tr>
         </tbody>
     </table>
