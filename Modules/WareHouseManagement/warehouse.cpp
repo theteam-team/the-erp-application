@@ -600,8 +600,8 @@ extern "C"	ERP_API int addProduct(Product* product, char* error, ConnectionStrin
 
 	if (conn) {
 		
-		string query = (string) "insert into product values ('" + product->id + "', '" + product->name + "', '" + product->description + "', " + to_string(product->price) + ", " + to_string(product->weight) + ", " + to_string(product->length) + ", " + to_string(product->width) + ", " + to_string(product->height) + ", " + to_string(product->unitsInStock) + ")";
-		////cout << query << endl;
+		string query = (string) "insert into product values ('" + product->id + "', '" + product->name + "', '" + product->description + "', " + to_string(product->price) + ", " + to_string(product->weight) + ", " + to_string(product->length) + ", " + to_string(product->width) + ", " + to_string(product->height) + ", " + to_string(product->unitsInStock) + ", 0)";
+		cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 		checkQuery(qstate, error, conn);

@@ -45,15 +45,12 @@ export class CartComponent implements OnInit {
                 }
             });
 
-        /*this.data.loadOrderInfo(this.orderID)
+        this.data.loadOrderInfo(this.orderID)
             .subscribe(success => {
                 if (success) {
                     this.orderInfo = this.data.orderInfo;
                 }
-            });*/
-
-        //this.getProducts();
-        //this.getOrder();
+            });
     }
 
     reloadComponent(): void {
