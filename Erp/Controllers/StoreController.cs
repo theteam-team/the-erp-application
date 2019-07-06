@@ -4,6 +4,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Erp.BackgroundServices;
+using Erp.BackgroundServices.Entities;
 using Erp.Data;
 using Erp.Data.Entities;
 using Erp.Interfaces;
@@ -22,6 +24,7 @@ namespace Erp.Controllers
     [Route("[controller]/{OrganizationName}")]
     public class StoreController : Controller
     {
+        private TaskExectionQueue _executionEngine;
         private IAuthenticationService _authorizationService;
         //private static string AuthSchemes = null;
         
@@ -40,11 +43,12 @@ namespace Erp.Controllers
         private AccountDbContext mContext;  
         private UserManager<ApplicationUser> _userManager;  
         private SignInManager<ApplicationUser> _signInManager; 
-        public StoreController(IAuthenticationService authorizationService, IProductRepository productRepository,ICustomerRepository customerRepository ,IOrganizationRepository organizationRepository, IOrderRepository orderRepository, IOrderProductRepository orderProductRepository, ICustomerProductRepository customerProductRepository, IAddressRepository addressRepository, IPaymentRepository paymentRepository, AccountDbContext context, DataDbContext dataDbContext,
+        public StoreController(TaskExectionQueue executionEngine ,IAuthenticationService authorizationService, IProductRepository productRepository,ICustomerRepository customerRepository ,IOrganizationRepository organizationRepository, IOrderRepository orderRepository, IOrderProductRepository orderProductRepository, ICustomerProductRepository customerProductRepository, IAddressRepository addressRepository, IPaymentRepository paymentRepository, AccountDbContext context, DataDbContext dataDbContext,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<ApplicationUser> userlogger, Management management, IConfiguration config)
         {
+            _executionEngine = executionEngine;
             _authorizationService = authorizationService;
             //AuthSchemes = (string)RouteData.Values["OrganizationName"];
             _productRepository = productRepository;
@@ -392,9 +396,10 @@ namespace Erp.Controllers
 
                 byte[] error = new byte[500];
                 int status = await _paymentRepository.AddPayment(payment, error);
-                string z = System.Text.Encoding.ASCII.GetString(error);
+                string z = Encoding.ASCII.GetString(error);
                 if (status != 0)
                 {
+
                     return BadRequest(z.Remove(z.IndexOf('\0')));
                 }
                 else
@@ -419,13 +424,22 @@ namespace Erp.Controllers
 
                 byte[] error = new byte[500];
                 int status = await _orderRepository.AddOrderPayment(order, error);
-                string z = System.Text.Encoding.ASCII.GetString(error);
+                string z = Encoding.ASCII.GetString(error);
                 if (status != 0)
                 {
                     return BadRequest(z.Remove(z.IndexOf('\0')));
                 }
                 else
                 {
+                    BpmTask task = new BpmTask()
+                    {
+                        IsBpm = false,
+                        type = "external",
+                        TaskName = "InvokeOrder",
+                        databaseName = OrganizationName,
+                        TaskParam = new object[] { order }
+                    };
+                    _executionEngine.QueueExection(task);
                     return Ok("successfuly added");
                 }
             }

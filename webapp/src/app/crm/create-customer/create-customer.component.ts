@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Customer } from '../models/customerModel';
 import { Router, ActivatedRoute } from '@angular/router';
 import { customerService } from '../services/customer.service';
-import { NgForm } from '@angular/forms';
+ 
  
 
 @Component({
@@ -11,7 +11,7 @@ import { NgForm } from '@angular/forms';
   styles: []
 })
 export class CreateCustomerComponent implements OnInit {
-  @ViewChild('customerForm') public createCustomerForm: NgForm;
+  
 
   Title: string;
   dateOfBirth: Date;
@@ -29,7 +29,7 @@ export class CreateCustomerComponent implements OnInit {
   private getCustomer(id: number) {
     if (id === 0) {
       this.customer = {
-        id: null,
+        id:null,
         name: null,
         email: '',
         phone_number: '',

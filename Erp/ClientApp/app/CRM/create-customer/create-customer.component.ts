@@ -2,8 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Customer } from '../models/customerModel';
 import { Router, ActivatedRoute } from '@angular/router';
 import { customerService } from '../customers/customer.service';
-import { NgForm } from '@angular/forms';
-
+ 
 
 @Component({
     selector: 'app-create-customer',
@@ -11,21 +10,12 @@ import { NgForm } from '@angular/forms';
     styles: []
 })
 export class CreateCustomerComponent implements OnInit {
-    @ViewChild('customerForm') public createCustomerForm: NgForm;
+     
+
 
     Title: string;
     dateOfBirth: Date;
-    customer: Customer = {
-        id: null,
-        name: null,
-        email: '',
-        phone_number: null,
-        company: null,
-        company_email: '',
-        gender: null,
-        is_lead: null,
-        dateOfBirth: null,
-    };
+    customer: Customer;
     title: string;
     constructor(private _customerService: customerService, private _router: Router, private _route: ActivatedRoute) { }
 
@@ -46,8 +36,10 @@ export class CreateCustomerComponent implements OnInit {
                 company: null,
                 company_email: '',
                 gender: null,
-                is_lead: null,
+                is_lead: false,
                 dateOfBirth: null,
+                loyality_points: null,
+                type: null
             };
             this.Title = 'Create New Customer';
         }

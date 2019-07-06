@@ -58,12 +58,12 @@ namespace Erp
             //services.AddHostedService<MailSenderService>();
             //services.AddHostedService<TimedService>();
             services.AddHostedService<SchemaBuilder>();
-            //services.AddHostedService<BpmPollingService>();
+            services.AddHostedService<BpmPollingService>();
             services.AddHostedService<TaskExecutionEngine>();
             services.AddHostedService<TaskResponseEngine>();
             //services.AddHostedService<ProplemReporting>();
-            services.AddHostedService<MailSenderService>();
-            //services.AddHostedService<BpmInvokerService>();
+            //services.AddHostedService<MailSenderService>();
+            services.AddHostedService<BpmInvokerService>();
             services.AddHttpContextAccessor();
             services.AddTransient<SystemServices>();
             services.AddSingleton<TaskExectionQueue>();

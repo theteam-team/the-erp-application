@@ -1,8 +1,8 @@
 export interface Products {
     productid: string;
     productname: string;
-    BillofMatrialname: string;
-    costofmanufacturing: string;
+    BillofMatrialId: number;
+    costofmanufacturing: number;
 }
 
 
@@ -12,7 +12,7 @@ export interface BillofMatrials {
     validFrom: string;
     validUntil: string;
     quantity: number;
-    price: string;
+    price: number;
 
 }
 
@@ -23,4 +23,15 @@ export interface manufacturingOrders {
     quantity: number;
     rawmaterilasStatus: string;
     orderStatus: string;
+    responsible: string;
+    material: string;
+}
+
+export interface createOrder {
+    manufacturingOrderid: string;
+    productname: string;
+    deadlinestart: string;
+    quantity: number;
+    material: string;
+    responsible: string;
 }

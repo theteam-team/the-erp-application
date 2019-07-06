@@ -1,6 +1,7 @@
 <app-manufacturing></app-manufacturing>
 
-
+<h1 style="color:rgba(31, 32, 32, 0.918) ; font: 1em sans-serif ; font-size: 20px; margin-top: 10px">
+  manufacturing orders </h1>
 <button type="button" class="btn btn-dark" (click)="createOrder()" style="margin: 10px">create</button>
 
 <table class="table">
@@ -9,8 +10,10 @@
       <th>product</th>
       <th>deadline start</th>
       <th>quantity</th>
-      <th>raw materials</th>
-      <th>status</th>
+      <th>responsible</th>
+      <th>raw material</th>
+      <th>material status</th>
+      <th>order status</th>
     </tr>
   </thead>
   <tbody>
@@ -18,6 +21,8 @@
       <td>{{order.productname}}</td>
       <td>{{order.deadlinestart}}</td>
       <td>{{order.quantity}}</td>
+      <td>{{order.responsible}}</td>
+      <td>{{order.material}}</td>
       <td>{{order.rawmaterilasStatus}}</td>
       <td>{{order.orderStatus}}</td>
     </tr>
