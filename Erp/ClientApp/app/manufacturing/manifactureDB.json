@@ -71,5 +71,14 @@
       "orderStatus": "planned"
     }
   ],
-  "createOrders": []
+  "createOrders": [
+    {
+      "Product": "hp",
+      "QuantityToProduce": "50",
+      "Materials": "rubber",
+      "DealineStart": "5/1",
+      "Responsible": "Jimmy",
+      "id": 1
+    }
+  ]
 }
