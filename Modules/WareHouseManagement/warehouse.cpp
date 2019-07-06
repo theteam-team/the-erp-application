@@ -2283,7 +2283,7 @@ extern "C"	ERP_API int showCustomerProducts(char* id, CustomerProduct** product,
 
 	int status = 0;
 	int qstate;
-
+	cout << "heeer";
 	MYSQL* conn;
 	MYSQL_ROW row = nullptr;
 	MYSQL_RES *res = nullptr;
@@ -2300,15 +2300,17 @@ extern "C"	ERP_API int showCustomerProducts(char* id, CustomerProduct** product,
 
 		string query = (string)"select order_has_product.order_table_Order_ID, order_has_product.Product_Product_ID, product.Product_Name, order_has_product.Units_In_Order, product.Product_Price from product, order_has_product, order_table where order_table.Customer_Customer_ID = '" + id + "' and order_has_product.order_table_Order_ID = order_table.Order_ID and order_has_product.Product_Product_ID = product.Product_ID";
 		qstate = mysql_query(conn, query.c_str());
-		////cout << query << endl;
+		cout << query << endl;
 		if (checkQuery(qstate, error, conn)) {
 
 			res = mysql_store_result(conn);
 
+				cout << "customer order count ";
+				cout << id ;
+				cout << res->row_count << endl;
 			if (res->row_count > 0)
 			{
 				*product = (CustomerProduct*)CoTaskMemAlloc((int)(res->row_count) * sizeof(CustomerProduct));
-				cout << res->row_count << endl;
 				numOfFields = mysql_num_fields(res);
 
 				CustomerProduct *_product = *product;
