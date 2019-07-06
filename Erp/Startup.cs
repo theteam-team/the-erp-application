@@ -87,6 +87,7 @@ namespace Erp
             services.AddTransient<INotificationResponseRepository, NotificationResponseRepositroy>();
             services.AddTransient<IEmailTypeRepository, EmailTypeRepository>();
             services.AddTransient<IOpportunityRepository, OpportunityRepository>();
+            services.AddTransient<IOpportunityProductRepository, OpportunityProductRepository>();
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();

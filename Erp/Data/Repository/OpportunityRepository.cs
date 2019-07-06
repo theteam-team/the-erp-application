@@ -15,7 +15,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Erp.Repository
 {
-    public class OpportunityRepository : Repository<Opportunities_product, DataDbContext>, IOpportunityRepository
+    public class OpportunityRepository : Repository<Opportunity, DataDbContext>, IOpportunityRepository
     {
         public OpportunityRepository(IConfiguration config, ILogger<OpportunityRepository> ilogger, IHttpContextAccessor httpContextAccessor, AccountDbContext accountDbContext, Management management, DataDbContext datadbContext, UserManager<ApplicationUser> userManager) : base(config, ilogger, httpContextAccessor, management, datadbContext, accountDbContext, userManager)
         {

@@ -55,7 +55,6 @@ export class MainComponent implements OnInit {
                 if (success) {
                     this.customerID = this.data.customerID;
                 }
-                console.log(this.customerID);
                 this.order.customerID = this.customerID;
                 this.data.addOrder(this.order);
             });

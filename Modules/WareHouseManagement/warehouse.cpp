@@ -282,7 +282,6 @@ double calculateOutgoingValue(char* error, ConnectionString con) {
 	return total;
 }
 
-
 double calculateIncomingValue(char* error, ConnectionString con) {
 
 	int status = 0;
@@ -331,7 +330,6 @@ double calculateIncomingValue(char* error, ConnectionString con) {
 	return total;
 }
 
-
 int addToCategory(char* pid, char* cid, char* error, ConnectionString con) {
 
 	int status = 0;
@@ -346,11 +344,12 @@ int addToCategory(char* pid, char* cid, char* error, ConnectionString con) {
 
 	if (conn)
 	{
-		string query = (string)"insert into category values ('" + pid + "', '" + cid + "')";
+		string query = (string)"insert into product_has_category values ('" + pid + "', '" + cid + "')";
 		cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 		checkQuery(qstate, error, conn);
+		mysql_close(conn);
 	}
 	return status;
 }
@@ -418,7 +417,6 @@ int checkUnitsInStock(char* id, char* error, ConnectionString con) {
 	}
 	return status;
 }
-
 
 extern "C"	ERP_API int addToOrderTotal(Order* order, char* error, ConnectionString con) {
 
@@ -607,6 +605,7 @@ extern "C"	ERP_API int addProduct(Product* product, char* error, ConnectionStrin
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 		checkQuery(qstate, error, conn);
+		mysql_close(conn);
 
 		if (product->sold == 1)
 			addToCategory(product->id, "1", error, con);
