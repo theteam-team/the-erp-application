@@ -31,7 +31,6 @@ export class DataService {
     }
 
     public customerProducts = [];
-    public total;
     loadCustomerProducts(id): Observable<boolean> {
         return this.http.get("GetCustomerProducts/" + id)
             .pipe(
@@ -76,6 +75,5 @@ export class DataService {
     addPayment(payment, order) {
         this.http.post("AddPayment", payment, { responseType: 'text' }).toPromise().then(res => this.http.put("AddOrderPayment", order).subscribe((data) => { }))
             .catch(msg => console.log('Error: ' + msg.status + ' ' + msg.statusText));
-       
     }
 }

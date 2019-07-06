@@ -35,8 +35,8 @@ namespace Erp.Repository
             List<Notification> notifications = new List<Notification>();
             var result = _context.NotificationUsers
                 .Include(x => x.Notification)
-                .Include(x => x.Notification.NotificationResponses)
-                .Where(dt => dt.ApplicationUserId == userId && !dt.IsResponsed).ToList();
+                //.Include(x => x.Notification.NotificationResponses)
+                .Where(dt => dt.ApplicationUserId == userId).ToList();
             if (result != null)
             {
                 foreach (var item in result)

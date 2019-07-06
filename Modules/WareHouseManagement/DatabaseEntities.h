@@ -56,7 +56,6 @@ struct CustomerProduct
 	char* name;
 	unsigned int unitsOrdered;
 	double price;
-	double total;
 };
 
 struct Order 

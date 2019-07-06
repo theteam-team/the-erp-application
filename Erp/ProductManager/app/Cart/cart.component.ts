@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material'
 import * as uuid from 'uuid';
 
 import { DataService } from 'ProductManager/app/shared/dataService';
@@ -38,48 +38,24 @@ export class CartComponent implements OnInit {
     }
 
     ngOnInit() {
-
-        this.data.loadCustomerProducts(this.customerID)
-            .subscribe(success => {
-                if (success) {
-                    this.customerProducts = this.data.customerProducts;
-                }
-                this.data.loadOrderInfo(this.orderID)
-                    .subscribe(success => {
-                        if (success) {
-                            this.orderInfo = this.data.orderInfo;
-                        }
-                        console.log(this.customerProducts);
-                        console.log(this.orderInfo);
-                    });
-            });
-        
-
-        //this.getProducts();
-        //this.getOrder();
-    }
-
-    reloadComponent(): void {
-        location.reload();
-    }
-
-    /*getProducts(): void {
         this.data.loadCustomerProducts(this.customerID)
             .subscribe(success => {
                 if (success) {
                     this.customerProducts = this.data.customerProducts;
                 }
             });
-    }*/
 
-    /*getOrder(): void {
         this.data.loadOrderInfo(this.orderID)
             .subscribe(success => {
                 if (success) {
                     this.orderInfo = this.data.orderInfo;
                 }
             });
-    }*/
+    }
+
+    reloadComponent(): void {
+        location.reload();
+    }
 
     onProductRemove(oid: string, pid: string, units: number, newPrice: number): void {
 
@@ -99,5 +75,9 @@ export class CartComponent implements OnInit {
         dialogConfig.width = "60%";
 
         this.dialog.open(ProfileComponent, dialogConfig);*/
+    }
+
+    goToCart() {
+
     }
 }

@@ -1,16 +1,16 @@
 <div>
-    <nav class="navbar navbar-dark bg-dark navbar-expand-md sticky-top justify-content-between" style="background-color:white">
+    <nav class="navbar navbar-expand-md sticky-top justify-content-between">
         <button class="navbar-toggler" data-toggle="collapse" data-target="#warehouseMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div id="warehouseMenu" class="navbar-collapse" collapse>
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="">Modules</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/warehouse">Overview</a>
-                </li>
+                <!----<li class="nav-item">
+        <a class="nav-link" routerLink="">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" routerLink="/warehouse">Overview</a>
+    </li>-->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href=# role="button" aria-haspopup="true" aria-expanded="false">Operations</a>
                     <div class="dropdown-menu">
@@ -18,21 +18,22 @@
                         <a class="dropdown-item" routerLink="/warehouse/operations/receipts">Receipts</a>
                     </div>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" routerLink="/warehouse/products" role="button" aria-haspopup="true" aria-expanded="false">Products</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" routerLink="/warehouse/products/productMoves">Product Moves</a>
-                    </div>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/warehouse/products">Proucts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/warehouse/inventories">Inventories</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Configuration</a>
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href=# role="button" aria-haspopup="true" aria-expanded="false">Reporting</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" routerLink="/warehouse/inventories">Inventories</a>
+                        <a class="dropdown-item" routerLink="/warehouse/reporting">Warehouse Dashboard</a>
+                        <a class="dropdown-item" routerLink="/warehouse/productMoves">Product Moves</a>
                     </div>
                 </li>
             </ul>
-        </div>
-    </nav>
-</div>
+            </div>
+        </nav>
+    </div>
 
-<router-outlet></router-outlet>
+    <router-outlet></router-outlet>

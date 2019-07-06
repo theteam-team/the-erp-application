@@ -18,7 +18,7 @@ namespace Erp.Data
         public DbSet<UserHasEmail> UserHasEmails { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<NotificationApplicationUser> NotificationUsers { get; set; }
-        public DbSet<NotificationResponses> NotificationResponses { get; set; }
+      
         public DbSet<ProcRequest> ProcRequests { get; set; }
         public DbSet<BpmWorkflowParameters> WorkflowParameters { get; set; }
 

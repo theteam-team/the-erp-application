@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Erp.Interfaces
 {
-    public interface IOpportunityRepository : IRepository<Opportunities_product, DataDbContext> 
+    public interface IOpportunityRepository : IRepository<Opportunity, DataDbContext>
     {
         
     }

@@ -3,19 +3,19 @@
     {
       "productid": "1",
       "productname": "red_ball",
-      "BillofMatrialname": "plastic",
+      "BillofMatrialId": 1,
       "costofmanufacturing": 5
     },
     {
       "productid": "2",
       "productname": "green_ball",
-      "BillofMatrialname": "plastic",
+      "BillofMatrialId": 2,
       "costofmanufacturing": 7
     },
     {
       "productid": "3",
       "productname": "yellow_ball",
-      "BillofMatrialname": "plastic",
+      "BillofMatrialId": 2,
       "costofmanufacturing": 4
     }
   ],

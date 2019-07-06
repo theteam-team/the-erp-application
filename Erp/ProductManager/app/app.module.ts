@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { MatCardModule, MatButtonModule, MatDialogModule, MatInputModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ProductManagerComponent } from './product-manager.component';
 import { DataService } from './shared/dataService';
@@ -36,6 +37,7 @@ let routes = [
         FormsModule,
         MatDialogModule,
         MatInputModule,
+        BrowserAnimationsModule,
 
         RouterModule.forRoot(routes, {
             useHash: true,
@@ -49,7 +51,7 @@ let routes = [
 
     bootstrap: [ProductManagerComponent],
 
-    entryComponents: []
+    entryComponents: [ProfileComponent]
 })
 
 export class AppModule { }
