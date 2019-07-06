@@ -38,14 +38,11 @@ export class CartComponent implements OnInit {
     }
 
     ngOnInit() {
-
         this.data.loadCustomerProducts(this.customerID)
             .subscribe(success => {
                 if (success) {
                     this.customerProducts = this.data.customerProducts;
                 }
-                console.log(this.customerID);
-                console.log(this.orderID);
             });
 
         /*this.data.loadOrderInfo(this.orderID)

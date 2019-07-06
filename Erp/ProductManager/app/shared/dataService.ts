@@ -31,7 +31,6 @@ export class DataService {
     }
 
     public customerProducts = [];
-    public total;
     loadCustomerProducts(id): Observable<boolean> {
         return this.http.get("GetCustomerProducts/" + id)
             .pipe(
