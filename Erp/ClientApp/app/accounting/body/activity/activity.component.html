@@ -1,5 +1,11 @@
-﻿<accounting-body></accounting-body>
-
+﻿<div class="container-fluid">
+    <accounting-body></accounting-body>
+    <div class="row container-fluid">
+        <button class="col m-2 form-control btn-outline-info" align="right" (click)="show = true;">show bills</button>
+        <button class="col m-2 form-control btn-outline-info" align="right" (click)="getSoldProduct();show1 = true;">show products Profit</button>
+    </div>
+</div>
+<!--
 <div class="row container-fluid">
     <div class="col-md-3 bg-light p-2">
         <form>
@@ -30,8 +36,7 @@
         </form>
     </div>
 </div>
-
-
+-->
 <!--
 <div class="row container-fluid">
     <div class="col-md-4 well well-sm" *ngFor="let s of sold_products">
@@ -46,24 +51,60 @@
     </div>
 </div>
     -->
-<div class="row container-fluid">
-    <div class="col-md-4 well well-sm" *ngFor="let i of invoice">
-        <div class="card bg-light m-1 p-2">
-            <div> suppId : {{ i.suppId }}</div>
-            <div> suppName : {{ i.suppName }}</div>
-            <div> suppPhone: {{ i.suppPhone }}</div>
-            <div> suppMail : {{ i.suppMail }}</div>
-            <div> method: {{ i.payment_method }}</div>
-            <div> pName: {{ i.productName }}</div>
-            <div> pCost: {{ i.productCost }}</div>
-            <div> units : {{ i.suppUnits }}</div>
-            <div> tCost: {{ i.totalCost }}</div>
-            <div> Paid : {{ i.totalPaid }}</div>
-            <div> depts : {{ i.depts }}</div>
+<div *ngIf="show; else elseBlock" class="container-fluid">
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Supplier ID</th>
+                <th scope="col">Supplier Name</th>
+                <th scope="col">Supplier Phone</th>
+                <th scope="col">Supplier Mail </th>
+                <th scope="col">Product Name </th>
+                <th scope="col">Product Cost </th>
+                <th scope="col">Supplied units </th>
+                <th scope="col">Total Cost </th>
+                <th scope="col">Paid_up </th>
+                <th scope="col">depts </th>
 
-            <button class="btn btn-success">close</button>
-        </div>
-    </div>
+            </tr>
+        </thead>
+        <tbody *ngFor="let i of invoice">
+            <tr class="table-active">
+                <td> {{ i.suppId }} </td>
+                <td> {{ i.suppName }} </td>
+                <td> {{ i.suppPhone }} </td>
+                <td> {{ i.suppMail }} </td>
+                <td> {{ i.productName }} </td>
+                <td> {{ i.productCost }} </td>
+                <td> {{ i.suppUnits }} </td>
+                <td> {{ i.totalCost }} </td>
+                <td> {{ i.totalPaid }} </td>
+                <td> {{  i.totalCost - i.totalPaid}} </td>
+            </tr>
+        </tbody>
+    </table>
+    <button class="col m-2 form-control btn-outline-info" align="right" (click)="show = false;">close</button>
 </div>
-
-
+<div *ngIf="show1; else elseBlock" class="container-fluid">
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Product ID</th>
+                <th scope="col">total Units in all orders</th>
+                <th scope="col">price </th>
+                <th scope="col">cost </th>
+                <th scope="col">profit</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let s of sold_products">
+            <tr class="table-active">
+                <td> {{ s.productid }} </td>
+                <td> {{ s.unitsSold }} </td>
+                <td> {{ s.price }} </td>
+                <td> {{ s.cost }} </td>
+                <td> {{ s.profit }} </td>
+            </tr>
+        </tbody>
+    </table>
+    <button class="col m-2 form-control btn-outline-info" align="right" (click)="show1 = false;">close</button>
+</div>

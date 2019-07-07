@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { DataService } from 'ClientApp/app/shared/dataService';
-import { Invoice } from "ClientApp/app/shared/module";
+import { Invoice, Products } from "ClientApp/app/shared/module";
 import { Route } from '@angular/compiler/src/core';
 import { Router } from '@angular/router';
 
@@ -32,6 +32,16 @@ export class AccountingActivity implements OnInit{
             .subscribe(success => {
                 if (success) {
                     this.invoice = this.data.invoice;
+                }
+            });
+    }
+
+    public sold_products: Products[] = [];
+    getSoldProduct(): void {
+        this.data.loadSoldProducts()
+            .subscribe(success => {
+                if (success) {
+                    this.sold_products = this.data.sold_products;
                 }
             });
     }

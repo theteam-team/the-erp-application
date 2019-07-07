@@ -106,7 +106,7 @@ extern "C" ERP_API int getInvoice(Invoice** invoice, char* error, ConnectionStri
 					row[6] ? _invoice->suppUnits = stoi(row[6]) : _invoice->suppUnits = 0;
 					row[7] ? _invoice->totalCost= stod(row[7]) : _invoice->totalCost = 0;
 					row[8] ? _invoice->totalPaid = stod(row[8]) : _invoice->totalPaid= 0;
-					row[9] ? _invoice->debts = stod(row[9]) : _invoice->debts = 0; 
+					 _invoice->debts = _invoice->totalCost - _invoice->totalPaid;
 					numberOfRows++;
 					_invoice++;
 				}

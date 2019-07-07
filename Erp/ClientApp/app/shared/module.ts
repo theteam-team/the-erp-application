@@ -59,3 +59,10 @@ export interface OrderProducts{
 
 
 }
+
+export interface Account {
+    account_id: string;
+    account_money: number;
+    creation_date: string;
+    account_debts: number;
+}
