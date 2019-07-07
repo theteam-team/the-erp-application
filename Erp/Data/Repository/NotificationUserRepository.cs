@@ -44,32 +44,8 @@ namespace Erp.Repository
             Console.WriteLine(userId);
             return result;
         }
-        public async Task<NotificationApplicationUser> GetResponse(long NotificationId)
-        {
-            var result = _context.NotificationUsers
-                .Where(dt => dt.NotificationId == NotificationId && dt.IsResponsed).FirstOrDefault();
-            //Console.WriteLine(userId);
-            return result;
-        }
-        public async Task RespondToNotification(long NotificationId, string response)
-        {
-            List<Task> tasks = new List<Task>();
-            var check = _context.NotificationUsers
-                .Where(dt => dt.NotificationId == NotificationId && dt.IsResponsed).FirstOrDefault();
-            if (check == null)
-            {
-                var result = _context.NotificationUsers
-                    .Where(dt => dt.NotificationId == NotificationId && !dt.IsResponsed).ToList();
-                foreach (var item in result)
-                {
-                    item.IsResponsed = true;
-                    item.Response = response;
-                    tasks.Add(base.Update(item));
-                }
-                await Task.WhenAll(tasks);
-            }
-            //Console.WriteLine(userId);
-        }
+       
+       
 
     }
 }

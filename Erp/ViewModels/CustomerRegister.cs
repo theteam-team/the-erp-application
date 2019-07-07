@@ -9,6 +9,7 @@ namespace Erp.ViewModels
 {
     public class CustomerRegister
     {
+        [Required]
         public string name { get; set; }
         [Required]
         public string UserName { get; set; }
@@ -23,7 +24,7 @@ namespace Erp.ViewModels
         [Required]
         public string DateOfBirth { get; set; }
         [Required]
-        public string gender;
+        public string gender { get; set; }
 
      
       

@@ -47,13 +47,6 @@ function createNotficationCard(notification)
     for (var i = 0; i < parameters.length; i++) {
         createResponseChoice(parameters[i].name, parameters[i].type, userTaskId, $(req))
     }
-    //var subbtn = document.createElement('input');
-    //$(subbtn).attr('type', 'button');
-    //$(subbtn).attr('class', 'btn btn-primary');
-    //$(subbtn).attr('value', "Submit");
-    //$(subbtn).on('click', function () { notificationResponse(notification.id); })
-    
-   // $(req).append($(subbtn));
 
     el.append($(req));
 
@@ -91,12 +84,7 @@ function createResponseChoice(name, type, userTaskId, JqueryEl)
        
     }
     JqueryEl.append((el));
-    //var lbl = document.createElement('label');
-    //$(btn).attr('type', 'radio');
-    //$(btn).attr('name', 'Response');
-    //$(btn).attr('value', value);
-    //$(lbl).append($(btn));
-    //$(lbl).append(" <strong>" +value+"<strong>");
+   
    
 }
 

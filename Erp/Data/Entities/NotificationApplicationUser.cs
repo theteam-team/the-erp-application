@@ -14,8 +14,7 @@ namespace Erp.Data.Entities
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }      
         
-        public bool IsResponsed { get; set; } = false;
-        public string Response { get; set; } = null;
+       
 
 
 

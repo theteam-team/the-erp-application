@@ -33,30 +33,18 @@ namespace Erp.Repository
         public async Task<List<Notification>> GetUnResponsedNotifications(string userId)
         {
             List<Notification> notifications = new List<Notification>();
-            var result = _context.NotificationUsers
-                .Include(x => x.Notification)
+            var result = _context.Notifications
+                
                 //.Include(x => x.Notification.NotificationResponses)
                 .Where(dt => dt.ApplicationUserId == userId).ToList();
-            if (result != null)
-            {
-                foreach (var item in result)
-                {
-                    notifications.Add(item.Notification);
-                }
-            }
-            //Console.WriteLine(userId);
+            notifications = result;
             return notifications;
         }
         public override async Task Insert(Notification notification)
         {
             await base.Insert(notification);
-            List<Task> tasks = new List<Task>();
-            foreach (var item in notification.NotificationApplicationUsers)
-            {
-                tasks.Add(_notificationHubContext.Clients.User(item.ApplicationUserId).SendAsync("receiveNotification", notification));
-
-            }
-           await Task.WhenAll(tasks);
+            await _notificationHubContext.Clients.User(notification.ApplicationUserId).SendAsync("recieveNotification", notification);
+           
         }
     }
     

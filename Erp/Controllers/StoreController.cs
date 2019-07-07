@@ -28,14 +28,14 @@ namespace Erp.Controllers
         private IAuthenticationService _authorizationService;
         //private static string AuthSchemes = null;
         
-        private IProductRepository _productRepository;
-        private ICustomerRepository _customerRepository;
-        private IOrganizationRepository _organizationRepository;
-        private IOrderRepository _orderRepository;
-        private IOrderProductRepository _orderProductRepository;
-        private ICustomerProductRepository _customerProductRepository;
-        private IAddressRepository _addressRepository;
-        private IPaymentRepository _paymentRepository;
+        public IProductRepository _productRepository { get; }
+        public ICustomerRepository _customerRepository { get; }
+        public IOrganizationRepository _organizationRepository { get; }
+        public IOrderRepository _orderRepository{ get; }
+        public IOrderProductRepository _orderProductRepository { get; }
+        public ICustomerProductRepository _customerProductRepository { get; }
+        public IAddressRepository _addressRepository { get; }
+        public IPaymentRepository _paymentRepository { get; }
         private IConfiguration _config;
         private Management _management; 
         private ILogger<ApplicationUser> muserLogger;
@@ -68,7 +68,6 @@ namespace Erp.Controllers
         }
 
         [HttpGet]   
-        
         public async Task<ActionResult> Store()
         {
             string OrganizationName = (string)RouteData.Values["OrganizationName"];
@@ -107,17 +106,18 @@ namespace Erp.Controllers
                     string hashProvider = _userManager.PasswordHasher.HashPassword(user, loginModel.Password);
                     var result =  _userManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, signInModel.Password);
                     if (result == PasswordVerificationResult.Success)
+                    Console.WriteLine("hereee");
                     {
                         if ((await _management.GetUserRoleAsync(user)).Contains("Customer"))
                         {
                             var roleCustomer = "Customer";
                             var claims = new List<Claim>
-                        {
-                            new Claim(ClaimTypes.Name, user.UserName),
-                            new Claim(ClaimTypes.NameIdentifier, user.Id),
-                            new Claim(ClaimTypes.Role, roleCustomer),
-                            new Claim("organization", orgExist.Name),
-                        };
+                            {
+                                new Claim(ClaimTypes.Name, user.UserName),
+                                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                                new Claim(ClaimTypes.Role, roleCustomer),
+                                new Claim("organization", orgExist.Name),
+                            };
                             var claimsIdentity = new ClaimsIdentity(claims, OrganizationName);
                             var authProperties = new AuthenticationProperties();
 
@@ -203,8 +203,8 @@ namespace Erp.Controllers
                     await Task.WhenAll(
                         new Task[]{
                         _management.AddRoleToUserAsync(roleCustomer, user),
-                        HttpContext.SignInAsync(OrganizationName, new ClaimsPrincipal(claimsIdentity), authProperties)
-                        });
+                    HttpContext.SignInAsync(OrganizationName, new ClaimsPrincipal(claimsIdentity), authProperties)
+                    });
                     var Customer = new Customer()
                     {
                         customer_id = user.Id,

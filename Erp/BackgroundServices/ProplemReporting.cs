@@ -29,6 +29,7 @@ namespace Erp.BackgroundServices
             while (!stoppingToken.IsCancellationRequested)
             {
                 await Task.Run(() => { checkErpDbConnection(); checkOrgDbConnection(); });
+                Thread.Sleep(5000);
             }
             _logger.LogInformation("Problem Reporting Service is Stopping");
         }

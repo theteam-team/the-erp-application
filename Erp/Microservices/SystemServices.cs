@@ -4,6 +4,7 @@ using Erp.Controllers;
 using Erp.Data;
 using Erp.Data.Entities;
 using Erp.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -92,6 +93,14 @@ namespace Erp.Microservices
                                 }
                             }
                             var controller = (ControllerBase)serviceScope.ServiceProvider.GetService(item.ControllerTypeInfo);
+                            var httpContext = new DefaultHttpContext(); 
+                            httpContext.Request.Headers["organization"] = bpmTask.databaseName; 
+
+                            var controllerContext = new ControllerContext()
+                            {
+                                HttpContext = httpContext,
+                            };
+                            controller.ControllerContext = controllerContext;
                             var contProperties = controller.GetType().GetProperties().ToList();
                             foreach (var property in contProperties)
                             {
@@ -145,9 +154,9 @@ namespace Erp.Microservices
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message + " " + ex.Source);
-                        createFailedResponse("Problem has occurred while Trying to execute this Task", bpmTask);
 
+                        createFailedResponse("Problem has occurred while Trying to execute this Task", bpmTask);
+                        throw;
 
                     }
                 }
