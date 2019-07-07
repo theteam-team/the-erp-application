@@ -1,11 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Opportunity } from '../models/opportunityModel';
-import { customerService } from '../customers/customer.service';
 import { Router } from '@angular/router';
- 
 import { OpportunityService } from '../create-opportunity/opportunity.service';
-import { Customer } from '../models/customerModel';
-
+import { DataService } from '../../shared/dataService';
 
 @Component({
     selector: 'app-pipeline',
@@ -13,18 +10,31 @@ import { Customer } from '../models/customerModel';
     styles: []
 })
 export class PipelineComponent implements OnInit {
+
+    public customers = [];
     searchTerm: string;
-    customers: Customer[];
+     
     opportunities: Opportunity[];
 
 
-    constructor(private _customerService: customerService, private _opportunityService: OpportunityService, private _router: Router) { }
+    constructor(private data: DataService, private _opportunityService: OpportunityService, private _router: Router) { }
 
     ngOnInit() {
         this._opportunityService.getOpportunities().subscribe(opportunities => this.opportunities = opportunities);
-        this._customerService.getCustomers().subscribe(customers => this.customers = customers);
+        this.displayAllCustomers();
 
     }
+
+    displayAllCustomers(): void {
+
+        this.data.loadAllCustomers()
+            .subscribe(success => {
+                if (success) {
+                    this.customers = this.data.customers;
+                }
+            })
+    }
+
     editOpportunity(opportunityID: number) {
         this._router.navigate(['/crm/editOpportunity', opportunityID])
     }
