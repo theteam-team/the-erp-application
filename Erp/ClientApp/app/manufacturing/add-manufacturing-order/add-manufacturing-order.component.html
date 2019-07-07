@@ -20,8 +20,8 @@
     </select>
   </div>
   <div class="form-group">
-    <label for="DealineStart">Dealine Start</label>
-    <input type="text" class="form-control" id="DealineStart" name="deadlinestart" [(ngModel)]="deadlinestart">
+    <label for="DealineStart">Deadline Start</label>
+    <input type="date" class="form-control" id="DealineStart" name="deadlinestart" [(ngModel)]="deadlinestart">
   </div>
   <div class="form-group">
     <label for="Responsible">Responsible</label>
@@ -29,5 +29,3 @@
   </div>
   <button type="submit" class="btn btn-dark">Submit</button>
 </form>
-
-{{ productForm.value | json}}

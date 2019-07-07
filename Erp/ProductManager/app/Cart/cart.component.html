@@ -19,50 +19,54 @@
     </nav>
 </div>
 
-<div class="main-content-wrapper d-flex clearfix">
-    <div class="cart-table-area section-padding-100">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 col-lg-8 offset-md-2">
-                    <div class="cart-title mt-50">
-                        <h2>Shopping Cart</h2>
-                    </div>
-                    <div class="cart-table clearfix">
-                        <table class="table table-responsive">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Name</th>
-                                    <th>Units Ordered</th>
-                                    <th>Total</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody *ngFor="let p of customerProducts">
-                                <tr>
-                                    <td class="cart_product_img">
-                                        <a href="#"><img src="https://img.icons8.com/ios/50/000000/compact-camera.png" alt="Product"></a>
-                                    </td>
-                                    <td class="cart_product_desc"><h5>{{ p.name }}</h5></td>
-                                    <td class="cart_product_desc">{{ p.unitsOrdered }}</td>
-                                    <td class="cart_product_desc"><span>{{ p.price*p.unitsOrdered }} $</span></td>
-                                    <td style="width:70px">
-                                        <button class="btn4" type="button" (click)="onProductRemove(p.orderID, p.productID, p.unitsOrdered, p.price)">x</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-7">
+                <div class="section-title">
+                    <h2>Shopping Cart</h2>
                 </div>
-                <div class="col-12 col-lg-4 offset-md-2">
-                    <div class="cart-summary">
-                        <h5>Cart Total</h5>
-                        <ul class="summary-table">
-                            <li><span>{{ orderInfo.totalPrice }}</span></li>
-                        </ul>
-                        <div class="cart-btn mt-100">
-                            <a href="cart.html" class="btn amado-btn w-100">Checkout</a>
-                        </div>
+                <div class="cart-table clearfix">
+                    <table class="table table-responsive">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Units Ordered</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let p of customerProducts">
+                            <tr>
+                                <td class="cart_product_img">
+                                    <a href="#"><img src="https://img.icons8.com/ios/50/000000/compact-camera.png" alt="Product"></a>
+                                </td>
+                                <td class="cart_product_desc"><h5>{{ p.name }}</h5></td>
+                                <td class="cart_product_desc">{{ p.unitsOrdered }}</td>
+                                <td class="cart_product_desc"><span>{{ p.price*p.unitsOrdered }} $</span></td>
+                                <td style="width:70px">
+                                    <button class="btn4" type="button" (click)="onProductRemove(p.orderID, p.productID, p.unitsOrdered, p.price)">x</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="order-summary">
+                    <div class="section-title text-center">
+                        <h3 class="title">Cart Total</h3>
+                    </div>
+                    <div class="order-col">
+                        <div><strong>TOTAL</strong></div>
+                        <div><strong class="order-total">{{ orderInfo.totalPrice }} $</strong></div>
+                    </div>
+                    <div style="margin:40px"></div>
+                    <div>
+                        <button class="btn2" type="button" (click)="submitOrder()">Continue To Checkout</button>
                     </div>
                 </div>
             </div>

@@ -12,6 +12,6 @@ export class MaterialService {
     private materials: BillofMatrials[];
 
     getMaterials(): Observable<BillofMatrials[]> {
-        return this.httpClient.get<BillofMatrials[]>('http://localhost:3000/materials');
+        return this.httpClient.get<BillofMatrials[]>('http://localhost:5000/materials');
     }
 }
