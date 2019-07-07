@@ -12,7 +12,7 @@
   "Email": {
     "Smtp": {
       "Host": "smtp.gmail.com",
-      "Password": "theteambot6hero#4400",
+      "Password": "root",
       "Port": 587,
       "Username": "theteamteambot@gmail.com"
     }
@@ -35,7 +35,7 @@
   "MySqlC++": {
     "server": "localhost",
     "user": "root",
-    "password": "rana",
+    "password": "root",
     "port": "3306"
   },
   "Tokens": {

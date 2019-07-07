@@ -19,7 +19,7 @@ import { Salesman } from '../models/salesmanModel';
 })
 export class CreateOpportunityComponent implements OnInit {
     public customers = [];
-    public products = [];
+    products: Product[];
     Title: string;
      
     opportunity: Opportunity;
@@ -32,9 +32,9 @@ export class CreateOpportunityComponent implements OnInit {
 
     ngOnInit() {
         this.displayAllCustomers();
-        this.displayAllProducts();
+        
         this.salesmanService.getSalesmans().subscribe(salesman => this.salesman = salesman);
-       // this.productService.getProducts().subscribe(products => this.products = products);
+        this.productService.getProducts().subscribe(products => this.products = products);
 
         this._route.paramMap.subscribe(parameterMap => {
             const id = +parameterMap.get('id');
