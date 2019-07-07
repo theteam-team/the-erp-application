@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Customer } from '../models/customerModel';
 import { Router, ActivatedRoute } from '@angular/router';
 import { customerService } from '../customers/customer.service';
- 
+import { DataService } from '../../shared/dataService';
+import { NgForm } from '@angular/forms';
 
 @Component({
     selector: 'app-create-customer',
@@ -10,14 +11,14 @@ import { customerService } from '../customers/customer.service';
     styles: []
 })
 export class CreateCustomerComponent implements OnInit {
-     
+
 
 
     Title: string;
     dateOfBirth: Date;
     customer: Customer;
     title: string;
-    constructor(private _customerService: customerService, private _router: Router, private _route: ActivatedRoute) { }
+    constructor(private _customerService: customerService, private _router: Router, private _route: ActivatedRoute, private data: DataService) { }
 
     ngOnInit() {
         this._route.paramMap.subscribe(parameterMap => {
@@ -52,21 +53,8 @@ export class CreateCustomerComponent implements OnInit {
         }
     }
 
-    saveCustomer(): void {
-        if (this.customer.id == null) {
-            this._customerService.saveCustomer(this.customer).subscribe(
-                (data: Customer) => {
-                    console.log(data);
-                    this._router.navigate([''])
-                }
-            );
-        }
-        else {
-            this._customerService.editCustomer(this.customer).subscribe(
-                () => {
-                    this._router.navigate(['customers'])
-                }
-            );
-        }
+    saveInventory(CForm: NgForm): void {
+        this.data.saveCustomer(CForm.value);
+       // this.reloadComponent();
     }
 }

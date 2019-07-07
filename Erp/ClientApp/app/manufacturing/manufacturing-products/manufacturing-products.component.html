@@ -1,18 +1,17 @@
- <app-manufacturing></app-manufacturing>
+<app-manufacturing></app-manufacturing>
 <br />
 <h1 style="color:darkcyan">Products</h1>
- 
+
 
 <div class="container">
     <div class="row">
-    <div class="col" style="margin:10px;" *ngFor="let p of products">
-        <div class="card text-white bg-dark mb-3" style="width:20rem; padding:10px">
-            <h6 class="card-title">Name: {{ p.productname }}</h6>
-            <div *ngFor="let m of materials">
-                <h6 class="card-title" *ngIf="m.BillofMatrialid == p.BillofMatrialId">material name: {{m.name}}</h6>
+        <div class="col" style="margin:10px;" *ngFor="let p of products">
+            <div class="card text-white bg-dark mb-3" style="width:20rem; padding:10px">
+                <h6 class="card-title">Name: {{ p.productname }}</h6>
+                <div *ngFor="let m of materials">
+                    <h6 class="card-title" *ngIf="m.BillofMatrialid == p.BillofMatrialId">Material: {{m.name}}</h6>
+                </div>
+                <h6 class="card-title"> Cost: {{p.costofmanufacturing}} $</h6>
             </div>
-            <h6 class="card-title"> cost: {{p.costofmanufacturing}}</h6>
         </div>
     </div>
-    </div>
- </div>
