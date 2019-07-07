@@ -12,6 +12,45 @@ export class DataService {
     private token: string = "";
     private tokenExpiration: Date;
 
+    //CRM
+
+    public opportunities = [];
+    loadAllOpportunities(): Observable<boolean> {
+        return this.http.get("/api/CrmApi/GetAllOpportunities")
+            .pipe(
+                map((data: any[]) => {
+                    this.opportunities = data;
+                    return true;
+                }));
+    }
+
+    public customers = [];
+    loadAllCustomers(): Observable<boolean> {
+        return this.http.get("/api/CrmApi/GetAllCustomers")
+            .pipe(
+                map((data: any[]) => {
+                    this.customers = data;
+                    return true;
+                }));
+    }
+
+    saveCustomer(form) {
+        return this.http.post("/api/CrmApi/AddCustomer", form).subscribe((data) => { });
+    }
+
+    public Products = [];
+    loadAllProducts(): Observable<boolean> {
+        return this.http.get("/api/WarehouseApi/ShowProducts")
+            .pipe(
+                map((data: any[]) => {
+                    this.Products = data;
+                    return true;
+                }));
+    }
+
+
+    //warehouse
+
     public modules: Module[] = [];
     loadModules(): Observable<boolean> {
         return this.http.get("/api/Module/GetModules/kemo")
@@ -132,6 +171,8 @@ export class DataService {
                     return true;
                 }));
     }
+
+   
 
     public orders = [];
     loadAllOrders(): Observable<boolean> {

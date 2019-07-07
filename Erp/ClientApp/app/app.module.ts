@@ -68,6 +68,8 @@ import { ProductsService } from './manufacturing/services/products.service';
 import { MaterialService } from './manufacturing/services/material.service';
 import { ManufacturingOrderService } from './manufacturing/services/manufacturing-order.service';
 
+import { MatDialogModule } from '@angular/material/dialog';
+
 
 
 let routes = [
@@ -183,7 +185,8 @@ let routes = [
 
     HttpClientModule,
     DragDropModule,
-    BrowserAnimationsModule,
+      BrowserAnimationsModule,
+      MatDialogModule,
 
     RouterModule.forRoot(routes, {
       useHash: true,
@@ -194,8 +197,15 @@ let routes = [
 
 
   providers: [
-    DataService,
-    customerService, OpportunityService, ProductService, SalesmanService, ProductsService, MaterialService, ManufacturingOrderService
+      DataService,
+
+      //CRM
+      customerService,
+      OpportunityService,
+      SalesmanService,
+      ProductService,
+      // CRM
+     ProductsService, MaterialService, ManufacturingOrderService
   ],
 
   bootstrap: [AppComponent, Accounting]//, Login]

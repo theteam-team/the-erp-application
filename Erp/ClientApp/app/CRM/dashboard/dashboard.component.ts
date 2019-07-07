@@ -3,10 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
 import { OpportunityService } from '../create-opportunity/opportunity.service';
 import { Opportunity } from '../models/opportunityModel';
-import { Customer } from '../models/customerModel';
+
 import { customerService } from '../customers/customer.service';
 import { Salesman } from '../models/salesmanModel';
 import { SalesmanService } from '../services/salesman.service';
+import { DataService } from '../../shared/dataService';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,6 +15,9 @@ import { SalesmanService } from '../services/salesman.service';
   styles: []
 })
 export class DashboardComponent implements OnInit {
+
+    public customers = [];
+
     title = 'dashboard';
     chart;
     chart2;
@@ -22,20 +26,21 @@ export class DashboardComponent implements OnInit {
 
 
     opportunities: Opportunity[];
-    customers: Customer[];
+   
     salesman: Salesman[];
 
 
 
 
-    constructor(private _customerService: customerService, private _opportunityService: OpportunityService, private salesmanService: SalesmanService) {
+    constructor(private _customerService: customerService, private _opportunityService: OpportunityService
+        , private salesmanService: SalesmanService, private data: DataService) {
 
 
     }
 
 
     ngOnInit() {
-        this._customerService.getCustomers().subscribe(customers => this.customers = customers);
+        this.displayAllCustomers();
         this._opportunityService.getOpportunities().subscribe(opportunities => this.opportunities = opportunities);
         this.salesmanService.getSalesmans().subscribe(salesman => this.salesman = salesman);
 
@@ -158,6 +163,18 @@ export class DashboardComponent implements OnInit {
             }
         })
     }
+
+    displayAllCustomers(): void {
+
+        this.data.loadAllCustomers()
+            .subscribe(success => {
+                if (success) {
+                    this.customers = this.data.customers;
+                }
+            })
+    }
+
+
     loss() {
         let loss = 0;
         loss = this._opportunityService.lossOpportunity();

@@ -10,11 +10,11 @@ export class ManufacturingOrderService {
 
 
   getOrders(): Observable<manufacturingOrders[]> {
-    return this.httpClient.get<manufacturingOrders[]>('http://localhost:3000/manufacturingOrders');
+    return this.httpClient.get<manufacturingOrders[]>('http://localhost:5000/manufacturingOrders');
   }
 
 
   saveProduct(order) {
-    return this.httpClient.post<any>('http://localhost:3000/manufacturingOrders', order).subscribe((data) => { });
+    return this.httpClient.post<any>('http://localhost:5000/manufacturingOrders', order).subscribe((data) => { });
   }
 }

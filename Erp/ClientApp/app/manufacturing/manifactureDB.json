@@ -4,19 +4,19 @@
       "productid": "1",
       "productname": "red_ball",
       "BillofMatrialId": 1,
-      "costofmanufacturing": 5
+      "costofmanufacturing": 50
     },
     {
       "productid": "2",
       "productname": "green_ball",
       "BillofMatrialId": 2,
-      "costofmanufacturing": 7
+      "costofmanufacturing": 70
     },
     {
       "productid": "3",
       "productname": "yellow_ball",
       "BillofMatrialId": 2,
-      "costofmanufacturing": 4
+      "costofmanufacturing": 40
     }
   ],
   "materials": [
@@ -24,7 +24,7 @@
       "BillofMatrialid": 1,
       "name": "plastic",
       "validFrom": "2018-12-11",
-      "validUntil": "2019-05-25",
+      "validUntil": "2019-10-25",
       "quantity": 4,
       "price": 10
     },
@@ -32,27 +32,19 @@
       "BillofMatrialid": 2,
       "name": "rubber",
       "validFrom": "2019-05-16",
-      "validUntil": "2019-05-20",
+      "validUntil": "2019-10-20",
       "quantity": 8,
       "price": 15
     }
   ],
   "manufacturingOrders": [
     {
-      "productname": "hp",
-      "quantity": "5",
-      "material": "rubber",
-      "deadlinestart": "4/5/2020",
-      "responsible": "jimy",
-      "id": 1
-    },
-    {
-      "productname": "lenovo",
-      "quantity": "40",
+      "productname": "red_ball",
+      "quantity": "777",
       "material": "plastic",
-      "deadlinestart": "30/7/2020",
-      "responsible": "kiro",
-      "id": 2
+      "deadlinestart": "2019-07-29",
+      "responsible": "mohamed",
+      "id": 3
     }
   ],
   "createOrders": []

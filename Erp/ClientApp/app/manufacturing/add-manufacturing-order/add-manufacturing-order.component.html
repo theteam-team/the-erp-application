@@ -3,7 +3,10 @@
 <form form #productForm="ngForm" (ngSubmit)="orderProduct(productForm)" style="margin-top: 20px">
   <div class="form-group">
     <label for="Product">Product</label>
-    <input type="text" class="form-control" id="Product" name="productname" [(ngModel)]="productname">
+    <select class="form-control" id="Product" name="productname" [(ngModel)]="productname">
+      <option *ngFor="let pro of products" [value]="pro.productname">{{pro.productname}}
+      </option>
+    </select>
   </div>
   <div class="form-group">
     <label for="Quantity To Produce">Quantity To Produce</label>
@@ -11,11 +14,14 @@
   </div>
   <div class="form-group">
     <label for="Materials">Materials</label>
-    <input type="text" class="form-control" id="Materials" name="material" [(ngModel)]="material">
+    <select class="form-control" id="Materials" name="material" [(ngModel)]="material">
+      <option *ngFor="let material of materials" [value]=" material.name">{{ material.name}}
+      </option>
+    </select>
   </div>
   <div class="form-group">
-    <label for="DealineStart">Dealine Start</label>
-    <input type="text" class="form-control" id="DealineStart" name="deadlinestart" [(ngModel)]="deadlinestart">
+    <label for="DealineStart">Deadline Start</label>
+    <input type="date" class="form-control" id="DealineStart" name="deadlinestart" [(ngModel)]="deadlinestart">
   </div>
   <div class="form-group">
     <label for="Responsible">Responsible</label>
@@ -23,5 +29,3 @@
   </div>
   <button type="submit" class="btn btn-dark">Submit</button>
 </form>
-
-{{ productForm.value | json}}
