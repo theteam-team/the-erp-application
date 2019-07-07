@@ -2,11 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { MatDialog, MatDialogConfig } from '@angular/material'
 import * as uuid from 'uuid';
 
 import { DataService } from 'ProductManager/app/shared/dataService';
-import { ProfileComponent } from '../profile/profile.component';
 
 @Component({
   selector: 'app-cart',
@@ -32,7 +30,7 @@ export class CartComponent implements OnInit {
         "shipmentID": ""
     };
 
-    constructor(private data: DataService, private router: Router, private route: ActivatedRoute, private location: Location, private dialog: MatDialog) {
+    constructor(private data: DataService, private router: Router, private route: ActivatedRoute, private location: Location) {
         this.route.paramMap.subscribe(params => this.customerID = params.get('cid'));
         this.route.paramMap.subscribe(params => this.orderID = params.get('oid'));
     }
@@ -67,14 +65,7 @@ export class CartComponent implements OnInit {
     }
 
     submitOrder(): void {
-        this.router.navigate(["profile", this.customerID, this.orderID]);
-        /*const dialogConfig = new MatDialogConfig();
-
-        dialogConfig.disableClose = true;
-        dialogConfig.autoFocus = true;
-        dialogConfig.width = "60%";
-
-        this.dialog.open(ProfileComponent, dialogConfig);*/
+        this.router.navigate(["confirm", this.customerID, this.orderID]);
     }
 
     goToCart() {

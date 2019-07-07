@@ -16,6 +16,7 @@ export class ProfileComponent implements OnInit {
 
     public customerID;
     public orderID;
+    public total;
     public addressID = uuid.v4();
 
     public address = {
@@ -34,6 +35,7 @@ export class ProfileComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.total = this.data.orderInfo.totalPrice;
     }
 
     addCustomerAddress(aForm: NgForm): void {

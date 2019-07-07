@@ -6,8 +6,8 @@
     "DefaultConnection": "Server=(localdb)\\MSSQLLocalDB;Database=Erp;Trusted_Connection=True;MultipleActiveResultSets=true",
     //"DefaultConnection": "Server=microsoftsqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com;Database=Erp;User=microsoftSQLadmin;Password=microsoftSQLpass123",
     "DataDbConnection": "Server=(localdb)\\ProjectsV13;Database=Data;Trusted_Connection=True;MultipleActiveResultSets=true",
-    //"MySql": "server=mysqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com;userid=mySQLadmin;port=3306;password=mySQLpass123;Allow User Variables=True;"
-    "MySql": "server=localhost;userid=root;port=3306;password=rana;AllowUserVariables=True;"
+    "MySql": "server=mysqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com;userid=mySQLadmin;port=3306;password=mySQLpass123;Allow User Variables=True;"
+    //"MySql": "server=localhost;userid=root;port=3306;password=rana;AllowUserVariables=True;"
   },
   "Email": {
     "Smtp": {
@@ -26,18 +26,18 @@
       "Microsoft": "Warning"
     }
   },
-  //"MySqlC++": {
-  //  "server": "mysqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com",
-  //  "user": "mySQLadmin",
-  //  "password": "mySQLpass123",
-  //  "port": "3306"
-  //}
   "MySqlC++": {
+    "server": "mysqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com",
+    "user": "mySQLadmin",
+    "password": "mySQLpass123",
+    "port": "3306"
+  },
+  /*"MySqlC++": {
     "server": "localhost",
     "user": "root",
     "password": "rana",
     "port": "3306"
-  },
+  },*/
   "Tokens": {
     "Key": "Erwin Smith",
     "Issuer": "http://localhost:8888",
