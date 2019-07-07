@@ -29,7 +29,7 @@ namespace Erp.BackgroundServices
             while (!stoppingToken.IsCancellationRequested)
             {
                 await Task.Run(() => { checkErpDbConnection(); checkOrgDbConnection(); });
-                Thread.Sleep(5000);
+                Thread.Sleep(10000);
             }
             _logger.LogInformation("Problem Reporting Service is Stopping");
         }
@@ -61,6 +61,7 @@ namespace Erp.BackgroundServices
                 }
                 catch (MySqlException ex)
                 {
+                    Console.WriteLine("here");
                     _emergency.sendEmergencyEmail(ex.Message);
                     
                 }

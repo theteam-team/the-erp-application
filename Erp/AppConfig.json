@@ -6,19 +6,19 @@
     "DefaultConnection": "Server=(localdb)\\MSSQLLocalDB;Database=Erp;Trusted_Connection=True;MultipleActiveResultSets=true",
     //"DefaultConnection": "Server=microsoftsqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com;Database=Erp;User=microsoftSQLadmin;Password=microsoftSQLpass123",
     "DataDbConnection": "Server=(localdb)\\ProjectsV13;Database=Data;Trusted_Connection=True;MultipleActiveResultSets=true",
-    "MySql": "server=mysqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com;userid=mySQLadmin;port=3306;password=mySQLpass123;Allow User Variables=True;"
-    //"MySql": "server=localhost;userid=root;port=3306;password=rana;AllowUserVariables=True;"
+    //"MySql": "server=mysqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com;userid=mySQLadmin;port=3306;password=mySQLpass123;Allow User Variables=True;"
+    "MySql": "server=localhost;userid=root;port=3306;password=123456789pp;AllowUserVariables=True;"
   },
   "Email": {
     "Smtp": {
       "Host": "smtp.gmail.com",
-      "Password": "root",
       "Port": 587,
-      "Username": "theteamteambot@gmail.com"
+      "Username": "theteamteambot@gmail.com",
+      "Password": "theteambot6hero#4400"
     }
   },
   "EmergencyContact": {
-    "Email": "mkemo421@gmail.com",
+    "Email": "mohamedelsayed1996101@outlook.com",
     "Name": "theteam-team"
   },
   "Logging": {
@@ -26,18 +26,18 @@
       "Microsoft": "Warning"
     }
   },
+  //"MySqlC++": {
+  //  "server": "mysqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com",
+  //  "user": "mySQLadmin",
+  //  "password": "mySQLpass123",
+  //  "port": "3306"
+  //},
   "MySqlC++": {
-    "server": "mysqldbaws.cwhgjrqrh1zu.us-east-2.rds.amazonaws.com",
-    "user": "mySQLadmin",
-    "password": "mySQLpass123",
-    "port": "3306"
-  },
-  /*"MySqlC++": {
     "server": "localhost",
     "user": "root",
-    "password": "root",
+    "password": "123456789pp",
     "port": "3306"
-  },*/
+  },
   "Tokens": {
     "Key": "Erwin Smith",
     "Issuer": "http://localhost:8888",

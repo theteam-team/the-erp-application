@@ -45,7 +45,7 @@ namespace Erp.BackgroundServices
             {
                 var mail = await _mailQueue.DequeueAsync(cancellationToken);           
                 if(mail != null)
-                    await sendMail(mail);
+                    sendMail(mail);
 
             }
 
