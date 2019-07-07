@@ -31,7 +31,7 @@ namespace Erp.Controllers
         [HttpPost("InvokeOrder")]
         public async Task<ActionResult> InvokeOrder(Order order)
         {
-            Console.WriteLine("InvokeOrder  " + order.id);
+            List<Task> tasks = new List<Task>();
             byte[] error = new byte[500];
             List<ProductInOrder> productInOrders = await _orderProductRepository.ShowProductsInOrder(order.id, error);
             List<Product> products = new List<Product>();
@@ -43,15 +43,19 @@ namespace Erp.Controllers
 
                 foreach (var productInOrder in productInOrders)
                 {
-                    byte[] err = new byte[500];
-                    Console.WriteLine("pid = "+productInOrder.productID);
-                    Product product = await _productRepository.GetById(productInOrder.productID, err);
-                    if (checkQuery(err))
+                    tasks.Add(Task.Run(async () =>
                     {
-                        products.Add(product);
-                        jObject.Add(product.name, (productInOrder.unitsOrdered.ToString()));
-                    }
+                        byte[] err = new byte[500];
+                        Console.WriteLine("pid = " + productInOrder.productID);
+                        Product product = await _productRepository.GetById(productInOrder.productID, err);
+                        if (checkQuery(err))
+                        {
+                            products.Add(product);
+                            jObject.Add(product.name, (productInOrder.unitsOrdered.ToString()));
+                        }
+                    }));
                 }
+                await Task.WhenAll(tasks);
                 bpmWorkFlow.Param = jObject;
                 _bpmInvokerQueue.QueueExection(bpmWorkFlow);
                 return Ok("successfully Invoke");

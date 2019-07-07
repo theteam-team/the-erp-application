@@ -69,9 +69,6 @@ namespace Erp.Controllers
                 {
                     message = notificationViewModel.Message,
                     NotificationType = notificationViewModel.NotificationType,
-                    //NotificationResponses = nres,
-                    NotificationApplicationUsers = notificationUsers
-
                 };
 
                 await _notificationRepo.Insert(notification);
@@ -87,21 +84,7 @@ namespace Erp.Controllers
 
         }
 
-        [HttpGet("GetNotificationResponse/{notificationId}")]
-        public async Task<ActionResult<string>> GetNotificationResponse([FromRoute] long notificationId)
-        {
-            var notificationUser = await _notificationUser.GetResponse(notificationId);
-
-            if (notificationUser!= null)
-            {
-                return Ok(notificationUser.Response);
-            }
-            else
-            {
-                return BadRequest("wait");
-            }
-
-        }
+       
         [HttpGet("GetNotifications")]
         [Authorize(AuthenticationSchemes = "Bearer, Identity.Application")]
         public async Task<ActionResult<List<Notification>>> GetNotifications(string UserId)

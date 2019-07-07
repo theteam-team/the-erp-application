@@ -45,8 +45,7 @@ namespace Erp.BackgroundServices
             {
                 var mail = await _mailQueue.DequeueAsync(cancellationToken);           
                 if(mail != null)
-                    await sendMail(mail);
-                Thread.Sleep(5000);
+                    sendMail(mail);
 
             }
 
@@ -60,15 +59,7 @@ namespace Erp.BackgroundServices
         {
             using (var scope = Services.CreateScope())
             {
-                
-                //var _emailUser = scope.ServiceProvider.GetRequiredService<IEmailUserRepository>();
-                //var _email = scope.ServiceProvider.GetRequiredService<IEmailRepository>();
-                //var _accountDbContext = scope.ServiceProvider.GetRequiredService<AccountDbContext>();
-                //List<UserHasEmail> userHasEmails = await _emailUser.GetUnSentMails();
-                //if (userHasEmails != null && userHasEmails.Count > 0)
-                //{
-                //    foreach (var item in userHasEmails)
-                //    {                      
+                                
                 _logger.LogInformation("sending mail To " + email.recieverEmail);
                 var message = new MimeMessage();
 

@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { DataService } from 'ClientApp/app/shared/dataService';
-import { Customer, customerOrders, OrderProducts } from "ClientApp/app/shared/module";
+import { Customer, customerOrders, OrderProducts, Account } from "ClientApp/app/shared/module";
 import { Route } from '@angular/compiler/src/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
@@ -27,6 +27,17 @@ export class AccountingSummary implements OnInit {
             .subscribe(success => {
                 if (success) {
                     this.customer = this.data.customer;
+                }
+            })
+    }
+
+    public account: Account[] = [];
+    loadCustomerAccount(newHero: string): void {
+        console.log(newHero);
+        this.data.loadCustomerAccount(newHero)
+            .subscribe(success => {
+                if (success) {
+                    this.account = this.data.account;
                 }
             })
     }

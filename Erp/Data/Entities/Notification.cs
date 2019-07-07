@@ -18,10 +18,13 @@ namespace Erp.Data.Entities
 
       
         public string NotificationType { get; set; }
+        public string EntityID  { get; set; }
 
-        
-        
+
+
+        public string ApplicationUserId { get; set; }
+
         [JsonIgnore]
-        public IList<NotificationApplicationUser> NotificationApplicationUsers { get; set; }
+        public ApplicationUser ApplicationUser{ get; set; }
     }
 }

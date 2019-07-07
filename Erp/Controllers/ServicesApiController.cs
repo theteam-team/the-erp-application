@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Erp.Data;
+using Erp.Models;
 using Erp.ViewModels;
 using Erp.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -15,6 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 using Erp.BackgroundServices.Entities;
 using Erp.BackgroundServices;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace Erp.Controllers
 {
@@ -22,9 +24,11 @@ namespace Erp.Controllers
     [Produces("application/json")]
     [ApiController]
     [Authorize(Roles = "Employee")]
-    //[Authorize(AuthenticationSchemes = "Identity.Application")]
+    [Authorize]
     public class ServicesApiController : ControllerBase
     {
+        public ICustomerRepository _customerRepository { get; }
+        private IOrganizationRepository _organizationRepository;
         private TaskResponseQueue _resonseQueue;
 
         public  Management _management { get; }
@@ -38,9 +42,11 @@ namespace Erp.Controllers
         public  ILogger<ServicesApiController> _logger { get; }
 
 
-        public ServicesApiController(TaskResponseQueue resonseQueue ,Management management, IUserTaskRepository userTaskRepository, IEmailUserRepository emailUser, IEmailRepository email, IEmailTypeRepository emailType,
+        public ServicesApiController(ICustomerRepository customerRepository, IOrganizationRepository organizationRepository, TaskResponseQueue resonseQueue ,Management management, IUserTaskRepository userTaskRepository, IEmailUserRepository emailUser, IEmailRepository email, IEmailTypeRepository emailType,
            UserManager<ApplicationUser> userManager, ILoggerFactory loggerFactory)
         {
+            _customerRepository = customerRepository;
+            _organizationRepository = organizationRepository;
             _resonseQueue = resonseQueue;
             _management = management;
             _userTaskRepository = userTaskRepository;
@@ -119,6 +125,90 @@ namespace Erp.Controllers
             }
            
             return Ok();
+        }
+
+
+        [HttpGet("getUserTask/{Id}")]
+        public async Task<ActionResult<UserTask>> getUserTask([FromRoute] string Id)
+        {
+            UserTask userTask = await _userTaskRepository.GetById(Id);
+            if (!userTask.IsDone)
+            {
+                return Ok(userTask);
+            }
+            else
+                return Ok(null);
+
+        }
+
+        [HttpPost("RegisterCustomer")]
+        public async Task<ActionResult> RegisterCustomer(CustomerRegister customerRegister)
+        {
+            //Console.WriteLine(User.Identity.IsAuthenticated);
+            
+
+            string  organization =  Request.Headers["organization"];
+            Organization orgExist = await _organizationRepository.OraganizationExist(organization);
+            if (orgExist != null)
+            {
+                var user = new ApplicationUser
+                {
+                    Email = customerRegister.Email,
+                    DatabaseName = organization,
+                    UserName = customerRegister.UserName,
+                    OrganizationId = orgExist.Id,
+                };
+
+                var result = await _userManager.CreateAsync(user, customerRegister.Password);
+                if (result.Succeeded)
+                {
+                    var roleCustomer = "Customer";
+                    await _management.AddRoleToUserAsync(roleCustomer, user);
+                    var Customer = new Customer()
+                    {
+                        customer_id = user.Id,
+                        name = customerRegister.name,
+                        phone_number = customerRegister.phoneNumber,
+                        email = customerRegister.Email,
+                        DateOfBirth = customerRegister.DateOfBirth,
+                        loyality_points = 0,
+                        type = 0,
+                        is_lead = false,
+                    };
+
+                    byte[] error = new byte[500];
+                    int status = await _customerRepository.Create(Customer, error);
+
+                    if (status != 0)
+                    {
+                        string z = Encoding.ASCII.GetString(error);
+                        string y = z.Remove(z.IndexOf('\0'));
+                        return BadRequest(y);
+                    }
+                    return Ok();
+                }
+
+            }
+
+            return BadRequest("error");
+
+        }
+
+        private bool checkQuery(byte[] error)
+        {
+
+            string z = Encoding.ASCII.GetString(error);
+            string y = z.Remove(z.IndexOf('\0'));
+            if (y == "")
+            {
+
+                return true;
+            }
+            else
+            {
+                Console.WriteLine(y);
+                return false;
+            }
         }
 
         [HttpPost("SendEmail")]

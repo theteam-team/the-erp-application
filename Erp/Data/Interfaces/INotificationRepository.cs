@@ -15,8 +15,8 @@ namespace Erp.Interfaces
     public interface INotificationUserRepository : IRepository<NotificationApplicationUser,AccountDbContext>
     {
          Task<NotificationApplicationUser> GetById(string userId, long NotificationId);
-         Task<NotificationApplicationUser> GetResponse(long NotificationId);
-         Task RespondToNotification(long NotificationId, string response);
+         
+         
         Task<List<string>> GetUsersInNotification(long notificationId);
 
     }

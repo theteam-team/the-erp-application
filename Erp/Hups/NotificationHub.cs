@@ -34,25 +34,12 @@ namespace Erp.Hubs
             await Clients.User(userId).SendAsync("recieveUserTask", userTask);
         }
 
-        public async Task notificationResponse(long notificationId, string response)
-        {
-            List<Task> tasks = new List<Task>();
-            List<string> users = await _notificationUserRepository.GetUsersInNotification(notificationId);
-            
-            tasks.Add( _notificationUserRepository.RespondToNotification(notificationId, response));
-            foreach (var item in users)
-            {
-                Console.WriteLine(item);
-                tasks.Add(Clients.User(item).SendAsync("removeNotification", notificationId));
-            }
-            await Task.WhenAll(tasks);
-
-        }
-
+       
         public async Task removeUserTask(string UserTaskid)
         {
+            Console.WriteLine("removeUserTask");
             string userId = ((ClaimsIdentity)Context.User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
-            await Clients.User(userId).SendAsync("removeNotification", UserTaskid);
+            await Clients.Group(UserTaskid).SendAsync("removeUserTask", UserTaskid);
         }
 
         public async Task AddToGroupRole()

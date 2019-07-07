@@ -46,7 +46,14 @@ namespace Erp.Controllers
                 return RedirectToAction("Register", "Account");
             
         }
-       
+
+        [HttpGet("UserTask/{id}")]
+        public IActionResult UserTask([FromRoute]string id)
+        {
+
+            ViewBag.Id = id;
+            return View("UserTask");
+        } 
         public IActionResult System()
         {
      
@@ -61,7 +68,7 @@ namespace Erp.Controllers
             return View();
         }
 
-        public IActionResult Notification()
+        public IActionResult YourUserTasks()
         {
             return View();
         }
