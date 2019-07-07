@@ -26,7 +26,7 @@ export class ProductComponent implements OnInit {
         "width": 0,
         "height": 0,
         "unitsInStock": 0,
-        "sold": 0,
+        "sold": 1,
         "purchased": 0
     };
     public sold = false;
@@ -43,12 +43,6 @@ export class ProductComponent implements OnInit {
                     this.productInfo = this.data.productInfo;
                 }
             })
-        if (this.productInfo.sold) {
-            this.sold = true;
-        }
-        if (this.productInfo.purchased) {
-            this.purchased = true;
-        }
         this.formDisabled = true;
     }
 
@@ -81,12 +75,6 @@ export class ProductComponent implements OnInit {
         }
         if (pForm.value.unitsInStock) {
             this.productInfo.unitsInStock = pForm.value.unitsInStock;
-        }
-        if (pForm.value.sold) {
-            this.productInfo.sold = 1;
-        }
-        if (pForm.value.purchased) {
-            this.productInfo.purchased = 1;
         }
 
         this.data.saveEdits(this.productInfo);

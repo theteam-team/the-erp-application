@@ -27,7 +27,7 @@
 }
 
 .btn2 {
-    background-color: #405672;
+    background-color: #537293;
     border: none;
     border-radius: 5px;
     color: white;
@@ -36,7 +36,7 @@
 }
 
     .btn2:hover {
-        background-color: #537293;
+        background-color: #405672;
     }
 
 .space {

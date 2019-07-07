@@ -23,7 +23,6 @@ struct Address
 	char* street;
 	unsigned int zip_code;
 	char* customer_id;
-	char* Crm_employee_id;
 };
 
 struct Interest

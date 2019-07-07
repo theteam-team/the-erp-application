@@ -38,7 +38,7 @@ namespace Erp.Repository
             IntPtr ProductPtr;
             await Task.Run(() =>
             {
-
+                Console.WriteLine("showCustomerProducts c#");
                 int number_fields = Warehouse_Wrapper.showCustomerProducts(id, out ProductPtr, error, _ConnectionString);
 
                 IntPtr current = ProductPtr;

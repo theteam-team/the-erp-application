@@ -600,8 +600,8 @@ extern "C"	ERP_API int addProduct(Product* product, char* error, ConnectionStrin
 
 	if (conn) {
 		
-		string query = (string) "insert into product values ('" + product->id + "', '" + product->name + "', '" + product->description + "', " + to_string(product->price) + ", " + to_string(product->weight) + ", " + to_string(product->length) + ", " + to_string(product->width) + ", " + to_string(product->height) + ", " + to_string(product->unitsInStock) + ")";
-		////cout << query << endl;
+		string query = (string) "insert into product values ('" + product->id + "', '" + product->name + "', '" + product->description + "', " + to_string(product->price) + ", " + to_string(product->weight) + ", " + to_string(product->length) + ", " + to_string(product->width) + ", " + to_string(product->height) + ", " + to_string(product->unitsInStock) + ", 0)";
+		cout << query << endl;
 		char const *q = query.c_str();
 		qstate = mysql_query(conn, q);
 		checkQuery(qstate, error, conn);
@@ -2283,7 +2283,7 @@ extern "C"	ERP_API int showCustomerProducts(char* id, CustomerProduct** product,
 
 	int status = 0;
 	int qstate;
-
+	cout << "heeer";
 	MYSQL* conn;
 	MYSQL_ROW row = nullptr;
 	MYSQL_RES *res = nullptr;
@@ -2291,7 +2291,6 @@ extern "C"	ERP_API int showCustomerProducts(char* id, CustomerProduct** product,
 	conn = mysql_init(0);
 	conn = mysql_real_connect(conn, con.SERVER, con.USER, con.PASSWORD, con.DATABASE, 3306, NULL, 0);
 
-	int cost = 0;
 	int numberOfRows = 0;
 	unsigned int numOfFields;
 
@@ -2301,15 +2300,17 @@ extern "C"	ERP_API int showCustomerProducts(char* id, CustomerProduct** product,
 
 		string query = (string)"select order_has_product.order_table_Order_ID, order_has_product.Product_Product_ID, product.Product_Name, order_has_product.Units_In_Order, product.Product_Price from product, order_has_product, order_table where order_table.Customer_Customer_ID = '" + id + "' and order_has_product.order_table_Order_ID = order_table.Order_ID and order_has_product.Product_Product_ID = product.Product_ID";
 		qstate = mysql_query(conn, query.c_str());
-		////cout << query << endl;
+		cout << query << endl;
 		if (checkQuery(qstate, error, conn)) {
 
 			res = mysql_store_result(conn);
 
+				cout << "customer order count ";
+				cout << id ;
+				cout << res->row_count << endl;
 			if (res->row_count > 0)
 			{
 				*product = (CustomerProduct*)CoTaskMemAlloc((int)(res->row_count) * sizeof(CustomerProduct));
-				cout << res->row_count << endl;
 				numOfFields = mysql_num_fields(res);
 
 				CustomerProduct *_product = *product;
@@ -2322,13 +2323,10 @@ extern "C"	ERP_API int showCustomerProducts(char* id, CustomerProduct** product,
 					_product->unitsOrdered = stoi(row[3]);
 					_product->price = stod(row[4]);
 
-					cost += stoi(row[3])*stod(row[4]);
-					_product->total = cost;
-
 					numberOfRows++;
 					_product++;
 				}
-				cout << "here" << endl;
+				cout << numberOfRows << endl;
 			}
 		}
 	}

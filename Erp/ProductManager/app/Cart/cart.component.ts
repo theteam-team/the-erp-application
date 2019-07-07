@@ -38,7 +38,6 @@ export class CartComponent implements OnInit {
     }
 
     ngOnInit() {
-
         this.data.loadCustomerProducts(this.customerID)
             .subscribe(success => {
                 if (success) {
@@ -52,9 +51,6 @@ export class CartComponent implements OnInit {
                     this.orderInfo = this.data.orderInfo;
                 }
             });
-
-        //this.getProducts();
-        //this.getOrder();
     }
 
     reloadComponent(): void {
@@ -71,14 +67,14 @@ export class CartComponent implements OnInit {
     }
 
     submitOrder(): void {
-        //this.router.navigate(["profile", this.customerID, this.orderID]);
-        const dialogConfig = new MatDialogConfig();
+        this.router.navigate(["profile", this.customerID, this.orderID]);
+        /*const dialogConfig = new MatDialogConfig();
 
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
         dialogConfig.width = "60%";
 
-        this.dialog.open(ProfileComponent, dialogConfig);
+        this.dialog.open(ProfileComponent, dialogConfig);*/
     }
 
     goToCart() {

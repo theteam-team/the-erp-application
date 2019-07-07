@@ -7,7 +7,9 @@
             }
 
         });
-        var el = $('#' + 'Notification_Menu');
+        var el = document.getElementById('Notification_Menu');
+        
+        el.append('<a href="#" class="w3-bar-item w3-button border">Link 14</a>');
         function createNotficationCard()
         {
 
