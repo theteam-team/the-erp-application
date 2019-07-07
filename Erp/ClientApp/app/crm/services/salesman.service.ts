@@ -13,6 +13,6 @@ export class SalesmanService {
   private salesman: Salesman[] ;
 
   getSalesmans(): Observable<Salesman[]> {
-    return this.httpClient.get<Salesman[]>('http://localhost:3000/salesman');
+    return this.httpClient.get<Salesman[]>('http://localhost:4000/salesman');
   }
 }

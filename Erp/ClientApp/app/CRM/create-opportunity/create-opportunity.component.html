@@ -15,7 +15,7 @@
                 <div class="row">
                     <div class="col" [class.has-error]="customer.touched && customer.invalid">
                         <label for="customer" class="control-label"> Customer:</label>
-                        <select class="form-control" id="customer" name="customer" [(ngModel)]="opportunity.customer_id" required #customer="ngModel">
+                        <select class="form-control" id="customer" name="customer" [(ngModel)]="opportunity.customer_id"  #customer="ngModel">
                             <option disabled [ngValue]="null">-Select Customer-</option>
                             <option *ngFor="let customer of customers" [value]="customer.id">{{ customer.name}} </option>
                         </select>
@@ -48,11 +48,11 @@
                         <label for="status" class="control-label"> Status:</label>
                         <select class="form-control" id="status" name="status" [(ngModel)]="opportunity.status" #status="ngModel">
 
-                            <option value="1">New </option>
-                            <option value="2">Qualified</option>
-                            <option value="3">Proposition</option>
-                            <option value="4">Negotiation </option>
-                            <option value="5">Won </option>
+                            <option value=1>New </option>
+                            <option value=2>Qualified</option>
+                            <option value=3>Proposition</option>
+                            <option value=4>Negotiation </option>
+                            <option value=5>Won </option>
                         </select>
                     </div>
                 </div>

@@ -32,101 +32,169 @@
             </div>
         </div>
     </div>
-    <br />
-
-    <div class="col " style="display:inline-flex">
-
-        <div class="card" style="width:60%;margin-right:10px; margin-bottom:15px  ">
-            <div class="card-header" style="color:#4e73df; font-size:17px">Expected Revenue</div>
-            
-                <canvas id="bar"></canvas>
-             
-        </div>
-
-        <div class="card" style="width:40%;  margin-bottom:15px; margin-left:10px">
-            <div class="card-header" style="color:#4e73df; font-size:17px">Pipeline Analysis</div>
-            <div class="col" style="margin-top:40px">
-                <canvas id="doughnut"></canvas>
+    <div class="row">
+        <div class="col">
+            <div class="card" style="padding:10px;width:18rem; margin-left:150px; margin-top:10px;  background-color:white">
+                <h6 class="card-title" style="color:green"> Won </h6>
+                <h2 style="color:dimgrey"> {{Won()}}</h2>
             </div>
         </div>
-
-
+        <div class="col">
+            <div class="card" style="padding:10px; width:18rem; margin-left:150px;  margin-top:10px; background-color:white">
+                <h6 class="card-title" style="color:red"> Loss </h6>
+                <h2 style="color:dimgrey"> {{loss()}}</h2>
+            </div>
+        </div>
     </div>
     <br />
 
-
     <div class="col " style="display:inline-flex">
-        <div style="width:60%;">
-            <table class="table table-dark " style=" margin:20px ;  color:white">
-                <thead>
-                    <tr>
-                        <th scope="col"> Customer </th>
-                        <th scope="col"> New </th>
-                        <th scope="col">Qualified </th>
-                        <th scope="col">Proposition</th>
-                        <th scope="col">Negotiation</th>
-                        <th scope="col">Won</th>
-                        <th scope="col">Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let customer of customers">
-                        <td>{{customer.name}}  </td>
-                        <td>{{ CustomerNewER(customer.id) }}  $ </td>
-                        <td>{{ CustomerQualifiedER(customer.id) }}  $ </td>
-                        <td>{{ CustomerPropositionER(customer.id) }}  $ </td>
-                        <td>{{ CustomerNegotiationER(customer.id) }}  $ </td>
-                        <td>{{ CustomerWonER(customer.id) }}  $ </td>
-                        <td>{{ CustomerTotalER(customer.id) }}  $ </td>
-                    </tr>
-                </tbody>
-            </table>
+        <table class="table table-striped table-dark " style=" margin:20px ;  color:white">
+            <thead>
+                <tr>
 
+                    <th scope="col"> New </th>
+                    <th scope="col">Qualified </th>
+                    <th scope="col">Proposition</th>
+                    <th scope="col">Negotiation</th>
+                    <th scope="col">Won</th>
 
-            <table class=" table table-dark " style="  margin:20px ; color:white">
-                <thead>
-                    <tr>
-                        <th> Salesperson </th>
-                        <th scope="col"> New </th>
-                        <th scope="col">Qualified </th>
-                        <th scope="col">Proposition</th>
-                        <th scope="col">Negotiation</th>
-                        <th scope="col">Won</th>
-                        <th scope="col">Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let s of salesman">
-                        <td>{{s.name}}  </td>
-                        <td>{{ SalesNewER(s.id) }}  $ </td>
-                        <td>{{ SalesQualifiedER(s.id) }}  $ </td>
-                        <td>{{ SalesPropositionER(s.id) }}  $ </td>
-                        <td>{{ SalesNegotiationER(s.id) }}  $ </td>
-                        <td>{{ SalesWonER(s.id) }}  $ </td>
-                        <td>{{ SalesTotalER(s.id) }}  $ </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-         
-            <div class="card" style="width:35%;  margin :60px">
-                <div class="card-header" style="color:#4e73df; font-size:17px"> Won Loss Opportunities</div>
-                 
-                    <canvas id="wonLoss" style="margin:10px"></canvas>
-              
-                <div class="row" style="margin-left:80px">
-                    <h5 class="col" style="color:darkgreen"> Won: {{Won()}}</h5>
-                    <h5 class="col" style="color: darkred"> Loss: {{loss()}}</h5>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ERNew()}}  $</td>
+                    <td>{{ ERQualified() }}  $ </td>
+                    <td>{{ ERProposition() }}  $ </td>
+                    <td>{{  ERNegotiation() }}  $ </td>
+                    <td>{{ERWon()  }}  $ </td>
 
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-dark " style=" margin:20px ;  color:white">
+            <thead>
+                <tr>
+
+                    <th scope="col"> New </th>
+                    <th scope="col">Qualified </th>
+                    <th scope="col">Proposition</th>
+                    <th scope="col">Negotiation</th>
+                    <th scope="col">Won</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ totalNew()}}  $</td>
+                    <td>{{ totalQualified() }}  $ </td>
+                    <td>{{ totalProposition() }}  $ </td>
+                    <td>{{  totalNegotiation() }}  $ </td>
+                    <td>{{totalWon()  }}  $ </td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--
+        <div class="col " style="display:inline-flex">
+
+            <div class="card" style="width:60%;margin-right:10px; margin-bottom:15px  ">
+                <div class="card-header" style="color:#4e73df; font-size:17px">Expected Revenue</div>
+
+                    <canvas id="bar"></canvas>
+
+            </div>
+
+            <div class="card" style="width:40%;  margin-bottom:15px; margin-left:10px">
+                <div class="card-header" style="color:#4e73df; font-size:17px">Pipeline Analysis</div>
+                <div class="col" style="margin-top:40px">
+                    <canvas id="doughnut"></canvas>
                 </div>
             </div>
 
-           
-           
-      
+
+        </div>
+        <br />
+
+    -->
+
+
+
+
+
+
+    <table class=" table table-dark " style="  margin:20px ; color:white">
+        <thead>
+            <tr>
+                <th> Salesperson </th>
+                <th scope="col"> New </th>
+                <th scope="col">Qualified </th>
+                <th scope="col">Proposition</th>
+                <th scope="col">Negotiation</th>
+                <th scope="col">Won</th>
+                <th scope="col">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let s of salesman">
+                <td>{{s.name}}  </td>
+                <td>{{ SalesNewER(s.id) }}  $ </td>
+                <td>{{ SalesQualifiedER(s.id) }}  $ </td>
+                <td>{{ SalesPropositionER(s.id) }}  $ </td>
+                <td>{{ SalesNegotiationER(s.id) }}  $ </td>
+                <td>{{ SalesWonER(s.id) }}  $ </td>
+                <td>{{ SalesTotalER(s.id) }}  $ </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <table class="table table-dark " style=" margin:20px ;  color:white">
+        <thead>
+            <tr>
+                <th scope="col"> Customer </th>
+                <th scope="col"> New </th>
+                <th scope="col">Qualified </th>
+                <th scope="col">Proposition</th>
+                <th scope="col">Negotiation</th>
+                <th scope="col">Won</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let customer of customers">
+                <td>{{customer.name}}  </td>
+                <td>{{ CustomerNewER(customer.id) }}  $ </td>
+                <td>{{ CustomerQualifiedER(customer.id) }}  $ </td>
+                <td>{{ CustomerPropositionER(customer.id) }}  $ </td>
+                <td>{{ CustomerNegotiationER(customer.id) }}  $ </td>
+                <td>{{ CustomerWonER(customer.id) }}  $ </td>
+                <td>{{ CustomerTotalER(customer.id) }}  $ </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!--<div class="card" style="width:35%;  margin :60px">
+        <div class="card-header" style="color:#4e73df; font-size:17px"> Won Loss Opportunities</div>
+
+        <canvas id="wonLoss" style="margin:10px"></canvas>
+
+    <div class="row" style="margin-left:80px">
+        <h5 class="col" style="color:darkgreen"> Won: {{Won()}}</h5>
+        <h5 class="col" style="color: darkred"> Loss: {{loss()}}</h5>
+
     </div>
-
-
-
+        -->
 </div>
+
+
+
+
+ 
+
+
+
+   
 

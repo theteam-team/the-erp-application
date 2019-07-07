@@ -16,13 +16,13 @@ export class OpportunityService {
 
 
     getOpportunities(): Observable<Opportunity[]> {
-        return this.httpClient.get<Opportunity[]>('http://localhost:3000/opportunities')
+        return this.httpClient.get<Opportunity[]>('http://localhost:4000/opportunities')
     }
     getOpportunity(id: number): Observable<Opportunity> {
-        return this.httpClient.get<Opportunity>('http://localhost:3000/opportunities/' + id)
+        return this.httpClient.get<Opportunity>('http://localhost:4000/opportunities/' + id)
     }
     saveOpportunity(opportunity: Opportunity): Observable<Opportunity> {
-        return this.httpClient.post<Opportunity>('http://localhost:3000/opportunities', opportunity, {
+        return this.httpClient.post<Opportunity>('http://localhost:4000/opportunities', opportunity, {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json'
             })
@@ -30,7 +30,7 @@ export class OpportunityService {
     }
 
     editOpportunity(opportunity: Opportunity): Observable<void> {
-        return this.httpClient.put<void>('http://localhost:3000/opportunities/' + opportunity.id, opportunity, {
+        return this.httpClient.put<void>('http://localhost:4000/opportunities/' + opportunity.id, opportunity, {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json'
             })
