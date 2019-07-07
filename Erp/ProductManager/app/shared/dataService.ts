@@ -6,7 +6,10 @@ import { map } from "rxjs/operators";
 @Injectable()
 export class DataService {
 
+    public showMsg: boolean;
+    
     constructor(private http: HttpClient) { }
+
 
     public availableProducts = [];
     loadAvailableProducts(): Observable<boolean> {
@@ -17,6 +20,7 @@ export class DataService {
                     return true;
                 }));
     }
+
 
     addOrder(order) {
         return this.http.post("AddPotentialOrder", order).subscribe((data) => { });

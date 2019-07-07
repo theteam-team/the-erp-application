@@ -19,7 +19,7 @@ export class ConfirmComponent implements OnInit {
     public addressID = uuid.v4();
     public paymentID = uuid.v4();
     public total;
-
+    public showMsg: boolean;
     public payment = {
         "id": this.paymentID,
         "method": "On Delivery",
@@ -58,6 +58,7 @@ export class ConfirmComponent implements OnInit {
 
     ngOnInit() {
         this.total = this.data.orderInfo.totalPrice;
+        this.showMsg = false;
     }
 
     addCustomerAddress(aForm: NgForm): void {
@@ -75,7 +76,9 @@ export class ConfirmComponent implements OnInit {
     onConfirm(): void {
         this.payment.amount = this.total;
         this.order.id = this.orderID;
+        this.data.showMsg = true;
         this.data.addPayment(this.payment, this.order);
+        this.router.navigate(["home"]);
     }
 
     goToCart() {

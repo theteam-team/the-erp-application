@@ -14,6 +14,7 @@ import { DataService } from 'ProductManager/app/shared/dataService';
 })
 export class MainComponent implements OnInit {
 
+    public showMsg;
     public today = new Date();
     public dd = String(this.today.getDate()).padStart(2, '0');
     public mm = String(this.today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -50,6 +51,8 @@ export class MainComponent implements OnInit {
 
     ngOnInit(): void {
 
+        this.showMsg = this.data.showMsg;
+
         this.data.getCustomerID()
             .subscribe(success => {
                 if (success) {
@@ -65,7 +68,7 @@ export class MainComponent implements OnInit {
                     this.availableProducts = this.data.availableProducts;
                 }
             });
-
+        this.data.showMsg = false;
     }
 
     reloadComponent(): void {
